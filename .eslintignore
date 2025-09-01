@@ -1,0 +1,17 @@
+node_modules
+build
+dist
+dist-ssr
+.vscode
+public
+*.test.js
+*.test.jsx
+*.test.ts
+*.test.tsx
+
+# Ignore supabase folder
+src/lib/supabase/*
+
+# Don't ignore supabase-client.ts and index.ts
+!src/lib/supabase/supabase-client.ts
+!src/lib/supabase/index.ts
