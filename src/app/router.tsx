@@ -1,4 +1,5 @@
 import { AUTH_PATHS, authRoutes, ProtectedRoute } from "@/features/auth";
+import { BUDGETS_PATHS, budgetsRoutes } from "@/features/budgets";
 import { HOME_PATHS, homeRoutes } from "@/features/home";
 import { SETTINGS_PATHS, settingsRoutes } from "@/features/settings";
 
@@ -21,6 +22,10 @@ const protectedRoutes = [
       {
         path: HOME_PATHS.base,
         children: homeRoutes,
+      },
+      {
+        path: BUDGETS_PATHS.base,
+        children: budgetsRoutes,
       },
       {
         path: "*",
