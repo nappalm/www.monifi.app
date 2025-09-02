@@ -3,7 +3,7 @@ import {
   createMultiStyleConfigHelpers,
   defineStyle,
 } from "@chakra-ui/styled-system";
-import { mode } from "@chakra-ui/theme-tools";
+import { mode, transparentize } from "@chakra-ui/theme-tools";
 
 const { defineMultiStyleConfig, definePartsStyle } =
   createMultiStyleConfigHelpers(parts.keys);
@@ -13,6 +13,7 @@ const baseStyle = definePartsStyle({
     fontVariantNumeric: "lining-nums tabular-nums",
     borderCollapse: "collapse",
     width: "full",
+    fontFamily: "Roboto Mono",
   },
   th: {
     fontFamily: "heading",
@@ -76,18 +77,25 @@ const variantSimple = definePartsStyle((props) => {
 });
 
 const variantStripe = definePartsStyle((props) => {
-  const { colorScheme: c } = props;
+  const { colorScheme: c, theme } = props;
 
   return {
     th: {
       color: mode("gray.600", "gray.400")(props),
-      borderBottom: "1px",
+      borderStyle: "solid",
       borderColor: mode(`${c}.200`, `${c}.800`)(props),
       ...numericStyles,
     },
     td: {
-      borderBottom: "1px",
+      borderWidth: "1px",
+      borderStyle: "solid",
       borderColor: mode(`${c}.200`, `${c}.800`)(props),
+      "&:last-of-type": {
+        borderRight: 0,
+      },
+      "&:first-of-type": {
+        borderLeftWidth: 0,
+      },
       ...numericStyles,
     },
     caption: {
@@ -96,12 +104,16 @@ const variantStripe = definePartsStyle((props) => {
     tbody: {
       tr: {
         "&:nth-of-type(odd)": {
-          "th, td": {
-            borderBottomWidth: "1px",
-            borderColor: mode(`${c}.200`, `${c}.800`)(props),
-          },
           td: {
             background: mode(`${c}.100`, `${c}.900`)(props),
+            borderColor: mode(`${c}.200`, `${c}.800`)(props),
+            borderLeftWidth: 0,
+            borderBottomWidth: 0,
+          },
+        },
+        td: {
+          _hover: {
+            bg: transparentize(`${c}.500`, 0.16)(theme),
           },
         },
       },
@@ -109,7 +121,9 @@ const variantStripe = definePartsStyle((props) => {
     tfoot: {
       tr: {
         "&:last-of-type": {
-          th: { borderBottomWidth: 0 },
+          th: {
+            borderBottomWidth: 0,
+          },
         },
       },
     },
