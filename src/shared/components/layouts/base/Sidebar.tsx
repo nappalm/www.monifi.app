@@ -1,25 +1,13 @@
 import { Box, Button, Collapse, Divider, Stack, Text } from "@chakra-ui/react";
 import {
-  IconApps,
-  IconAppWindow,
-  IconBookUpload,
-  IconBrandGithubCopilot,
-  IconBrandParsinta,
+  IconArrowsExchange2,
+  IconCash,
+  IconChartInfographic,
+  IconChartLine,
   IconChevronDown,
   IconChevronUp,
-  IconDevicesPc,
-  IconGitBranch,
-  IconKey,
-  IconMail,
-  IconMessages,
-  IconServer,
-  IconSettings,
-  IconShape,
-  IconShieldCheck,
-  IconSquareAsterisk,
-  IconTag,
-  IconUsers,
-  IconWebhook,
+  IconReportMoney,
+  IconWallet,
 } from "@tabler/icons-react";
 import { FC, ReactElement, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -55,141 +43,25 @@ const buttonProps: ButtonProps = {
 };
 
 const iconProps: IconProps = {
-  size: 17,
+  size: 18,
   color: "#52525B",
 };
 
 const sidebarItems: SidebarItem[] = [
   {
-    title: "General",
-    icon: <IconSettings {...iconProps} />,
-    path: "/home",
+    title: "Transactions",
+    icon: <IconArrowsExchange2 {...iconProps} />,
+    path: "/transactions",
   },
   {
-    title: "Collaborators",
-    icon: <IconUsers {...iconProps} />,
-    path: "/settings/collaborators",
+    title: "Budgets",
+    icon: <IconWallet {...iconProps} />,
+    path: "/budgets",
   },
   {
-    title: "Moderation options",
-    icon: <IconMessages {...iconProps} />,
-    path: "/settings/moderation-options",
-  },
-  {
-    title: "Code and automatitation",
-    isHeader: true,
-  },
-  {
-    title: "Branchs",
-    icon: <IconGitBranch {...iconProps} />,
-    path: "/settings/branchs",
-  },
-  {
-    title: "Tags",
-    icon: <IconTag {...iconProps} />,
-    path: "/settings/tags",
-  },
-  {
-    title: "Rules",
-    icon: <IconBookUpload {...iconProps} />,
-    path: "/settings/rules",
-  },
-  {
-    title: "Actions",
-    icon: <IconBrandParsinta {...iconProps} />,
-    path: "/settings/actions",
-  },
-  {
-    title: "Models",
-    icon: <IconShape {...iconProps} />,
-    path: "/settings/models",
-  },
-  {
-    title: "Webhooks",
-    icon: <IconWebhook {...iconProps} />,
-    path: "/settings/webhooks",
-  },
-  {
-    title: "Copilot",
-    icon: <IconBrandGithubCopilot {...iconProps} />,
-    path: "/settings/copilot",
-    submenu: [
-      {
-        title: "Code review",
-        path: "/settings/copilot/code-review",
-      },
-      {
-        title: "Coding agent",
-        path: "/settings/copilot/coding-agent",
-      },
-    ],
-  },
-  {
-    title: "Environtments",
-    icon: <IconServer {...iconProps} />,
-    path: "/settings/environtments",
-  },
-  {
-    title: "Codespaces",
-    icon: <IconDevicesPc {...iconProps} />,
-    path: "/settings/codespaces",
-  },
-  {
-    title: "Pages",
-    icon: <IconAppWindow {...iconProps} />,
-    path: "/settings/pages",
-  },
-  {
-    title: "Secutiry",
-    isHeader: true,
-  },
-  {
-    title: "Advanced Secutiry",
-    icon: <IconShieldCheck {...iconProps} />,
-    path: "/settings/advanced-security",
-  },
-  {
-    title: "Password authentication",
-    icon: <IconKey {...iconProps} />,
-    path: "/settings/password-authentication",
-  },
-  {
-    title: "Deploy keys",
-    icon: <IconKey {...iconProps} />,
-    path: "/settings/deploy-keys",
-  },
-  {
-    title: "Secrets and variables",
-    icon: <IconSquareAsterisk {...iconProps} />,
-    path: "/settings/secrets-and-variables",
-    submenu: [
-      {
-        title: "Actions",
-        path: "/settings/secrets-and-variables/actions",
-      },
-      {
-        title: "Dependabot",
-        path: "/settings/secrets-and-variables/dependabot",
-      },
-      {
-        title: "Codespaces",
-        path: "/settings/secrets-and-variables/codespaces",
-      },
-    ],
-  },
-  {
-    title: "Integrations",
-    isHeader: true,
-  },
-  {
-    title: "GitHub Apps",
-    icon: <IconApps {...iconProps} />,
-    path: "/settings/github-apps",
-  },
-  {
-    title: "Email notifications",
-    icon: <IconMail {...iconProps} />,
-    path: "/settings/email-notifications",
+    title: "Statistics",
+    icon: <IconChartLine {...iconProps} />,
+    path: "/statistics",
   },
 ];
 
