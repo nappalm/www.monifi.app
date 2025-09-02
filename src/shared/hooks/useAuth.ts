@@ -5,7 +5,7 @@ import {
   signInWithOAuth,
   signOut,
   signUpWithEmail,
-} from "../services/auth.supabase";
+} from "../services";
 
 export const useSignInWithEmail = () =>
   useMutation({
