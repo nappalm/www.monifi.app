@@ -2,6 +2,8 @@ create table if not exists public.profiles (
   id uuid not null references auth.users on delete cascade,
   name text,
   subscription text default 'FREE',
+  currency text not null default 'en-US',
+  language text not null default 'en',
   primary key (id)
 );
 
@@ -9,6 +11,8 @@ comment on table public.profiles is 'Stores user profile information.';
 comment on column public.profiles.id is 'User ID from auth.users table, serves as the primary key.';
 comment on column public.profiles.name is 'User''s full name.';
 comment on column public.profiles.subscription is 'User''s current subscription plan (e.g., FREE, PRO).';
+comment on column public.profiles.currency is 'User''s preferred currency (e.g., USD, EUR).';
+comment on column public.profiles.language is 'User''s preferred language (e.g., en, es).';
 
 alter table public.profiles enable row level security;
 
