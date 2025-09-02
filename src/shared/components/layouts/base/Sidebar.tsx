@@ -1,12 +1,9 @@
 import { Box, Button, Collapse, Divider, Stack, Text } from "@chakra-ui/react";
 import {
   IconArrowsExchange2,
-  IconCash,
-  IconChartInfographic,
   IconChartLine,
   IconChevronDown,
   IconChevronUp,
-  IconReportMoney,
   IconWallet,
 } from "@tabler/icons-react";
 import { FC, ReactElement, useState } from "react";
