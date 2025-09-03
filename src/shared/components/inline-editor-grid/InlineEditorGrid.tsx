@@ -11,32 +11,40 @@ import {
 } from "@chakra-ui/react";
 import { useInlineEditor } from "./useInlineEditor";
 
-const initialData = [
-  ["Jun 13, 2025", "Plans", "BBVA credit card", "Expense", "", "2590.99"],
-  ["Jun 14, 2025", "Food", "Cash", "Expense", "Lunch", "50.00"],
-  ["Jun 15, 2025", "Salary", "Bank Account", "Income", "", "5000.00"],
-];
+interface Column {
+  header: string;
+  accessor: string;
+  render?: (value: any, row: any) => React.ReactNode;
+  isEditable?: boolean;
+}
 
-const headers = ["Date", "Category", "Account", "Type", "Notes", "Amount"];
+interface InlineEditorGridProps {
+  columns: Column[];
+  data: any[];
+  onDataChange: (newData: any[]) => void;
+}
 
-export function InlineEditorGrid() {
-  const { tableRef, data, activeCell, isEditing, getCellProps, getInputProps } =
-    useInlineEditor({ initialData });
+export function InlineEditorGrid({
+  columns,
+  data,
+  onDataChange,
+}: InlineEditorGridProps) {
+  const { tableRef, activeCell, getCellProps, getInputProps } = useInlineEditor(
+    { columns, data: data, onDataChange: onDataChange },
+  );
 
   const inputProps = getInputProps();
-  const isNumeric = (col: number) => col === 5;
 
-  const focusBorderColor = useColorModeValue("blue.500", "blue.300");
   const rowFocusBorderColor = useColorModeValue("red.500", "red.300");
-  const cellFocusBg = useColorModeValue("red.100", "red.900");
   const cellEditStyle = {
     opacity: 1,
     transform: "scale(1)",
     border: "1px solid",
     borderColor: "green.500",
     background: "rgba(107,198,124,0.15)",
-    borderRadius: "md", // Assuming "md" is a valid Chakra borderRadius value
+    borderRadius: "md",
   };
+
   const inputBg = useColorModeValue("white", "gray.700");
 
   return (
@@ -79,9 +87,12 @@ export function InlineEditorGrid() {
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
-            {headers.map((header, i) => (
-              <Th key={header} isNumeric={isNumeric(i)}>
-                {header}
+            {columns.map((column) => (
+              <Th
+                key={column.accessor}
+                isNumeric={column.accessor === "amount"}
+              >
+                {column.header}
               </Th>
             ))}
           </Tr>
@@ -91,7 +102,7 @@ export function InlineEditorGrid() {
             const isRowActive = activeCell?.row === rowIndex;
             return (
               <Tr
-                key={rowIndex}
+                key={rowIndex} // Use rowIndex as key for the row
                 sx={{
                   ...(isRowActive && {
                     "& > td": {
@@ -100,63 +111,70 @@ export function InlineEditorGrid() {
                   }),
                 }}
               >
-                {row.map((cell, colIndex) => (
-                  <Td
-                    key={colIndex}
-                    {...getCellProps(rowIndex, colIndex)}
-                    isNumeric={isNumeric(colIndex)}
-                    sx={{
-                      outline: "none",
-                      cursor: "cell",
-                      position: "relative",
-                      overflow: "hidden",
+                {columns.map((column, colIndex) => {
+                  const cellValue = row[column.accessor]; // Get value using accessor
+                  const isNumericColumn = column.accessor === "amount"; // Check if column is numeric
 
-                      "&::after": {
-                        content: '""',
-                        position: "absolute",
-                        inset: 0,
-                        borderRadius: "md",
-                        border: "1px solid",
-                        borderColor: "green.500",
-                        background: "rgba(107,198,124,0.15)", // overlay semitransparente
-                        zIndex: 1,
-                        pointerEvents: "none",
-
-                        opacity: 0,
-                        transform: "scale(0.95)",
-                        boxShadow: "0 0 0px rgba(107,198,124,0.5)", // glow inicial
-                        transition:
-                          "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
-                      },
-
-                      "&:hover::after": {
-                        opacity: 1,
-                        transform: "scale(1)",
-                        boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
-                      },
-
-                      "&[tabindex='0']:focus::after": {
-                        opacity: 1,
-                        transform: "scale(1)",
-                        boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
-                      },
-
-                      "> *": {
+                  return (
+                    <Td
+                      key={column.accessor} // Use accessor as key for the cell
+                      {...getCellProps(rowIndex, colIndex)}
+                      isNumeric={isNumericColumn} // Pass isNumeric based on column
+                      sx={{
+                        outline: "none",
+                        cursor: "cell",
                         position: "relative",
-                        zIndex: 2,
-                      },
+                        fontFamily: "Roboto Mono",
 
-                      visibility:
-                        isEditing &&
-                        activeCell?.row === rowIndex &&
-                        activeCell?.col === colIndex
-                          ? "hidden"
-                          : "visible",
-                    }}
-                  >
-                    {cell}
-                  </Td>
-                ))}
+                        "&::after": {
+                          content: '""',
+                          position: "absolute",
+                          inset: 0,
+                          borderRadius: "md",
+                          border: "1px solid",
+                          borderColor: "green.500",
+                          background: "rgba(107,198,124,0.15)", // overlay semitransparente
+                          zIndex: 1,
+                          pointerEvents: "none",
+
+                          opacity: 0,
+                          transform: "scale(0.95)",
+                          boxShadow: "0 0 0px rgba(107,198,124,0.5)", // glow inicial
+                          transition:
+                            "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
+                        },
+
+                        "&:hover::after": {
+                          opacity: 1,
+                          transform: "scale(1)",
+                          boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
+                        },
+
+                        "&[tabindex='0']:focus::after": {
+                          opacity: 1,
+                          transform: "scale(1)",
+                          boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
+                        },
+
+                        "> *": {
+                          position: "relative",
+                          zIndex: 2,
+                        },
+
+                        visibility:
+                          inputProps.shouldShowInput &&
+                          activeCell?.row === rowIndex &&
+                          activeCell?.col === colIndex
+                            ? "hidden"
+                            : "visible",
+                      }}
+                    >
+                      {column.render
+                        ? column.render(cellValue, row)
+                        : cellValue}{" "}
+                    </Td>
+                  );
+                })}
               </Tr>
             );
           })}

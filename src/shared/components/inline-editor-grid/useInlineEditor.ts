@@ -1,46 +1,68 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { flushSync } from "react-dom";
 
-interface UseInlineEditorProps<T> {
-  initialData: T[][];
+interface Column {
+  header: string;
+  accessor: string;
+  render?: (value: any, row: any) => React.ReactNode;
+  isEditable?: boolean;
 }
 
-export function useInlineEditor<T>({ initialData }: UseInlineEditorProps<T>) {
-  const [data, setData] = useState(initialData);
+interface UseInlineEditorProps {
+  columns: Column[];
+  data: any[];
+  onDataChange: (newData: any[]) => void;
+}
+
+export function useInlineEditor({
+  columns,
+  data,
+  onDataChange,
+}: UseInlineEditorProps) {
   const [activeCell, setActiveCell] = useState<{
     row: number;
     col: number;
   } | null>({ row: 0, col: 0 });
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartCell, setDragStartCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
+  const [dragEndCell, setDragEndCell] = useState<{
+    row: number;
+    col: number;
+  } | null>(null);
 
   const tableRef = useRef<HTMLTableElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const numRows = data.length;
-  const numCols = data.length > 0 ? data[0].length : 0;
+  const numCols = columns.length;
 
   const startEditing = useCallback(
     (row: number, col: number) => {
       setActiveCell({ row, col });
       setIsEditing(true);
-      setInputValue(String(data[row][col]));
+      const accessor = columns[col].accessor;
+      setInputValue(String(data[row][accessor]));
     },
-    [data],
+    [data, columns],
   );
 
   const stopEditing = useCallback(
     (update = true) => {
       if (isEditing && activeCell && update) {
         const { row, col } = activeCell;
-        const newData = data.map((r) => [...r]);
-        // This is a simplification. In a real app, you'd handle type conversions.
-        newData[row][col] = inputValue as T;
-        setData(newData);
+        const newData = data.map((r) => ({ ...r }));
+        const accessor = columns[col].accessor;
+        newData[row][accessor] = inputValue as any;
+        onDataChange(newData);
       }
       setIsEditing(false);
     },
-    [isEditing, activeCell, inputValue, data],
+    [isEditing, activeCell, inputValue, data, columns, onDataChange],
   );
 
   const handleKeyDown = useCallback(
@@ -166,6 +188,81 @@ export function useInlineEditor<T>({ initialData }: UseInlineEditorProps<T>) {
     }
   }, []);
 
+  const handleDragStart = useCallback(
+    (event: React.MouseEvent) => {
+      // Prevent default to avoid text selection
+      event.preventDefault();
+      // Stop propagation to prevent Td's onClick from firing
+      event.stopPropagation();
+
+      if (activeCell) {
+        setIsDragging(true);
+        setDragStartCell(activeCell);
+        setDragEndCell(activeCell); // Initialize dragEndCell to dragStartCell
+      }
+    },
+    [activeCell],
+  );
+
+  const handleDragMove = useCallback(
+    (event: MouseEvent) => {
+      if (!isDragging || !tableRef.current) return;
+
+      // Get the cell element under the mouse
+      const targetElement = event.target as HTMLElement;
+      const cellElement = targetElement.closest("td");
+
+      if (cellElement) {
+        const row = parseInt(cellElement.dataset.row || "0");
+        const col = parseInt(cellElement.dataset.col || "0");
+        setDragEndCell({ row, col });
+      }
+    },
+    [isDragging],
+  );
+
+  const handleDragEnd = useCallback(() => {
+    if (isDragging && dragStartCell && dragEndCell) {
+      setIsDragging(false);
+
+      const startRow = Math.min(dragStartCell.row, dragEndCell.row);
+      const endRow = Math.max(dragStartCell.row, dragEndCell.row);
+      const startCol = Math.min(dragStartCell.col, dragEndCell.col);
+      const endCol = Math.max(dragStartCell.col, dragEndCell.col);
+
+      const sourceValue =
+        data[dragStartCell.row][columns[dragStartCell.col].accessor];
+      const newData = data.map((row) => ({ ...row })); // Create a deep copy of objects
+
+      for (let r = startRow; r <= endRow; r++) {
+        for (let c = startCol; c <= endCol; c++) {
+          const accessor = columns[c].accessor;
+          newData[r][accessor] = sourceValue;
+        }
+      }
+      onDataChange(newData);
+
+      // Reset drag cells
+      setDragStartCell(null);
+      setDragEndCell(null);
+    }
+  }, [isDragging, dragStartCell, dragEndCell, data, columns, onDataChange]);
+
+  // Effect to add/remove mouse listeners on window
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", handleDragMove);
+      window.addEventListener("mouseup", handleDragEnd);
+    } else {
+      window.removeEventListener("mousemove", handleDragMove);
+      window.removeEventListener("mouseup", handleDragEnd);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleDragMove);
+      window.removeEventListener("mouseup", handleDragEnd);
+    };
+  }, [isDragging, handleDragMove, handleDragEnd]);
+
   const getCellProps = (row: number, col: number) => ({
     "data-row": row,
     "data-col": col,
@@ -179,7 +276,10 @@ export function useInlineEditor<T>({ initialData }: UseInlineEditorProps<T>) {
   });
 
   const getInputProps = () => {
-    if (!isEditing || !activeCell) return { style: { display: "none" } };
+    const shouldShowInput =
+      isEditing && activeCell && columns[activeCell.col]?.isEditable !== false;
+
+    if (!shouldShowInput) return { style: { display: "none" } };
 
     const cellElement = tableRef.current?.querySelector<HTMLElement>(
       `[data-row="${activeCell.row}"][data-col="${activeCell.col}"]`,
@@ -203,6 +303,7 @@ export function useInlineEditor<T>({ initialData }: UseInlineEditorProps<T>) {
         setInputValue(e.target.value),
       onBlur: () => stopEditing(),
       style,
+      shouldShowInput: true,
     };
   };
 
@@ -213,5 +314,9 @@ export function useInlineEditor<T>({ initialData }: UseInlineEditorProps<T>) {
     isEditing,
     getCellProps,
     getInputProps,
+    handleDragStart,
+    isDragging,
+    dragStartCell,
+    dragEndCell,
   };
 }
