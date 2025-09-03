@@ -78,6 +78,8 @@ const variantSimple = definePartsStyle((props) => {
 
 const variantStripe = definePartsStyle((props) => {
   const { colorScheme: c, theme } = props;
+  const stripedBgBase = mode(`${c}.100`, `${c}.900`)(props);
+  const stripedBg = transparentize(stripedBgBase, 0.6)(theme);
 
   return {
     th: {
@@ -101,19 +103,51 @@ const variantStripe = definePartsStyle((props) => {
     caption: {
       color: mode("gray.600", "gray.100")(props),
     },
+
     tbody: {
       tr: {
         "&:nth-of-type(odd)": {
           td: {
-            background: mode(`${c}.100`, `${c}.900`)(props),
+            background: stripedBg,
             borderColor: mode(`${c}.200`, `${c}.800`)(props),
             borderLeftWidth: 0,
             borderBottomWidth: 0,
           },
         },
+
         td: {
-          _hover: {
-            bg: transparentize(`${c}.500`, 0.16)(theme),
+          position: "relative",
+          overflow: "hidden",
+          cursor: "default",
+
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            borderRadius: "md",
+            border: "1px solid",
+            borderColor: "green.500",
+            background: "rgba(107,198,124,0.15)", // overlay semitransparente
+            zIndex: 1,
+            pointerEvents: "none",
+
+            // Estado inicial
+            opacity: 0,
+            transform: "scale(0.95)",
+            boxShadow: "0 0 0px rgba(107,198,124,0.5)", // glow inicial
+            transition:
+              "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
+          },
+
+          "&:hover::after": {
+            opacity: 1,
+            transform: "scale(1)",
+            boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
+          },
+
+          "> *": {
+            position: "relative",
+            zIndex: 2,
           },
         },
       },

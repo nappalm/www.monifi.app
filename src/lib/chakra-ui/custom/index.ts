@@ -10,7 +10,7 @@ import Select from "./select";
 import Spinner from "./spinner";
 import Switch from "./switch";
 import Alert from "./alert";
-// import Heading from "./heading";
+import Heading from "./heading";
 import Card from "./card";
 import Divider from "./divider";
 import Menu from "./menu";
@@ -36,7 +36,7 @@ export default {
   Select,
   Spinner,
   Switch,
-  // Heading,
+  Heading,
   Card,
   Divider,
   Menu,
