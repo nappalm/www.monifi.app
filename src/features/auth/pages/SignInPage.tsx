@@ -1,9 +1,9 @@
-import { HOME_PATHS } from "@/features/home";
 import { useSignInWithEmail, useSignInWithOAuth } from "@/shared";
 import { Container, Stack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignInForm from "../components/SignInForm";
+import { TRANSACTIONS_PATHS } from "@/features/transactions";
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ export default function SignInPage() {
   const oauth = useSignInWithOAuth();
 
   useEffect(() => {
-    if (email.isSuccess) navigate(HOME_PATHS.base);
+    if (email.isSuccess) navigate(TRANSACTIONS_PATHS.base);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email.isSuccess]);
 
