@@ -1,6 +1,6 @@
 import Base from "../pages";
 
-export const homeRoutes = [
+export const transactionsRoutes = [
   {
     index: true,
     element: <Base />,

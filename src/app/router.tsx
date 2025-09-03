@@ -1,7 +1,10 @@
 import { AUTH_PATHS, authRoutes, ProtectedRoute } from "@/features/auth";
 import { BUDGETS_PATHS, budgetsRoutes } from "@/features/budgets";
-import { HOME_PATHS, homeRoutes } from "@/features/home";
 import { SETTINGS_PATHS, settingsRoutes } from "@/features/settings";
+import {
+  TRANSACTIONS_PATHS,
+  transactionsRoutes,
+} from "@/features/transactions";
 
 import { BaseLayout, SettingsLayout } from "@/shared";
 import {
@@ -20,8 +23,8 @@ const protectedRoutes = [
     element: <BaseLayout />,
     children: [
       {
-        path: HOME_PATHS.base,
-        children: homeRoutes,
+        path: TRANSACTIONS_PATHS.base,
+        children: transactionsRoutes,
       },
       {
         path: BUDGETS_PATHS.base,
@@ -29,7 +32,7 @@ const protectedRoutes = [
       },
       {
         path: "*",
-        element: <Navigate to={HOME_PATHS.base} replace />,
+        element: <Navigate to={TRANSACTIONS_PATHS.base} replace />,
       },
     ],
   },
@@ -50,7 +53,7 @@ const settingRoutes = [
       },
       {
         path: "*",
-        element: <Navigate to={HOME_PATHS.base} replace />,
+        element: <Navigate to={SETTINGS_PATHS.base} replace />,
       },
     ],
   },
