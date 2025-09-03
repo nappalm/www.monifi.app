@@ -4,7 +4,7 @@ import {
   IconCylinder,
   IconFilter2,
 } from "@tabler/icons-react";
-import TransactionsTable from "../components/TransactionsTable";
+import { InlineEditorGrid } from "@/shared/components";
 
 export default function TransactionsPage() {
   return (
@@ -35,7 +35,7 @@ export default function TransactionsPage() {
           New row
         </Button>
       </HStack>
-      <TransactionsTable />
+      <InlineEditorGrid />
     </Stack>
   );
 }
