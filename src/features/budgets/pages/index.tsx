@@ -28,7 +28,7 @@ export default function Budgets() {
         </Button>
       </HStack>
 
-      <BudgetsTable />
+      <BudgetsTable onConfig={handleView} />
     </Stack>
   );
 }

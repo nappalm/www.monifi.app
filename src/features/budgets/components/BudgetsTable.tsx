@@ -27,7 +27,10 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 
-export default function BudgetsTable() {
+type Props = {
+  onConfig: (id: number) => void;
+};
+export default function BudgetsTable({ onConfig }: Props) {
   return (
     <TableContainer border="1px solid" borderColor="gray.800" borderRadius="xl">
       <Table variant="striped" size="sm">
@@ -54,7 +57,7 @@ export default function BudgetsTable() {
             </Td>
             <Td isNumeric>$5,090.99</Td>
             <Td p={0} opacity={0.5}>
-              <Menu>
+              <Menu isLazy>
                 <MenuButton
                   as={IconButton}
                   w="full"
@@ -69,6 +72,7 @@ export default function BudgetsTable() {
                     <MenuItem
                       icon={<IconArrowRight size={16} />}
                       color="green.500"
+                      onClick={() => onConfig(1)}
                     >
                       Config budget
                     </MenuItem>
