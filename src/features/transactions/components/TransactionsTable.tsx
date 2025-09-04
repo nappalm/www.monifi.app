@@ -23,6 +23,9 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
     {
       header: "Category",
       accessor: "category",
+      sx: {
+        padding: 0,
+      },
       render: () => {
         return <CategorySelect />;
       },
@@ -30,6 +33,9 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
     {
       header: "Account",
       accessor: "account",
+      sx: {
+        padding: 0,
+      },
       render: () => {
         return <AccountSelect />;
       },
@@ -37,6 +43,9 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
     {
       header: "Type",
       accessor: "type",
+      sx: {
+        padding: 0,
+      },
       render: () => {
         return <TypeSelect />;
       },

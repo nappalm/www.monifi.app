@@ -20,6 +20,7 @@ export default function CategorySelect() {
         leftIcon={<IconTag size={12} />}
         rightIcon={<IconChevronDown size={12} />}
         w="full"
+        borderRadius="inherit"
       >
         Category
       </MenuButton>

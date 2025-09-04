@@ -20,6 +20,7 @@ export default function TypeSelect() {
         leftIcon={<IconChevronsDown color={_colors.red[500]} size={12} />}
         rightIcon={<IconChevronDown size={12} />}
         w="full"
+        borderRadius="inherit"
       >
         Expense
       </MenuButton>
