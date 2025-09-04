@@ -20,6 +20,7 @@ export function useInlineEditor({
   columns,
   data,
   onDataChange,
+  onCellChange,
 }: UseInlineEditorProps) {
   const [activeCell, setActiveCell] = useState<{
     row: number;
@@ -56,15 +57,37 @@ export function useInlineEditor({
   const stopEditing = useCallback(
     (update = true) => {
       if (isEditing && activeCell && update) {
-        const { row, col } = activeCell;
-        const newData = data.map((r) => ({ ...r }));
-        const accessor = columns[col].accessor;
-        newData[row][accessor] = inputValue as any;
-        onDataChange(newData);
+        const { row: rowIndex, col: colIndex } = activeCell;
+        const accessor = columns[colIndex].accessor;
+        const previousValue = data[rowIndex][accessor];
+
+        // Only trigger updates if the value has changed
+        if (String(previousValue) !== inputValue) {
+          const newData = data.map((r) => ({ ...r }));
+          newData[rowIndex][accessor] = inputValue as any;
+
+          onDataChange(newData);
+
+          onCellChange?.({
+            value: inputValue,
+            previousValue,
+            rowIndex,
+            columnAccessor: accessor,
+            row: newData[rowIndex],
+          });
+        }
       }
       setIsEditing(false);
     },
-    [isEditing, activeCell, inputValue, data, columns, onDataChange],
+    [
+      isEditing,
+      activeCell,
+      inputValue,
+      data,
+      columns,
+      onDataChange,
+      onCellChange,
+    ],
   );
 
   const handleKeyDown = useCallback(

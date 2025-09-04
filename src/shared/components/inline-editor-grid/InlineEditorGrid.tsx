@@ -18,19 +18,29 @@ interface Column {
   isEditable?: boolean;
 }
 
+export interface CellChange {
+  value: any;
+  previousValue: any;
+  rowIndex: number;
+  columnAccessor: string;
+  row: any;
+}
+
 interface InlineEditorGridProps {
   columns: Column[];
   data: any[];
   onDataChange: (newData: any[]) => void;
+  onCellChange?: (change: CellChange) => void;
 }
 
 export function InlineEditorGrid({
   columns,
   data,
   onDataChange,
+  onCellChange,
 }: InlineEditorGridProps) {
   const { tableRef, activeCell, getCellProps, getInputProps } = useInlineEditor(
-    { columns, data: data, onDataChange: onDataChange },
+    { columns, data: data, onDataChange: onDataChange, onCellChange },
   );
 
   const inputProps = getInputProps();
