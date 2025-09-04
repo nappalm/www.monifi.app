@@ -56,11 +56,12 @@ export function InlineEditorGrid({
   };
 
   const inputBg = useColorModeValue("white", "gray.700");
+  const borderBgContainer = useColorModeValue("gray.200", "gray.800");
 
   return (
     <TableContainer
       border="1px solid"
-      borderColor="gray.800"
+      borderColor={borderBgContainer}
       borderRadius="xl"
       pos="relative"
       overflow="auto"
