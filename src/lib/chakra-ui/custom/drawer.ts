@@ -4,8 +4,8 @@ import {
   cssVar,
   defineStyle,
 } from "@chakra-ui/styled-system";
-import { runIfFn } from "../utils/run-if-fn";
 import { mode } from "@chakra-ui/theme-tools";
+import { runIfFn } from "../utils/run-if-fn";
 
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(parts.keys);
@@ -51,7 +51,8 @@ const baseStyleDialog = defineStyle((props) => {
     [$bg.variable]: "colors.white",
     [$bs.variable]: "none",
     _dark: {
-      [$bg.variable]: "colors.gray.900",
+      [$bg.variable]: "#000",
+      backdropFilter: "blur(8px)",
       [$bs.variable]: "none",
     },
     bg: $bg.reference,
