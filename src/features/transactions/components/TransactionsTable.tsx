@@ -1,130 +1,61 @@
-import {
-  IconButton,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {
-  IconChevronsDown,
-  IconChevronsUp,
-  IconDots,
-} from "@tabler/icons-react";
+import { InlineEditorGrid } from "@/shared";
+import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
+import TableRowMenu from "./TableRowMenu";
+import _colors from "@/lib/chakra-ui/_colors";
 
-export default function TransactionsTable() {
+type Props = {
+  data: any[];
+  onDataChange: (data: any) => void;
+};
+
+export default function TransactionsTable({ data, onDataChange }: Props) {
+  const columns = [
+    {
+      header: "",
+      accessor: "rowNumber",
+      isEditable: false,
+      sx: {
+        w: "10px",
+        opacity: 0.8,
+      },
+      render: (value: any) => value,
+    },
+    {
+      header: "",
+      accessor: "icon",
+      sx: {
+        w: "10px",
+        opacity: 0.8,
+      },
+      render: (value: any) =>
+        value === "down" ? (
+          <IconChevronsDown size={16} color={_colors.red[500]} />
+        ) : (
+          <IconChevronsUp size={16} color={_colors.green[500]} />
+        ),
+    },
+    { header: "Date", accessor: "date" },
+    { header: "Category", accessor: "category" },
+    { header: "Account", accessor: "account" },
+    { header: "Type", accessor: "type" },
+    { header: "Notes", accessor: "notes" },
+    { header: "Amount", accessor: "amount" },
+    {
+      header: "",
+      accessor: "options",
+      sx: {
+        w: "10px",
+        opacity: 0.8,
+      },
+      render: () => <TableRowMenu />,
+    },
+  ];
+
   return (
-    <TableContainer border="1px solid" borderColor="gray.800" borderRadius="xl">
-      <Table variant="striped" size="sm">
-        <Thead>
-          <Tr>
-            <Th w="10px" />
-            <Th w="10px" />
-            <Th>Date</Th>
-            <Th>Category</Th>
-            <Th>Account</Th>
-            <Th>Type</Th>
-            <Th>Notes</Th>
-            <Th isNumeric>Amount</Th>
-            <Th w="10px" />
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td opacity={0.5}>#1</Td>
-            <Td color="red.500">
-              <IconChevronsDown size={16} />
-            </Td>
-            <Td>Jun 13, 2025</Td>
-            <Td>Plans</Td>
-            <Td>BBVA credit card</Td>
-            <Td>Expense</Td>
-            <Td></Td>
-            <Td isNumeric>$2590,99.4</Td>
-            <Td p={0} opacity={0.5}>
-              <IconButton
-                w="full"
-                aria-label="Row options"
-                size="xs"
-                variant="unstyled"
-                pl="7px"
-                icon={<IconDots size={15} />}
-              />
-            </Td>
-          </Tr>
-          <Tr>
-            <Td opacity={0.5}>#2</Td>
-            <Td color="red.500">
-              <IconChevronsDown size={16} />
-            </Td>
-            <Td>Jun 13, 2025</Td>
-            <Td>Plans</Td>
-            <Td>BBVA credit card</Td>
-            <Td>Expense</Td>
-
-            <Td></Td>
-            <Td isNumeric>$2590,99.4</Td>
-            <Td p={0} opacity={0.5}>
-              <IconButton
-                w="full"
-                aria-label="Row options"
-                size="xs"
-                variant="unstyled"
-                pl="7px"
-                icon={<IconDots size={15} />}
-              />
-            </Td>
-          </Tr>
-          <Tr>
-            <Td opacity={0.5}>#3</Td>
-            <Td color="red.500">
-              <IconChevronsDown size={16} />
-            </Td>
-            <Td>Jun 13, 2025</Td>
-            <Td>Plans</Td>
-            <Td>BBVA credit card</Td>
-            <Td>Expense</Td>
-
-            <Td></Td>
-            <Td isNumeric>$2590,99.4</Td>
-            <Td p={0} opacity={0.5}>
-              <IconButton
-                w="full"
-                aria-label="Row options"
-                size="xs"
-                variant="unstyled"
-                pl="7px"
-                icon={<IconDots size={15} />}
-              />
-            </Td>
-          </Tr>
-          <Tr>
-            <Td opacity={0.5}>#4</Td>
-            <Td color="green.500">
-              <IconChevronsUp size={16} />
-            </Td>
-            <Td>Jun 13, 2025</Td>
-            <Td>Plans</Td>
-            <Td>BBVA credit card</Td>
-            <Td>Expense</Td>
-
-            <Td></Td>
-            <Td isNumeric>$2590,99.4</Td>
-            <Td p={0} opacity={0.5}>
-              <IconButton
-                w="full"
-                aria-label="Row options"
-                size="xs"
-                variant="unstyled"
-                pl="7px"
-                icon={<IconDots size={15} />}
-              />
-            </Td>
-          </Tr>
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <InlineEditorGrid
+      columns={columns}
+      data={data}
+      onDataChange={onDataChange}
+    />
   );
 }

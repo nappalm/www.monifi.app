@@ -1,61 +1,11 @@
-import React, { useState } from "react"; // Import useState
-import {
-  Button,
-  Heading,
-  HStack,
-  IconButton,
-  Stack,
-  Td,
-} from "@chakra-ui/react";
-import {
-  IconArrowBarToDownDashed,
-  IconCylinder,
-  IconFilter2,
-  IconChevronsDown,
-  IconChevronsUp,
-  IconDots,
-} from "@tabler/icons-react";
-import { InlineEditorGrid } from "@/shared/components";
+import { Button, Heading, HStack, Stack } from "@chakra-ui/react";
+import { IconArrowBarToDownDashed } from "@tabler/icons-react";
+import { useState } from "react";
+import FilterButton from "../components/FilterButton";
+import FilterDate from "../components/FilterDate";
+import TransactionsTable from "../components/TransactionsTable";
 
 export default function TransactionsPage() {
-  const columns = [
-    {
-      header: "",
-      accessor: "rowNumber",
-      render: (value: any) => value,
-    },
-    {
-      header: "",
-      accessor: "icon",
-      render: (value: any) =>
-        value === "down" ? (
-          <IconChevronsDown size={16} />
-        ) : (
-          <IconChevronsUp size={16} />
-        ),
-    },
-    { header: "Date", accessor: "date" },
-    { header: "Category", accessor: "category" },
-    { header: "Account", accessor: "account" },
-    { header: "Type", accessor: "type" },
-    { header: "Notes", accessor: "notes" },
-    { header: "Amount", accessor: "amount" },
-    {
-      header: "",
-      accessor: "options",
-      render: () => (
-        <IconButton
-          w="full"
-          aria-label="Row options"
-          size="xs"
-          variant="unstyled"
-          pl="7px"
-          icon={<IconDots size={15} />}
-        />
-      ),
-    },
-  ];
-
   const initialData = [
     {
       rowNumber: "#1",
@@ -114,19 +64,8 @@ export default function TransactionsPage() {
       <Heading size="lg">Transactions</Heading>
       <HStack justifyContent="space-between">
         <HStack gap="1px">
-          <IconButton
-            aria-label="Filter"
-            icon={<IconFilter2 size={16} />}
-            size="sm"
-            borderRightRadius={0}
-          />
-          <Button
-            leftIcon={<IconCylinder size={16} />}
-            size="sm"
-            borderLeftRadius={0}
-          >
-            Jun to Ago 2025
-          </Button>
+          <FilterButton />
+          <FilterDate />
         </HStack>
         <Button
           colorScheme="green"
@@ -137,11 +76,7 @@ export default function TransactionsPage() {
           New row
         </Button>
       </HStack>
-      <InlineEditorGrid
-        columns={columns}
-        data={tableData}
-        onDataChange={setTableData}
-      />
+      <TransactionsTable data={tableData} onDataChange={setTableData} />
     </Stack>
   );
 }
