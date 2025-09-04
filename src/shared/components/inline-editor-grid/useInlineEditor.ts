@@ -1,3 +1,4 @@
+import { TdProps } from "@chakra-ui/react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { flushSync } from "react-dom";
 
@@ -6,6 +7,7 @@ interface Column {
   accessor: string;
   render?: (value: any, row: any) => React.ReactNode;
   isEditable?: boolean;
+  sx?: TdProps;
 }
 
 interface UseInlineEditorProps {

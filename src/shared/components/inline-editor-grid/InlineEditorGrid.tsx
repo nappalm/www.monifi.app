@@ -167,6 +167,7 @@ export function InlineEditorGrid({
                           activeCell?.col === colIndex
                             ? "hidden"
                             : "visible",
+                        ...column.sx,
                       }}
                     >
                       {column.render
