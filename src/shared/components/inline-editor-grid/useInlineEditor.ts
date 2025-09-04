@@ -158,7 +158,19 @@ export function useInlineEditor({
               )
               ?.focus();
           } else {
-            startEditing(row, col);
+            // Find the cell and check for an interactive element like a button
+            const cellElement = tableRef.current?.querySelector<HTMLElement>(
+              `[data-row="${row}"][data-col="${col}"]`,
+            );
+            const interactiveElement = cellElement?.querySelector("button");
+
+            if (interactiveElement) {
+              // If a button is found, click it
+              interactiveElement.click();
+            } else {
+              // Otherwise, fall back to the default behavior of starting to edit
+              startEditing(row, col);
+            }
           }
           break;
         case "Escape":
