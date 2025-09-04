@@ -21,6 +21,7 @@ export default function CategorySelect() {
         rightIcon={<IconChevronDown size={12} />}
         w="full"
         borderRadius="inherit"
+        fontWeight="semibold"
       >
         Category
       </MenuButton>

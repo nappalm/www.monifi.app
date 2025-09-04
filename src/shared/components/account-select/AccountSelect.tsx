@@ -21,6 +21,7 @@ export default function AccountSelect() {
         rightIcon={<IconChevronDown size={12} />}
         w="full"
         borderRadius="inherit"
+        fontWeight="semibold"
       >
         BBVA Credit card
       </MenuButton>
