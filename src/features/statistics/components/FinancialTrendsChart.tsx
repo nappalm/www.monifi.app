@@ -1,14 +1,12 @@
+import { Card, CardBody, CardHeader } from "@chakra-ui/react";
 import {
-  LineChart,
-  Line,
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
-import { Box, Heading } from "@chakra-ui/react";
 
 const data = [
   { name: "Ene", Ingresos: 4000, Gastos: 2400 },
@@ -22,34 +20,56 @@ const data = [
 
 export default function FinancialTrendsChart() {
   return (
-    <Box p={4} borderWidth="1px" borderRadius="lg" mb={6}>
-      <Heading as="h3" size="md" mb={4}>
-        Tendencias Financieras Mensuales
-      </Heading>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="Ingresos"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
-          <Line type="monotone" dataKey="Gastos" stroke="#82ca9d" />
-        </LineChart>
-      </ResponsiveContainer>
-    </Box>
+    <Card size="sm">
+      <CardHeader>Tendencias Financieras Mensuales</CardHeader>
+      <CardBody>
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <defs>
+              <linearGradient id="colorIngresos" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#0A84FF" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#0A84FF" stopOpacity={0} />
+              </linearGradient>
+              <linearGradient id="colorGastos" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#30D158" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#30D158" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="name" stroke="#C7C7CC" tick={{ fill: "#8E8E93" }} />
+            <YAxis stroke="#C7C7CC" tick={{ fill: "#8E8E93" }} />
+            <Tooltip
+              cursor={{ stroke: "#AEAEB2", strokeDasharray: "3 3" }}
+              contentStyle={{ borderRadius: "12px", borderColor: "gray.300" }}
+            />
+            <Area
+              type="monotone"
+              dataKey="Ingresos"
+              stroke="#0A84FF"
+              strokeWidth={2.5}
+              fillOpacity={1}
+              fill="url(#colorIngresos)"
+              activeDot={{ r: 6 }}
+            />
+            <Area
+              type="monotone"
+              dataKey="Gastos"
+              stroke="#30D158"
+              strokeWidth={2.5}
+              fillOpacity={1}
+              fill="url(#colorGastos)"
+              activeDot={{ r: 6 }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </CardBody>
+    </Card>
   );
 }

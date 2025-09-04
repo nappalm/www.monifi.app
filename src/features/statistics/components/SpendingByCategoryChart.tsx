@@ -1,12 +1,5 @@
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { Box, Heading } from "@chakra-ui/react";
+import { Card, CardBody, CardHeader } from "@chakra-ui/react";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const data = [
   { name: "Vivienda", value: 1200 },
@@ -16,36 +9,47 @@ const data = [
   { name: "Servicios", value: 500 },
 ];
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28DFF"];
+const APPLE_COLORS = [
+  "#0A84FF",
+  "#30D158",
+  "#FF9F0A",
+  "#FF453A",
+  "#BF5AF2",
+  "#5E5CE6",
+];
 
 export default function SpendingByCategoryChart() {
   return (
-    <Box p={4} borderWidth="1px" borderRadius="lg" mb={6}>
-      <Heading as="h3" size="md" mb={4}>
-        Gastos por Categoría
-      </Heading>
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
-    </Box>
+    <Card size="sm">
+      <CardHeader>Gastos por Categoría</CardHeader>
+      <CardBody>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              outerRadius={110}
+              innerRadius={70}
+              fill="#8884d8"
+              dataKey="value"
+              paddingAngle={2}
+            >
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={APPLE_COLORS[index % APPLE_COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip
+              cursor={{ fill: "rgba(174, 174, 178, 0.1)" }}
+              contentStyle={{ borderRadius: "12px", borderColor: "gray.300" }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </CardBody>
+    </Card>
   );
 }

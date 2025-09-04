@@ -1,14 +1,12 @@
+import { Card, CardBody, CardHeader } from "@chakra-ui/react";
 import {
-  BarChart,
   Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
 } from "recharts";
-import { Box, Heading } from "@chakra-ui/react";
 
 const data = [
   { name: "Alquiler", Monto: 1500 },
@@ -20,29 +18,46 @@ const data = [
 
 export default function TopExpensesChart() {
   return (
-    <Box p={4} borderWidth="1px" borderRadius="lg" mb={6}>
-      <Heading as="h3" size="md" mb={4}>
-        Top 5 Gastos
-      </Heading>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          layout="vertical"
-          data={data}
-          margin={{
-            top: 20,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis type="number" />
-          <YAxis dataKey="name" type="category" />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="Monto" fill="#8884d8" />
-        </BarChart>
-      </ResponsiveContainer>
-    </Box>
+    <Card size="sm">
+      <CardHeader>Top 5 Gastos</CardHeader>
+      <CardBody>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            layout="vertical"
+            data={data}
+            margin={{
+              top: 20,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <defs>
+              <linearGradient id="colorMonto" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="5%" stopColor="#0A84FF" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#0A84FF" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis type="number" stroke="#C7C7CC" tick={{ fill: "#8E8E93" }} />
+            <YAxis
+              dataKey="name"
+              type="category"
+              stroke="#C7C7CC"
+              tick={{ fill: "#8E8E93" }}
+            />
+            <Tooltip
+              cursor={{ fill: "rgba(174, 174, 178, 0.1)" }}
+              contentStyle={{ borderRadius: "12px", borderColor: "gray.300" }}
+            />
+            <Bar
+              dataKey="Monto"
+              fill="url(#colorMonto)"
+              stroke="#0A84FF"
+              radius={[0, 4, 4, 0]}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </CardBody>
+    </Card>
   );
 }
