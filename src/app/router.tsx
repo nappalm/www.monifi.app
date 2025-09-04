@@ -1,6 +1,7 @@
 import { AUTH_PATHS, authRoutes, ProtectedRoute } from "@/features/auth";
 import { BUDGETS_PATHS, budgetsRoutes } from "@/features/budgets";
 import { SETTINGS_PATHS, settingsRoutes } from "@/features/settings";
+import { STATISTICS_PATHS, statisticsRoutes } from "@/features/statistics";
 import {
   TRANSACTIONS_PATHS,
   transactionsRoutes,
@@ -29,6 +30,10 @@ const protectedRoutes = [
       {
         path: BUDGETS_PATHS.base,
         children: budgetsRoutes,
+      },
+      {
+        path: STATISTICS_PATHS.base,
+        children: statisticsRoutes,
       },
       {
         path: "*",
