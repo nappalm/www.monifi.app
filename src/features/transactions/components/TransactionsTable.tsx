@@ -15,7 +15,7 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
       isEditable: false,
       sx: {
         w: "10px",
-        opacity: 0.8,
+        opacity: 0.7,
       },
       render: (value: any) => value,
     },
@@ -57,7 +57,7 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
       accessor: "options",
       sx: {
         w: "10px",
-        opacity: 0.8,
+        opacity: 0.7,
       },
       render: () => <TableRowMenu />,
     },
