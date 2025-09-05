@@ -5,10 +5,7 @@ import {
   GridItem,
   HStack,
   IconButton,
-  Radio,
-  RadioGroup,
   Text,
-  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import {
@@ -26,7 +23,6 @@ import {
   format,
   isSameDay,
   isSameMonth,
-  isWithinInterval,
   startOfMonth,
   startOfWeek,
   subMonths,
@@ -35,58 +31,27 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 
-type DateRangeValue = {
-  initial_date: Date | null;
-  end_date: Date | null;
-};
-
-type SelectionMode = "range" | "month";
-
-export type DateRangeProps = {
-  value?: DateRangeValue;
-  defaultValue?: DateRangeValue;
-  onChange?: (value: DateRangeValue) => void;
+export type DatePickerProps = {
+  value?: Date | null;
+  defaultValue?: Date | null;
+  onChange?: (value: Date) => void;
 };
 
 const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const MotionGrid = motion(Grid);
 
-export function DateRange({
+export function DatePicker({
   value,
-  defaultValue = { initial_date: null, end_date: null },
+  defaultValue = null,
   onChange,
-}: DateRangeProps) {
-  const [currentDate, setCurrentDate] = useState(
-    defaultValue.initial_date || new Date(),
-  );
-  const [selection, setSelection] = useState<DateRangeValue>(() => {
-    if (defaultValue.initial_date || defaultValue.end_date) {
-      return defaultValue;
-    }
-    const today = new Date();
-    return {
-      initial_date: startOfMonth(today),
-      end_date: endOfMonth(today),
-    };
-  });
-  const [selectionMode, setSelectionMode] = useState<SelectionMode>("month");
-
-  useEffect(() => {
-    if (
-      !defaultValue.initial_date &&
-      !defaultValue.end_date &&
-      selection.initial_date &&
-      selection.end_date
-    ) {
-      onChange?.(selection);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+}: DatePickerProps) {
+  const [currentDate, setCurrentDate] = useState(defaultValue || new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(defaultValue);
 
   useEffect(() => {
     if (value) {
-      setSelection(value);
+      setSelectedDate(value);
     }
   }, [value]);
 
@@ -98,70 +63,19 @@ export function DateRange({
     return eachDayOfInterval({ start: startDate, end: endDate });
   }, [currentDate]);
 
-  const handleSelectionModeChange = (newMode: SelectionMode) => {
-    setSelectionMode(newMode);
-    if (newMode === "month") {
-      const newSelection = {
-        initial_date: startOfMonth(currentDate),
-        end_date: endOfMonth(currentDate),
-      };
-      setSelection(newSelection);
-      onChange(newSelection);
-    }
-  };
-
   const handleCurrentDateChange = (newDate: Date) => {
     setCurrentDate(newDate);
-    if (selectionMode === "month") {
-      const newSelection = {
-        initial_date: startOfMonth(newDate),
-        end_date: endOfMonth(newDate),
-      };
-      setSelection(newSelection);
-      onChange(newSelection);
-    }
   };
 
   const handleDateClick = (day: Date) => {
-    if (selectionMode === "month") {
-      const newSelection = {
-        initial_date: startOfMonth(day),
-        end_date: endOfMonth(day),
-      };
-      setSelection(newSelection);
-      onChange(newSelection);
-      return;
-    }
-
-    const { initial_date, end_date } = selection;
-
-    if (!initial_date || (initial_date && end_date)) {
-      const newSelection = { initial_date: day, end_date: null };
-      setSelection(newSelection);
-      onChange(newSelection);
-    } else if (initial_date && !end_date) {
-      let newSelection: DateRangeValue;
-      if (day < initial_date) {
-        newSelection = { initial_date: day, end_date: initial_date };
-      } else {
-        newSelection = { ...selection, end_date: day };
-      }
-      setSelection(newSelection);
-      onChange(newSelection);
+    setSelectedDate(day);
+    if (onChange) {
+      onChange(day);
     }
   };
 
-  const rangeBg = useColorModeValue("green.100", "green.700");
-
   const getDayStyle = (day: Date) => {
-    const { initial_date, end_date } = selection;
-    const isInitial = initial_date && isSameDay(day, initial_date);
-    const isEnd = end_date && isSameDay(day, end_date);
-    const isInRange =
-      initial_date &&
-      end_date &&
-      isWithinInterval(day, { start: initial_date, end: end_date });
-    const isSingleDayRange = isInitial && isEnd;
+    const isSelected = selectedDate && isSameDay(day, selectedDate);
 
     const gridItemStyle: any = {
       opacity: isSameMonth(day, currentDate) ? 1 : 0.4,
@@ -170,30 +84,20 @@ export function DateRange({
     const buttonStyle: any = {
       color: "inherit",
       bg: "transparent",
-      // fontWeight: "normal",
+      fontWeight: "normal",
       transition: "all 0.15s ease-in-out",
       _hover: { bg: "green.400", color: "white" },
     };
 
-    if (isSingleDayRange) {
+    if (isSelected) {
       buttonStyle.bg = "green.500";
       buttonStyle.color = "white";
-    } else if (isInitial) {
-      buttonStyle.bg = "green.500";
-      buttonStyle.color = "white";
-    } else if (isEnd) {
-      buttonStyle.bg = "green.500";
-      buttonStyle.color = "white";
-    } else if (isInRange) {
-      gridItemStyle.bg = rangeBg;
-      gridItemStyle.borderRadius = "xl";
-      buttonStyle.color = "inherit";
     }
 
     const isToday = isSameDay(day, new Date());
-    if (isToday && !isInRange && !isInitial && !isEnd) {
+    if (isToday && !isSelected) {
       buttonStyle.border = "1px solid";
-      // buttonStyle.fontWeight = "bold";
+      buttonStyle.fontWeight = "bold";
       buttonStyle.borderColor = "green.500";
       buttonStyle.color = "green.500";
     }
@@ -223,7 +127,7 @@ export function DateRange({
           </HStack>
 
           <Text
-            // fontWeight="semibold"
+            fontWeight="semibold"
             fontSize="md"
             textTransform="capitalize"
             letterSpacing="wide"
@@ -247,23 +151,6 @@ export function DateRange({
               onClick={() => handleCurrentDateChange(addYears(currentDate, 1))}
             />
           </HStack>
-        </HStack>
-
-        <HStack justify="center" mb={3}>
-          <RadioGroup
-            onChange={(val) => handleSelectionModeChange(val as SelectionMode)}
-            value={selectionMode}
-            colorScheme="gray"
-          >
-            <HStack spacing={4}>
-              <Radio size="sm" value="range">
-                Range
-              </Radio>
-              <Radio size="sm" value="month">
-                Month
-              </Radio>
-            </HStack>
-          </RadioGroup>
         </HStack>
 
         <AnimatePresence mode="wait">

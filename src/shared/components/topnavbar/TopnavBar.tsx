@@ -39,7 +39,7 @@ export default function Topnavbar({
               />
             )}
             <Link to="/">
-              <Image src="/logo.png" alt="logo" w="32px" h="32px" />
+              <Image src="/logo.png" alt="logo" w="32px" />
             </Link>
           </HStack>
           <HStack>

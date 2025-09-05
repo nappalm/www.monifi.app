@@ -5,3 +5,4 @@ export * from "./inline-editor-grid";
 export * from "./category-select";
 export * from "./account-select";
 export * from "./date-range";
+export * from "./date-picker";
