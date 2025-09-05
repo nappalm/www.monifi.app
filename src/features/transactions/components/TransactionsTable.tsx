@@ -51,7 +51,7 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
       },
     },
     { header: "Notes", accessor: "notes" },
-    { header: "Amount", accessor: "amount" },
+    { header: "Amount", accessor: "amount", isAmount: true },
     {
       header: "",
       accessor: "options",

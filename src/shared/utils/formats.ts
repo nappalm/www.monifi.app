@@ -6,7 +6,7 @@ export const formatCurrency = (
   currency: string,
   locale = "en-US",
 ) => {
-  const formattedValue = value / 100;
+  const formattedValue = value;
 
   const formatter = new Intl.NumberFormat(locale, {
     style: "currency",

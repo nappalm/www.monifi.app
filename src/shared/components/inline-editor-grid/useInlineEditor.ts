@@ -8,12 +8,14 @@ interface Column {
   render?: (value: any, row: any) => React.ReactNode;
   isEditable?: boolean;
   sx?: TableCellProps;
+  isAmount?: boolean;
 }
 
 interface UseInlineEditorProps {
   columns: Column[];
   data: any[];
   onDataChange: (newData: any[]) => void;
+  onCellChange?: (change: any) => void;
 }
 
 export function useInlineEditor({
@@ -58,18 +60,26 @@ export function useInlineEditor({
     (update = true) => {
       if (isEditing && activeCell && update) {
         const { row: rowIndex, col: colIndex } = activeCell;
-        const accessor = columns[colIndex].accessor;
+        const column = columns[colIndex];
+        const accessor = column.accessor;
         const previousValue = data[rowIndex][accessor];
 
-        // Only trigger updates if the value has changed
-        if (String(previousValue) !== inputValue) {
+        let processedValue: any = inputValue;
+        if (column.isAmount) {
+          const numericValue = parseFloat(inputValue.replace(/[^0-9.-]+/g, ""));
+          processedValue = Number.isNaN(numericValue)
+            ? previousValue
+            : numericValue;
+        }
+
+        if (String(previousValue) !== String(processedValue)) {
           const newData = data.map((r) => ({ ...r }));
-          newData[rowIndex][accessor] = inputValue as any;
+          newData[rowIndex][accessor] = processedValue;
 
           onDataChange(newData);
 
           onCellChange?.({
-            value: inputValue,
+            value: processedValue,
             previousValue,
             rowIndex,
             columnAccessor: accessor,
@@ -223,7 +233,7 @@ export function useInlineEditor({
         ?.querySelector<HTMLElement>(`[data-row="0"][data-col="0"]`)
         ?.focus();
     }
-  }, []);
+  }, [activeCell]);
 
   const handleDragStart = useCallback(
     (event: React.MouseEvent) => {
@@ -333,6 +343,9 @@ export function useInlineEditor({
       zIndex: 1,
     };
 
+    const column = columns[activeCell.col];
+    const inputType = column.isAmount ? "number" : "text";
+
     return {
       ref: inputRef,
       value: inputValue,
@@ -341,6 +354,8 @@ export function useInlineEditor({
       onBlur: () => stopEditing(),
       style,
       shouldShowInput: true,
+      type: inputType,
+      step: column.isAmount ? "0.01" : undefined,
     };
   };
 

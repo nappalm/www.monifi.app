@@ -9,6 +9,7 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { formatCurrency } from "@/shared/utils/formats";
 import { useInlineEditor } from "./useInlineEditor";
 
 interface Column {
@@ -16,6 +17,8 @@ interface Column {
   accessor: string;
   render?: (value: any, row: any) => React.ReactNode;
   isEditable?: boolean;
+  isAmount?: boolean;
+  sx?: any;
 }
 
 export interface CellChange {
@@ -73,7 +76,9 @@ export function InlineEditorGrid({
           // Focus the active cell (which defaults to 0,0 or the last active cell)
           tableRef.current
             ?.querySelector<HTMLElement>(
-              `[data-row="${activeCell?.row || 0}"][data-col="${activeCell?.col || 0}"]`,
+              `[data-row="${activeCell?.row || 0}"][data-col="${
+                activeCell?.col || 0
+              }"]`,
             )
             ?.focus();
         }
@@ -101,7 +106,7 @@ export function InlineEditorGrid({
             {columns.map((column) => (
               <Th
                 key={column.accessor}
-                isNumeric={column.accessor === "amount"}
+                isNumeric={column.accessor === "amount" || column.isAmount}
               >
                 {column.header}
               </Th>
@@ -124,7 +129,8 @@ export function InlineEditorGrid({
               >
                 {columns.map((column, colIndex) => {
                   const cellValue = row[column.accessor]; // Get value using accessor
-                  const isNumericColumn = column.accessor === "amount"; // Check if column is numeric
+                  const isNumericColumn =
+                    column.accessor === "amount" || column.isAmount; // Check if column is numeric
 
                   return (
                     <Td
@@ -181,9 +187,15 @@ export function InlineEditorGrid({
                         ...column.sx,
                       }}
                     >
-                      {column.render
-                        ? column.render(cellValue, row)
-                        : cellValue}{" "}
+                      {(() => {
+                        if (column.render) {
+                          return column.render(cellValue, row);
+                        }
+                        if (column.isAmount) {
+                          return formatCurrency(cellValue || 0, "USD");
+                        }
+                        return cellValue;
+                      })()}{" "}
                     </Td>
                   );
                 })}

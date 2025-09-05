@@ -16,7 +16,7 @@ export default function TransactionsPage() {
       account: "BBVA credit card",
       type: "Expense",
       notes: "",
-      amount: "$2590,99.4",
+      amount: "100",
       options: null,
     },
     {
@@ -28,7 +28,7 @@ export default function TransactionsPage() {
       account: "BBVA credit card",
       type: "Expense",
       notes: "",
-      amount: "$2590,99.4",
+      amount: "200",
       options: null,
     },
     {
@@ -40,7 +40,7 @@ export default function TransactionsPage() {
       account: "BBVA credit card",
       type: "Expense",
       notes: "",
-      amount: "$2590,99.4",
+      amount: "300",
       options: null,
     },
     {
@@ -52,7 +52,7 @@ export default function TransactionsPage() {
       account: "BBVA credit card",
       type: "Expense",
       notes: "",
-      amount: "$2590,99.4",
+      amount: "400",
       options: null,
     },
   ];
