@@ -45,7 +45,7 @@ type SelectionMode = "range" | "month";
 export type DateRangeProps = {
   value?: DateRangeValue;
   defaultValue?: DateRangeValue;
-  onChange: (value: DateRangeValue) => void;
+  onChange?: (value: DateRangeValue) => void;
 };
 
 const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -60,8 +60,29 @@ export function DateRange({
   const [currentDate, setCurrentDate] = useState(
     defaultValue.initial_date || new Date(),
   );
-  const [selection, setSelection] = useState<DateRangeValue>(defaultValue);
-  const [selectionMode, setSelectionMode] = useState<SelectionMode>("range");
+  const [selection, setSelection] = useState<DateRangeValue>(() => {
+    if (defaultValue.initial_date || defaultValue.end_date) {
+      return defaultValue;
+    }
+    const today = new Date();
+    return {
+      initial_date: startOfMonth(today),
+      end_date: endOfMonth(today),
+    };
+  });
+  const [selectionMode, setSelectionMode] = useState<SelectionMode>("month");
+
+  useEffect(() => {
+    if (
+      !defaultValue.initial_date &&
+      !defaultValue.end_date &&
+      selection.initial_date &&
+      selection.end_date
+    ) {
+      onChange?.(selection);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (value) {
@@ -165,7 +186,7 @@ export function DateRange({
       buttonStyle.color = "white";
     } else if (isInRange) {
       gridItemStyle.bg = rangeBg;
-      gridItemStyle.borderRadius = "lg";
+      gridItemStyle.borderRadius = "xl";
       buttonStyle.color = "inherit";
     }
 
