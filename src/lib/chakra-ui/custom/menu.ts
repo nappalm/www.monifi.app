@@ -21,10 +21,18 @@ const baseStyle = definePartsStyle((props) => ({
     borderTopRadius: "md",
     borderBottomRadius: "md",
     fontWeight: 500,
+    py: 1,
     fontSize: "sm",
     _focus: {
       bg: mode("gray.200", "gray.800")(props),
     },
+  },
+  groupTitle: {
+    mx: 3,
+    my: 2,
+    fontWeight: "semibold",
+    fontSize: "sm",
+    opacity: 0.5,
   },
   divider: {
     my: 1,
