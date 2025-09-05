@@ -60,6 +60,22 @@ export default function TransactionsPage() {
   const [tableData, setTableData] = useState(initialData);
   const [, setDateRange] = useState<[string, string] | null>(null);
 
+  const handleNewRow = () => {
+    const newRow = {
+      rowNumber: `#${tableData.length + 1}`,
+      icon: "down",
+      iconColor: "red.500",
+      date: "Jun 13, 2025",
+      category: "",
+      account: "",
+      type: "Expense",
+      notes: "",
+      amount: "0",
+      options: null,
+    };
+    setTableData((prevData) => [...prevData, newRow]);
+  };
+
   return (
     <Stack gap={5}>
       <Heading size="lg">Transactions</Heading>
@@ -73,6 +89,7 @@ export default function TransactionsPage() {
           color="#000"
           size="sm"
           leftIcon={<IconArrowBarToDownDashed size={16} />}
+          onClick={handleNewRow}
         >
           New row
         </Button>
