@@ -1,6 +1,7 @@
 import { AccountSelect, CategorySelect, InlineEditorGrid } from "@/shared";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
+import DatePickerSelect from "./DatePickerSelect";
 
 type Props = {
   data: any[];
@@ -19,10 +20,23 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
       },
       render: (value: any) => value,
     },
-    { header: "Date", accessor: "date" },
+    {
+      header: "Date",
+      accessor: "date",
+      isEditable: false,
+      sx: {
+        p: 0,
+      },
+      render: () => {
+        return (
+          <DatePickerSelect defaultValue={new Date()} value={new Date()} />
+        );
+      },
+    },
     {
       header: "Category",
       accessor: "category",
+      isEditable: false,
       sx: {
         padding: 0,
       },
@@ -33,6 +47,7 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
     {
       header: "Account",
       accessor: "account",
+      isEditable: false,
       sx: {
         padding: 0,
       },
@@ -43,6 +58,7 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
     {
       header: "Type",
       accessor: "type",
+      isEditable: false,
       sx: {
         padding: 0,
       },

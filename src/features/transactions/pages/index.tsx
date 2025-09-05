@@ -58,6 +58,7 @@ export default function TransactionsPage() {
   ];
 
   const [tableData, setTableData] = useState(initialData);
+  const [dateRange, setDateRange] = useState<[string, string] | null>(null);
 
   return (
     <Stack gap={5}>
@@ -65,7 +66,7 @@ export default function TransactionsPage() {
       <HStack justifyContent="space-between">
         <HStack gap="1px">
           <FilterButton />
-          <FilterDate />
+          <FilterDate onChange={(i, e) => setDateRange([i, e])} />
         </HStack>
         <Button
           colorScheme="green"
