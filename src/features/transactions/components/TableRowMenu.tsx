@@ -24,7 +24,7 @@ export default function TableRowMenu() {
         size="xs"
         variant="unstyled"
         pl="7px"
-        icon={<IconDots size={15} />}
+        icon={<IconDots size={16} />}
       />
       <Portal>
         <MenuList>
