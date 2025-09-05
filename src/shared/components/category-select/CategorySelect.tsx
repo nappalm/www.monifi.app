@@ -19,6 +19,8 @@ export default function CategorySelect() {
         as={Button}
         leftIcon={<IconTag size={12} />}
         w="full"
+        textAlign="left"
+        pl={2}
         borderRadius="inherit"
         fontWeight="semibold"
         _focus={{

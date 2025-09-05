@@ -24,6 +24,8 @@ export default function DatePickerSelect({ defaultValue, value }: Props) {
         borderRadius="inherit"
         fontWeight="semibold"
         leftIcon={<IconCalendar size={15} />}
+        textAlign="left"
+        pl={2}
         _focus={{
           outline: "none",
           boxShadow: "none",

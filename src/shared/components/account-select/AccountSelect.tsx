@@ -21,6 +21,8 @@ export default function AccountSelect() {
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"
+        textAlign="left"
+        pl={2}
         _focus={{
           outline: "none",
           boxShadow: "none",
