@@ -22,6 +22,10 @@ export default function AccountSelect() {
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"
+        _focus={{
+          outline: "none",
+          boxShadow: "none",
+        }}
       >
         BBVA Credit card
       </MenuButton>

@@ -131,11 +131,14 @@ export function InlineEditorGrid({
                   const cellValue = row[column.accessor]; // Get value using accessor
                   const isNumericColumn =
                     column.accessor === "amount" || column.isAmount; // Check if column is numeric
-
+                  const isCellActive =
+                    activeCell?.row === rowIndex &&
+                    activeCell?.col === colIndex;
                   return (
                     <Td
                       key={column.accessor} // Use accessor as key for the cell
                       {...getCellProps(rowIndex, colIndex)}
+                      data-active={isCellActive}
                       isNumeric={isNumericColumn} // Pass isNumeric based on column
                       sx={{
                         outline: "none",
@@ -161,13 +164,7 @@ export function InlineEditorGrid({
                             "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
                         },
 
-                        "&:hover::after": {
-                          opacity: 1,
-                          transform: "scale(1)",
-                          boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
-                        },
-
-                        "&[tabindex='0']:focus::after": {
+                        "&:hover::after, &[data-active='true']::after": {
                           opacity: 1,
                           transform: "scale(1)",
                           boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso

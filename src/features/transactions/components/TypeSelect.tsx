@@ -22,6 +22,10 @@ export default function TypeSelect() {
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"
+        _focus={{
+          outline: "none",
+          boxShadow: "none",
+        }}
       >
         Expense
       </MenuButton>
