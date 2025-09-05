@@ -106,7 +106,7 @@ export function DateRange({
         end_date: endOfMonth(currentDate),
       };
       setSelection(newSelection);
-      onChange(newSelection);
+      onChange?.(newSelection);
     }
   };
 
@@ -118,7 +118,7 @@ export function DateRange({
         end_date: endOfMonth(newDate),
       };
       setSelection(newSelection);
-      onChange(newSelection);
+      onChange?.(newSelection);
     }
   };
 
@@ -129,7 +129,7 @@ export function DateRange({
         end_date: endOfMonth(day),
       };
       setSelection(newSelection);
-      onChange(newSelection);
+      onChange?.(newSelection);
       return;
     }
 
@@ -138,7 +138,7 @@ export function DateRange({
     if (!initial_date || (initial_date && end_date)) {
       const newSelection = { initial_date: day, end_date: null };
       setSelection(newSelection);
-      onChange(newSelection);
+      onChange?.(newSelection);
     } else if (initial_date && !end_date) {
       let newSelection: DateRangeValue;
       if (day < initial_date) {
@@ -147,7 +147,7 @@ export function DateRange({
         newSelection = { ...selection, end_date: day };
       }
       setSelection(newSelection);
-      onChange(newSelection);
+      onChange?.(newSelection);
     }
   };
 
@@ -170,7 +170,7 @@ export function DateRange({
     const buttonStyle: any = {
       color: "inherit",
       bg: "transparent",
-      // fontWeight: "normal",
+      borderRadius: "lg",
       transition: "all 0.15s ease-in-out",
       _hover: { bg: "green.400", color: "white" },
     };
@@ -186,14 +186,13 @@ export function DateRange({
       buttonStyle.color = "white";
     } else if (isInRange) {
       gridItemStyle.bg = rangeBg;
-      gridItemStyle.borderRadius = "xl";
+      gridItemStyle.borderRadius = "lg";
       buttonStyle.color = "inherit";
     }
 
     const isToday = isSameDay(day, new Date());
     if (isToday && !isInRange && !isInitial && !isEnd) {
       buttonStyle.border = "1px solid";
-      // buttonStyle.fontWeight = "bold";
       buttonStyle.borderColor = "green.500";
       buttonStyle.color = "green.500";
     }
@@ -222,13 +221,8 @@ export function DateRange({
             />
           </HStack>
 
-          <Text
-            // fontWeight="semibold"
-            fontSize="md"
-            textTransform="capitalize"
-            letterSpacing="wide"
-          >
-            {format(currentDate, "MMMM yyyy")}
+          <Text fontSize="md" textTransform="capitalize" letterSpacing="wide">
+            {format(currentDate, "MMM yyyy")}
           </Text>
 
           <HStack spacing={1}>
@@ -271,6 +265,7 @@ export function DateRange({
             key={format(currentDate, "yyyy-MM")}
             templateColumns="repeat(7, 1fr)"
             gap={1}
+            justifyItems="center"
             textAlign="center"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -278,8 +273,8 @@ export function DateRange({
             transition={{ duration: 0.2 }}
           >
             {WEEK_DAYS.map((day) => (
-              <GridItem key={day} w="32px" h="32px">
-                <Text fontSize="xs" fontWeight="medium" color="gray.500">
+              <GridItem key={day} w="25px" h="25px">
+                <Text fontSize="10px" fontWeight="bold" color="gray.500">
                   {day}
                 </Text>
               </GridItem>
@@ -289,16 +284,15 @@ export function DateRange({
               return (
                 <GridItem
                   key={day.toString()}
-                  w="32px"
-                  h="32px"
+                  w="25px"
+                  h="25px"
                   {...gridItemStyle}
                 >
                   <Button
-                    w="100%"
-                    h="100%"
+                    w="full"
                     onClick={() => handleDateClick(day)}
-                    variant="ghost"
-                    size="sm"
+                    variant="unstyled"
+                    size="xs"
                     {...buttonStyle}
                   >
                     {format(day, "d")}

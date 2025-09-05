@@ -8,7 +8,7 @@ import {
   MenuOptionGroup,
   Portal,
 } from "@chakra-ui/react";
-import { IconChevronDown, IconChevronsDown } from "@tabler/icons-react";
+import { IconChevronsDown } from "@tabler/icons-react";
 
 export default function TypeSelect() {
   return (
@@ -18,7 +18,6 @@ export default function TypeSelect() {
         variant="unstyled"
         as={Button}
         leftIcon={<IconChevronsDown color={_colors.red[500]} size={12} />}
-        rightIcon={<IconChevronDown size={12} />}
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"

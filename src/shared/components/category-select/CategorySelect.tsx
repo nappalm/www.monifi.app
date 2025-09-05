@@ -8,7 +8,7 @@ import {
   MenuOptionGroup,
   Portal,
 } from "@chakra-ui/react";
-import { IconChevronDown, IconTag } from "@tabler/icons-react";
+import { IconTag } from "@tabler/icons-react";
 
 export default function CategorySelect() {
   return (
@@ -18,7 +18,6 @@ export default function CategorySelect() {
         variant="unstyled"
         as={Button}
         leftIcon={<IconTag size={12} />}
-        rightIcon={<IconChevronDown size={12} />}
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"

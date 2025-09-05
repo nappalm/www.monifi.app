@@ -84,7 +84,7 @@ export function DatePicker({
     const buttonStyle: any = {
       color: "inherit",
       bg: "transparent",
-      fontWeight: "normal",
+      borderRadius: "lg",
       transition: "all 0.15s ease-in-out",
       _hover: { bg: "green.400", color: "white" },
     };
@@ -97,7 +97,6 @@ export function DatePicker({
     const isToday = isSameDay(day, new Date());
     if (isToday && !isSelected) {
       buttonStyle.border = "1px solid";
-      buttonStyle.fontWeight = "bold";
       buttonStyle.borderColor = "green.500";
       buttonStyle.color = "green.500";
     }
@@ -126,13 +125,8 @@ export function DatePicker({
             />
           </HStack>
 
-          <Text
-            fontWeight="semibold"
-            fontSize="md"
-            textTransform="capitalize"
-            letterSpacing="wide"
-          >
-            {format(currentDate, "MMMM yyyy")}
+          <Text fontSize="md" textTransform="capitalize" letterSpacing="wide">
+            {format(currentDate, "MMM yyyy")}
           </Text>
 
           <HStack spacing={1}>
@@ -158,6 +152,7 @@ export function DatePicker({
             key={format(currentDate, "yyyy-MM")}
             templateColumns="repeat(7, 1fr)"
             gap={1}
+            justifyItems="center"
             textAlign="center"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -165,8 +160,8 @@ export function DatePicker({
             transition={{ duration: 0.2 }}
           >
             {WEEK_DAYS.map((day) => (
-              <GridItem key={day} w="32px" h="32px">
-                <Text fontSize="xs" fontWeight="medium" color="gray.500">
+              <GridItem key={day} w="25px" h="25px">
+                <Text fontSize="11px" fontWeight="bold" color="gray.500">
                   {day}
                 </Text>
               </GridItem>
@@ -176,17 +171,16 @@ export function DatePicker({
               return (
                 <GridItem
                   key={day.toString()}
-                  w="32px"
-                  h="32px"
+                  w="25px"
+                  h="25px"
                   {...gridItemStyle}
                 >
                   <Button
-                    w="100%"
-                    h="100%"
                     onClick={() => handleDateClick(day)}
-                    variant="ghost"
-                    size="sm"
+                    variant="unstyled"
                     {...buttonStyle}
+                    size="xs"
+                    w="full"
                   >
                     {format(day, "d")}
                   </Button>
