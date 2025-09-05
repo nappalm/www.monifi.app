@@ -3,16 +3,66 @@ import {
   Input,
   Menu,
   MenuButton,
-  MenuItemOption,
+  MenuGroup,
+  MenuItem,
   MenuList,
-  MenuOptionGroup,
   Portal,
 } from "@chakra-ui/react";
 import { IconTag } from "@tabler/icons-react";
+import { useRef, useState } from "react";
+
+interface Category {
+  id: string;
+  name: string;
+}
+
+const initialCategories: Category[] = [
+  {
+    id: "1",
+    name: "Transporte",
+  },
+  {
+    id: "2",
+    name: "Comida",
+  },
+  {
+    id: "3",
+    name: "Finanzas",
+  },
+  {
+    id: "4",
+    name: "Control de gastos",
+  },
+];
 
 export default function CategorySelect() {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null,
+  );
+  const searchInputRef = useRef(null);
+
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const handleCreateCategory = () => {
+    const newCategory: Category = {
+      id: `${categories.length + 1}`,
+      name: searchTerm,
+    };
+    setCategories([...categories, newCategory]);
+    setSelectedCategory(newCategory);
+    setSearchTerm("");
+  };
+
+  const handleSelectCategory = (category: Category) => {
+    setSelectedCategory(category);
+  };
+
   return (
-    <Menu isLazy>
+    <Menu isLazy initialFocusRef={searchInputRef}>
       <MenuButton
         size="xs"
         variant="unstyled"
@@ -28,20 +78,35 @@ export default function CategorySelect() {
           boxShadow: "none",
         }}
       >
-        Category
+        {selectedCategory ? selectedCategory.name : "Category"}
       </MenuButton>
       <Portal>
         <MenuList>
-          <Input mb={1} placeholder="Search or create" />
-          <MenuOptionGroup>
-            <MenuItemOption>Category name</MenuItemOption>
-            <MenuItemOption>Category name</MenuItemOption>
-            <MenuItemOption>Category name</MenuItemOption>
-            <MenuItemOption>Category name</MenuItemOption>
-            <MenuItemOption>Category name</MenuItemOption>
-          </MenuOptionGroup>
+          <Input
+            ref={searchInputRef}
+            mb={1}
+            placeholder="Search or create"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <MenuGroup title="Categories">
+            {filteredCategories.map((category) => (
+              <MenuItem
+                key={category.id}
+                onClick={() => handleSelectCategory(category)}
+              >
+                {category.name}
+              </MenuItem>
+            ))}
+            {filteredCategories.length === 0 && searchTerm && (
+              <MenuItem onClick={handleCreateCategory}>
+                Create "{searchTerm}"
+              </MenuItem>
+            )}
+          </MenuGroup>
         </MenuList>
       </Portal>
     </Menu>
   );
 }
+
