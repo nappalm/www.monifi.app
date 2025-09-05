@@ -14,7 +14,17 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 
-export default function TableRowMenu() {
+type Props = {
+  onDisabled?: VoidFunction;
+  onSeeDetails?: VoidFunction;
+  onDelete?: VoidFunction;
+};
+
+export default function TableRowMenu({
+  onDisabled,
+  onSeeDetails,
+  onDelete,
+}: Props) {
   return (
     <Menu isLazy>
       <MenuButton
@@ -28,10 +38,18 @@ export default function TableRowMenu() {
       />
       <Portal>
         <MenuList>
-          <MenuItem icon={<IconSwipe size={16} />}>See details</MenuItem>
-          <MenuItem icon={<IconCancel size={16} />}>Disabled</MenuItem>
+          <MenuItem icon={<IconSwipe size={16} />} onClick={onSeeDetails}>
+            See details
+          </MenuItem>
+          <MenuItem icon={<IconCancel size={16} />} onClick={onDisabled}>
+            Disabled
+          </MenuItem>
           <MenuDivider />
-          <MenuItem icon={<IconTrash size={16} />} color="red.500">
+          <MenuItem
+            icon={<IconTrash size={16} />}
+            color="red.500"
+            onClick={onDelete}
+          >
             Delete transaction
           </MenuItem>
         </MenuList>
