@@ -6,9 +6,14 @@ import DatePickerSelect from "./DatePickerSelect";
 type Props = {
   data: any[];
   onDataChange: (data: any) => void;
+  onRemoveRow?: () => void;
 };
 
-export default function TransactionsTable({ data, onDataChange }: Props) {
+export default function TransactionsTable({
+  data,
+  onDataChange,
+  onRemoveRow,
+}: Props) {
   const columns = [
     {
       header: "",
@@ -71,12 +76,13 @@ export default function TransactionsTable({ data, onDataChange }: Props) {
     {
       header: "",
       accessor: "options",
+      isEditable: false,
       sx: {
         w: "10px",
         opacity: 0.5,
         p: 0,
       },
-      render: () => <TableRowMenu />,
+      render: () => <TableRowMenu onDelete={onRemoveRow} />,
     },
   ];
 
