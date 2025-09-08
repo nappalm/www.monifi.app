@@ -12,6 +12,7 @@ import {
 import { formatCurrency } from "@/shared/utils/formats";
 import { useInlineEditor } from "./useInlineEditor";
 import { transparentize } from "@chakra-ui/theme-tools";
+import { TableSkeletonRow } from "../table-skeleton-row";
 
 interface Column {
   header: string;
@@ -35,6 +36,7 @@ interface InlineEditorGridProps {
   data: any[];
   onDataChange: (newData: any[]) => void;
   onCellChange?: (change: CellChange) => void;
+  isLoading?: boolean;
 }
 
 export function InlineEditorGrid({
@@ -42,6 +44,7 @@ export function InlineEditorGrid({
   data,
   onDataChange,
   onCellChange,
+  isLoading = false,
 }: InlineEditorGridProps) {
   const { tableRef, activeCell, getCellProps, getInputProps } = useInlineEditor(
     { columns, data: data, onDataChange: onDataChange, onCellChange },
@@ -115,91 +118,101 @@ export function InlineEditorGrid({
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((row, rowIndex) => {
-            const isRowActive = activeCell?.row === rowIndex;
-            return (
-              <Tr
-                key={rowIndex} // Use rowIndex as key for the row
-                sx={{
-                  ...(isRowActive && {
-                    "& > td": {
-                      boxShadow: `inset 0 0 0 1px ${rowFocusBorderColor}`,
-                    },
-                  }),
-                }}
-              >
-                {columns.map((column, colIndex) => {
-                  const cellValue = row[column.accessor]; // Get value using accessor
-                  const isNumericColumn =
-                    column.accessor === "amount" || column.isAmount; // Check if column is numeric
-                  const isCellActive =
-                    activeCell?.row === rowIndex &&
-                    activeCell?.col === colIndex;
-                  return (
-                    <Td
-                      key={column.accessor} // Use accessor as key for the cell
-                      {...getCellProps(rowIndex, colIndex)}
-                      data-active={isCellActive}
-                      isNumeric={isNumericColumn} // Pass isNumeric based on column
-                      sx={{
-                        outline: "none",
-                        cursor: "cell",
-                        position: "relative",
-                        fontFamily: "Roboto Mono",
-
-                        "&::after": {
-                          content: '""',
-                          position: "absolute",
-                          inset: 0,
-                          borderRadius: "md",
-                          border: "1px solid",
-                          borderColor: "cyan.500",
-                          background: transparentize("cyan.500", 0.15),
-                          zIndex: 1,
-                          pointerEvents: "none",
-
-                          opacity: 0,
-                          transform: "scale(0.95)",
-                          boxShadow: `0 0 0px ${transparentize("cyan.500", 0.5)}`,
-                          transition:
-                            "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
-                        },
-
-                        "&:hover::after, &[data-active='true']::after": {
-                          opacity: 1,
-                          transform: "scale(1)",
-                          boxShadow: `0 0 15px 3px ${transparentize("cyan.500", 0.7)}`,
-                        },
-
-                        "> *": {
+          {isLoading ? (
+            <TableSkeletonRow rows={1} cols={columns.length} />
+          ) : (
+            data.map((row, rowIndex) => {
+              const isRowActive = activeCell?.row === rowIndex;
+              return (
+                <Tr
+                  key={rowIndex}
+                  sx={{
+                    ...(isRowActive && {
+                      "& > td": {
+                        boxShadow: `inset 0 0 0 1px ${rowFocusBorderColor}`,
+                      },
+                    }),
+                  }}
+                >
+                  {columns.map((column, colIndex) => {
+                    const cellValue = row[column.accessor]; // Get value using accessor
+                    const isNumericColumn =
+                      column.accessor === "amount" || column.isAmount; // Check if column is numeric
+                    const isCellActive =
+                      activeCell?.row === rowIndex &&
+                      activeCell?.col === colIndex;
+                    return (
+                      <Td
+                        key={column.accessor} // Use accessor as key for the cell
+                        {...getCellProps(rowIndex, colIndex)}
+                        data-active={isCellActive}
+                        isNumeric={isNumericColumn} // Pass isNumeric based on column
+                        sx={{
+                          outline: "none",
+                          cursor: "cell",
                           position: "relative",
-                          zIndex: 2,
-                        },
+                          fontFamily: "Roboto Mono",
 
-                        visibility:
-                          inputProps.shouldShowInput &&
-                          activeCell?.row === rowIndex &&
-                          activeCell?.col === colIndex
-                            ? "hidden"
-                            : "visible",
-                        ...column.sx,
-                      }}
-                    >
-                      {(() => {
-                        if (column.render) {
-                          return column.render(cellValue, row);
-                        }
-                        if (column.isAmount) {
-                          return formatCurrency(cellValue || 0, "USD");
-                        }
-                        return cellValue;
-                      })()}{" "}
-                    </Td>
-                  );
-                })}
-              </Tr>
-            );
-          })}
+                          "&::after": {
+                            content: '""',
+                            position: "absolute",
+                            inset: 0,
+                            borderRadius: "md",
+                            border: "1px solid",
+                            borderColor: "cyan.500",
+                            background: transparentize("cyan.500", 0.15),
+                            zIndex: 1,
+                            pointerEvents: "none",
+
+                            opacity: 0,
+                            transform: "scale(0.95)",
+                            boxShadow: `0 0 0px ${transparentize(
+                              "cyan.500",
+                              0.5,
+                            )}`,
+                            transition:
+                              "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
+                          },
+
+                          "&:hover::after, &[data-active='true']::after": {
+                            opacity: 1,
+                            transform: "scale(1)",
+                            boxShadow: `0 0 15px 3px ${transparentize(
+                              "cyan.500",
+                              0.7,
+                            )}`,
+                          },
+
+                          "> *": {
+                            position: "relative",
+                            zIndex: 2,
+                          },
+
+                          visibility:
+                            inputProps.shouldShowInput &&
+                            activeCell?.row === rowIndex &&
+                            activeCell?.col === colIndex
+                              ? "hidden"
+                              : "visible",
+                          ...column.sx,
+                        }}
+                      >
+                        {(() => {
+                          if (column.render) {
+                            return column.render(cellValue, row);
+                          }
+                          if (column.isAmount) {
+                            return formatCurrency(cellValue || 0, "USD");
+                          }
+                          return cellValue;
+                        })()}{" "}
+                      </Td>
+                    );
+                  })}
+                </Tr>
+              );
+            })
+          )}
         </Tbody>
       </Table>
     </TableContainer>
