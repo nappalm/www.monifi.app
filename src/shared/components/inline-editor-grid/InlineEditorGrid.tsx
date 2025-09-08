@@ -13,31 +13,7 @@ import { formatCurrency } from "@/shared/utils/formats";
 import { useInlineEditor } from "./useInlineEditor";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { TableSkeletonRow } from "../table-skeleton-row";
-
-interface Column {
-  header: string;
-  accessor: string;
-  render?: (value: any, row: any) => React.ReactNode;
-  isEditable?: boolean;
-  isAmount?: boolean;
-  sx?: any;
-}
-
-export interface CellChange {
-  value: any;
-  previousValue: any;
-  rowIndex: number;
-  columnAccessor: string;
-  row: any;
-}
-
-interface InlineEditorGridProps {
-  columns: Column[];
-  data: any[];
-  onDataChange: (newData: any[]) => void;
-  onCellChange?: (change: CellChange) => void;
-  isLoading?: boolean;
-}
+import type { InlineEditorGridProps } from "./types";
 
 export function InlineEditorGrid({
   columns,
@@ -46,9 +22,13 @@ export function InlineEditorGrid({
   onCellChange,
   isLoading = false,
 }: InlineEditorGridProps) {
-  const { tableRef, activeCell, getCellProps, getInputProps } = useInlineEditor(
-    { columns, data: data, onDataChange: onDataChange, onCellChange },
-  );
+  const { tableRef, activeCell, getCellProps, getInputProps, updateCell } =
+    useInlineEditor({
+      columns,
+      data: data,
+      onDataChange: onDataChange,
+      onCellChange,
+    });
 
   const inputProps = getInputProps();
 
@@ -199,7 +179,12 @@ export function InlineEditorGrid({
                       >
                         {(() => {
                           if (column.render) {
-                            return column.render(cellValue, row);
+                            return column.render(
+                              cellValue,
+                              row,
+                              (newValue: any) =>
+                                updateCell(rowIndex, colIndex, newValue),
+                            );
                           }
                           if (column.isAmount) {
                             return formatCurrency(cellValue || 0, "USD");

@@ -1,22 +1,6 @@
-import { TableCellProps } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-
-interface Column {
-  header: string;
-  accessor: string;
-  render?: (value: any, row: any) => React.ReactNode;
-  isEditable?: boolean;
-  sx?: TableCellProps;
-  isAmount?: boolean;
-}
-
-interface UseInlineEditorProps {
-  columns: Column[];
-  data: any[];
-  onDataChange: (newData: any[]) => void;
-  onCellChange?: (change: any) => void;
-}
+import type { UseInlineEditorProps } from "./types";
 
 export function useInlineEditor({
   columns,
@@ -98,6 +82,36 @@ export function useInlineEditor({
       onDataChange,
       onCellChange,
     ],
+  );
+
+  const updateCell = useCallback(
+    (rowIndex: number, colIndex: number, value: any) => {
+      const column = columns[colIndex];
+      if (!column) return;
+
+      const accessor = column.accessor;
+      const previousValue = data[rowIndex][accessor];
+
+      if (String(previousValue) !== String(value)) {
+        const newData = data.map((r, i) => {
+          if (i === rowIndex) {
+            return { ...r, [accessor]: value };
+          }
+          return r;
+        });
+
+        onDataChange(newData);
+
+        onCellChange?.({
+          value: value,
+          previousValue,
+          rowIndex,
+          columnAccessor: accessor,
+          row: newData[rowIndex],
+        });
+      }
+    },
+    [columns, data, onDataChange, onCellChange],
   );
 
   const handleKeyDown = useCallback(
@@ -370,5 +384,6 @@ export function useInlineEditor({
     isDragging,
     dragStartCell,
     dragEndCell,
+    updateCell,
   };
 }
