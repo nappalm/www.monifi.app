@@ -90,6 +90,7 @@ export default function TransactionsTable({
     <InlineEditorGrid
       columns={columns}
       data={data}
+      isLoading={false}
       onDataChange={onDataChange}
     />
   );
