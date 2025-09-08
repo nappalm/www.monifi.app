@@ -4,6 +4,7 @@ import { useState } from "react";
 import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
+import { TransactionFilters } from "../hooks/useTransactionFilters";
 
 export default function TransactionsPage() {
   const initialData = [
@@ -59,6 +60,7 @@ export default function TransactionsPage() {
 
   const [tableData, setTableData] = useState(initialData);
   const [, setDateRange] = useState<[string, string] | null>(null);
+  const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
 
   const handleNewRow = () => {
     const newRow = {
@@ -81,7 +83,7 @@ export default function TransactionsPage() {
       <Heading size="lg">Transactions</Heading>
       <HStack justifyContent="space-between">
         <HStack gap="1px">
-          <FilterButton />
+          <FilterButton filters={filters} onChange={setFilters} />
           <FilterDate onChange={(i, e) => setDateRange([i, e])} />
         </HStack>
         <Button

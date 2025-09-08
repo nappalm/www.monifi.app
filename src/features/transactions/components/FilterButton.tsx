@@ -20,6 +20,10 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { useState, useMemo, useRef, useEffect } from "react";
+import {
+  TransactionFilters,
+  useTransactionFilters,
+} from "../hooks/useTransactionFilters";
 
 type View = "main" | "category" | "account" | "type";
 
@@ -46,26 +50,39 @@ const optionsMap = {
   type: typeOptions,
 };
 
-export default function FilterButton() {
+interface FilterButtonProps {
+  filters: Partial<TransactionFilters>;
+  onChange: (filters: TransactionFilters) => void;
+}
+
+export default function FilterButton({ filters, onChange }: FilterButtonProps) {
   const [view, setView] = useState<View>("main");
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedAccounts, setSelectedAccounts] = useState<string[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const {
+    filters: appliedFilters,
+    setCategories,
+    setAccounts,
+    setTypes,
+    clearFilters,
+  } = useTransactionFilters(filters);
+
+  useEffect(() => {
+    onChange(appliedFilters);
+  }, [appliedFilters, onChange]);
 
   useEffect(() => {
     if (view !== "main") {
       setTimeout(() => {
         searchInputRef.current?.focus();
-      }, 100); // Focus after a short delay to ensure input is rendered
+      }, 100);
     }
   }, [view]);
 
   const handleViewChange = (newView: View) => {
     setView(newView);
-    setSearchTerm(""); // Reset search term when changing views
+    setSearchTerm("");
   };
 
   const handleClose = () => {
@@ -73,16 +90,10 @@ export default function FilterButton() {
     setSearchTerm("");
   };
 
-  const handleClearFilters = () => {
-    setSelectedCategories([]);
-    setSelectedAccounts([]);
-    setSelectedTypes([]);
-  };
-
   const areFiltersActive =
-    selectedCategories.length > 0 ||
-    selectedAccounts.length > 0 ||
-    selectedTypes.length > 0;
+    appliedFilters.categories.length > 0 ||
+    appliedFilters.accounts.length > 0 ||
+    appliedFilters.types.length > 0;
 
   const currentOptions = useMemo(() => {
     if (view === "main") return [];
@@ -100,27 +111,31 @@ export default function FilterButton() {
             icon={<IconTags size={16} />}
           >
             Category{" "}
-            {selectedCategories.length > 0 && `(${selectedCategories.length})`}
+            {appliedFilters.categories.length > 0 &&
+              `(${appliedFilters.categories.length})`}
           </MenuItem>
           <MenuItem
             onClick={() => handleViewChange("account")}
             icon={<IconMoneybag size={16} />}
           >
             Account{" "}
-            {selectedAccounts.length > 0 && `(${selectedAccounts.length})`}
+            {appliedFilters.accounts.length > 0 &&
+              `(${appliedFilters.accounts.length})`}
           </MenuItem>
           <MenuItem
             onClick={() => handleViewChange("type")}
             icon={<IconArrowDownDashed size={16} />}
           >
-            Type {selectedTypes.length > 0 && `(${selectedTypes.length})`}
+            Type{" "}
+            {appliedFilters.types.length > 0 &&
+              `(${appliedFilters.types.length})`}
           </MenuItem>
 
           {areFiltersActive && (
             <>
               <MenuDivider />
               <MenuItem
-                onClick={handleClearFilters}
+                onClick={clearFilters}
                 color="red.500"
                 icon={<IconX size={16} />}
               >
@@ -138,15 +153,15 @@ export default function FilterButton() {
     let onChange: (value: any) => void;
 
     if (view === "category") {
-      value = selectedCategories;
-      onChange = setSelectedCategories;
+      value = appliedFilters.categories;
+      onChange = setCategories;
     } else if (view === "account") {
-      value = selectedAccounts;
-      onChange = setSelectedAccounts;
+      value = appliedFilters.accounts;
+      onChange = setAccounts;
     } else {
       // type
-      value = selectedTypes;
-      onChange = setSelectedTypes;
+      value = appliedFilters.types;
+      onChange = setTypes;
     }
 
     return (
