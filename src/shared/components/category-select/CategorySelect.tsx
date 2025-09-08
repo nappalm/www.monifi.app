@@ -1,5 +1,7 @@
 import {
   Button,
+  Flex,
+  IconButton,
   Input,
   Menu,
   MenuButton,
@@ -7,8 +9,9 @@ import {
   MenuItem,
   MenuList,
   Portal,
+  Text,
 } from "@chakra-ui/react";
-import { IconTag } from "@tabler/icons-react";
+import { IconTag, IconTrash } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 interface Category {
@@ -61,6 +64,19 @@ export default function CategorySelect() {
     setSelectedCategory(category);
   };
 
+  const handleDeleteCategory = (
+    e: React.MouseEvent,
+    categoryToDelete: Category,
+  ) => {
+    e.stopPropagation();
+    setCategories(
+      categories.filter((category) => category.id !== categoryToDelete.id),
+    );
+    if (selectedCategory?.id === categoryToDelete.id) {
+      setSelectedCategory(null);
+    }
+  };
+
   return (
     <Menu isLazy initialFocusRef={searchInputRef}>
       <MenuButton
@@ -95,7 +111,16 @@ export default function CategorySelect() {
                 key={category.id}
                 onClick={() => handleSelectCategory(category)}
               >
-                {category.name}
+                <Flex justify="space-between" align="center" w="full">
+                  <Text>{category.name}</Text>
+                  <IconButton
+                    aria-label="delete category"
+                    icon={<IconTrash size={16} />}
+                    size="xs"
+                    variant="ghost"
+                    onClick={(e) => handleDeleteCategory(e, category)}
+                  />
+                </Flex>
               </MenuItem>
             ))}
             {filteredCategories.length === 0 && searchTerm && (
