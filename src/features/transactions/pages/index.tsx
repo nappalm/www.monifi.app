@@ -9,6 +9,7 @@ import { TransactionFilters } from "../hooks/useTransactionFilters";
 export default function TransactionsPage() {
   const initialData = [
     {
+      id: 1,
       rowNumber: "#1",
       icon: "down",
       iconColor: "red.500",
@@ -21,6 +22,7 @@ export default function TransactionsPage() {
       options: null,
     },
     {
+      id: 2,
       rowNumber: "#2",
       icon: "down",
       iconColor: "red.500",
@@ -33,6 +35,7 @@ export default function TransactionsPage() {
       options: null,
     },
     {
+      id: 3,
       rowNumber: "#3",
       icon: "down",
       iconColor: "red.500",
@@ -45,6 +48,7 @@ export default function TransactionsPage() {
       options: null,
     },
     {
+      id: 4,
       rowNumber: "#4",
       icon: "up",
       iconColor: "cyan.500",
@@ -64,6 +68,7 @@ export default function TransactionsPage() {
 
   const handleNewRow = () => {
     const newRow = {
+      id: tableData.length + 1,
       rowNumber: `#${tableData.length + 1}`,
       icon: "down",
       iconColor: "red.500",
@@ -99,3 +104,4 @@ export default function TransactionsPage() {
     </Stack>
   );
 }
+

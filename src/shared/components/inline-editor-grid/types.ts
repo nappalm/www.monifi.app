@@ -11,6 +11,7 @@ export interface Column {
   isEditable?: boolean;
   isAmount?: boolean;
   sx?: TableCellProps;
+  isVisible?: boolean;
 }
 
 export interface CellChange {

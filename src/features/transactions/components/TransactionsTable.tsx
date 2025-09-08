@@ -21,6 +21,11 @@ export default function TransactionsTable({
 }: Props) {
   const columns: Column[] = [
     {
+      accessor: "id",
+      header: "ID",
+      isVisible: false,
+    },
+    {
       header: "",
       accessor: "rowNumber",
       isEditable: false,
@@ -87,7 +92,9 @@ export default function TransactionsTable({
         opacity: 0.5,
         p: 0,
       },
-      render: () => <TableRowMenu onDelete={onRemoveRow} />,
+      render: (_, row) => (
+        <TableRowMenu onDelete={() => console.log({ row })} />
+      ),
     },
   ];
 

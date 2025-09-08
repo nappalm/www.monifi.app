@@ -22,9 +22,10 @@ export function InlineEditorGrid({
   onCellChange,
   isLoading = false,
 }: InlineEditorGridProps) {
+  const visibleColumns = columns.filter((c) => c.isVisible !== false);
   const { tableRef, activeCell, getCellProps, getInputProps, updateCell } =
     useInlineEditor({
-      columns,
+      columns: visibleColumns,
       data: data,
       onDataChange: onDataChange,
       onCellChange,
@@ -87,7 +88,7 @@ export function InlineEditorGrid({
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
-            {columns.map((column) => (
+            {visibleColumns.map((column) => (
               <Th
                 key={column.accessor}
                 isNumeric={column.accessor === "amount" || column.isAmount}
@@ -99,7 +100,7 @@ export function InlineEditorGrid({
         </Thead>
         <Tbody>
           {isLoading ? (
-            <TableSkeletonRow rows={1} cols={columns.length} />
+            <TableSkeletonRow rows={1} cols={visibleColumns.length} />
           ) : (
             data.map((row, rowIndex) => {
               const isRowActive = activeCell?.row === rowIndex;
@@ -114,7 +115,7 @@ export function InlineEditorGrid({
                     }),
                   }}
                 >
-                  {columns.map((column, colIndex) => {
+                  {visibleColumns.map((column, colIndex) => {
                     const cellValue = row[column.accessor]; // Get value using accessor
                     const isNumericColumn =
                       column.accessor === "amount" || column.isAmount; // Check if column is numeric
