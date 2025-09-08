@@ -71,7 +71,7 @@ export default function BudgetsTable({ onConfig }: Props) {
                   <MenuList>
                     <MenuItem
                       icon={<IconArrowRight size={16} />}
-                      color="green.500"
+                      color="cyan.500"
                       onClick={() => onConfig(1)}
                     >
                       Config budget

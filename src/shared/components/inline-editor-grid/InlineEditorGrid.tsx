@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { formatCurrency } from "@/shared/utils/formats";
 import { useInlineEditor } from "./useInlineEditor";
+import { transparentize } from "@chakra-ui/theme-tools";
 
 interface Column {
   header: string;
@@ -53,7 +54,7 @@ export function InlineEditorGrid({
     opacity: 1,
     transform: "scale(1)",
     border: "1px solid",
-    borderColor: "green.500",
+    borderColor: "cyan.500",
     background: "rgba(107,198,124,0.15)",
     borderRadius: "md",
   };
@@ -152,14 +153,14 @@ export function InlineEditorGrid({
                           inset: 0,
                           borderRadius: "md",
                           border: "1px solid",
-                          borderColor: "green.500",
-                          background: "rgba(107,198,124,0.15)", // overlay semitransparente
+                          borderColor: "cyan.500",
+                          background: transparentize("cyan.500", 0.15),
                           zIndex: 1,
                           pointerEvents: "none",
 
                           opacity: 0,
                           transform: "scale(0.95)",
-                          boxShadow: "0 0 0px rgba(107,198,124,0.5)", // glow inicial
+                          boxShadow: `0 0 0px ${transparentize("cyan.500", 0.5)}`,
                           transition:
                             "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
                         },
@@ -167,7 +168,7 @@ export function InlineEditorGrid({
                         "&:hover::after, &[data-active='true']::after": {
                           opacity: 1,
                           transform: "scale(1)",
-                          boxShadow: "0 0 15px 3px rgba(107,198,124,0.7)", // glow intenso
+                          boxShadow: `0 0 15px 3px ${transparentize("cyan.500", 0.7)}`,
                         },
 
                         "> *": {

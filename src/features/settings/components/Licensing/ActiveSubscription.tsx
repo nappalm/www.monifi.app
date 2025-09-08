@@ -34,7 +34,7 @@ export default function ActiveSubscription({
             </Stack>
           </HStack>
           {activeSubscriptionName === FREE_PLAN && (
-            <Button colorScheme="blue" size="sm" onClick={onUpgrade}>
+            <Button colorScheme="cyan" size="sm" onClick={onUpgrade}>
               Upgrade plan
             </Button>
           )}
@@ -52,7 +52,7 @@ export default function ActiveSubscription({
             You can cancel your subscription at any time.
             <Text
               as="span"
-              color="blue.500"
+              color="cyan.500"
               mx={1}
               cursor="pointer"
               onClick={onCancel}

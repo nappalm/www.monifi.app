@@ -74,7 +74,7 @@ export default function PaymentInformation() {
         <CardBody>
           <Button
             size="sm"
-            colorScheme="blue"
+            colorScheme="cyan"
             onClick={newPaymentMethodDrawer.onOpen}
           >
             Ad new payment method

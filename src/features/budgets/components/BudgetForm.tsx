@@ -39,7 +39,7 @@ export default function BudgetForm({ isOpen = false, onClose }: Props) {
           </FormProvider>
         </DrawerBody>
         <DrawerFooter>
-          <Button w="full" colorScheme="green" color="#000">
+          <Button w="full" colorScheme="cyan" color="#000">
             Done
           </Button>
         </DrawerFooter>

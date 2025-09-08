@@ -24,7 +24,7 @@ export default function SignUpPage() {
               features of our platform.
             </Text>
             <Link to={AUTH_PATHS.signIn}>
-              <Button w="full" colorScheme="blue">
+              <Button w="full" colorScheme="cyan">
                 Sign In
               </Button>
             </Link>

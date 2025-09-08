@@ -53,7 +53,7 @@ export default function ChangePasswordForm() {
         <Button
           type="submit"
           w="fit-content"
-          colorScheme="blue"
+          colorScheme="cyan"
           isLoading={isPending}
         >
           Update password

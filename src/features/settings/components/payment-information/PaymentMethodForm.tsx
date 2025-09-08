@@ -122,7 +122,7 @@ export default function PaymentMethodForm({
           type="submit"
           isDisabled={!stripe || combinedIsLoading || !isCardComplete}
           isLoading={combinedIsLoading}
-          colorScheme="blue"
+          colorScheme="cyan"
         >
           Add payment method
         </Button>

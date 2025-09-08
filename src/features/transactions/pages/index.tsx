@@ -46,7 +46,7 @@ export default function TransactionsPage() {
     {
       rowNumber: "#4",
       icon: "up",
-      iconColor: "green.500",
+      iconColor: "cyan.500",
       date: "Jun 13, 2025",
       category: "Plans",
       account: "BBVA credit card",
@@ -85,8 +85,7 @@ export default function TransactionsPage() {
           <FilterDate onChange={(i, e) => setDateRange([i, e])} />
         </HStack>
         <Button
-          colorScheme="green"
-          color="#000"
+          colorScheme="cyan"
           size="sm"
           leftIcon={<IconArrowBarToDownDashed size={16} />}
           onClick={handleNewRow}

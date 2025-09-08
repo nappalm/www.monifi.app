@@ -37,7 +37,7 @@ export default function RecoveryForm({ onSubmit, isLoading }: Props) {
       >
         <Stack>
           <RHFInput name="email" label="Email" autoFocus />
-          <Button type="submit" colorScheme="blue" isLoading={isLoading}>
+          <Button type="submit" colorScheme="cyan" isLoading={isLoading}>
             Send Recovery Email
           </Button>
         </Stack>
@@ -45,7 +45,7 @@ export default function RecoveryForm({ onSubmit, isLoading }: Props) {
 
       <Text mt={4} textAlign="center">
         Remembered your password?{" "}
-        <Link as={RouterLink} to={AUTH_PATHS.signIn} color="blue.500">
+        <Link as={RouterLink} to={AUTH_PATHS.signIn} color="cyan.500">
           Sign In
         </Link>
       </Text>

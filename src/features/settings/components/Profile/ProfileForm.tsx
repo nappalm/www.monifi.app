@@ -44,7 +44,7 @@ export default function ProfileForm({ onSubmit, isLoading = false }: Props) {
         <Button
           type="submit"
           w="fit-content"
-          colorScheme="blue"
+          colorScheme="cyan"
           isLoading={isLoading}
         >
           Update profile

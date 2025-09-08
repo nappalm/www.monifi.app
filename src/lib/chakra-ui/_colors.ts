@@ -24,16 +24,16 @@ export default {
     900: "#180828",
   },
   cyan: {
-    50: "#F0FCFF",
-    100: "#E6FAFE",
-    200: "#D7F8FE",
-    300: "#C3F4FD",
-    400: "#A5EEFD",
-    500: "#7EE7FC",
-    600: "#06B7DB",
-    700: "#09AACD",
-    800: "#0E8AAA",
-    900: "#053B48",
+    50: "#E6F8FA", // muy claro (fondos sutiles)
+    100: "#C0E9EE",
+    200: "#9BD9E2",
+    300: "#75C9D6",
+    400: "#48B9C9", // hover suave
+    500: "#309CA8", // base principal
+    600: "#1E6C95", // hover/active
+    700: "#125866", // strong accent
+    800: "#0A2E38", // background intenso
+    900: "#01080A", // negro azulado profundo
   },
   red: {
     50: "#FEE7EF",

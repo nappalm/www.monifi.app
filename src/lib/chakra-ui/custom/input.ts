@@ -90,7 +90,7 @@ const sizes = {
 function getDefaults(props: Record<string, any>) {
   const { focusBorderColor: fc, errorBorderColor: ec } = props;
   return {
-    focusBorderColor: fc || mode("green.500", "green.500")(props),
+    focusBorderColor: fc || mode("cyan.500", "cyan.500")(props),
     errorBorderColor: ec || mode("red.500", "red.500")(props),
   };
 }

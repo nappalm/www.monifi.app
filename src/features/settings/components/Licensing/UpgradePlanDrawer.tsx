@@ -67,7 +67,7 @@ export default function UpgradePlanDrawer({
           <List spacing={2}>
             {LICENSING_PRO_FEATURES.map((item) => (
               <ListItem key={item.label}>
-                <LicensingFeatureIcon type={item.type} color="blue.500" />
+                <LicensingFeatureIcon type={item.type} color="cyan.500" />
                 {item.label}
               </ListItem>
             ))}
@@ -93,7 +93,7 @@ export default function UpgradePlanDrawer({
               <Link
                 as={RouterLink}
                 to={SETTINGS_PATHS.paymentInformation}
-                color="blue.500"
+                color="cyan.500"
                 ml={1}
               >
                 <Text as="span">You can add one here.</Text>
@@ -102,7 +102,7 @@ export default function UpgradePlanDrawer({
 
             <Button
               w="full"
-              colorScheme="blue"
+              colorScheme="cyan"
               isDisabled={!paymentMethodId}
               onClick={handleUpgrade}
               isLoading={isLoading}

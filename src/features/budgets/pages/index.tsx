@@ -28,7 +28,7 @@ export default function Budgets() {
           </Text>
         </Stack>
         <Button
-          colorScheme="green"
+          colorScheme="cyan"
           size="sm"
           color="#000"
           leftIcon={<IconArrowBarToDownDashed size={16} />}

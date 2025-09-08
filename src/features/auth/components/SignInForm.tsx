@@ -42,11 +42,11 @@ export default function SignInForm({
           <RHFInput name="email" label="Email" />
           <RHFInput name="password" label="Password" type="password" />
           <HStack justify="flex-end">
-            <Link as={RouterLink} to={AUTH_PATHS.recovery} color="blue.500">
+            <Link as={RouterLink} to={AUTH_PATHS.recovery} color="cyan.500">
               Recovery password
             </Link>
           </HStack>
-          <Button type="submit" colorScheme="blue" isLoading={isLoading}>
+          <Button type="submit" colorScheme="cyan" isLoading={isLoading}>
             Submit
           </Button>
         </Stack>
@@ -67,7 +67,7 @@ export default function SignInForm({
       </Stack>
       <Text mt={4} textAlign="center">
         Don't have an account?{" "}
-        <Link as={RouterLink} to={AUTH_PATHS.signUp} color="blue.500">
+        <Link as={RouterLink} to={AUTH_PATHS.signUp} color="cyan.500">
           Sign Up
         </Link>
       </Text>

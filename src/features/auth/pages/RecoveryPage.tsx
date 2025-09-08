@@ -18,7 +18,7 @@ export default function RecoveryPage() {
               email to restore your account
             </Text>
             <Link to={AUTH_PATHS.signIn}>
-              <Button colorScheme="blue">Go to sign in</Button>
+              <Button colorScheme="cyan">Go to sign in</Button>
             </Link>
           </Stack>
         </Container>

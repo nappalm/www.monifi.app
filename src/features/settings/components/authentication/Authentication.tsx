@@ -19,7 +19,7 @@ export default function Authentication() {
                 <Stack gap={0}>
                   <HStack>
                     <Text fontSize="lg">Email and Password</Text>
-                    <Tag colorScheme="blue">Active</Tag>
+                    <Tag colorScheme="cyan">Active</Tag>
                   </HStack>
                   <Text color="gray.500">
                     Authenticate with your credentials
@@ -41,7 +41,7 @@ export default function Authentication() {
                 <Stack gap={0}>
                   <HStack>
                     <Text fontSize="lg">Google</Text>
-                    <Tag colorScheme="blue">Active</Tag>
+                    <Tag colorScheme="cyan">Active</Tag>
                   </HStack>
                   <Text color="gray.500">Authenticate with google</Text>
                 </Stack>

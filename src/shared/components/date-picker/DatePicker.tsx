@@ -86,19 +86,19 @@ export function DatePicker({
       bg: "transparent",
       borderRadius: "lg",
       transition: "all 0.15s ease-in-out",
-      _hover: { bg: "green.400", color: "white" },
+      _hover: { bg: "cyan.400", color: "white" },
     };
 
     if (isSelected) {
-      buttonStyle.bg = "green.500";
+      buttonStyle.bg = "cyan.500";
       buttonStyle.color = "white";
     }
 
     const isToday = isSameDay(day, new Date());
     if (isToday && !isSelected) {
       buttonStyle.border = "1px solid";
-      buttonStyle.borderColor = "green.500";
-      buttonStyle.color = "green.500";
+      buttonStyle.borderColor = "cyan.500";
+      buttonStyle.color = "cyan.500";
     }
 
     return { gridItemStyle, buttonStyle };

@@ -151,7 +151,7 @@ export function DateRange({
     }
   };
 
-  const rangeBg = useColorModeValue("green.100", "green.700");
+  const rangeBg = useColorModeValue("cyan.100", "cyan.700");
 
   const getDayStyle = (day: Date) => {
     const { initial_date, end_date } = selection;
@@ -172,17 +172,17 @@ export function DateRange({
       bg: "transparent",
       borderRadius: "lg",
       transition: "all 0.15s ease-in-out",
-      _hover: { bg: "green.400", color: "white" },
+      _hover: { bg: "cyan.400", color: "white" },
     };
 
     if (isSingleDayRange) {
-      buttonStyle.bg = "green.500";
+      buttonStyle.bg = "cyan.500";
       buttonStyle.color = "white";
     } else if (isInitial) {
-      buttonStyle.bg = "green.500";
+      buttonStyle.bg = "cyan.500";
       buttonStyle.color = "white";
     } else if (isEnd) {
-      buttonStyle.bg = "green.500";
+      buttonStyle.bg = "cyan.500";
       buttonStyle.color = "white";
     } else if (isInRange) {
       gridItemStyle.bg = rangeBg;
@@ -193,8 +193,8 @@ export function DateRange({
     const isToday = isSameDay(day, new Date());
     if (isToday && !isInRange && !isInitial && !isEnd) {
       buttonStyle.border = "1px solid";
-      buttonStyle.borderColor = "green.500";
-      buttonStyle.color = "green.500";
+      buttonStyle.borderColor = "cyan.500";
+      buttonStyle.color = "cyan.500";
     }
 
     return { gridItemStyle, buttonStyle };

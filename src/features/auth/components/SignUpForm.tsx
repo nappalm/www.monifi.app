@@ -42,7 +42,7 @@ export default function SignUpForm({ onSubmit, isLoading }: Props) {
       </FormProvider>
       <Text mt={4} textAlign="center">
         Already have an account?{" "}
-        <Link as={RouterLink} to={AUTH_PATHS.signIn} color="blue.500">
+        <Link as={RouterLink} to={AUTH_PATHS.signIn} color="cyan.500">
           Sign In
         </Link>
       </Text>

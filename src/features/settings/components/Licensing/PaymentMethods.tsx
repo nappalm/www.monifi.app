@@ -54,7 +54,7 @@ export default function PaymentMethods({
       <CardFooter>
         <HStack justify="space-between" w="full" align="flex-start" gap={5}>
           <Stack>
-            <Text fontWeight="bold" color="blue.500">
+            <Text fontWeight="bold" color="cyan.500">
               {productDetail?.name}
             </Text>
             {productDetail?.description && (

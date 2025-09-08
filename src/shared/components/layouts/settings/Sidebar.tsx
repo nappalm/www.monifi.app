@@ -195,7 +195,7 @@ const Sidebar: FC = () => {
               position: "absolute",
               w: "4px",
               h: "70%",
-              bg: "blue.500",
+              bg: "cyan.500",
               left: -2,
               top: "10%",
               borderRadius: "full",
@@ -212,7 +212,7 @@ const Sidebar: FC = () => {
                   item.badge ? (
                     <Tag
                       size="sm"
-                      colorScheme={isFree ? "gray" : "blue"}
+                      colorScheme={isFree ? "gray" : "cyan"}
                       position="absolute"
                       right={2}
                       top="50%"

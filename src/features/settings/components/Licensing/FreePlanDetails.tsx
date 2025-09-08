@@ -32,7 +32,7 @@ export default function FreePlanDetails() {
           <List spacing={2}>
             {LICENSING_FREE_FEATURES.included.map((item) => (
               <ListItem key={item.label}>
-                <LicensingFeatureIcon type={item.type} color="blue.500" />
+                <LicensingFeatureIcon type={item.type} color="cyan.500" />
                 {item.label}
               </ListItem>
             ))}
