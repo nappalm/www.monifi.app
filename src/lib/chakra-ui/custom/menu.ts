@@ -15,6 +15,7 @@ const baseStyle = definePartsStyle((props) => ({
     boxShadow: "sm",
     borderRadius: "xl",
     overflow: "hidden",
+    fontFamily: "Roboto Mono",
   },
   item: {
     bg: "transparent",
