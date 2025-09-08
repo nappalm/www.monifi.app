@@ -20,7 +20,7 @@ export default function Topnavbar({
   onMenuClick,
   hideResponseMenu = false,
 }: Props) {
-  const bg = useColorModeValue("transparent", "gray.900");
+  const bg = useColorModeValue("transparent", "transparent");
   const borderColor = useColorModeValue("gray.200", "gray.800");
 
   return (
