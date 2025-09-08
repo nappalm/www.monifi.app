@@ -1,4 +1,9 @@
-import { AccountSelect, CategorySelect, InlineEditorGrid } from "@/shared";
+import {
+  AccountSelect,
+  CategorySelect,
+  Column,
+  InlineEditorGrid,
+} from "@/shared";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
 import DatePickerSelect from "./DatePickerSelect";
@@ -14,7 +19,7 @@ export default function TransactionsTable({
   onDataChange,
   onRemoveRow,
 }: Props) {
-  const columns = [
+  const columns: Column[] = [
     {
       header: "",
       accessor: "rowNumber",
