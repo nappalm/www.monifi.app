@@ -3,21 +3,38 @@ import {
   Button,
   Menu,
   MenuButton,
-  MenuItemOption,
+  MenuItem,
   MenuList,
-  MenuOptionGroup,
   Portal,
 } from "@chakra-ui/react";
-import { IconChevronsDown } from "@tabler/icons-react";
+import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
+import { useState } from "react";
+
+const types = [
+  {
+    value: "income",
+    label: "Income",
+    icon: <IconChevronsUp size={13} color={_colors.cyan[500]} />,
+    color: _colors.cyan[500],
+  },
+  {
+    value: "expense",
+    label: "Expense",
+    icon: <IconChevronsDown size={13} color={_colors.red[500]} />,
+    color: _colors.red[500],
+  },
+];
 
 export default function TypeSelect() {
+  const [type, setType] = useState("expense");
+  const selected = types.find((t) => t.value === type);
   return (
     <Menu isLazy>
       <MenuButton
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconChevronsDown color={_colors.red[500]} size={12} />}
+        leftIcon={selected?.icon}
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"
@@ -28,14 +45,20 @@ export default function TypeSelect() {
           boxShadow: "none",
         }}
       >
-        Expense
+        {selected?.label}
       </MenuButton>
       <Portal>
         <MenuList>
-          <MenuOptionGroup>
-            <MenuItemOption>Income</MenuItemOption>
-            <MenuItemOption>Expense</MenuItemOption>
-          </MenuOptionGroup>
+          {types.map((t) => (
+            <MenuItem
+              key={t.value}
+              icon={t.icon}
+              color={t.color}
+              onClick={() => setType(t.value)}
+            >
+              {t.label}
+            </MenuItem>
+          ))}
         </MenuList>
       </Portal>
     </Menu>
