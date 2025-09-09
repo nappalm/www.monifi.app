@@ -13,18 +13,18 @@ import { formatCurrency } from "@/shared/utils/formats";
 import { useInlineEditor } from "./useInlineEditor";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { TableSkeletonRow } from "../table-skeleton-row";
-import type { InlineEditorGridProps } from "./types";
+import type { DataRow, InlineEditorGridProps } from "./types";
 
-export function InlineEditorGrid({
+export function InlineEditorGrid<T extends DataRow>({
   columns,
   data,
   onDataChange,
   onCellChange,
   isLoading = false,
-}: InlineEditorGridProps) {
+}: InlineEditorGridProps<T>) {
   const visibleColumns = columns.filter((c) => c.isVisible !== false);
   const { tableRef, activeCell, getCellProps, getInputProps, updateCell } =
-    useInlineEditor({
+    useInlineEditor<T>({
       columns: visibleColumns,
       data: data,
       onDataChange: onDataChange,
@@ -90,8 +90,10 @@ export function InlineEditorGrid({
           <Tr>
             {visibleColumns.map((column) => (
               <Th
-                key={column.accessor}
-                isNumeric={column.accessor === "amount" || column.isAmount}
+                key={column.accessor as string}
+                isNumeric={
+                  (column.accessor as string) === "amount" || column.isAmount
+                }
               >
                 {column.header}
               </Th>
@@ -116,15 +118,15 @@ export function InlineEditorGrid({
                   }}
                 >
                   {visibleColumns.map((column, colIndex) => {
-                    const cellValue = row[column.accessor]; // Get value using accessor
+                    const cellValue = row[column.accessor as keyof T]; // Get value using accessor
                     const isNumericColumn =
-                      column.accessor === "amount" || column.isAmount; // Check if column is numeric
+                      (column.accessor as string) === "amount" || column.isAmount; // Check if column is numeric
                     const isCellActive =
                       activeCell?.row === rowIndex &&
                       activeCell?.col === colIndex;
                     return (
                       <Td
-                        key={column.accessor} // Use accessor as key for the cell
+                        key={column.accessor as string} // Use accessor as key for the cell
                         {...getCellProps(rowIndex, colIndex)}
                         data-active={isCellActive}
                         isNumeric={isNumericColumn} // Pass isNumeric based on column

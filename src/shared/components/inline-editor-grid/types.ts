@@ -1,11 +1,14 @@
 import type { TableCellProps } from "@chakra-ui/react";
 
-export interface Column {
+// T is the type for a single row of data
+export type DataRow = Record<string, any>;
+
+export interface Column<T extends DataRow> {
   header: string;
-  accessor: string;
+  accessor: keyof T | (string & {});
   render?: (
-    value: any,
-    row: any,
+    value: T[keyof T],
+    row: T,
     onChange: (newValue: any) => void,
   ) => React.ReactNode;
   isEditable?: boolean;
@@ -14,25 +17,26 @@ export interface Column {
   isVisible?: boolean;
 }
 
-export interface CellChange {
+export interface CellChange<T extends DataRow> {
   value: any;
   previousValue: any;
   rowIndex: number;
-  columnAccessor: string;
-  row: any;
+  columnAccessor: keyof T | (string & {});
+  row: T;
 }
 
-export interface InlineEditorGridProps {
-  columns: Column[];
-  data: any[];
-  onDataChange: (newData: any[]) => void;
-  onCellChange?: (change: CellChange) => void;
+export interface InlineEditorGridProps<T extends DataRow> {
+  columns: Column<T>[];
+  data: T[];
+  onDataChange: (newData: T[]) => void;
+  onCellChange?: (change: CellChange<T>) => void;
   isLoading?: boolean;
 }
 
-export interface UseInlineEditorProps {
-  columns: Column[];
-  data: any[];
-  onDataChange: (newData: any[]) => void;
-  onCellChange?: (change: CellChange) => void;
+export interface UseInlineEditorProps<T extends DataRow> {
+  columns: Column<T>[];
+  data: T[];
+  onDataChange: (newData: T[]) => void;
+  onCellChange?: (change: CellChange<T>) => void;
 }
+

@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import type { UseInlineEditorProps } from "./types";
+import type { DataRow, UseInlineEditorProps } from "./types";
 
-export function useInlineEditor({
+export function useInlineEditor<T extends DataRow>({
   columns,
   data,
   onDataChange,
   onCellChange,
-}: UseInlineEditorProps) {
+}: UseInlineEditorProps<T>) {
   const [activeCell, setActiveCell] = useState<{
     row: number;
     col: number;
@@ -34,7 +34,7 @@ export function useInlineEditor({
     (row: number, col: number) => {
       setActiveCell({ row, col });
       setIsEditing(true);
-      const accessor = columns[col].accessor;
+      const accessor = columns[col].accessor as keyof T;
       setInputValue(String(data[row][accessor]));
     },
     [data, columns],
@@ -45,7 +45,7 @@ export function useInlineEditor({
       if (isEditing && activeCell && update) {
         const { row: rowIndex, col: colIndex } = activeCell;
         const column = columns[colIndex];
-        const accessor = column.accessor;
+        const accessor = column.accessor as keyof T;
         const previousValue = data[rowIndex][accessor];
 
         let processedValue: any = inputValue;
@@ -89,7 +89,7 @@ export function useInlineEditor({
       const column = columns[colIndex];
       if (!column) return;
 
-      const accessor = column.accessor;
+      const accessor = column.accessor as keyof T;
       const previousValue = data[rowIndex][accessor];
 
       if (String(previousValue) !== String(value)) {
@@ -291,13 +291,13 @@ export function useInlineEditor({
       const startCol = Math.min(dragStartCell.col, dragEndCell.col);
       const endCol = Math.max(dragStartCell.col, dragEndCell.col);
 
-      const sourceValue =
-        data[dragStartCell.row][columns[dragStartCell.col].accessor];
+      const sourceAccessor = columns[dragStartCell.col].accessor as keyof T;
+      const sourceValue = data[dragStartCell.row][sourceAccessor];
       const newData = data.map((row) => ({ ...row })); // Create a deep copy of objects
 
       for (let r = startRow; r <= endRow; r++) {
         for (let c = startCol; c <= endCol; c++) {
-          const accessor = columns[c].accessor;
+          const accessor = columns[c].accessor as keyof T;
           newData[r][accessor] = sourceValue;
         }
       }
