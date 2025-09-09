@@ -6,65 +6,10 @@ import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
 import { TransactionFilters } from "../hooks/useTransactionFilters";
 import { DetailsDrawer } from "../components/DetailsDrawer";
+import { tableMock } from "../__mocks__/table-mock";
 
 export default function TransactionsPage() {
-  const initialData = [
-    {
-      id: 1,
-      rowNumber: "#1",
-      icon: "down",
-      iconColor: "red.500",
-      date: "Jun 13, 2025",
-      category: "Plans",
-      account: "BBVA credit card",
-      type: "Expense",
-      notes: "",
-      amount: "100",
-      options: null,
-    },
-    {
-      id: 2,
-      rowNumber: "#2",
-      icon: "down",
-      iconColor: "red.500",
-      date: "Jun 13, 2025",
-      category: "Plans",
-      account: "BBVA credit card",
-      type: "Expense",
-      notes: "",
-      amount: "200",
-      options: null,
-    },
-    {
-      id: 3,
-      rowNumber: "#3",
-      icon: "down",
-      iconColor: "red.500",
-      date: "Jun 13, 2025",
-      category: "Plans",
-      account: "BBVA credit card",
-      type: "Expense",
-      notes: "",
-      amount: "300",
-      options: null,
-      is_enabled: false,
-    },
-    {
-      id: 4,
-      rowNumber: "#4",
-      icon: "up",
-      iconColor: "cyan.500",
-      date: "Jun 13, 2025",
-      category: "Plans",
-      account: "BBVA credit card",
-      type: "Expense",
-      notes: "",
-      amount: "400",
-      options: null,
-    },
-  ];
-
-  const [tableData, setTableData] = useState(initialData);
+  const [tableData, setTableData] = useState(tableMock);
   const [, setDateRange] = useState<[string, string] | null>(null);
   const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
 
