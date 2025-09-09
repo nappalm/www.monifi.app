@@ -5,6 +5,7 @@ import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
 import { TransactionFilters } from "../hooks/useTransactionFilters";
+import { DetailsDrawer } from "../components/DetailsDrawer";
 
 export default function TransactionsPage() {
   const initialData = [
@@ -101,7 +102,7 @@ export default function TransactionsPage() {
         </Button>
       </HStack>
       <TransactionsTable data={tableData} onDataChange={setTableData} />
+      <DetailsDrawer />
     </Stack>
   );
 }
-

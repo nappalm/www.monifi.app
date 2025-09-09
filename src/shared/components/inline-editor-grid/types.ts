@@ -39,4 +39,3 @@ export interface UseInlineEditorProps<T extends DataRow> {
   onDataChange: (newData: T[]) => void;
   onCellChange?: (change: CellChange<T>) => void;
 }
-

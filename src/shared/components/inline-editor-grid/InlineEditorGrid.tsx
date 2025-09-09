@@ -120,7 +120,8 @@ export function InlineEditorGrid<T extends DataRow>({
                   {visibleColumns.map((column, colIndex) => {
                     const cellValue = row[column.accessor as keyof T]; // Get value using accessor
                     const isNumericColumn =
-                      (column.accessor as string) === "amount" || column.isAmount; // Check if column is numeric
+                      (column.accessor as string) === "amount" ||
+                      column.isAmount; // Check if column is numeric
                     const isCellActive =
                       activeCell?.row === rowIndex &&
                       activeCell?.col === colIndex;
