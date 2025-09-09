@@ -9,6 +9,8 @@ import { DetailsDrawer } from "../components/DetailsDrawer";
 import { tableMock } from "../__mocks__/table-mock";
 
 export default function TransactionsPage() {
+  const [detailsRow, setDetailsRow] = useState(null);
+
   const [tableData, setTableData] = useState(tableMock);
   const [, setDateRange] = useState<[string, string] | null>(null);
   const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
@@ -30,6 +32,21 @@ export default function TransactionsPage() {
     setTableData((prevData) => [...prevData, newRow]);
   };
 
+  const handleRemoveRow = (id: string) => {
+    setTableData((prev) => prev.filter((row) => row.id !== id));
+  };
+
+  const handleDisabledRow = (id: string) => {
+    setTableData((prev) =>
+      prev.map((row) => (row.id === id ? { ...row, is_enabled: false } : row)),
+    );
+  };
+
+  const handleSeeDetailsRow = (id: string) => {
+    const row = tableData.find((row) => row.id === id);
+    setDetailsRow(row);
+  };
+
   return (
     <Stack gap={5}>
       <Heading size="lg">Transactions</Heading>
@@ -47,8 +64,18 @@ export default function TransactionsPage() {
           New row
         </Button>
       </HStack>
-      <TransactionsTable data={tableData} onDataChange={setTableData} />
-      <DetailsDrawer />
+      <TransactionsTable
+        data={tableData}
+        onDataChange={setTableData}
+        onRemoveRow={handleRemoveRow}
+        onSeeDetailsRow={handleSeeDetailsRow}
+        onDisabledRow={handleDisabledRow}
+      />
+
+      <DetailsDrawer
+        isOpen={!!detailsRow}
+        onClose={() => setDetailsRow(null)}
+      />
     </Stack>
   );
 }

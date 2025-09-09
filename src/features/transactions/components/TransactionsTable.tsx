@@ -11,15 +11,19 @@ import TypeSelect from "./TypeSelect";
 type Props = {
   data: any[];
   onDataChange: (data: any) => void;
-  onRemoveRow?: () => void;
+  onRemoveRow: (id: string) => void;
+  onSeeDetailsRow: (id: string) => void;
+  onDisabledRow: (id: string) => void;
 };
 
 export default function TransactionsTable({
   data,
   onDataChange,
   onRemoveRow,
+  onSeeDetailsRow,
+  onDisabledRow,
 }: Props) {
-  const columns: Column[] = [
+  const columns: Column<any>[] = [
     {
       accessor: "id",
       header: "ID",
@@ -93,7 +97,11 @@ export default function TransactionsTable({
         p: 0,
       },
       render: (_, row) => (
-        <TableRowMenu onDelete={() => console.log({ row })} />
+        <TableRowMenu
+          onDelete={() => onRemoveRow(row.id)}
+          onDisabled={() => onDisabledRow(row.id)}
+          onSeeDetails={() => onSeeDetailsRow(row.id)}
+        />
       ),
     },
   ];

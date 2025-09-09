@@ -15,9 +15,9 @@ import {
 } from "@tabler/icons-react";
 
 type Props = {
-  onDisabled?: VoidFunction;
-  onSeeDetails?: VoidFunction;
-  onDelete?: VoidFunction;
+  onDisabled: VoidFunction;
+  onSeeDetails: VoidFunction;
+  onDelete: VoidFunction;
 };
 
 export default function TableRowMenu({
