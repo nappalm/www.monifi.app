@@ -47,6 +47,7 @@ export default function TransactionsPage() {
       notes: "",
       amount: "300",
       options: null,
+      is_enabled: false,
     },
     {
       id: 4,
