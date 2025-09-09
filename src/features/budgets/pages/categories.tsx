@@ -1,39 +1,78 @@
 import {
+  Alert,
+  AlertIcon,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Button,
   Heading,
   HStack,
-  IconButton,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
 } from "@chakra-ui/react";
-import { IconX } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import {
+  IconArrowBarToDownDashed,
+  IconInfoCircleFilled,
+} from "@tabler/icons-react";
+import { useState } from "react";
+import BudgetsCategoriesTable from "../components/BudgetsCategoriesTable";
 import { BUDGETS_PATHS } from "../router";
 
+const MOCK_DATA = [
+  {
+    id: "1",
+    rowNumber: "#1",
+    category: "food",
+    description: "Monthly groceries",
+    budget: 3000,
+  },
+  {
+    id: "2",
+    rowNumber: "#2",
+    category: "services",
+    description: "Streaming services",
+    budget: 1000,
+  },
+  {
+    id: "3",
+    rowNumber: "#3",
+    category: "transport",
+    description: "Fuel and public transport",
+    budget: 800,
+  },
+];
+
 export default function BudgetCategories() {
+  const [data, setData] = useState(MOCK_DATA);
+
+  const handleNewRow = () => {
+    const newRow = {
+      id: data.length + 1,
+      rowNumber: `#${data.length + 1}`,
+      category: "",
+      description: "",
+      budget: 0,
+    };
+
+    setData((prevData) => [...prevData, newRow]);
+  };
+
+  const handleRemoveRow = (id: string) => {
+    setData((prev) => prev.filter((row) => row.id !== id));
+  };
+
   return (
     <Stack gap={5}>
       <Stack spacing={0}>
         <HStack justify="space-between">
           <Heading size="lg">My first budget</Heading>
-          <Link to={BUDGETS_PATHS.base}>
-            <IconButton
-              aria-label="Close budget"
-              size="sm"
-              variant="outline"
-              borderRadius="full"
-              colorScheme="red"
-              icon={<IconX size={18} />}
-            />
-          </Link>
+          <Button
+            colorScheme="cyan"
+            size="sm"
+            leftIcon={<IconArrowBarToDownDashed size={16} />}
+            onClick={handleNewRow}
+          >
+            New row
+          </Button>
         </HStack>
         <Breadcrumb color="gray.500">
           <BreadcrumbItem>
@@ -44,54 +83,18 @@ export default function BudgetCategories() {
           </BreadcrumbItem>
         </Breadcrumb>
       </Stack>
-      <TableContainer
-        border="1px solid"
-        borderColor="gray.800"
-        borderRadius="xl"
-      >
-        <Table variant="striped" size="sm">
-          <Thead>
-            <Tr>
-              <Th w="10px" />
-              <Th>Category</Th>
-              <Th>Optional description</Th>
-              <Th isNumeric>Budget</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td opacity={0.5}>#1</Td>
-              <Td>inches</Td>
-              <Td>millimetres (mm)</Td>
-              <Td isNumeric>$25.4</Td>
-            </Tr>
-            <Tr>
-              <Td opacity={0.5}>#2</Td>
-              <Td>inches</Td>
-              <Td>centimetres (cm)</Td>
-              <Td isNumeric>$30.48</Td>
-            </Tr>
-            <Tr>
-              <Td opacity={0.5}>#3</Td>
-              <Td>inches</Td>
-              <Td>metres (m)</Td>
-              <Td isNumeric>$0.91444</Td>
-            </Tr>
-            <Tr>
-              <Td opacity={0.5}>#4</Td>
-              <Td>inches</Td>
-              <Td>metres (m)</Td>
-              <Td isNumeric>$0.91444</Td>
-            </Tr>
-            <Tr>
-              <Td opacity={0.5}>#5</Td>
-              <Td>inches</Td>
-              <Td>metres (m)</Td>
-              <Td isNumeric>$0.91444</Td>
-            </Tr>
-          </Tbody>
-        </Table>
-      </TableContainer>
+      <Alert colorScheme="gray" fontSize="sm" color="gray.500">
+        <AlertIcon>
+          <IconInfoCircleFilled />
+        </AlertIcon>
+        Define how much you want to allocate to each category in this budget.
+        Enter the values to set your spending limits
+      </Alert>
+      <BudgetsCategoriesTable
+        data={data}
+        onDataChange={setData}
+        onRemoveRow={handleRemoveRow}
+      />
     </Stack>
   );
 }

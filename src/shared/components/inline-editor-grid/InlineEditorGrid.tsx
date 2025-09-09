@@ -14,6 +14,7 @@ import { useInlineEditor } from "./useInlineEditor";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { TableSkeletonRow } from "../table-skeleton-row";
 import type { DataRow, InlineEditorGridProps } from "./types";
+import TableEmptyRows from "../table-empty-rows";
 
 export function InlineEditorGrid<T extends DataRow>({
   columns,
@@ -101,10 +102,16 @@ export function InlineEditorGrid<T extends DataRow>({
           </Tr>
         </Thead>
         <Tbody>
-          {isLoading ? (
-            <TableSkeletonRow rows={1} cols={visibleColumns.length} />
-          ) : (
-            data.map((row, rowIndex) => {
+          {(() => {
+            if (isLoading) {
+              return <TableSkeletonRow rows={1} cols={visibleColumns.length} />;
+            }
+
+            if (data.length === 0) {
+              return <TableEmptyRows cols={visibleColumns.length} />;
+            }
+
+            return data.map((row, rowIndex) => {
               const isRowActive = activeCell?.row === rowIndex;
               return (
                 <Tr
@@ -203,8 +210,8 @@ export function InlineEditorGrid<T extends DataRow>({
                   })}
                 </Tr>
               );
-            })
-          )}
+            });
+          })()}
         </Tbody>
       </Table>
     </TableContainer>
