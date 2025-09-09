@@ -139,6 +139,7 @@ export default function RHFSelect({
                   ref={setRefs}
                   icon={<IconChevronDown size={18} />}
                 >
+                  <option value="" />
                   {children}
                 </Select>
                 {rightElement && (
