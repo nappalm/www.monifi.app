@@ -3,3 +3,8 @@ export * from "./supabase.profiles";
 export * from "./supabase.stripe";
 export * from "./supabase.user";
 export * from "./types";
+export * from "./supabase.transactions";
+export * from "./supabase.accounts";
+export * from "./supabase.categories";
+export * from "./supabase.budgets";
+export * from "./supabase.budgetCategories";
