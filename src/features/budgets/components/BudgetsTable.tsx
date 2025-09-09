@@ -1,125 +1,94 @@
-import {
-  HStack,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Portal,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
-import {
-  IconAntennaBars2,
-  IconAntennaBars4,
-  IconArrowRight,
-  IconCancel,
-  IconDots,
-  IconInfoCircle,
-  IconPencil,
-  IconTrash,
-} from "@tabler/icons-react";
+import { Column, InlineEditorGrid } from "@/shared";
+import { HStack, Text } from "@chakra-ui/react";
+import { IconAntennaBars2 } from "@tabler/icons-react";
+import TableRowMenu from "./TableRowMenu";
 
 type Props = {
-  onConfig: (id: number) => void;
+  data: any[];
+  onDataChange: (data: any) => void;
+  onRemoveRow: (id: string) => void;
+  onDisabledRow: (id: string) => void;
+  onConfigRow: (id: string) => void;
+  onEditRow: (id: string) => void;
 };
-export default function BudgetsTable({ onConfig }: Props) {
-  return (
-    <TableContainer border="1px solid" borderColor="gray.800" borderRadius="xl">
-      <Table variant="striped" size="sm">
-        <Thead>
-          <Tr>
-            <Th w="10px" />
-            <Th>Name</Th>
-            <Th>Period</Th>
-            <Th isNumeric>Current</Th>
-            <Th isNumeric>Limit</Th>
-            <Th w="10px" />
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td opacity={0.5}>#1</Td>
-            <Td>My period</Td>
-            <Td>Every months 01 - 31</Td>
-            <Td isNumeric>
-              <HStack justifyContent="flex-end">
-                <Text as="span">$1998.99</Text>
-                <IconAntennaBars2 size={16} />
-              </HStack>
-            </Td>
-            <Td isNumeric>$5,090.99</Td>
-            <Td p={0} opacity={0.5}>
-              <Menu isLazy>
-                <MenuButton
-                  as={IconButton}
-                  w="full"
-                  aria-label="Row options"
-                  size="xs"
-                  variant="unstyled"
-                  pl="7px"
-                  icon={<IconDots size={15} />}
-                />
-                <Portal>
-                  <MenuList>
-                    <MenuItem
-                      icon={<IconArrowRight size={16} />}
-                      color="cyan.500"
-                      onClick={() => onConfig(1)}
-                    >
-                      Config budget
-                    </MenuItem>
-                    <MenuDivider />
-                    <MenuItem icon={<IconPencil size={16} />}>
-                      Edit information
-                    </MenuItem>
-                    <MenuItem icon={<IconInfoCircle size={16} />}>
-                      See details
-                    </MenuItem>
-                    <MenuItem icon={<IconCancel size={16} />}>
-                      Disabled
-                    </MenuItem>
-                    <MenuDivider />
-                    <MenuItem icon={<IconTrash size={16} />} color="red.500">
-                      Delete budget
-                    </MenuItem>
-                  </MenuList>
-                </Portal>
-              </Menu>
-            </Td>
-          </Tr>
-          <Tr>
-            <Td opacity={0.5}>#2</Td>
-            <Td>Ahorro para mi casa</Td>
-            <Td>Jun to Dec 2025</Td>
-            <Td isNumeric>
-              <HStack justifyContent="flex-end">
-                <Text as="span">$1998.99</Text>
-                <IconAntennaBars4 size={16} />
-              </HStack>
-            </Td>
-            <Td isNumeric>$500,90.99</Td>
 
-            <Td p={0} opacity={0.5}>
-              <IconButton
-                w="full"
-                aria-label="Row options"
-                size="xs"
-                variant="unstyled"
-                pl="7px"
-                icon={<IconDots size={15} />}
-              />
-            </Td>
-          </Tr>
-        </Tbody>
-      </Table>
-    </TableContainer>
+export default function BudgetsTable({
+  data,
+  onDataChange,
+  onRemoveRow,
+  onDisabledRow,
+  onConfigRow,
+  onEditRow,
+}: Props) {
+  const columns: Column<any>[] = [
+    {
+      accessor: "id",
+      header: "ID",
+      isVisible: false,
+    },
+    {
+      header: "",
+      accessor: "rowNumber",
+      isEditable: false,
+      sx: {
+        w: "10px",
+        opacity: 0.7,
+      },
+      render: (value: any) => `#${value}`,
+    },
+    {
+      header: "Name",
+      accessor: "name",
+    },
+    {
+      header: "Period",
+      accessor: "period",
+      isEditable: false,
+    },
+    {
+      header: "Current",
+      accessor: "current",
+      isAmount: true,
+      isEditable: false,
+      render: (value: any) => (
+        <HStack justifyContent="flex-end" w="full">
+          <Text as="span">{value}</Text>
+          <IconAntennaBars2 size={16} />
+        </HStack>
+      ),
+    },
+    {
+      header: "Limit",
+      accessor: "limit",
+      isAmount: true,
+      isEditable: false,
+    },
+    {
+      header: "",
+      accessor: "options",
+      isEditable: false,
+      sx: {
+        w: "10px",
+        opacity: 0.5,
+        p: 0,
+      },
+      render: (_, row) => (
+        <TableRowMenu
+          onDelete={() => onRemoveRow(row.id)}
+          onDisabled={() => onDisabledRow(row.id)}
+          onConfig={() => onConfigRow(row.id)}
+          onEdit={() => onEditRow(row.id)}
+        />
+      ),
+    },
+  ];
+
+  return (
+    <InlineEditorGrid
+      columns={columns}
+      data={data}
+      isLoading={false}
+      onDataChange={onDataChange}
+    />
   );
 }
