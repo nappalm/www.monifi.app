@@ -4,9 +4,9 @@ import {
   Column,
   InlineEditorGrid,
 } from "@/shared";
+import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
-import DatePickerSelect from "./DatePickerSelect";
 
 type Props = {
   data: any[];

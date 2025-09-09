@@ -1,6 +1,6 @@
 import { DatePicker, formatDate } from "@/shared";
 import { Button, Menu, MenuButton, MenuList, Portal } from "@chakra-ui/react";
-import { IconCalendar } from "@tabler/icons-react";
+import { IconCalendarFilled } from "@tabler/icons-react";
 import { isValid } from "date-fns";
 import { useEffect, useState } from "react";
 
@@ -37,7 +37,7 @@ export default function DatePickerSelect({
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"
-        leftIcon={<IconCalendar size={15} />}
+        leftIcon={<IconCalendarFilled size={13} />}
         textAlign="left"
         pl={2}
         _focus={{

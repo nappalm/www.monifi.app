@@ -11,7 +11,7 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import { IconTag, IconTrash } from "@tabler/icons-react";
+import { IconTagFilled, IconTrash } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 interface Category {
@@ -83,7 +83,7 @@ export default function CategorySelect() {
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconTag size={12} />}
+        leftIcon={<IconTagFilled size={13} />}
         w="full"
         textAlign="left"
         pl={2}

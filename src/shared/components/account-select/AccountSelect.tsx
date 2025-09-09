@@ -8,7 +8,7 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import { IconMoneybag } from "@tabler/icons-react";
+import { IconReceiptDollarFilled } from "@tabler/icons-react";
 import { useRef, useState } from "react";
 
 interface Account {
@@ -65,7 +65,7 @@ export default function AccountSelect() {
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconMoneybag size={12} />}
+        leftIcon={<IconReceiptDollarFilled size={13} />}
         w="full"
         textAlign="left"
         pl={2}

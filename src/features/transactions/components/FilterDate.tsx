@@ -1,6 +1,6 @@
 import { DateRange, formatDate } from "@/shared";
 import { Button, Menu, MenuButton, MenuList, Portal } from "@chakra-ui/react";
-import { IconCylinder } from "@tabler/icons-react";
+import { IconCalendarFilled } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 
@@ -47,7 +47,7 @@ export default function FilterDate({ onChange }: Props) {
     <Menu>
       <MenuButton
         as={Button}
-        leftIcon={<IconCylinder size={16} />}
+        leftIcon={<IconCalendarFilled size={18} />}
         size="sm"
         borderLeftRadius={0}
       >
