@@ -21,7 +21,11 @@ import {
 import { useAuthenticatedUser } from "@/shared/hooks";
 import { Tables } from "@/lib/supabase/database.types";
 
-export default function AccountSelect() {
+type Props = {
+  onChange: (account: Tables<"accounts"> | null) => void;
+};
+
+export default function AccountSelect({ onChange }: Props) {
   const { data: accounts = [], isLoading } = useAccounts();
   const createAccount = useCreateAccount();
   const deleteAccount = useDeleteAccount();
@@ -42,11 +46,12 @@ export default function AccountSelect() {
       {
         name: searchTerm,
         user_id: user.id,
-        type: "checking", // default type
+        type: "checking",
       },
       {
         onSuccess: (newAccount) => {
           setSelectedAccount(newAccount);
+          onChange(newAccount);
         },
       },
     );
@@ -55,6 +60,7 @@ export default function AccountSelect() {
 
   const handleSelectAccount = (account: Tables<"accounts">) => {
     setSelectedAccount(account);
+    onChange(account);
   };
 
   const handleDeleteAccount = (
@@ -65,6 +71,7 @@ export default function AccountSelect() {
     deleteAccount.mutate(accountToDelete.id);
     if (selectedAccount?.id === accountToDelete.id) {
       setSelectedAccount(null);
+      onChange(null);
     }
   };
 

@@ -21,7 +21,11 @@ import {
 import { useAuthenticatedUser } from "@/shared/hooks";
 import { Tables } from "@/lib/supabase/database.types";
 
-export default function CategorySelect() {
+type Props = {
+  onChange: (category: Tables<"categories"> | null) => void;
+};
+
+export default function CategorySelect({ onChange }: Props) {
   const { data: categories = [], isLoading } = useCategories();
   const createCategory = useCreateCategory();
   const deleteCategory = useDeleteCategory();
@@ -46,6 +50,7 @@ export default function CategorySelect() {
       {
         onSuccess: (newCategory) => {
           setSelectedCategory(newCategory);
+          onChange(newCategory);
         },
       },
     );
@@ -54,6 +59,7 @@ export default function CategorySelect() {
 
   const handleSelectCategory = (category: Tables<"categories">) => {
     setSelectedCategory(category);
+    onChange(category);
   };
 
   const handleDeleteCategory = (
@@ -64,6 +70,7 @@ export default function CategorySelect() {
     deleteCategory.mutate(categoryToDelete.id);
     if (selectedCategory?.id === categoryToDelete.id) {
       setSelectedCategory(null);
+      onChange(null);
     }
   };
 
