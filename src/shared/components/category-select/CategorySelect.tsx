@@ -13,37 +13,23 @@ import {
 } from "@chakra-ui/react";
 import { IconTagFilled, IconTrash } from "@tabler/icons-react";
 import { useRef, useState } from "react";
-
-interface Category {
-  id: string;
-  name: string;
-}
-
-const initialCategories: Category[] = [
-  {
-    id: "1",
-    name: "Transporte",
-  },
-  {
-    id: "2",
-    name: "Comida",
-  },
-  {
-    id: "3",
-    name: "Finanzas",
-  },
-  {
-    id: "4",
-    name: "Control de gastos",
-  },
-];
+import {
+  useCategories,
+  useCreateCategory,
+  useDeleteCategory,
+} from "@/shared/hooks/useCategories";
+import { useAuthenticatedUser } from "@/shared/hooks";
+import { Tables } from "@/lib/supabase/database.types";
 
 export default function CategorySelect() {
+  const { data: categories = [], isLoading } = useCategories();
+  const createCategory = useCreateCategory();
+  const deleteCategory = useDeleteCategory();
+  const { user } = useAuthenticatedUser();
+
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [categories, setCategories] = useState<Category[]>(initialCategories);
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null,
-  );
+  const [selectedCategory, setSelectedCategory] =
+    useState<Tables<"categories"> | null>(null);
   const searchInputRef = useRef(null);
 
   const filteredCategories = categories.filter((category) =>
@@ -51,27 +37,31 @@ export default function CategorySelect() {
   );
 
   const handleCreateCategory = () => {
-    const newCategory: Category = {
-      id: `${categories.length + 1}`,
-      name: searchTerm,
-    };
-    setCategories([...categories, newCategory]);
-    setSelectedCategory(newCategory);
+    if (!user) return;
+    createCategory.mutate(
+      {
+        name: searchTerm,
+        user_id: user.id,
+      },
+      {
+        onSuccess: (newCategory) => {
+          setSelectedCategory(newCategory);
+        },
+      },
+    );
     setSearchTerm("");
   };
 
-  const handleSelectCategory = (category: Category) => {
+  const handleSelectCategory = (category: Tables<"categories">) => {
     setSelectedCategory(category);
   };
 
   const handleDeleteCategory = (
     e: React.MouseEvent,
-    categoryToDelete: Category,
+    categoryToDelete: Tables<"categories">,
   ) => {
     e.stopPropagation();
-    setCategories(
-      categories.filter((category) => category.id !== categoryToDelete.id),
-    );
+    deleteCategory.mutate(categoryToDelete.id);
     if (selectedCategory?.id === categoryToDelete.id) {
       setSelectedCategory(null);
     }
@@ -106,6 +96,7 @@ export default function CategorySelect() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <MenuGroup title="Categories">
+            {isLoading && <MenuItem>Loading...</MenuItem>}
             {filteredCategories.map((category) => (
               <MenuItem
                 key={category.id}
