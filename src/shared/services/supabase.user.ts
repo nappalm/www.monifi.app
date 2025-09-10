@@ -9,7 +9,7 @@ export async function changePassword(password: string) {
   return data;
 }
 
-export async function deleteAccount() {
+export async function deleteUserAccount() {
   const { data, error } =
     await supabaseClient.functions.invoke("delete-account");
 

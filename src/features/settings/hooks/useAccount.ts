@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@chakra-ui/react";
 import {
   changePassword,
-  deleteAccount,
+  deleteUserAccount,
   updateEmail,
   updateProfile,
 } from "@/shared/services";
@@ -36,6 +36,6 @@ export const useChangePassword = () => {
 
 export const useDeleteAccount = () => {
   return useMutation({
-    mutationFn: deleteAccount,
+    mutationFn: deleteUserAccount,
   });
 };
