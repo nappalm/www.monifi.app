@@ -1,5 +1,7 @@
 import {
   Button,
+  Flex,
+  IconButton,
   Input,
   Menu,
   MenuButton,
@@ -7,38 +9,27 @@ import {
   MenuItem,
   MenuList,
   Portal,
+  Text,
 } from "@chakra-ui/react";
-import { IconReceiptDollarFilled } from "@tabler/icons-react";
+import { IconReceiptDollarFilled, IconTrash } from "@tabler/icons-react";
 import { useRef, useState } from "react";
-
-interface Account {
-  id: string;
-  name: string;
-}
-
-const initialAccounts: Account[] = [
-  {
-    id: "1",
-    name: "BBVA Credit",
-  },
-  {
-    id: "2",
-    name: "BCP Debit",
-  },
-  {
-    id: "3",
-    name: "Interbank Debit",
-  },
-  {
-    id: "4",
-    name: "Cash",
-  },
-];
+import {
+  useAccounts,
+  useCreateAccount,
+  useDeleteAccount,
+} from "@/shared/hooks/useAccounts";
+import { useAuthenticatedUser } from "@/shared/hooks";
+import { Tables } from "@/lib/supabase/database.types";
 
 export default function AccountSelect() {
+  const { data: accounts = [], isLoading } = useAccounts();
+  const createAccount = useCreateAccount();
+  const deleteAccount = useDeleteAccount();
+  const { user } = useAuthenticatedUser();
+
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [accounts, setAccounts] = useState<Account[]>(initialAccounts);
-  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
+  const [selectedAccount, setSelectedAccount] =
+    useState<Tables<"accounts"> | null>(null);
   const searchInputRef = useRef(null);
 
   const filteredAccounts = accounts.filter((account) =>
@@ -46,17 +37,35 @@ export default function AccountSelect() {
   );
 
   const handleCreateAccount = () => {
-    const newAccount: Account = {
-      id: `${accounts.length + 1}`,
-      name: searchTerm,
-    };
-    setAccounts([...accounts, newAccount]);
-    setSelectedAccount(newAccount);
+    if (!user) return;
+    createAccount.mutate(
+      {
+        name: searchTerm,
+        user_id: user.id,
+        type: "checking", // default type
+      },
+      {
+        onSuccess: (newAccount) => {
+          setSelectedAccount(newAccount);
+        },
+      },
+    );
     setSearchTerm("");
   };
 
-  const handleSelectAccount = (account: Account) => {
+  const handleSelectAccount = (account: Tables<"accounts">) => {
     setSelectedAccount(account);
+  };
+
+  const handleDeleteAccount = (
+    e: React.MouseEvent,
+    accountToDelete: Tables<"accounts">,
+  ) => {
+    e.stopPropagation();
+    deleteAccount.mutate(accountToDelete.id);
+    if (selectedAccount?.id === accountToDelete.id) {
+      setSelectedAccount(null);
+    }
   };
 
   return (
@@ -88,12 +97,22 @@ export default function AccountSelect() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <MenuGroup title="Accounts">
+            {isLoading && <MenuItem>Loading...</MenuItem>}
             {filteredAccounts.map((account) => (
               <MenuItem
                 key={account.id}
                 onClick={() => handleSelectAccount(account)}
               >
-                {account.name}
+                <Flex justify="space-between" align="center" w="full">
+                  <Text>{account.name}</Text>
+                  <IconButton
+                    aria-label="delete account"
+                    icon={<IconTrash size={16} />}
+                    size="xs"
+                    variant="ghost"
+                    onClick={(e) => handleDeleteAccount(e, account)}
+                  />
+                </Flex>
               </MenuItem>
             ))}
             {filteredAccounts.length === 0 && searchTerm && (
