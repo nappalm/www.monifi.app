@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IconTagFilled, IconTrash } from "@tabler/icons-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useCategories,
   useCreateCategory,
@@ -22,10 +22,11 @@ import { useAuthenticatedUser } from "@/shared/hooks";
 import { Tables } from "@/lib/supabase/database.types";
 
 type Props = {
+  defaultValue?: number | null;
   onChange: (category: Tables<"categories"> | null) => void;
 };
 
-export default function CategorySelect({ onChange }: Props) {
+export default function CategorySelect({ defaultValue, onChange }: Props) {
   const { data: categories = [], isLoading } = useCategories();
   const createCategory = useCreateCategory();
   const deleteCategory = useDeleteCategory();
@@ -35,6 +36,13 @@ export default function CategorySelect({ onChange }: Props) {
   const [selectedCategory, setSelectedCategory] =
     useState<Tables<"categories"> | null>(null);
   const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (defaultValue && categories.length) {
+      const defaultCategory = categories.find((c) => c.id === defaultValue);
+      setSelectedCategory(defaultCategory || null);
+    }
+  }, [defaultValue, categories]);
 
   const filteredCategories = categories.filter((category) =>
     category.name.toLowerCase().includes(searchTerm.toLowerCase()),

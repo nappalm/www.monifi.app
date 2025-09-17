@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IconReceiptDollarFilled, IconTrash } from "@tabler/icons-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useAccounts,
   useCreateAccount,
@@ -22,10 +22,11 @@ import { useAuthenticatedUser } from "@/shared/hooks";
 import { Tables } from "@/lib/supabase/database.types";
 
 type Props = {
+  defaultValue?: number | null;
   onChange: (account: Tables<"accounts"> | null) => void;
 };
 
-export default function AccountSelect({ onChange }: Props) {
+export default function AccountSelect({ defaultValue, onChange }: Props) {
   const { data: accounts = [], isLoading } = useAccounts();
   const createAccount = useCreateAccount();
   const deleteAccount = useDeleteAccount();
@@ -35,6 +36,13 @@ export default function AccountSelect({ onChange }: Props) {
   const [selectedAccount, setSelectedAccount] =
     useState<Tables<"accounts"> | null>(null);
   const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (defaultValue && accounts.length) {
+      const defaultAccount = accounts.find((a) => a.id === defaultValue);
+      setSelectedAccount(defaultAccount || null);
+    }
+  }, [defaultValue, accounts]);
 
   const filteredAccounts = accounts.filter((account) =>
     account.name.toLowerCase().includes(searchTerm.toLowerCase()),
