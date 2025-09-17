@@ -29,10 +29,11 @@ export const createTransaction = async (
   return data;
 };
 
-export const updateTransaction = async (
-  id: number,
-  transaction: TablesUpdate<"transactions">,
-) => {
+export const updateTransaction = async ({
+  id,
+  ...transaction
+}: TablesUpdate<"transactions">) => {
+  console.log({ transaction });
   const { data, error } = await supabaseClient
     .from("transactions")
     .update(transaction)
