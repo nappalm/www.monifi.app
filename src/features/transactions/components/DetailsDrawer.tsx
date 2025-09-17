@@ -7,14 +7,16 @@ import {
   DrawerCloseButton,
   UseDisclosureProps,
 } from "@chakra-ui/react";
+import { Tables } from "@/lib/supabase/database.types";
 
 type DetailsDrawerProps = UseDisclosureProps & {
-  // transaction: Transaction; // Assuming you have a Transaction type
+  transaction: Tables<"transactions"> | null;
 };
 
 export const DetailsDrawer = ({
   isOpen = false,
   onClose,
+  transaction,
 }: DetailsDrawerProps) => {
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={() => onClose?.()}>
@@ -24,10 +26,16 @@ export const DetailsDrawer = ({
         <DrawerHeader>Transaction Details</DrawerHeader>
 
         <DrawerBody>
-          {/* Add transaction details here */}
-          <p>Transaction ID: 12345</p>
-          <p>Amount: $100.00</p>
-          <p>Date: 2025-09-08</p>
+          {transaction ? (
+            <>
+              <p>Transaction ID: {transaction.id}</p>
+              <p>Amount: ${transaction.amount}</p>
+              <p>Date: {transaction.occurred_at}</p>
+              <p>Description: {transaction.description}</p>
+            </>
+          ) : (
+            <p>No transaction details available.</p>
+          )}
         </DrawerBody>
       </DrawerContent>
     </Drawer>

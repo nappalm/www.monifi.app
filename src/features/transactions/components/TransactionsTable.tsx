@@ -4,88 +4,119 @@ import {
   Column,
   InlineEditorGrid,
 } from "@/shared";
+import { Tables } from "@/lib/supabase/database.types";
 import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
 
 type Props = {
-  data: any[];
-  onDataChange: (data: any) => void;
-  onRemoveRow: (id: string) => void;
-  onSeeDetailsRow: (id: string) => void;
-  onDisabledRow: (id: string) => void;
+  data: Tables<"transactions">[];
+  isLoading: boolean;
+  onDataChange: (
+    id: number,
+    updatedData: Partial<Tables<"transactions">>,
+  ) => void;
+  onRemoveRow: (id: number) => void;
+  onSeeDetailsRow: (id: number) => void;
+  onDisabledRow: (id: number) => void;
 };
 
 export default function TransactionsTable({
   data,
+  isLoading,
   onDataChange,
   onRemoveRow,
   onSeeDetailsRow,
   onDisabledRow,
 }: Props) {
-  const columns: Column<any>[] = [
+  const columns: Column<Tables<"transactions">>[] = [
     {
       accessor: "id",
       header: "ID",
       isVisible: false,
     },
     {
-      header: "",
-      accessor: "rowNumber",
-      isEditable: false,
-      sx: {
-        w: "10px",
-        opacity: 0.7,
-      },
-      render: (value: any) => value,
-    },
-    {
       header: "Date",
-      accessor: "date",
-      isEditable: false,
+      accessor: "occurred_at",
+      isEditable: true,
       sx: {
         p: 0,
       },
-      render: () => {
+      render: (value, row, updateCell) => {
         return (
-          <DatePickerSelect defaultValue={new Date()} value={new Date()} />
+          <DatePickerSelect
+            defaultValue={new Date(value)}
+            value={new Date(value)}
+            onChange={(date) => {
+              if (date) {
+                updateCell(date.toISOString());
+              }
+            }}
+          />
         );
       },
     },
     {
       header: "Category",
-      accessor: "category",
-      isEditable: false,
+      accessor: "category_id",
+      isEditable: true,
       sx: {
         padding: 0,
       },
-      render: () => {
-        return <CategorySelect />;
+      render: (value, row, updateCell) => {
+        return (
+          <CategorySelect
+            defaultValue={value}
+            onChange={(category) => {
+              if (category) {
+                updateCell(category.id);
+              }
+            }}
+          />
+        );
       },
     },
     {
       header: "Account",
-      accessor: "account",
-      isEditable: false,
+      accessor: "account_id",
+      isEditable: true,
       sx: {
         padding: 0,
       },
-      render: () => {
-        return <AccountSelect />;
+      render: (value, row, updateCell) => {
+        return (
+          <AccountSelect
+            defaultValue={value}
+            onChange={(account) => {
+              if (account) {
+                updateCell(account.id);
+              }
+            }}
+          />
+        );
       },
     },
     {
       header: "Type",
       accessor: "type",
-      isEditable: false,
+      isEditable: true,
       sx: {
         padding: 0,
       },
-      render: () => {
-        return <TypeSelect />;
+      render: (value, row, updateCell) => {
+        return (
+          <TypeSelect
+            defaultValue={value}
+            onChange={(type) => {
+              if (type) {
+                updateCell(type);
+              }
+            }}
+          />
+        );
       },
     },
-    { header: "Notes", accessor: "notes" },
+    { header: "Description", accessor: "description" },
     { header: "Amount", accessor: "amount", isAmount: true },
     {
       header: "",
@@ -110,7 +141,7 @@ export default function TransactionsTable({
     <InlineEditorGrid
       columns={columns}
       data={data}
-      isLoading={false}
+      isLoading={isLoading}
       onDataChange={onDataChange}
     />
   );

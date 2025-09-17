@@ -8,7 +8,7 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const types = [
   {
@@ -25,8 +25,26 @@ const types = [
   },
 ];
 
-export default function TypeSelect() {
-  const [type, setType] = useState("expense");
+type Props = {
+  defaultValue: "income" | "expense";
+  value?: "income" | "expense";
+  onChange?: (value: "income" | "expense") => void;
+};
+
+export default function TypeSelect({ defaultValue, value, onChange }: Props) {
+  const [type, setType] = useState(value || defaultValue);
+
+  useEffect(() => {
+    if (value) {
+      setType(value);
+    }
+  }, [value]);
+
+  const handleTypeChange = (newType: "income" | "expense") => {
+    setType(newType);
+    onChange?.(newType);
+  };
+
   const selected = types.find((t) => t.value === type);
   return (
     <Menu isLazy>
@@ -54,7 +72,7 @@ export default function TypeSelect() {
               key={t.value}
               icon={t.icon}
               color={t.color}
-              onClick={() => setType(t.value)}
+              onClick={() => handleTypeChange(t.value as "income" | "expense")}
             >
               {t.label}
             </MenuItem>

@@ -1,50 +1,59 @@
 import { Button, Heading, HStack, Stack } from "@chakra-ui/react";
 import { IconArrowBarToDownDashed } from "@tabler/icons-react";
 import { useState } from "react";
+import {
+  useCreateTransaction,
+  useDeleteTransaction,
+  useTransactions,
+  useUpdateTransaction,
+} from "@/features/transactions/hooks/useTransactions";
+import { Tables, TablesInsert } from "@/lib/supabase/database.types";
 import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
 import { TransactionFilters } from "../hooks/useTransactionFilters";
 import { DetailsDrawer } from "../components/DetailsDrawer";
-import { tableMock } from "../__mocks__/table-mock";
 
 export default function TransactionsPage() {
-  const [detailsRow, setDetailsRow] = useState(null);
+  const { data: transactions, isLoading } = useTransactions();
+  const createTransaction = useCreateTransaction();
+  const updateTransaction = useUpdateTransaction();
+  const deleteTransaction = useDeleteTransaction();
 
-  const [tableData, setTableData] = useState(tableMock);
+  const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
+    null,
+  );
+
   const [, setDateRange] = useState<[string, string] | null>(null);
   const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
 
   const handleNewRow = () => {
-    const newRow = {
-      id: tableData.length + 1,
-      rowNumber: `#${tableData.length + 1}`,
-      icon: "down",
-      iconColor: "red.500",
-      date: "Jun 13, 2025",
-      category: "",
-      account: "",
-      type: "Expense",
-      notes: "",
-      amount: "0",
-      options: null,
+    const newTransaction: TablesInsert<"transactions"> = {
+      amount: 0,
+      account_id: 1, // Replace with a valid account_id
+      category_id: null,
+      occurred_at: new Date().toISOString(),
+      description: "",
+      type: "expense",
     };
-    setTableData((prevData) => [...prevData, newRow]);
+    createTransaction.mutate(newTransaction);
   };
 
-  const handleRemoveRow = (id: string) => {
-    setTableData((prev) => prev.filter((row) => row.id !== id));
+  const handleUpdateRow = (data: Partial<Tables<"transactions">>) => {
+    updateTransaction.mutate(data[0]);
   };
 
-  const handleDisabledRow = (id: string) => {
-    setTableData((prev) =>
-      prev.map((row) => (row.id === id ? { ...row, is_enabled: false } : row)),
-    );
+  const handleRemoveRow = (id: number) => {
+    deleteTransaction.mutate(id);
   };
 
-  const handleSeeDetailsRow = (id: string) => {
-    const row = tableData.find((row) => row.id === id);
-    setDetailsRow(row);
+  const handleDisabledRow = (id: number) => {
+    updateTransaction.mutate({ id, transaction: { is_enabled: false } });
+  };
+
+  const handleSeeDetailsRow = (id: number) => {
+    const row = transactions?.find((transaction) => transaction.id === id);
+    setDetailsRow(row || null);
   };
 
   return (
@@ -60,13 +69,15 @@ export default function TransactionsPage() {
           size="sm"
           leftIcon={<IconArrowBarToDownDashed size={16} />}
           onClick={handleNewRow}
+          isLoading={createTransaction.isPending}
         >
           New row
         </Button>
       </HStack>
       <TransactionsTable
-        data={tableData}
-        onDataChange={setTableData}
+        data={transactions || []}
+        isLoading={isLoading}
+        onDataChange={handleUpdateRow}
         onRemoveRow={handleRemoveRow}
         onSeeDetailsRow={handleSeeDetailsRow}
         onDisabledRow={handleDisabledRow}
@@ -75,6 +86,7 @@ export default function TransactionsPage() {
       <DetailsDrawer
         isOpen={!!detailsRow}
         onClose={() => setDetailsRow(null)}
+        transaction={detailsRow}
       />
     </Stack>
   );
