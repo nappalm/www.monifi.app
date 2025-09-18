@@ -14,6 +14,7 @@ create table if not exists public.transactions (
   amount numeric(12, 2) not null default 0,
   description text,
   occurred_at timestamp with time zone not null default current_timestamp,
+  enabled boolean not null default true,
   created_at timestamp with time zone not null default current_timestamp
 );
 
@@ -26,6 +27,7 @@ comment on column public.transactions.type is 'The type of transaction (income o
 comment on column public.transactions.amount is 'The monetary value of the transaction.';
 comment on column public.transactions.description is 'A description of the transaction.';
 comment on column public.transactions.occurred_at is 'Timestamp of when the transaction actually happened.';
+comment on column public.transactions.enabled is 'Indicates whether the transaction is active or soft-deleted.';
 comment on column public.transactions.created_at is 'Timestamp of when the transaction was recorded.';
 
 alter table public.transactions enable row level security;
