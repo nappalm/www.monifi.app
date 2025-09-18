@@ -1,10 +1,7 @@
 {
-  "name": "buildfast",
+  "name": "monifi",
   "version": "1.0.7",
   "type": "module",
-  "bin": {
-    "buildfast": "bin/buildfast.cjs"
-  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && node scripts/generate-sitemap.js",
