@@ -21,6 +21,7 @@ export function InlineEditorGrid<T extends DataRow>({
   data,
   onDataChange,
   onCellChange,
+  onRowChange,
   isLoading = false,
 }: InlineEditorGridProps<T>) {
   const visibleColumns = columns.filter((c) => c.isVisible !== false);
@@ -28,8 +29,9 @@ export function InlineEditorGrid<T extends DataRow>({
     useInlineEditor<T>({
       columns: visibleColumns,
       data: data,
-      onDataChange: onDataChange,
+      onDataChange,
       onCellChange,
+      onRowChange,
     });
 
   const inputProps = getInputProps();

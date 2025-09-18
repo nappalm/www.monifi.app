@@ -7,6 +7,7 @@ export function useInlineEditor<T extends DataRow>({
   data,
   onDataChange,
   onCellChange,
+  onRowChange,
 }: UseInlineEditorProps<T>) {
   const [activeCell, setActiveCell] = useState<{
     row: number;
@@ -60,15 +61,19 @@ export function useInlineEditor<T extends DataRow>({
           const newData = data.map((r) => ({ ...r }));
           newData[rowIndex][accessor] = processedValue;
 
-          onDataChange(newData);
+          onDataChange?.(newData);
+
+          const changedRow = newData[rowIndex];
 
           onCellChange?.({
             value: processedValue,
             previousValue,
             rowIndex,
             columnAccessor: accessor,
-            row: newData[rowIndex],
+            row: changedRow,
           });
+
+          onRowChange?.(changedRow, rowIndex);
         }
       }
       setIsEditing(false);
@@ -81,6 +86,7 @@ export function useInlineEditor<T extends DataRow>({
       columns,
       onDataChange,
       onCellChange,
+      onRowChange,
     ],
   );
 
@@ -100,18 +106,22 @@ export function useInlineEditor<T extends DataRow>({
           return r;
         });
 
-        onDataChange(newData);
+        onDataChange?.(newData);
+
+        const changedRow = newData[rowIndex];
 
         onCellChange?.({
           value: value,
           previousValue,
           rowIndex,
           columnAccessor: accessor,
-          row: newData[rowIndex],
+          row: changedRow,
         });
+
+        onRowChange?.(changedRow, rowIndex);
       }
     },
-    [columns, data, onDataChange, onCellChange],
+    [columns, data, onDataChange, onCellChange, onRowChange],
   );
 
   const handleKeyDown = useCallback(
@@ -301,13 +311,25 @@ export function useInlineEditor<T extends DataRow>({
           newData[r][accessor] = sourceValue;
         }
       }
-      onDataChange(newData);
+      onDataChange?.(newData);
+
+      for (let r = startRow; r <= endRow; r++) {
+        onRowChange?.(newData[r], r);
+      }
 
       // Reset drag cells
       setDragStartCell(null);
       setDragEndCell(null);
     }
-  }, [isDragging, dragStartCell, dragEndCell, data, columns, onDataChange]);
+  }, [
+    isDragging,
+    dragStartCell,
+    dragEndCell,
+    data,
+    columns,
+    onDataChange,
+    onRowChange,
+  ]);
 
   // Effect to add/remove mouse listeners on window
   useEffect(() => {

@@ -2,7 +2,10 @@ import { supabaseClient } from "@/lib";
 import { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 
 export const getTransactions = async () => {
-  const { data, error } = await supabaseClient.from("transactions").select("*");
+  const { data, error } = await supabaseClient
+    .from("transactions")
+    .select("*")
+    .order("id", { ascending: true });
   if (error) throw new Error(error.message);
   return data;
 };
@@ -33,7 +36,6 @@ export const updateTransaction = async ({
   id,
   ...transaction
 }: TablesUpdate<"transactions">) => {
-  console.log({ transaction });
   const { data, error } = await supabaseClient
     .from("transactions")
     .update(transaction)
