@@ -314,6 +314,7 @@ export type Database = {
           category_id: number | null
           created_at: string
           description: string | null
+          enabled: boolean
           id: number
           occurred_at: string
           type: Database["public"]["Enums"]["transaction_type"]
@@ -325,10 +326,11 @@ export type Database = {
           category_id?: number | null
           created_at?: string
           description?: string | null
+          enabled?: boolean
           id?: never
           occurred_at?: string
           type: Database["public"]["Enums"]["transaction_type"]
-          user_id: string
+          user_id?: string
         }
         Update: {
           account_id?: number
@@ -336,6 +338,7 @@ export type Database = {
           category_id?: number | null
           created_at?: string
           description?: string | null
+          enabled?: boolean
           id?: never
           occurred_at?: string
           type?: Database["public"]["Enums"]["transaction_type"]
