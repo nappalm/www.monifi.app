@@ -1,6 +1,3 @@
-import { Button, Heading, HStack, Stack } from "@chakra-ui/react";
-import { IconArrowBarToDownDashed } from "@tabler/icons-react";
-import { useState } from "react";
 import {
   useCreateTransaction,
   useDeleteTransaction,
@@ -8,11 +5,15 @@ import {
   useUpdateTransaction,
 } from "@/features/transactions/hooks/useTransactions";
 import { Tables, TablesInsert } from "@/lib/supabase/database.types";
+import { Button, Heading, HStack, Stack } from "@chakra-ui/react";
+import { IconArrowBarToDownDashed } from "@tabler/icons-react";
+import { debounce } from "lodash";
+import { useCallback, useState } from "react";
+import { DetailsDrawer } from "../components/DetailsDrawer";
 import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
 import { TransactionFilters } from "../hooks/useTransactionFilters";
-import { DetailsDrawer } from "../components/DetailsDrawer";
 
 export default function TransactionsPage() {
   const { data: transactions, isLoading } = useTransactions();
@@ -30,18 +31,22 @@ export default function TransactionsPage() {
   const handleNewRow = () => {
     const newTransaction: TablesInsert<"transactions"> = {
       amount: 0,
-      account_id: 1, // Replace with a valid account_id
+      account_id: 1,
       category_id: null,
       occurred_at: new Date().toISOString(),
       description: "",
       type: "expense",
     };
+
     createTransaction.mutate(newTransaction);
   };
 
-  const handleUpdateRow = (data: Partial<Tables<"transactions">>) => {
-    updateTransaction.mutate(data[0]);
-  };
+  const handleUpdateRow = useCallback(
+    debounce((data: Partial<Tables<"transactions">>) => {
+      updateTransaction.mutate(data);
+    }, 500),
+    [],
+  );
 
   const handleRemoveRow = (id: number) => {
     deleteTransaction.mutate(id);
@@ -77,7 +82,7 @@ export default function TransactionsPage() {
       <TransactionsTable
         data={transactions || []}
         isLoading={isLoading}
-        onDataChange={handleUpdateRow}
+        onRowChange={handleUpdateRow}
         onRemoveRow={handleRemoveRow}
         onSeeDetailsRow={handleSeeDetailsRow}
         onDisabledRow={handleDisabledRow}

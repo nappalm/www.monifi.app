@@ -1,15 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Tables, TablesInsert } from "@/lib/supabase/database.types";
 import {
   createTransaction,
   deleteTransaction,
   getTransactions,
   updateTransaction,
 } from "@/shared/services/supabase.transactions";
-import {
-  Tables,
-  TablesInsert,
-  TablesUpdate,
-} from "@/lib/supabase/database.types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useTransactions = () => {
   return useQuery({

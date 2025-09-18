@@ -12,9 +12,9 @@ import TypeSelect from "./TypeSelect";
 type Props = {
   data: Tables<"transactions">[];
   isLoading: boolean;
-  onDataChange: (
-    id: number,
+  onRowChange: (
     updatedData: Partial<Tables<"transactions">>,
+    rowIndex: number,
   ) => void;
   onRemoveRow: (id: number) => void;
   onSeeDetailsRow: (id: number) => void;
@@ -24,7 +24,7 @@ type Props = {
 export default function TransactionsTable({
   data,
   isLoading,
-  onDataChange,
+  onRowChange,
   onRemoveRow,
   onSeeDetailsRow,
   onDisabledRow,
@@ -46,7 +46,7 @@ export default function TransactionsTable({
         return (
           <DatePickerSelect
             defaultValue={new Date(value)}
-            value={new Date(value)}
+            // value={new Date(value)}
             onChange={(date) => {
               if (date) {
                 updateCell(date.toISOString());
@@ -142,7 +142,7 @@ export default function TransactionsTable({
       columns={columns}
       data={data}
       isLoading={isLoading}
-      onDataChange={onDataChange}
+      onRowChange={onRowChange}
     />
   );
 }
