@@ -1,54 +1,33 @@
+import { useAccounts } from "@/shared/hooks/useAccounts";
+import { useCategories } from "@/shared/hooks/useCategories";
 import {
+  Box,
   IconButton,
+  Input,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
-  MenuOptionGroup,
-  MenuItemOption,
-  Input,
-  Portal,
-  Box,
   MenuDivider,
+  MenuItem,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+  Portal,
 } from "@chakra-ui/react";
 import {
-  IconFilter2,
-  IconChevronLeft,
-  IconTags,
-  IconMoneybag,
   IconArrowDownDashed,
+  IconChevronLeft,
+  IconFilter2,
+  IconMoneybag,
+  IconTags,
   IconX,
 } from "@tabler/icons-react";
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   TransactionFilters,
   useTransactionFilters,
 } from "../hooks/useTransactionFilters";
 
 type View = "main" | "category" | "account" | "type";
-
-const categoryOptions = [
-  { label: "Food", value: "food" },
-  { label: "Transportation", value: "transportation" },
-  { label: "Shopping", value: "shopping" },
-];
-
-const accountOptions = [
-  { label: "Cash", value: "cash" },
-  { label: "Credit Card", value: "credit_card" },
-  { label: "Debit Card", value: "debit_card" },
-];
-
-const typeOptions = [
-  { label: "Income", value: "income" },
-  { label: "Expense", value: "expense" },
-];
-
-const optionsMap = {
-  category: categoryOptions,
-  account: accountOptions,
-  type: typeOptions,
-};
 
 interface FilterButtonProps {
   filters: Partial<TransactionFilters>;
@@ -59,6 +38,38 @@ export default function FilterButton({ filters, onChange }: FilterButtonProps) {
   const [view, setView] = useState<View>("main");
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const { data: categories } = useCategories();
+  const { data: accounts } = useAccounts();
+
+  const categoryOptions = useMemo(
+    () =>
+      categories?.map((category) => ({
+        label: category.name,
+        value: category.id.toString(),
+      })) || [],
+    [categories],
+  );
+
+  const accountOptions = useMemo(
+    () =>
+      accounts?.map((account) => ({
+        label: account.name,
+        value: account.id.toString(),
+      })) || [],
+    [accounts],
+  );
+
+  const typeOptions = [
+    { label: "Income", value: "income" },
+    { label: "Expense", value: "expense" },
+  ];
+
+  const optionsMap = {
+    category: categoryOptions,
+    account: accountOptions,
+    type: typeOptions,
+  };
 
   const {
     filters: appliedFilters,
@@ -100,6 +111,7 @@ export default function FilterButton({ filters, onChange }: FilterButtonProps) {
     return optionsMap[view].filter((option) =>
       option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, searchTerm]);
 
   const renderContent = () => {
@@ -204,13 +216,16 @@ export default function FilterButton({ filters, onChange }: FilterButtonProps) {
       initialFocusRef={searchInputRef}
       onClose={handleClose}
     >
-      <MenuButton
-        as={IconButton}
-        aria-label="Filter"
-        icon={<IconFilter2 size={16} />}
-        size="sm"
-        borderRightRadius={0}
-      />
+      <Box position="relative">
+        <MenuButton
+          as={IconButton}
+          aria-label="Filter"
+          icon={<IconFilter2 size={16} />}
+          size="sm"
+          borderRightRadius={0}
+          color={areFiltersActive ? "red.500" : undefined}
+        ></MenuButton>
+      </Box>
       <Portal>
         <MenuList minWidth="240px">{renderContent()}</MenuList>
       </Portal>

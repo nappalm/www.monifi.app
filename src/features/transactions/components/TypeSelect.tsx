@@ -35,10 +35,10 @@ export default function TypeSelect({ defaultValue, value, onChange }: Props) {
   const [type, setType] = useState(value || defaultValue);
 
   useEffect(() => {
-    if (value) {
-      setType(value);
+    if (defaultValue) {
+      setType(defaultValue);
     }
-  }, [value]);
+  }, [defaultValue]);
 
   const handleTypeChange = (newType: "income" | "expense") => {
     setType(newType);

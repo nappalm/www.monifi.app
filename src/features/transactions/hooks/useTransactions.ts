@@ -14,11 +14,12 @@ import { useQuery } from "@tanstack/react-query";
 
 const CACHE_KEY = "transactions";
 
-export const useTransactions = () => {
+export const useTransactions = (dateRange?: [string, string] | null) => {
   return useQuery({
-    queryKey: [CACHE_KEY],
-    queryFn: getTransactions,
+    queryKey: [CACHE_KEY, dateRange],
+    queryFn: () => getTransactions(dateRange),
     staleTime: Infinity,
+    enabled: !!dateRange,
   });
 };
 

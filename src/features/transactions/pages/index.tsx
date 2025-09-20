@@ -4,19 +4,22 @@ import {
   useTransactions,
   useUpdateTransaction,
 } from "@/features/transactions/hooks/useTransactions";
-import { Tables, TablesInsert } from "@/lib/supabase/database.types";
+import { Tables } from "@/lib/supabase/database.types";
 import { Button, Heading, HStack, Stack } from "@chakra-ui/react";
 import { IconArrowBarToDownDashed } from "@tabler/icons-react";
 import { debounce } from "lodash";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
 import { TransactionFilters } from "../hooks/useTransactionFilters";
+import { filterTransactions } from "../utils/filtered";
+import { getNewTransaction } from "../utils/helpers";
 
 export default function TransactionsPage() {
-  const { data: transactions, isLoading } = useTransactions();
+  const [dateRange, setDateRange] = useState<[string, string] | null>(null);
+  const { data: transactions, isLoading } = useTransactions(dateRange);
 
   const createTransaction = useCreateTransaction();
   const updateTransaction = useUpdateTransaction();
@@ -26,20 +29,15 @@ export default function TransactionsPage() {
     null,
   );
 
-  const [, setDateRange] = useState<[string, string] | null>(null);
   const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
 
-  const handleNewRow = () => {
-    const newTransaction: Omit<TablesInsert<"transactions">, "user_id"> = {
-      amount: 0,
-      account_id: 1,
-      category_id: null,
-      occurred_at: new Date().toISOString(),
-      description: "",
-      type: "expense",
-    };
+  const filteredTransactions = useMemo(
+    () => filterTransactions(transactions || [], filters),
+    [transactions, filters],
+  );
 
-    createTransaction.mutate(newTransaction);
+  const handleNewRow = () => {
+    createTransaction.mutate(getNewTransaction());
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,7 +57,9 @@ export default function TransactionsPage() {
   };
 
   const handleSeeDetailsRow = (id: number) => {
-    const row = transactions?.find((transaction) => transaction.id === id);
+    const row = filteredTransactions?.find(
+      (transaction) => transaction.id === id,
+    );
     setDetailsRow(row || null);
   };
 
@@ -82,7 +82,7 @@ export default function TransactionsPage() {
         </Button>
       </HStack>
       <TransactionsTable
-        data={transactions || []}
+        data={filteredTransactions || []}
         isLoading={isLoading}
         onRowChange={handleUpdateRow}
         onRemoveRow={handleRemoveRow}
