@@ -124,7 +124,7 @@ export function InlineEditorGrid<T extends DataRow>({
                         boxShadow: `inset 0 0 0 1px ${rowFocusBorderColor}`,
                       },
                     }),
-                    ...(row.is_enabled === false && {
+                    ...(row.enabled === false && {
                       opacity: 0.5,
                     }),
                   }}
