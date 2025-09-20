@@ -5,7 +5,8 @@ import {
   useUpdateTransaction,
 } from "@/features/transactions/hooks/useTransactions";
 import { Tables } from "@/lib/supabase/database.types";
-import { Button, Heading, HStack, Stack } from "@chakra-ui/react";
+import { useKeyPress } from "@/shared";
+import { Button, Heading, HStack, Stack, Text } from "@chakra-ui/react";
 import { IconArrowBarToDownDashed } from "@tabler/icons-react";
 import { debounce } from "lodash";
 import { useCallback, useMemo, useState } from "react";
@@ -39,6 +40,8 @@ export default function TransactionsPage() {
   const handleNewRow = () => {
     createTransaction.mutate(getNewTransaction());
   };
+
+  useKeyPress("i", handleNewRow, "ctrlKey");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleUpdateRow = useCallback(
@@ -77,6 +80,11 @@ export default function TransactionsPage() {
           leftIcon={<IconArrowBarToDownDashed size={16} />}
           onClick={handleNewRow}
           isLoading={createTransaction.isPending}
+          rightIcon={
+            <Text fontSize="xs" opacity={0.5}>
+              Ctrl + I
+            </Text>
+          }
         >
           New row
         </Button>
