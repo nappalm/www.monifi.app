@@ -5,7 +5,7 @@ export const getNewTransaction = (): Omit<
   "user_id"
 > => ({
   amount: 0,
-  account_id: 1,
+  account_id: null,
   category_id: null,
   occurred_at: new Date().toISOString(),
   description: "",
