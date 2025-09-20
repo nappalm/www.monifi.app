@@ -8,8 +8,7 @@ import { Tables } from "@/lib/supabase/database.types";
 import { useKeyPress } from "@/shared";
 import { Button, Heading, HStack, Stack, Text } from "@chakra-ui/react";
 import { IconArrowBarToDownDashed } from "@tabler/icons-react";
-import { debounce } from "lodash";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
@@ -44,12 +43,9 @@ export default function TransactionsPage() {
   useKeyPress("i", handleNewRow, "ctrlKey");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleUpdateRow = useCallback(
-    debounce((data: Tables<"transactions">) => {
-      updateTransaction.mutate(data);
-    }, 500),
-    [],
-  );
+  const handleUpdateRow = (data: Tables<"transactions">) => {
+    updateTransaction.mutate(data);
+  };
 
   const handleRemoveRow = (id: number) => {
     deleteTransaction.mutate(id);

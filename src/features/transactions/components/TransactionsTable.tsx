@@ -37,6 +37,8 @@ export default function TransactionsTable({
       accessor: "occurred_at",
       isEditable: true,
       sx: {
+        w: "130px",
+        minW: "130px",
         p: 0,
       },
       render: (value, _, updateCell) => {
@@ -57,7 +59,9 @@ export default function TransactionsTable({
       accessor: "category_id",
       isEditable: true,
       sx: {
-        padding: 0,
+        w: "150px",
+        minW: "150px",
+        p: 0,
       },
       render: (value, _, updateCell) => {
         return (
@@ -77,7 +81,9 @@ export default function TransactionsTable({
       accessor: "account_id",
       isEditable: true,
       sx: {
-        padding: 0,
+        w: "150px",
+        minW: "150px",
+        p: 0,
       },
       render: (value, _, updateCell) => {
         return (
@@ -97,7 +103,9 @@ export default function TransactionsTable({
       accessor: "type",
       isEditable: true,
       sx: {
-        padding: 0,
+        w: "100px",
+        minW: "100px",
+        p: 0,
       },
       render: (value, _, updateCell) => {
         return (
@@ -112,8 +120,22 @@ export default function TransactionsTable({
         );
       },
     },
-    { header: "Description", accessor: "description" },
-    { header: "Amount", accessor: "amount", isAmount: true },
+    {
+      header: "Description",
+      accessor: "description",
+      sx: {
+        maxW: "230px",
+      },
+    },
+    {
+      header: "Amount",
+      accessor: "amount",
+      isAmount: true,
+      sx: {
+        w: "120px",
+        minW: "120px",
+      },
+    },
     {
       header: "",
       accessor: "options",
