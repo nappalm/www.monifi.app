@@ -8,7 +8,7 @@ END$$;
 create table if not exists public.transactions (
   id bigint generated always as identity primary key,
   user_id uuid not null references auth.users(id) on delete cascade,
-  account_id bigint not null references public.accounts(id) on delete cascade,
+  account_id bigint references public.accounts(id) on delete set null,
   category_id bigint references public.categories(id) on delete set null,
   type public.transaction_type not null,
   amount numeric(12, 2) not null default 0,
