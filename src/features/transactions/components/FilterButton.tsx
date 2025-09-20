@@ -14,11 +14,11 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import {
-  IconArrowDownDashed,
   IconChevronLeft,
   IconFilter2,
-  IconMoneybag,
-  IconTags,
+  IconLineHeight,
+  IconReceiptDollarFilled,
+  IconTagFilled,
   IconX,
 } from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -120,7 +120,7 @@ export default function FilterButton({ filters, onChange }: FilterButtonProps) {
         <>
           <MenuItem
             onClick={() => handleViewChange("category")}
-            icon={<IconTags size={16} />}
+            icon={<IconTagFilled size={16} />}
           >
             Category{" "}
             {appliedFilters.categories.length > 0 &&
@@ -128,7 +128,7 @@ export default function FilterButton({ filters, onChange }: FilterButtonProps) {
           </MenuItem>
           <MenuItem
             onClick={() => handleViewChange("account")}
-            icon={<IconMoneybag size={16} />}
+            icon={<IconReceiptDollarFilled size={16} />}
           >
             Account{" "}
             {appliedFilters.accounts.length > 0 &&
@@ -136,7 +136,7 @@ export default function FilterButton({ filters, onChange }: FilterButtonProps) {
           </MenuItem>
           <MenuItem
             onClick={() => handleViewChange("type")}
-            icon={<IconArrowDownDashed size={16} />}
+            icon={<IconLineHeight size={16} />}
           >
             Type{" "}
             {appliedFilters.types.length > 0 &&
