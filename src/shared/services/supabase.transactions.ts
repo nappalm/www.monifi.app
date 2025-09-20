@@ -21,11 +21,11 @@ export const getTransactionById = async (id: number) => {
 };
 
 export const createTransaction = async (
-  transaction: TablesInsert<"transactions">,
+  transaction: Omit<TablesInsert<"transactions">, "user_id">,
 ) => {
   const { data, error } = await supabaseClient
     .from("transactions")
-    .insert(transaction)
+    .insert(transaction as TablesInsert<"transactions">)
     .select()
     .single();
   if (error) throw new Error(error.message);
@@ -35,7 +35,7 @@ export const createTransaction = async (
 export const updateTransaction = async ({
   id,
   ...transaction
-}: TablesUpdate<"transactions">) => {
+}: { id: number } & Omit<TablesUpdate<"transactions">, "id">) => {
   const { data, error } = await supabaseClient
     .from("transactions")
     .update(transaction)

@@ -1,10 +1,10 @@
+import { Tables } from "@/lib/supabase/database.types";
 import {
   AccountSelect,
   CategorySelect,
   Column,
   InlineEditorGrid,
 } from "@/shared";
-import { Tables } from "@/lib/supabase/database.types";
 import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
@@ -12,13 +12,10 @@ import TypeSelect from "./TypeSelect";
 type Props = {
   data: Tables<"transactions">[];
   isLoading: boolean;
-  onRowChange: (
-    updatedData: Partial<Tables<"transactions">>,
-    rowIndex: number,
-  ) => void;
+  onRowChange: (updatedData: Tables<"transactions">, rowIndex: number) => void;
   onRemoveRow: (id: number) => void;
   onSeeDetailsRow: (id: number) => void;
-  onDisabledRow: (id: number) => void;
+  onDisabledRow: (id: number, previous: boolean) => void;
 };
 
 export default function TransactionsTable({
@@ -42,11 +39,10 @@ export default function TransactionsTable({
       sx: {
         p: 0,
       },
-      render: (value, row, updateCell) => {
+      render: (value, _, updateCell) => {
         return (
           <DatePickerSelect
-            defaultValue={new Date(value)}
-            // value={new Date(value)}
+            defaultValue={new Date(value as string)}
             onChange={(date) => {
               if (date) {
                 updateCell(date.toISOString());
@@ -63,10 +59,10 @@ export default function TransactionsTable({
       sx: {
         padding: 0,
       },
-      render: (value, row, updateCell) => {
+      render: (value, _, updateCell) => {
         return (
           <CategorySelect
-            defaultValue={value}
+            defaultValue={value as number | null}
             onChange={(category) => {
               if (category) {
                 updateCell(category.id);
@@ -83,10 +79,10 @@ export default function TransactionsTable({
       sx: {
         padding: 0,
       },
-      render: (value, row, updateCell) => {
+      render: (value, _, updateCell) => {
         return (
           <AccountSelect
-            defaultValue={value}
+            defaultValue={value as number | null}
             onChange={(account) => {
               if (account) {
                 updateCell(account.id);
@@ -103,10 +99,10 @@ export default function TransactionsTable({
       sx: {
         padding: 0,
       },
-      render: (value, row, updateCell) => {
+      render: (value, _, updateCell) => {
         return (
           <TypeSelect
-            defaultValue={value}
+            defaultValue={value as "income" | "expense"}
             onChange={(type) => {
               if (type) {
                 updateCell(type);
@@ -129,8 +125,9 @@ export default function TransactionsTable({
       },
       render: (_, row) => (
         <TableRowMenu
+          isDisabled={!row.enabled}
           onDelete={() => onRemoveRow(row.id)}
-          onDisabled={() => onDisabledRow(row.id)}
+          onDisabled={() => onDisabledRow(row.id, row.enabled)}
           onSeeDetails={() => onSeeDetailsRow(row.id)}
         />
       ),
@@ -138,7 +135,7 @@ export default function TransactionsTable({
   ];
 
   return (
-    <InlineEditorGrid
+    <InlineEditorGrid<Tables<"transactions">>
       columns={columns}
       data={data}
       isLoading={isLoading}

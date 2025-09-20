@@ -1,96 +1,48 @@
-import { Tables, TablesInsert } from "@/lib/supabase/database.types";
+import {
+  Tables,
+  TablesInsert,
+  TablesUpdate,
+} from "@/lib/supabase/database.types";
+import { useOptimisticMutation } from "@/shared";
 import {
   createTransaction,
   deleteTransaction,
   getTransactions,
   updateTransaction,
 } from "@/shared/services/supabase.transactions";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+
+const CACHE_KEY = "transactions";
 
 export const useTransactions = () => {
   return useQuery({
-    queryKey: ["transactions"],
+    queryKey: [CACHE_KEY],
     queryFn: getTransactions,
     staleTime: Infinity,
   });
 };
 
-export const useCreateTransaction = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (transaction: TablesInsert<"transactions">) =>
-      createTransaction(transaction),
-    onMutate: async (newTransaction) => {
-      await queryClient.cancelQueries({ queryKey: ["transactions"] });
-      const previousTransactions = queryClient.getQueryData<
-        Tables<"transactions">[]
-      >(["transactions"]);
-      queryClient.setQueryData(
-        ["transactions"],
-        [
-          ...(previousTransactions || []),
-          { ...newTransaction, id: Date.now() },
-        ],
-      );
-      return { previousTransactions };
-    },
-    onError: (err, newTransaction, context) => {
-      queryClient.setQueryData(["transactions"], context?.previousTransactions);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-    },
+export const useCreateTransaction = () =>
+  useOptimisticMutation<
+    Partial<Tables<"transactions">>,
+    Omit<TablesInsert<"transactions">, "user_id">
+  >([CACHE_KEY], createTransaction, (previous, newTransaction) => {
+    return [...(previous || []), newTransaction];
   });
-};
 
-export const useUpdateTransaction = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: updateTransaction,
-    onMutate: async (updatedTransaction) => {
-      await queryClient.cancelQueries({ queryKey: ["transactions"] });
-      const previousTransactions = queryClient.getQueryData<
-        Tables<"transactions">[]
-      >(["transactions"]);
-      queryClient.setQueryData(
-        ["transactions"],
-        previousTransactions?.map((transaction) =>
-          transaction.id === updatedTransaction.id
-            ? { ...transaction, ...updatedTransaction.transaction }
-            : transaction,
-        ),
-      );
-      return { previousTransactions };
-    },
-    onError: (err, updatedTransaction, context) => {
-      queryClient.setQueryData(["transactions"], context?.previousTransactions);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-    },
-  });
-};
+export const useUpdateTransaction = () =>
+  useOptimisticMutation<
+    Partial<Tables<"transactions">>,
+    { id: number } & Omit<TablesUpdate<"transactions">, "id">
+  >([CACHE_KEY], updateTransaction, (previous, updatedTransaction) =>
+    previous?.map((t) =>
+      t.id === updatedTransaction.id ? { ...t, ...updatedTransaction } : t,
+    ),
+  );
 
-export const useDeleteTransaction = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id: number) => deleteTransaction(id),
-    onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey: ["transactions"] });
-      const previousTransactions = queryClient.getQueryData<
-        Tables<"transactions">[]
-      >(["transactions"]);
-      queryClient.setQueryData(
-        ["transactions"],
-        previousTransactions?.filter((transaction) => transaction.id !== id),
-      );
-      return { previousTransactions };
-    },
-    onError: (err, id, context) => {
-      queryClient.setQueryData(["transactions"], context?.previousTransactions);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] });
-    },
-  });
-};
+export const useDeleteTransaction = () =>
+  useOptimisticMutation<Tables<"transactions">, number>(
+    [CACHE_KEY],
+    deleteTransaction,
+    (previous, id) => previous?.filter((t) => t.id !== id),
+  );

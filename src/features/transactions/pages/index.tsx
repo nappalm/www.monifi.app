@@ -17,6 +17,7 @@ import { TransactionFilters } from "../hooks/useTransactionFilters";
 
 export default function TransactionsPage() {
   const { data: transactions, isLoading } = useTransactions();
+
   const createTransaction = useCreateTransaction();
   const updateTransaction = useUpdateTransaction();
   const deleteTransaction = useDeleteTransaction();
@@ -29,7 +30,7 @@ export default function TransactionsPage() {
   const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
 
   const handleNewRow = () => {
-    const newTransaction: TablesInsert<"transactions"> = {
+    const newTransaction: Omit<TablesInsert<"transactions">, "user_id"> = {
       amount: 0,
       account_id: 1,
       category_id: null,
@@ -41,8 +42,9 @@ export default function TransactionsPage() {
     createTransaction.mutate(newTransaction);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleUpdateRow = useCallback(
-    debounce((data: Partial<Tables<"transactions">>) => {
+    debounce((data: Tables<"transactions">) => {
       updateTransaction.mutate(data);
     }, 500),
     [],
@@ -52,8 +54,8 @@ export default function TransactionsPage() {
     deleteTransaction.mutate(id);
   };
 
-  const handleDisabledRow = (id: number) => {
-    updateTransaction.mutate({ id, transaction: { is_enabled: false } });
+  const handleDisabledRow = (id: number, previous: boolean) => {
+    updateTransaction.mutate({ id, enabled: !previous });
   };
 
   const handleSeeDetailsRow = (id: number) => {
