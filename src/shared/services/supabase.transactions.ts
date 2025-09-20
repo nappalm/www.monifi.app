@@ -1,11 +1,20 @@
 import { supabaseClient } from "@/lib";
 import { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 
-export const getTransactions = async () => {
-  const { data, error } = await supabaseClient
+export const getTransactions = async (dateRange?: [string, string] | null) => {
+  let query = supabaseClient
     .from("transactions")
     .select("*")
     .order("id", { ascending: true });
+
+  if (dateRange?.[0]) {
+    query = query.gte("occurred_at", dateRange[0]);
+  }
+  if (dateRange?.[1]) {
+    query = query.lte("occurred_at", dateRange[1]);
+  }
+
+  const { data, error } = await query;
   if (error) throw new Error(error.message);
   return data;
 };
