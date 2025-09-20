@@ -19,21 +19,26 @@ export default function useOptimisticMutation<TData, TVariables>(
   return useMutation({
     mutationFn,
     onMutate: async (variables: TVariables) => {
-      await queryClient.cancelQueries({ queryKey });
-      const previousData = queryClient.getQueryData<TData[]>(queryKey);
+      await queryClient.cancelQueries({ queryKey, exact: false });
 
-      const newData = optimisticUpdate(previousData, variables);
+      const queries = queryClient.getQueriesData<TData[]>({ queryKey });
 
-      queryClient.setQueryData(queryKey, newData);
-      return { previousData };
+      queries.forEach(([key, previousData]) => {
+        const newData = optimisticUpdate(previousData, variables);
+        queryClient.setQueryData(key, newData);
+      });
+
+      return { queries };
     },
     onError: (_err, _variables, context) => {
-      if (context?.previousData) {
-        queryClient.setQueryData(queryKey, context.previousData);
+      if (context?.queries) {
+        context.queries.forEach(([key, data]) => {
+          queryClient.setQueryData(key, data);
+        });
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
+      queryClient.invalidateQueries({ queryKey, exact: false });
     },
   });
 }
