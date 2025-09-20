@@ -116,6 +116,7 @@ export default function AccountSelect({ defaultValue, onChange }: Props) {
             {filteredAccounts.map((account) => (
               <MenuItem
                 key={account.id}
+                as="div"
                 onClick={() => handleSelectAccount(account)}
               >
                 <Flex justify="space-between" align="center" w="full">
