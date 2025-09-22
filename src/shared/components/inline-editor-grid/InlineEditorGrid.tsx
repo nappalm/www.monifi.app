@@ -23,6 +23,7 @@ export function InlineEditorGrid<T extends DataRow>({
   onCellChange,
   onRowChange,
   isLoading = false,
+  showRowNumber = false,
 }: InlineEditorGridProps<T>) {
   const visibleColumns = columns.filter((c) => c.isVisible !== false);
   const { tableRef, activeCell, getCellProps, getInputProps, updateCell } =
@@ -48,6 +49,9 @@ export function InlineEditorGrid<T extends DataRow>({
 
   const inputBg = useColorModeValue("white", "gray.700");
   const borderBgContainer = useColorModeValue("gray.200", "gray.800");
+  const columnCount = showRowNumber
+    ? visibleColumns.length + 1
+    : visibleColumns.length;
 
   return (
     <TableContainer
@@ -93,6 +97,11 @@ export function InlineEditorGrid<T extends DataRow>({
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
+            {showRowNumber && (
+              <Th w="1%" px="2" isNumeric>
+                #
+              </Th>
+            )}
             {visibleColumns.map((column) => (
               <Th
                 key={column.accessor as string}
@@ -108,11 +117,11 @@ export function InlineEditorGrid<T extends DataRow>({
         <Tbody>
           {(() => {
             if (isLoading) {
-              return <TableSkeletonRow rows={1} cols={visibleColumns.length} />;
+              return <TableSkeletonRow rows={1} cols={columnCount} />;
             }
 
             if (data.length === 0) {
-              return <TableEmptyRows cols={visibleColumns.length} />;
+              return <TableEmptyRows cols={columnCount} />;
             }
 
             return data.map((row, rowIndex) => {
@@ -131,6 +140,11 @@ export function InlineEditorGrid<T extends DataRow>({
                     }),
                   }}
                 >
+                  {showRowNumber && (
+                    <Td isNumeric color="gray.500">
+                      {rowIndex + 1}
+                    </Td>
+                  )}
                   {visibleColumns.map((column, colIndex) => {
                     const cellValue = row[column.accessor as keyof T]; // Get value using accessor
                     const isNumericColumn =

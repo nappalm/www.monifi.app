@@ -124,7 +124,7 @@ export default function TransactionsTable({
       header: "Description",
       accessor: "description",
       sx: {
-        maxW: "230px",
+        maxW: "200px",
       },
     },
     {
@@ -162,6 +162,7 @@ export default function TransactionsTable({
       data={data}
       isLoading={isLoading}
       onRowChange={onRowChange}
+      showRowNumber
     />
   );
 }

@@ -32,6 +32,7 @@ export interface InlineEditorGridProps<T extends DataRow> {
   onCellChange?: (change: CellChange<T>) => void;
   onRowChange?: (row: T, rowIndex: number) => void;
   isLoading?: boolean;
+  showRowNumber?: boolean;
 }
 
 export interface UseInlineEditorProps<T extends DataRow> {
