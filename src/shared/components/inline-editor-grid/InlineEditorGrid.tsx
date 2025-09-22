@@ -78,6 +78,8 @@ export function InlineEditorGrid<T extends DataRow>({
         variant="unstyled"
         bg={inputBg}
         fontSize="sm"
+        fontFamily="Roboto Mono"
+        fontWeight="semibold"
         px="3"
         sx={{
           ...inputProps.style,
