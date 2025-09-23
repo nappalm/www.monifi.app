@@ -11,7 +11,11 @@ export const getTransactions = async (dateRange?: [string, string] | null) => {
     query = query.gte("occurred_at", dateRange[0]);
   }
   if (dateRange?.[1]) {
-    query = query.lte("occurred_at", dateRange[1]);
+    let endDate = dateRange[1];
+    if (!endDate.includes(" ") && !endDate.includes("T")) {
+      endDate = `${endDate} 23:59:59`;
+    }
+    query = query.lte("occurred_at", endDate);
   }
 
   const { data, error } = await query;

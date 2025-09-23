@@ -35,7 +35,7 @@ export default function TransactionsTable({
     {
       header: "Date",
       accessor: "occurred_at",
-      isEditable: true,
+      isEditable: false,
       sx: {
         w: "130px",
         minW: "130px",
@@ -57,7 +57,7 @@ export default function TransactionsTable({
     {
       header: "Category",
       accessor: "category_id",
-      isEditable: true,
+      isEditable: false,
       sx: {
         w: "150px",
         minW: "150px",
@@ -79,7 +79,7 @@ export default function TransactionsTable({
     {
       header: "Account",
       accessor: "account_id",
-      isEditable: true,
+      isEditable: false,
       sx: {
         w: "150px",
         minW: "150px",
@@ -101,7 +101,7 @@ export default function TransactionsTable({
     {
       header: "Type",
       accessor: "type",
-      isEditable: true,
+      isEditable: false,
       sx: {
         w: "100px",
         minW: "100px",

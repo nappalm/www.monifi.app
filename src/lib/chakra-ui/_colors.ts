@@ -89,6 +89,11 @@ export default {
     400: "#1A1B23",
     500: "#0B0C14",
   },
+  commons: {
+    100: "#3A418A",
+    200: "#2C6C94",
+  },
+
   button: {
     secondary: {
       bg: {
@@ -134,18 +139,6 @@ export default {
       _dark: "nocturnal.300",
     },
   },
-  // --- sidebar
-  sidebar: {
-    button: {
-      default: "#5a5a5a90",
-      _dark: "#ffffff80",
-    },
-    buttonActive: {
-      default: "#000",
-      _dark: "#fff",
-    },
-  },
-  // --- menu
   menu: {
     bg: {
       default: "#f5f5f5",

@@ -1,3 +1,10 @@
+import { Tables } from "@/lib/supabase/database.types";
+import { useAuthenticatedUser } from "@/shared/hooks";
+import {
+  useCategories,
+  useCreateCategory,
+  useDeleteCategory,
+} from "@/shared/hooks/useCategories";
 import {
   Button,
   Flex,
@@ -11,15 +18,8 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import { IconTagFilled, IconTrash } from "@tabler/icons-react";
+import { IconTag, IconTrash } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
-import {
-  useCategories,
-  useCreateCategory,
-  useDeleteCategory,
-} from "@/shared/hooks/useCategories";
-import { useAuthenticatedUser } from "@/shared/hooks";
-import { Tables } from "@/lib/supabase/database.types";
 
 type Props = {
   defaultValue?: number | null;
@@ -88,7 +88,7 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconTagFilled size={13} />}
+        leftIcon={<IconTag size={13} />}
         w="full"
         textAlign="left"
         pl={2}

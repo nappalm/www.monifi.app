@@ -14,14 +14,14 @@ const types = [
   {
     value: "income",
     label: "Income",
-    icon: <IconChevronsUp size={13} color={_colors.cyan[500]} />,
-    color: _colors.cyan[500],
+    icon: <IconChevronsUp size={13} color={_colors.commons[100]} />,
+    // color: _colors.commons[100],
   },
   {
     value: "expense",
     label: "Expense",
-    icon: <IconChevronsDown size={13} color={_colors.red[500]} />,
-    color: _colors.red[500],
+    icon: <IconChevronsDown size={13} color={_colors.commons[200]} />,
+    // color: _colors.commons[200],
   },
 ];
 

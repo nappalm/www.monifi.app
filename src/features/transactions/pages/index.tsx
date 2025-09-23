@@ -6,16 +6,27 @@ import {
 } from "@/features/transactions/hooks/useTransactions";
 import { Tables } from "@/lib/supabase/database.types";
 import { useKeyPress } from "@/shared";
-import { Button, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Grid,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { IconArrowBarToDownDashed } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
+import ExpenseIncomeInfo from "../components/ExpenseIncomeInfo";
 import FilterButton from "../components/FilterButton";
 import FilterDate from "../components/FilterDate";
 import TransactionsTable from "../components/TransactionsTable";
 import { TransactionFilters } from "../hooks/useTransactionFilters";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
+import AccountInfo from "../components/AccountInfo";
+import CategoriesInfo from "../components/CategoriesInfo";
 
 export default function TransactionsPage() {
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
@@ -62,43 +73,62 @@ export default function TransactionsPage() {
     setDetailsRow(row || null);
   };
 
-  return (
-    <Stack gap={5}>
-      <Heading size="lg">Transactions</Heading>
-      <HStack justifyContent="space-between">
-        <HStack gap="1px">
-          <FilterButton filters={filters} onChange={setFilters} />
-          <FilterDate onChange={(i, e) => setDateRange([i, e])} />
-        </HStack>
-        <Button
-          colorScheme="cyan"
-          size="sm"
-          leftIcon={<IconArrowBarToDownDashed size={16} />}
-          onClick={handleNewRow}
-          isLoading={createTransaction.isPending}
-          rightIcon={
-            <Text fontSize="xs" opacity={0.5}>
-              Ctrl + I
-            </Text>
-          }
-        >
-          New row
-        </Button>
-      </HStack>
-      <TransactionsTable
-        data={filteredTransactions || []}
-        isLoading={isLoading}
-        onRowChange={handleUpdateRow}
-        onRemoveRow={handleRemoveRow}
-        onSeeDetailsRow={handleSeeDetailsRow}
-        onDisabledRow={handleDisabledRow}
-      />
+  const isSmallScreen = useBreakpointValue({ base: true, lg: false });
 
-      <DetailsDrawer
-        isOpen={!!detailsRow}
-        onClose={() => setDetailsRow(null)}
-        transaction={detailsRow}
-      />
-    </Stack>
+  return (
+    <Grid
+      gridAutoFlow="column"
+      gridTemplateColumns={
+        isSmallScreen
+          ? "minmax(0, 1fr)"
+          : "296px minmax(0, calc(100% - 296px - 24px))"
+      }
+      gridGap="24px"
+      py={5}
+    >
+      <Stack>
+        <ExpenseIncomeInfo data={transactions ?? []} />
+        <AccountInfo transactions={transactions ?? []} />
+        <CategoriesInfo transactions={transactions ?? []} />
+      </Stack>
+
+      <Stack gap={5}>
+        <Heading size="lg">Transactions</Heading>
+        <HStack justifyContent="space-between">
+          <HStack gap="1px">
+            <FilterButton filters={filters} onChange={setFilters} />
+            <FilterDate onChange={(i, e) => setDateRange([i, e])} />
+          </HStack>
+          <Button
+            colorScheme="cyan"
+            size="sm"
+            leftIcon={<IconArrowBarToDownDashed size={16} />}
+            onClick={handleNewRow}
+            isLoading={createTransaction.isPending}
+            rightIcon={
+              <Text fontSize="xs" opacity={0.5}>
+                Ctrl + I
+              </Text>
+            }
+          >
+            New row
+          </Button>
+        </HStack>
+        <TransactionsTable
+          data={filteredTransactions || []}
+          isLoading={isLoading}
+          onRowChange={handleUpdateRow}
+          onRemoveRow={handleRemoveRow}
+          onSeeDetailsRow={handleSeeDetailsRow}
+          onDisabledRow={handleDisabledRow}
+        />
+
+        <DetailsDrawer
+          isOpen={!!detailsRow}
+          onClose={() => setDetailsRow(null)}
+          transaction={detailsRow}
+        />
+      </Stack>
+    </Grid>
   );
 }

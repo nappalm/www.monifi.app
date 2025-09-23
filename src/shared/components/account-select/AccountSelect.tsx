@@ -1,3 +1,10 @@
+import { Tables } from "@/lib/supabase/database.types";
+import { useAuthenticatedUser } from "@/shared/hooks";
+import {
+  useAccounts,
+  useCreateAccount,
+  useDeleteAccount,
+} from "@/shared/hooks/useAccounts";
 import {
   Button,
   Flex,
@@ -11,15 +18,8 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import { IconReceiptDollarFilled, IconTrash } from "@tabler/icons-react";
+import { IconTrash, IconWallet } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
-import {
-  useAccounts,
-  useCreateAccount,
-  useDeleteAccount,
-} from "@/shared/hooks/useAccounts";
-import { useAuthenticatedUser } from "@/shared/hooks";
-import { Tables } from "@/lib/supabase/database.types";
 
 type Props = {
   defaultValue?: number | null;
@@ -89,7 +89,7 @@ export default function AccountSelect({ defaultValue, onChange }: Props) {
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconReceiptDollarFilled size={13} />}
+        leftIcon={<IconWallet size={13} />}
         w="full"
         textAlign="left"
         pl={2}

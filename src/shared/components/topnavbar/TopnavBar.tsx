@@ -33,7 +33,7 @@ export default function Topnavbar({
 
   return (
     <Box borderBottom="1px solid" borderColor={borderColor} bg={bg}>
-      <Container maxW="container.xl">
+      <Container maxW="1400px">
         <HStack w="full" justifyContent="space-between" p={3}>
           <HStack>
             {!hideResponseMenu && (

@@ -7,9 +7,8 @@ export default function Layout() {
   return (
     <Stack>
       <Box as="main">
-        {" "}
         <TopnavBar onMenuClick={() => {}} />
-        <Container maxW="container.xl" py={10}>
+        <Container maxW="1400px" py={10}>
           <Outlet />
         </Container>
       </Box>
