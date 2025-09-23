@@ -72,7 +72,7 @@ export default function TransactionsChart({ data = [] }: Props) {
   const stopColor = useColorModeValue(_colors.gray[300], _colors.gray[500]);
   const stopColor2 = useColorModeValue(_colors.gray[200], _colors.gray[900]);
   const strokeColor = useColorModeValue(_colors.gray[200], _colors.gray[900]);
-  const tooltipBg = _colors.gray[500];
+  const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -107,7 +107,7 @@ export default function TransactionsChart({ data = [] }: Props) {
         margin={{
           top: 0,
           right: 10,
-          left: -40,
+          left: -30,
           bottom: 20,
         }}
       >
