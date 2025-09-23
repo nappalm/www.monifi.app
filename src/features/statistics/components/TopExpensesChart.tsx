@@ -1,3 +1,4 @@
+import { useState } from "react";
 import _colors from "@/lib/chakra-ui/_colors";
 import { formatCurrency } from "@/shared";
 import {
@@ -25,17 +26,6 @@ const data = [
   { name: "Restaurants", value: 250 },
 ];
 
-const THEME_COLORS = [
-  _colors.commons[200],
-  _colors.green[300],
-  _colors.commons[100],
-  _colors.red[300],
-  _colors.purple[300],
-];
-
-const GRADIENT_URLS = data.map((_, i) => `url(#color${i})`);
-const STROKE_COLORS = THEME_COLORS;
-
 const formatYAxis = (tick: number) => {
   if (tick >= 1000) {
     return `${(tick / 1000).toFixed(0)}k`;
@@ -44,7 +34,10 @@ const formatYAxis = (tick: number) => {
 };
 
 export default function TopExpensesChart() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
+  const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
+  const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -87,27 +80,14 @@ export default function TopExpensesChart() {
               }}
             >
               <defs>
-                {data.map((_, index) => (
-                  <linearGradient
-                    key={`gradient-${index}`}
-                    id={`color${index}`}
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop
-                      offset="5%"
-                      stopColor={THEME_COLORS[index % THEME_COLORS.length]}
-                      stopOpacity={0.8}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor={THEME_COLORS[index % THEME_COLORS.length]}
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                ))}
+                <linearGradient id="colorGray" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={gray500} stopOpacity={0.8} />
+                  <stop offset="95%" stopColor={gray500} stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="colorCyan" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={cyan500} stopOpacity={0.8} />
+                  <stop offset="95%" stopColor={cyan500} stopOpacity={0} />
+                </linearGradient>
               </defs>
               <XAxis
                 dataKey="name"
@@ -126,12 +106,21 @@ export default function TopExpensesChart() {
                 cursor={{ fill: "rgba(174, 174, 178, 0.1)" }}
                 content={CustomTooltip}
               />
-              <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+              <Bar
+                dataKey="value"
+                radius={[4, 4, 0, 0]}
+                onMouseEnter={(_, index) => setActiveIndex(index)}
+                onMouseLeave={() => setActiveIndex(null)}
+              >
                 {data.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={GRADIENT_URLS[index % GRADIENT_URLS.length]}
-                    stroke={STROKE_COLORS[index % STROKE_COLORS.length]}
+                    fill={
+                      activeIndex === index
+                        ? "url(#colorCyan)"
+                        : "url(#colorGray)"
+                    }
+                    stroke={activeIndex === index ? cyan500 : gray500}
                   />
                 ))}
               </Bar>
@@ -142,4 +131,3 @@ export default function TopExpensesChart() {
     </Card>
   );
 }
-

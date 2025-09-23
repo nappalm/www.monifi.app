@@ -1,10 +1,11 @@
 import { Heading, HStack, SimpleGrid, Stack } from "@chakra-ui/react";
-import BudgetVsActualChart from "../components/BudgetVsActualChart";
-import FinancialTrendsChart from "../components/FinancialTrendsChart";
 import IncomeVsExpensesChart from "../components/IncomeVsExpensesChart";
-import NetSavingsChart from "../components/NetSavingsChart";
 import SpendingByCategoryChart from "../components/SpendingByCategoryChart";
 import TopExpensesChart from "../components/TopExpensesChart";
+
+// import BudgetVsActualChart from "../components/BudgetVsActualChart";
+// import FinancialTrendsChart from "../components/FinancialTrendsChart";
+// import NetSavingsChart from "../components/NetSavingsChart";
 
 export default function Statistics() {
   return (
@@ -14,10 +15,7 @@ export default function Statistics() {
       <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6}>
         <IncomeVsExpensesChart />
         <SpendingByCategoryChart />
-        {/* <BudgetVsActualChart /> */}
-        {/* <FinancialTrendsChart /> */}
         <TopExpensesChart />
-        {/* <NetSavingsChart /> */}
       </SimpleGrid>
     </Stack>
   );
