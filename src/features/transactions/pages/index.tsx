@@ -77,7 +77,7 @@ export default function TransactionsPage() {
 
   return (
     <Grid
-      gridAutoFlow="column"
+      gridAutoFlow={isSmallScreen ? "row" : "column"}
       gridTemplateColumns={
         isSmallScreen
           ? "minmax(0, 1fr)"
