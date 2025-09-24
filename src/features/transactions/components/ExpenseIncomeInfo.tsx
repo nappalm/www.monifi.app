@@ -14,19 +14,19 @@ import { useMemo } from "react";
 import { formatCurrency } from "@/shared";
 
 type Props = {
-  data: Tables<"transactions">[];
+  transactions: Tables<"transactions">[];
 };
-export default function ExpenseIncomeInfo({ data }: Props) {
+export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
   const { incomes, expenses, balance } = useMemo(() => {
-    const incomes = data
+    const incomes = transactions
       .filter((item) => item.type === "income")
       .reduce((acc, item) => acc + item.amount, 0);
-    const expenses = data
+    const expenses = transactions
       .filter((item) => item.type === "expense")
       .reduce((acc, item) => acc + item.amount, 0);
     const balance = incomes - expenses;
     return { incomes, expenses, balance };
-  }, [data]);
+  }, [transactions]);
 
   return (
     <Card size="sm">
@@ -41,7 +41,7 @@ export default function ExpenseIncomeInfo({ data }: Props) {
             </Text>
           </Stack>
           <Stack gap={0}>
-            <TransactionsChart data={data} />
+            <TransactionsChart data={transactions} />
             <HStack justify="space-between" py={1}>
               <HStack>
                 <Box w="8px" h="8px" bg="commons.100" borderRadius="full" />

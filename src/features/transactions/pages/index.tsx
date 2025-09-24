@@ -133,6 +133,11 @@ export default function TransactionsPage() {
 
   const isSmallScreen = useBreakpointValue({ base: true, lg: false });
 
+  const transactionsEnabled = useMemo(() => {
+    if (!transactions) return [];
+    return transactions.filter((t) => t.enabled);
+  }, [transactions]);
+
   return (
     <Grid
       gridAutoFlow={isSmallScreen ? "row" : "column"}
@@ -145,9 +150,9 @@ export default function TransactionsPage() {
       py={5}
     >
       <Stack>
-        <ExpenseIncomeInfo data={transactions ?? []} />
-        <AccountInfo transactions={transactions ?? []} />
-        <CategoriesInfo transactions={transactions ?? []} />
+        <ExpenseIncomeInfo transactions={transactionsEnabled} />
+        <AccountInfo transactions={transactionsEnabled} />
+        <CategoriesInfo transactions={transactionsEnabled} />
       </Stack>
 
       <Stack gap={5}>
