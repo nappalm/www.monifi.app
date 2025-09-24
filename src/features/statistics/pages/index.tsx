@@ -27,6 +27,11 @@ export default function Statistics() {
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
   const { data: transactions } = useTransactions(dateRange);
 
+  const transactionsEnabled = useMemo(() => {
+    if (!transactions) return [];
+    return transactions.filter((t) => t.enabled);
+  }, [transactions]);
+
   const { data: categories } = useCategories();
   const { data: accounts } = useAccounts();
 
@@ -76,12 +81,12 @@ export default function Statistics() {
   );
 
   const filteredTransactions = useMemo(() => {
-    const filtered = filterTransactions(transactions || [], filters);
+    const filtered = filterTransactions(transactionsEnabled || [], filters);
     return filtered.filter(
       (t: unknown): t is Tables<"transactions"> =>
         typeof t === "object" && t !== null,
     );
-  }, [transactions, filters]);
+  }, [transactionsEnabled, filters]);
 
   return (
     <Stack gap={5}>
