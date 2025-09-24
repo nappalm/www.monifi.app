@@ -81,6 +81,6 @@ export default defineMultiStyleConfig({
   baseStyle,
   defaultProps: {
     size: "sm",
-    colorScheme: "teal",
+    colorScheme: "cyan",
   },
 });

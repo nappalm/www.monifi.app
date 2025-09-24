@@ -13,7 +13,7 @@ type Props = {
   onChange?: (initialDate: string, endDate: string) => void;
 };
 
-export default function FilterDate({ onChange }: Props) {
+export default function FilterDateMenu({ onChange }: Props) {
   const [date, setDate] = useState<DateRangeValue>({
     initial_date: null,
     end_date: null,

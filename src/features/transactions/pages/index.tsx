@@ -5,7 +5,14 @@ import {
   useUpdateTransaction,
 } from "@/features/transactions/hooks/useTransactions";
 import { Tables } from "@/lib/supabase/database.types";
-import { useKeyPress } from "@/shared";
+import {
+  FilterButtonMenu,
+  FilterDateMenu,
+  useAccounts,
+  useCategories,
+  useFilters,
+  useKeyPress,
+} from "@/shared";
 import {
   Button,
   Grid,
@@ -15,18 +22,20 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { IconArrowBarToDownDashed } from "@tabler/icons-react";
+import {
+  IconArrowBarToDownDashed,
+  IconLineHeight,
+  IconReceiptDollarFilled,
+  IconTagFilled,
+} from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { DetailsDrawer } from "../components/DetailsDrawer";
-import ExpenseIncomeInfo from "../components/ExpenseIncomeInfo";
-import FilterButton from "../components/FilterButton";
-import FilterDate from "../components/FilterDate";
-import TransactionsTable from "../components/TransactionsTable";
-import { TransactionFilters } from "../hooks/useTransactionFilters";
-import { filterTransactions } from "../utils/filtered";
-import { getNewTransaction } from "../utils/helpers";
 import AccountInfo from "../components/AccountInfo";
 import CategoriesInfo from "../components/CategoriesInfo";
+import { DetailsDrawer } from "../components/DetailsDrawer";
+import ExpenseIncomeInfo from "../components/ExpenseIncomeInfo";
+import TransactionsTable from "../components/TransactionsTable";
+import { filterTransactions } from "../utils/filtered";
+import { getNewTransaction } from "../utils/helpers";
 
 export default function TransactionsPage() {
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
@@ -40,12 +49,61 @@ export default function TransactionsPage() {
     null,
   );
 
-  const [filters, setFilters] = useState<Partial<TransactionFilters>>({});
+  const { data: categories } = useCategories();
+  const { data: accounts } = useAccounts();
 
-  const filteredTransactions = useMemo(
-    () => filterTransactions(transactions || [], filters),
-    [transactions, filters],
+  const { filters, setFilter, clearFilters, areFiltersActive } = useFilters({
+    categories: [],
+    accounts: [],
+    types: [],
+  });
+
+  const handleFilterChange = (key: string, value: string[]) => {
+    if (["categories", "accounts", "types"].includes(key)) {
+      setFilter(key as "categories" | "accounts" | "types", value);
+    }
+  };
+
+  const filterGroups = useMemo(
+    () => [
+      {
+        key: "categories",
+        label: "Category",
+        icon: <IconTagFilled size={16} />,
+        options:
+          categories?.map((c) => ({
+            label: c.name,
+            value: c.id.toString(),
+          })) || [],
+      },
+      {
+        key: "accounts",
+        label: "Account",
+        icon: <IconReceiptDollarFilled size={16} />,
+        options:
+          accounts?.map((a) => ({ label: a.name, value: a.id.toString() })) ||
+          [],
+      },
+      {
+        key: "types",
+        label: "Type",
+        icon: <IconLineHeight size={16} />,
+        options: [
+          { label: "Income", value: "income" },
+          { label: "Expense", value: "expense" },
+        ],
+      },
+    ],
+    [categories, accounts],
   );
+
+  const filteredTransactions = useMemo(() => {
+    const filtered = filterTransactions(transactions || [], filters);
+    return filtered.filter(
+      (t: unknown): t is Tables<"transactions"> =>
+        typeof t === "object" && t !== null,
+    );
+  }, [transactions, filters]);
 
   const handleNewRow = () => {
     createTransaction.mutate(getNewTransaction());
@@ -96,8 +154,14 @@ export default function TransactionsPage() {
         <Heading size="lg">Transactions</Heading>
         <HStack justifyContent="space-between">
           <HStack gap="1px">
-            <FilterButton filters={filters} onChange={setFilters} />
-            <FilterDate onChange={(i, e) => setDateRange([i, e])} />
+            <FilterButtonMenu
+              filterGroups={filterGroups}
+              appliedFilters={filters}
+              onFilterChange={handleFilterChange}
+              onClearFilters={clearFilters}
+              areFiltersActive={areFiltersActive}
+            />
+            <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
           </HStack>
           <Button
             colorScheme="cyan"

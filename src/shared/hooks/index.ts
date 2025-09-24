@@ -7,3 +7,4 @@ export { default as useKeyPress } from "./useKeyPress";
 export * from "./useAuth";
 export * from "./useCategories";
 export * from "./useAccounts";
+export * from "./useFilters";

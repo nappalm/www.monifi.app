@@ -1,5 +1,5 @@
-import { useState } from "react";
 import _colors from "@/lib/chakra-ui/_colors";
+import { Tables } from "@/lib/supabase/database.types";
 import { formatCurrency } from "@/shared";
 import {
   Card,
@@ -8,6 +8,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -18,11 +19,6 @@ import {
   YAxis,
 } from "recharts";
 
-const data = [
-  { name: "Income", value: 5000 },
-  { name: "Expenses", value: 3000 },
-];
-
 const formatYAxis = (tick: number) => {
   if (tick >= 1000) {
     return `${(tick / 1000).toFixed(0)}k`;
@@ -30,11 +26,29 @@ const formatYAxis = (tick: number) => {
   return tick.toString();
 };
 
-export default function IncomeVsExpensesChart() {
+export default function IncomeVsExpensesChart({
+  transactions = [],
+}: {
+  transactions: Tables<"transactions">[];
+}) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
   const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
   const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
+
+  const data = useMemo(() => {
+    const income = transactions
+      .filter((t) => t.type === "income")
+      .reduce((acc, t) => acc + t.amount, 0);
+    const expenses = transactions
+      .filter((t) => t.type === "expense")
+      .reduce((acc, t) => acc + t.amount, 0);
+
+    return [
+      { name: "Income", value: income },
+      { name: "Expenses", value: expenses },
+    ];
+  }, [transactions]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
