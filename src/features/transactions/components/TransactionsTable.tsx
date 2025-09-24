@@ -1,3 +1,4 @@
+import { Tables } from "@/lib/supabase/database.types";
 import {
   AccountSelect,
   CategorySelect,
@@ -9,69 +10,92 @@ import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
 
 type Props = {
-  data: any[];
-  onDataChange: (data: any) => void;
-  onRemoveRow: (id: string) => void;
-  onSeeDetailsRow: (id: string) => void;
-  onDisabledRow: (id: string) => void;
+  data: Tables<"transactions">[];
+  isLoading: boolean;
+  onRowChange: (updatedData: Tables<"transactions">, rowIndex: number) => void;
+  onRemoveRow: (id: number) => void;
+  onSeeDetailsRow: (id: number) => void;
+  onDisabledRow: (id: number, previous: boolean) => void;
 };
 
 export default function TransactionsTable({
   data,
-  onDataChange,
+  isLoading,
+  onRowChange,
   onRemoveRow,
   onSeeDetailsRow,
   onDisabledRow,
 }: Props) {
-  const columns: Column<any>[] = [
+  const columns: Column<Tables<"transactions">>[] = [
     {
       accessor: "id",
       header: "ID",
       isVisible: false,
     },
     {
-      header: "",
-      accessor: "rowNumber",
-      isEditable: false,
-      sx: {
-        w: "10px",
-        opacity: 0.7,
-      },
-      render: (value: any) => value,
-    },
-    {
       header: "Date",
-      accessor: "date",
+      accessor: "occurred_at",
       isEditable: false,
       sx: {
+        w: "130px",
+        minW: "130px",
         p: 0,
       },
-      render: () => {
+      render: (value, _, updateCell) => {
         return (
-          <DatePickerSelect defaultValue={new Date()} value={new Date()} />
+          <DatePickerSelect
+            defaultValue={new Date(value as string)}
+            onChange={(date) => {
+              if (date) {
+                updateCell(date.toISOString());
+              }
+            }}
+          />
         );
       },
     },
     {
       header: "Category",
-      accessor: "category",
+      accessor: "category_id",
       isEditable: false,
       sx: {
-        padding: 0,
+        w: "150px",
+        minW: "150px",
+        p: 0,
       },
-      render: () => {
-        return <CategorySelect />;
+      render: (value, _, updateCell) => {
+        return (
+          <CategorySelect
+            defaultValue={value as number | null}
+            onChange={(category) => {
+              if (category) {
+                updateCell(category.id);
+              }
+            }}
+          />
+        );
       },
     },
     {
       header: "Account",
-      accessor: "account",
+      accessor: "account_id",
       isEditable: false,
       sx: {
-        padding: 0,
+        w: "150px",
+        minW: "150px",
+        p: 0,
       },
-      render: () => {
-        return <AccountSelect />;
+      render: (value, _, updateCell) => {
+        return (
+          <AccountSelect
+            defaultValue={value as number | null}
+            onChange={(account) => {
+              if (account) {
+                updateCell(account.id);
+              }
+            }}
+          />
+        );
       },
     },
     {
@@ -79,14 +103,39 @@ export default function TransactionsTable({
       accessor: "type",
       isEditable: false,
       sx: {
-        padding: 0,
+        w: "100px",
+        minW: "100px",
+        p: 0,
       },
-      render: () => {
-        return <TypeSelect />;
+      render: (value, _, updateCell) => {
+        return (
+          <TypeSelect
+            defaultValue={value as "income" | "expense"}
+            onChange={(type) => {
+              if (type) {
+                updateCell(type);
+              }
+            }}
+          />
+        );
       },
     },
-    { header: "Notes", accessor: "notes" },
-    { header: "Amount", accessor: "amount", isAmount: true },
+    {
+      header: "Description",
+      accessor: "description",
+      sx: {
+        maxW: "200px",
+      },
+    },
+    {
+      header: "Amount",
+      accessor: "amount",
+      isAmount: true,
+      sx: {
+        w: "120px",
+        minW: "120px",
+      },
+    },
     {
       header: "",
       accessor: "options",
@@ -98,8 +147,9 @@ export default function TransactionsTable({
       },
       render: (_, row) => (
         <TableRowMenu
+          isDisabled={!row.enabled}
           onDelete={() => onRemoveRow(row.id)}
-          onDisabled={() => onDisabledRow(row.id)}
+          onDisabled={() => onDisabledRow(row.id, row.enabled)}
           onSeeDetails={() => onSeeDetailsRow(row.id)}
         />
       ),
@@ -107,11 +157,12 @@ export default function TransactionsTable({
   ];
 
   return (
-    <InlineEditorGrid
+    <InlineEditorGrid<Tables<"transactions">>
       columns={columns}
       data={data}
-      isLoading={false}
-      onDataChange={onDataChange}
+      isLoading={isLoading}
+      onRowChange={onRowChange}
+      showRowNumber
     />
   );
 }

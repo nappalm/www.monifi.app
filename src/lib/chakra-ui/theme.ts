@@ -9,7 +9,6 @@ const styles = {
   global: (props: StyleFunctionProps) => ({
     body: {
       bg: mode("#ffffff", "#000000")(props),
-      color: "text.body",
       fontWeight: 500,
       fontSize: "14px",
     },

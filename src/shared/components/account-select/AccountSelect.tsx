@@ -1,3 +1,10 @@
+import { Tables } from "@/lib/supabase/database.types";
+import { useAuthenticatedUser } from "@/shared/hooks";
+import {
+  useAccounts,
+  useCreateAccount,
+  useDeleteAccount,
+} from "@/shared/hooks/useAccounts";
 import {
   Button,
   Flex,
@@ -11,21 +18,15 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import { IconReceiptDollarFilled, IconTrash } from "@tabler/icons-react";
-import { useRef, useState } from "react";
-import {
-  useAccounts,
-  useCreateAccount,
-  useDeleteAccount,
-} from "@/shared/hooks/useAccounts";
-import { useAuthenticatedUser } from "@/shared/hooks";
-import { Tables } from "@/lib/supabase/database.types";
+import { IconTrash, IconWallet } from "@tabler/icons-react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
+  defaultValue?: number | null;
   onChange: (account: Tables<"accounts"> | null) => void;
 };
 
-export default function AccountSelect({ onChange }: Props) {
+export default function AccountSelect({ defaultValue, onChange }: Props) {
   const { data: accounts = [], isLoading } = useAccounts();
   const createAccount = useCreateAccount();
   const deleteAccount = useDeleteAccount();
@@ -35,6 +36,13 @@ export default function AccountSelect({ onChange }: Props) {
   const [selectedAccount, setSelectedAccount] =
     useState<Tables<"accounts"> | null>(null);
   const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    if (defaultValue && accounts.length) {
+      const defaultAccount = accounts.find((a) => a.id === defaultValue);
+      setSelectedAccount(defaultAccount || null);
+    }
+  }, [defaultValue, accounts]);
 
   const filteredAccounts = accounts.filter((account) =>
     account.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -81,7 +89,7 @@ export default function AccountSelect({ onChange }: Props) {
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconReceiptDollarFilled size={13} />}
+        leftIcon={<IconWallet size={13} />}
         w="full"
         textAlign="left"
         pl={2}
@@ -108,6 +116,7 @@ export default function AccountSelect({ onChange }: Props) {
             {filteredAccounts.map((account) => (
               <MenuItem
                 key={account.id}
+                as="div"
                 onClick={() => handleSelectAccount(account)}
               >
                 <Flex justify="space-between" align="center" w="full">

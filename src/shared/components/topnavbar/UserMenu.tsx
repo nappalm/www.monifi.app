@@ -78,6 +78,7 @@ export default function UserMenu() {
         <MenuButton
           as={Button}
           size="sm"
+          variant="outline"
           isLoading={isLoadingSession || loadingLogout}
           rightIcon={<IconChevronDown size={16} />}
         >

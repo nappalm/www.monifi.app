@@ -8,19 +8,22 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import {
-  IconCancel,
   IconDots,
   IconSwipe,
+  IconToggleLeftFilled,
+  IconToggleRightFilled,
   IconTrash,
 } from "@tabler/icons-react";
 
 type Props = {
+  isDisabled: boolean;
   onDisabled: VoidFunction;
   onSeeDetails: VoidFunction;
   onDelete: VoidFunction;
 };
 
 export default function TableRowMenu({
+  isDisabled,
   onDisabled,
   onSeeDetails,
   onDelete,
@@ -41,8 +44,17 @@ export default function TableRowMenu({
           <MenuItem icon={<IconSwipe size={16} />} onClick={onSeeDetails}>
             See details
           </MenuItem>
-          <MenuItem icon={<IconCancel size={16} />} onClick={onDisabled}>
-            Disabled
+          <MenuItem
+            icon={
+              isDisabled ? (
+                <IconToggleRightFilled size={16} />
+              ) : (
+                <IconToggleLeftFilled size={16} />
+              )
+            }
+            onClick={onDisabled}
+          >
+            {isDisabled ? "Enable" : "Disable"}
           </MenuItem>
           <MenuDivider />
           <MenuItem

@@ -28,14 +28,17 @@ export interface CellChange<T extends DataRow> {
 export interface InlineEditorGridProps<T extends DataRow> {
   columns: Column<T>[];
   data: T[];
-  onDataChange: (newData: T[]) => void;
+  onDataChange?: (newData: T[]) => void;
   onCellChange?: (change: CellChange<T>) => void;
+  onRowChange?: (row: T, rowIndex: number) => void;
   isLoading?: boolean;
+  showRowNumber?: boolean;
 }
 
 export interface UseInlineEditorProps<T extends DataRow> {
   columns: Column<T>[];
   data: T[];
-  onDataChange: (newData: T[]) => void;
+  onDataChange?: (newData: T[]) => void;
   onCellChange?: (change: CellChange<T>) => void;
+  onRowChange?: (row: T, rowIndex: number) => void;
 }

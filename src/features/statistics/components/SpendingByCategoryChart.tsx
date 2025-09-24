@@ -1,54 +1,180 @@
-import { Card, CardBody, CardHeader } from "@chakra-ui/react";
+import _colors from "@/lib/chakra-ui/_colors";
+import { Tables } from "@/lib/supabase/database.types";
+import { formatCurrency, useCategories } from "@/shared";
+import {
+  Card,
+  CardBody,
+  Stack,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { IconChartInfographic } from "@tabler/icons-react";
+import { isEmpty } from "lodash";
+import { useCallback, useMemo, useState } from "react";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
-const data = [
-  { name: "Vivienda", value: 1200 },
-  { name: "Transporte", value: 400 },
-  { name: "Comida", value: 600 },
-  { name: "Entretenimiento", value: 300 },
-  { name: "Servicios", value: 500 },
-];
+type Props = {
+  transactions: Tables<"transactions">[];
+};
+export default function SpendingByCategoryChart({ transactions = [] }: Props) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { data: categories } = useCategories();
+  const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
+  const labelColor = useColorModeValue(_colors.gray[600], _colors.gray[400]);
+  const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
+  const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
 
-const APPLE_COLORS = [
-  "#0A84FF",
-  "#30D158",
-  "#FF9F0A",
-  "#FF453A",
-  "#BF5AF2",
-  "#5E5CE6",
-];
+  const data = useMemo(() => {
+    const spending = transactions
+      .filter((t) => t.type === "expense" && t.category_id)
+      .reduce(
+        (acc, t) => {
+          const category = categories?.find((c) => c.id === t.category_id);
+          const key = category?.name || "Uncategorized";
+          acc[key] = (acc[key] || 0) + t.amount;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
 
-export default function SpendingByCategoryChart() {
+    return Object.entries(spending)
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value);
+  }, [transactions, categories]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          style={{
+            background: tooltipBg,
+            padding: "10px",
+            border: "none",
+            borderRadius: "4px",
+            fontSize: "12px",
+            color: "black",
+          }}
+        >
+          <p className="label">{`${payload[0].name}`}</p>
+          <p className="intro">{`Value: ${formatCurrency(
+            payload[0].value,
+            "USD",
+          )}`}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderLabel = useCallback(
+    (props: {
+      name?: string | number;
+      cx?: number;
+      cy?: number;
+      midAngle?: number;
+      outerRadius?: number;
+    }) => {
+      const { name, cx, cy, midAngle, outerRadius } = props;
+
+      if (
+        cx === undefined ||
+        cy === undefined ||
+        midAngle === undefined ||
+        outerRadius === undefined ||
+        name === undefined
+      ) {
+        return null;
+      }
+
+      const RADIAN = Math.PI / 180;
+      const radius = outerRadius + 15;
+      const x = cx + radius * Math.cos(-midAngle * RADIAN);
+      const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+      return (
+        <text
+          x={x}
+          y={y}
+          textAnchor={x > cx ? "start" : "end"}
+          dominantBaseline="central"
+          fontSize={10}
+          fill={labelColor}
+        >
+          {name}
+        </text>
+      );
+    },
+    [labelColor],
+  );
+
   return (
     <Card size="sm">
-      <CardHeader>Gastos por Categoría</CardHeader>
       <CardBody>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              outerRadius={110}
-              innerRadius={70}
-              fill="#8884d8"
-              dataKey="value"
-              paddingAngle={2}
+        <Stack>
+          <Text color="gray.500">Spending by Category</Text>
+          {isEmpty(data) ? (
+            <Stack
+              w="full"
+              h="200px"
+              align="center"
+              justify="center"
+              color="gray.500"
+              gap={0}
             >
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={APPLE_COLORS[index % APPLE_COLORS.length]}
+              <IconChartInfographic size={30} />
+              <Text fontSize="xs" w="50%" textAlign="center">
+                We couldn’t find any data to show right now
+              </Text>
+            </Stack>
+          ) : (
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart margin={{ top: 5, right: 40, left: 40, bottom: 5 }}>
+                <defs>
+                  <linearGradient id="colorGray" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={gray500} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={gray500} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="colorCyan" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={cyan500} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={cyan500} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  labelLine
+                  label={renderLabel}
+                  outerRadius={60}
+                  innerRadius={30}
+                  fill="#8884d8"
+                  dataKey="value"
+                  paddingAngle={2}
+                  isAnimationActive={false}
+                  onMouseEnter={(_, index) => setActiveIndex(index)}
+                  onMouseLeave={() => setActiveIndex(null)}
+                >
+                  {data.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={
+                        activeIndex === index
+                          ? "url(#colorCyan)"
+                          : "url(#colorGray)"
+                      }
+                      stroke={activeIndex === index ? cyan500 : gray500}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  cursor={{ fill: "rgba(174, 174, 178, 0.1)" }}
+                  content={CustomTooltip}
                 />
-              ))}
-            </Pie>
-            <Tooltip
-              cursor={{ fill: "rgba(174, 174, 178, 0.1)" }}
-              contentStyle={{ borderRadius: "12px", borderColor: "gray.300" }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
+              </PieChart>
+            </ResponsiveContainer>
+          )}
+        </Stack>
       </CardBody>
     </Card>
   );

@@ -8,25 +8,43 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const types = [
   {
     value: "income",
     label: "Income",
-    icon: <IconChevronsUp size={13} color={_colors.cyan[500]} />,
-    color: _colors.cyan[500],
+    icon: <IconChevronsUp size={13} color={_colors.commons[100]} />,
+    // color: _colors.commons[100],
   },
   {
     value: "expense",
     label: "Expense",
-    icon: <IconChevronsDown size={13} color={_colors.red[500]} />,
-    color: _colors.red[500],
+    icon: <IconChevronsDown size={13} color={_colors.commons[200]} />,
+    // color: _colors.commons[200],
   },
 ];
 
-export default function TypeSelect() {
-  const [type, setType] = useState("expense");
+type Props = {
+  defaultValue: "income" | "expense";
+  value?: "income" | "expense";
+  onChange?: (value: "income" | "expense") => void;
+};
+
+export default function TypeSelect({ defaultValue, value, onChange }: Props) {
+  const [type, setType] = useState(value || defaultValue);
+
+  useEffect(() => {
+    if (defaultValue) {
+      setType(defaultValue);
+    }
+  }, [defaultValue]);
+
+  const handleTypeChange = (newType: "income" | "expense") => {
+    setType(newType);
+    onChange?.(newType);
+  };
+
   const selected = types.find((t) => t.value === type);
   return (
     <Menu isLazy>
@@ -54,7 +72,7 @@ export default function TypeSelect() {
               key={t.value}
               icon={t.icon}
               color={t.color}
-              onClick={() => setType(t.value)}
+              onClick={() => handleTypeChange(t.value as "income" | "expense")}
             >
               {t.label}
             </MenuItem>
