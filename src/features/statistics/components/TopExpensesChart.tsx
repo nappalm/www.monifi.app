@@ -145,6 +145,7 @@ export default function TopExpensesChart({
                   radius={[4, 4, 0, 0]}
                   onMouseEnter={(_, index) => setActiveIndex(index)}
                   onMouseLeave={() => setActiveIndex(null)}
+                  maxBarSize={40}
                 >
                   {data.map((_, index) => (
                     <Cell
