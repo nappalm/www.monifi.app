@@ -1,5 +1,6 @@
 import { AUTH_PATHS, authRoutes, ProtectedRoute } from "@/features/auth";
 import { BUDGETS_PATHS, budgetsRoutes } from "@/features/budgets";
+import { ONBOARDING_PATHS, onboardingRoutes } from "@/features/onboarding";
 import { SETTINGS_PATHS, settingsRoutes } from "@/features/settings";
 import { STATISTICS_PATHS, statisticsRoutes } from "@/features/statistics";
 import {
@@ -23,6 +24,10 @@ const protectedRoutes = [
   {
     element: <BaseLayout />,
     children: [
+      {
+        path: ONBOARDING_PATHS.base,
+        children: onboardingRoutes,
+      },
       {
         path: TRANSACTIONS_PATHS.base,
         children: transactionsRoutes,

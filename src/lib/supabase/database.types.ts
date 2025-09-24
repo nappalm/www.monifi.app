@@ -183,6 +183,7 @@ export type Database = {
           language: string;
           name: string | null;
           subscription: string | null;
+          onboarding: boolean;
         };
         Insert: {
           currency?: string;
@@ -190,6 +191,7 @@ export type Database = {
           language?: string;
           name?: string | null;
           subscription?: string | null;
+          onboarding?: boolean;
         };
         Update: {
           currency?: string;
@@ -197,6 +199,7 @@ export type Database = {
           language?: string;
           name?: string | null;
           subscription?: string | null;
+          onboarding?: boolean;
         };
         Relationships: [];
       };
