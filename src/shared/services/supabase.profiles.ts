@@ -1,5 +1,4 @@
-import { supabaseClient } from "@/lib";
-import { type UpdateProfile } from "./types";
+import { supabaseClient, TablesUpdate } from "@/lib";
 
 export async function updateEmail(email: string) {
   const { data, error } = await supabaseClient.auth.updateUser({ email });
@@ -8,12 +7,16 @@ export async function updateEmail(email: string) {
   return data;
 }
 
-export async function updateProfile(values: UpdateProfile) {
-  const { uuid, ...profileData } = values;
+export async function updateProfile({
+  id,
+  ...values
+}: TablesUpdate<"profiles">) {
+  if (!id) return;
+
   const { data, error } = await supabaseClient
     .from("profiles")
-    .update(profileData)
-    .eq("id", uuid);
+    .update(values)
+    .eq("id", id);
 
   if (error) throw new Error(error.message);
   return data;
