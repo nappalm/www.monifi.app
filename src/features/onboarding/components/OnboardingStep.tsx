@@ -1,6 +1,6 @@
 import { Box, HStack } from "@chakra-ui/react";
 
-export default function Step() {
+export default function OnboardingStep() {
   return (
     <HStack gap={1}>
       <Box h="5px" w="10px" bg="cyan.500" borderRadius="full" />

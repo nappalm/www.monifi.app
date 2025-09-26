@@ -1,7 +1,7 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { PropsWithChildren } from "react";
 
-export default function GridDotted({ children }: PropsWithChildren) {
+export default function OnboardingGridDotted({ children }: PropsWithChildren) {
   const gridColor = useColorModeValue("gray.200", "gray.900");
 
   return (

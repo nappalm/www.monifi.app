@@ -7,7 +7,7 @@ type Props = {
   onChange: (lang: Language) => void;
 };
 
-export default function LanguageOptions({ onChange }: Props) {
+export default function OnboardingLanguageOptions({ onChange }: Props) {
   const [language, setLanguage] = useState<Language>("en");
 
   const handleClick = (lang: Language) => {

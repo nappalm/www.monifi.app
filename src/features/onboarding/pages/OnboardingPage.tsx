@@ -1,14 +1,14 @@
-import { useAuthenticatedUser } from "@/shared";
+import { Logo, useAuthenticatedUser } from "@/shared";
 import { Container, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import AnimatedPage from "../components/AnimatedPage";
-import GridDotted from "../components/GridDotted";
+import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
+import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import OnboardingBaseForm from "../components/OnboardingBaseForm";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { ONBOARDING_PATHS } from "../router";
 import { OnboardingBaseFormValues } from "../utils/types";
 
-export default function Onboarding() {
+export default function OnboardingPage() {
   const { user } = useAuthenticatedUser();
   const navigate = useNavigate();
   const updateProfile = useUpdateProfile();
@@ -28,13 +28,13 @@ export default function Onboarding() {
   };
 
   return (
-    <AnimatedPage>
-      <GridDotted>
+    <OnboardingAnimatedPage>
+      <OnboardingGridDotted>
         <Container maxW="500px">
           <Stack align="center" pt="40%" justify="center" w="full">
-            <Image src="/logo.png" alt="logo" width="60px" />
+            <Logo w="40px" h="40px" />
             <Heading variant="onboarding-title" textAlign="center">
-              Welcome aboard Monify!
+              Welcome aboard Monifi
             </Heading>
             <Text textAlign="center" fontSize="md" color="gray.500">
               You are about to take control of your finances. Find out where
@@ -44,7 +44,7 @@ export default function Onboarding() {
           <br />
           <OnboardingBaseForm onSubmit={handleGetStarted} />
         </Container>
-      </GridDotted>
-    </AnimatedPage>
+      </OnboardingGridDotted>
+    </OnboardingAnimatedPage>
   );
 }

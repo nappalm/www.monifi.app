@@ -2,7 +2,7 @@ import { Button, ButtonGroup, HStack } from "@chakra-ui/react";
 import { CommmonFormProps } from "../utils/types";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
-export default function FormButtons({
+export default function OnboardingFormButtons({
   onSkip,
   onBack,
   onNext,

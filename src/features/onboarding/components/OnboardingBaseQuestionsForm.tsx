@@ -2,13 +2,13 @@ import { FormProvider, RHFSelect } from "@/shared";
 import { Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { BaseQuestionsFormValues, CommmonFormProps } from "../utils/types";
-import FormButtons from "./FormButtons";
+import OnboardingFormButtons from "./OnboardingFormButtons";
 
 type Props = {
   onSubmit: (values: BaseQuestionsFormValues) => void;
 } & Omit<CommmonFormProps, "onSubmit">;
 
-export default function BaseQuestionsForm({
+export default function OnboardingBaseQuestionsForm({
   onSkip,
   onSubmit,
   onBack,
@@ -39,7 +39,11 @@ export default function BaseQuestionsForm({
           <option value="no_track">I don't keep track</option>
         </RHFSelect>
         <br />
-        <FormButtons isLoading={isLoading} onSkip={onSkip} onBack={onBack} />
+        <OnboardingFormButtons
+          isLoading={isLoading}
+          onSkip={onSkip}
+          onBack={onBack}
+        />
       </Stack>
     </FormProvider>
   );

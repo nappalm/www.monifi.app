@@ -1,4 +1,4 @@
-import { useAuthenticatedUser } from "@/shared";
+import { Logo, useAuthenticatedUser } from "@/shared";
 import {
   Button,
   Card,
@@ -19,11 +19,11 @@ import {
   IconReceipt,
   IconSparkles,
 } from "@tabler/icons-react";
-import AnimatedPage from "../components/AnimatedPage";
-import GridDotted from "../components/GridDotted";
+import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
+import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 
-export default function AppFeaturesPage() {
+export default function OnboardingAppFeaturesPage() {
   const { user } = useAuthenticatedUser();
   const updateProfile = useUpdateProfile();
 
@@ -43,16 +43,18 @@ export default function AppFeaturesPage() {
   };
 
   return (
-    <AnimatedPage>
-      <GridDotted>
+    <OnboardingAnimatedPage>
+      <OnboardingGridDotted>
         <Container maxW="500px">
-          <Stack align="center" justify="center" pt="30%" gap={4}>
+          <Stack align="center" justify="center" pt="30%">
+            <Logo w="40px" h="40px" />
             <Heading variant="onboarding-title">You're all set!</Heading>
             <Text textAlign="center" color="gray.500" maxW="400px">
               Welcome aboard! You're now ready to take control of your finances.
               Dive in to track spending, create budgets, and gain insights into
               your financial habits. Happy budgeting!
             </Text>
+            <br />
             <SimpleGrid columns={2} gap={2} w="full">
               <Card size="sm">
                 <CardBody>
@@ -157,7 +159,7 @@ export default function AppFeaturesPage() {
             </Button>
           </Stack>
         </Container>
-      </GridDotted>
-    </AnimatedPage>
+      </OnboardingGridDotted>
+    </OnboardingAnimatedPage>
   );
 }

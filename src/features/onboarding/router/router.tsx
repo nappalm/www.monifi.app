@@ -1,10 +1,10 @@
 import { ONBOARDING_PATHS } from "./paths";
 
-import Base from "../pages";
-import BaseQuestionPage from "../pages/BaseQuestionPage";
-import AccountsPage from "../pages/AccountsPage";
-import CategoriesPage from "../pages/CategoriesPage";
-import AppFeaturesPage from "../pages/AppFeaturesPage";
+import Base from "../pages/OnboardingPage";
+import BaseQuestionPage from "../pages/OnboardingBaseQuestionPage";
+import AccountsPage from "../pages/OnboardingAccountsPage";
+import CategoriesPage from "../pages/OnboardingCategoriesPage";
+import AppFeaturesPage from "../pages/OnboardingAppFeaturesPage";
 
 export const onboardingRoutes = [
   {

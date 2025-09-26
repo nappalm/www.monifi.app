@@ -35,7 +35,7 @@ import {
 import { isEmpty } from "lodash";
 import { useForm } from "react-hook-form";
 
-export default function AccountsForm() {
+export default function OnboardingAccountsForm() {
   const { data: accounts, isLoading } = useAccounts();
   const { user } = useAuthenticatedUser();
 
