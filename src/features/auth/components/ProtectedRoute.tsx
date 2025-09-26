@@ -19,7 +19,7 @@ export function ProtectedRoute() {
     return <Navigate to={AUTH_PATHS.signIn} replace />;
   }
 
-  if (!isOnboarding && pathname !== ONBOARDING_PATHS.base) {
+  if (!isOnboarding && !Object.values(ONBOARDING_PATHS).includes(pathname)) {
     return <Navigate to={ONBOARDING_PATHS.base} replace />;
   }
 

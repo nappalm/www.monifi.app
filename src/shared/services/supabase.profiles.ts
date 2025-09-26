@@ -9,10 +9,11 @@ export async function updateEmail(email: string) {
 }
 
 export async function updateProfile(values: UpdateProfile) {
+  const { uuid, ...profileData } = values;
   const { data, error } = await supabaseClient
     .from("profiles")
-    .update({ name: values.name })
-    .eq("id", values.uuid);
+    .update(profileData)
+    .eq("id", uuid);
 
   if (error) throw new Error(error.message);
   return data;

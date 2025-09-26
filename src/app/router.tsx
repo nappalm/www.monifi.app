@@ -8,7 +8,7 @@ import {
   transactionsRoutes,
 } from "@/features/transactions";
 
-import { BaseLayout, SettingsLayout } from "@/shared";
+import { BaseLayout, SettingsLayout, SimpleLayout } from "@/shared";
 import {
   createBrowserRouter,
   Navigate,
@@ -25,10 +25,6 @@ const protectedRoutes = [
     element: <BaseLayout />,
     children: [
       {
-        path: ONBOARDING_PATHS.base,
-        children: onboardingRoutes,
-      },
-      {
         path: TRANSACTIONS_PATHS.base,
         children: transactionsRoutes,
       },
@@ -43,6 +39,18 @@ const protectedRoutes = [
       {
         path: "*",
         element: <Navigate to={TRANSACTIONS_PATHS.base} replace />,
+      },
+    ],
+  },
+];
+
+const onboardingProtectedRoutes = [
+  {
+    element: <SimpleLayout />,
+    children: [
+      {
+        path: ONBOARDING_PATHS.base,
+        children: onboardingRoutes,
       },
     ],
   },
@@ -96,7 +104,11 @@ const publicRoutes = [
 const routerConfiguration = [
   {
     element: <ProtectedRoute />,
-    children: [...protectedRoutes, ...settingRoutes],
+    children: [
+      ...protectedRoutes,
+      ...settingRoutes,
+      ...onboardingProtectedRoutes,
+    ],
   },
   ...publicRoutes,
 ];

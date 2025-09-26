@@ -26,10 +26,11 @@ type Props = {
   icon?: ReactNode;
   rightElement?: ReactNode;
   inputGroup?: InputGroupProps;
+  size?: "sm" | "md";
   inputRef?:
     | RefObject<HTMLInputElement>
     | ((node: HTMLInputElement | null) => void);
-} & Omit<InputProps, "icon" | "name" | "ref" | "type"> & {
+} & Omit<InputProps, "icon" | "name" | "ref" | "type" | "size"> & {
     type?: InputProps["type"] | "amount";
   };
 
@@ -44,12 +45,17 @@ export default function RHFInput({
   rightElement,
   onFocus,
   onBlur,
+  size = "md",
   ...inputProps
 }: Props) {
   const { control } = useFormContext();
   const [isFocused, setIsFocused] = useState(false);
 
   const bg = useColorModeValue("gray.200", "gray.900");
+  const height = size === "sm" ? "40px" : "56px";
+  const floatingLabelTop = size === "sm" ? "-10px" : "-12px";
+  const inputFloatingMt = size === "sm" ? "calc(38px / 2)" : "calc(50px / 2)";
+  const labelFontSize = size === "sm" ? "xs" : "sm";
 
   return (
     <Controller
@@ -92,23 +98,23 @@ export default function RHFInput({
         };
 
         return (
-          <Stack>
+          <Stack w="full">
             <Box
               position="relative"
               w="full"
               borderRadius="xl"
               bg={error ? "#F3126050" : bg}
-              height="56px"
-              lineHeight="56px"
+              height={height}
+              lineHeight={height}
               transition="background 500ms cubic-bezier(0.4, 0, 0.2, 1)"
             >
               <Box
                 as="label"
                 htmlFor={name}
                 position="absolute"
-                top={showFloating ? "-12px" : "0px"}
+                top={showFloating ? floatingLabelTop : "0px"}
                 left={icon ? "40px" : "12px"}
-                fontSize={showFloating ? "xs" : "sm"}
+                fontSize={showFloating ? "xs" : labelFontSize}
                 color={labelColor}
                 px="1"
                 transition="all 0.2s ease"
@@ -130,8 +136,8 @@ export default function RHFInput({
                   bg="transparent"
                   variant="unstyled"
                   px={4}
-                  height={showFloating ? "20px" : "56px"}
-                  mt={showFloating ? "calc(50px / 2)" : "0px"}
+                  height={showFloating ? "20px" : height}
+                  mt={showFloating ? inputFloatingMt : "0px"}
                   {...restField}
                   {...inputProps}
                   onFocus={handleFocus}

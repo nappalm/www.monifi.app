@@ -1,30 +1,73 @@
 import { Tables } from "@/lib/supabase/database.types";
-import { FormProvider, RHFInput, RHFSelect } from "@/shared";
+import {
+  FormProvider,
+  RHFInput,
+  TableSkeletonRow,
+  useAuthenticatedUser,
+} from "@/shared";
+import TableEmptyRows from "@/shared/components/table-empty-rows";
 import {
   useAccounts,
   useCreateAccount,
   useDeleteAccount,
   useUpdateAccount,
 } from "@/shared/hooks/useAccounts";
-import { Button, HStack, IconButton, Stack, Text } from "@chakra-ui/react";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import {
+  Button,
+  ButtonGroup,
+  HStack,
+  IconButton,
+  Stack,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
+import {
+  IconCheck,
+  IconPencil,
+  IconTrashFilled,
+  IconWallet,
+} from "@tabler/icons-react";
+import { isEmpty } from "lodash";
 import { useForm } from "react-hook-form";
 
 export default function AccountsForm() {
   const { data: accounts, isLoading } = useAccounts();
+  const { user } = useAuthenticatedUser();
+
   const createAccountMutation = useCreateAccount();
   const updateAccountMutation = useUpdateAccount();
   const deleteAccountMutation = useDeleteAccount();
 
-  const methods = useForm<Tables<"accounts">>();
+  const methods = useForm<Tables<"accounts">>({
+    defaultValues: {
+      name: "",
+    },
+  });
 
-  const { handleSubmit, reset, setValue } = methods;
+  const { handleSubmit, reset, setValue, watch } = methods;
+  const id = watch("id");
 
-  const onSubmit = (data: Tables<"accounts">) => {
-    if (data.id) {
-      updateAccountMutation.mutate({ id: data.id, account: data });
+  const onLocalSubmit = ({ id, ...data }: Tables<"accounts">) => {
+    if (!user?.id) return;
+
+    if (id) {
+      updateAccountMutation.mutate(
+        { id, account: data },
+        {
+          onSuccess: () => handleCancelEdit(),
+        },
+      );
     } else {
-      createAccountMutation.mutate(data);
+      createAccountMutation.mutate({
+        ...data,
+        user_id: user?.id,
+        type: "checking",
+      });
     }
     reset();
   };
@@ -40,43 +83,80 @@ export default function AccountsForm() {
     deleteAccountMutation.mutate(id);
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  const handleCancelEdit = () => {
+    setValue("id", null);
+    setValue("name", null);
+  };
 
   return (
     <Stack spacing={6}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={4}>
-          <RHFInput name="name" label="Account Name" />
-          <RHFSelect name="type" label="Account Type">
-            <option value="cash">Cash</option>
-            <option value="bank">Bank</option>
-            <option value="credit_card">Credit Card</option>
-          </RHFSelect>
-          <RHFInput name="color" label="Color" type="color" />
-          <Button type="submit">Save Account</Button>
-        </Stack>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onLocalSubmit)}>
+        <HStack>
+          <RHFInput size="sm" name="name" label="Account Name" autoFocus />
+          <IconButton
+            aria-label="Add Account Button"
+            type="submit"
+            w="fit-content"
+            icon={<IconCheck size={18} />}
+          />
+        </HStack>
+        {id && (
+          <Button
+            p={2}
+            size="xs"
+            variant="unstyled"
+            textAlign="left"
+            color="red.600"
+            onClick={handleCancelEdit}
+          >
+            Cancel edition
+          </Button>
+        )}
       </FormProvider>
 
-      <Stack spacing={4}>
-        {accounts?.map((account) => (
-          <HStack key={account.id} justify="space-between">
-            <Text>{account.name}</Text>
-            <Text>{account.type}</Text>
-            <HStack>
-              <IconButton
-                aria-label="Edit account"
-                icon={<IconEdit />}
-                onClick={() => handleEdit(account)}
-              />
-              <IconButton
-                aria-label="Delete account"
-                icon={<IconTrash />}
-                onClick={() => handleDelete(account.id)}
-              />
-            </HStack>
-          </HStack>
-        ))}
-      </Stack>
+      <TableContainer>
+        <Table size="sm" variant="striped">
+          <Thead>
+            <Tr>
+              <Th />
+              <Th>Wallet</Th>
+              <Th isNumeric>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isLoading ? (
+              <TableSkeletonRow cols={3} />
+            ) : isEmpty(accounts) ? (
+              <TableEmptyRows cols={3} />
+            ) : (
+              accounts?.map((account) => (
+                <Tr key={account.id}>
+                  <Td w="10px" opacity={0.5}>
+                    <IconWallet size={18} color={account.color || "gray"} />
+                  </Td>
+                  <Td>{account.name}</Td>
+                  <Td isNumeric w="10px">
+                    <ButtonGroup size="xs" spacing={1}>
+                      <IconButton
+                        aria-label="Edit"
+                        icon={<IconPencil size={15} />}
+                        variant="ghost"
+                        onClick={() => handleEdit(account)}
+                      />
+                      <IconButton
+                        aria-label="Delete"
+                        icon={<IconTrashFilled size={15} />}
+                        variant="ghost"
+                        onClick={() => handleDelete(account.id)}
+                      />
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              ))
+            )}
+          </Tbody>
+        </Table>
+      </TableContainer>
     </Stack>
   );
 }
