@@ -2,7 +2,9 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { AUTH_PATHS } from "@/features/auth/router/paths";
 import { ONBOARDING_PATHS } from "@/features/onboarding";
-import { useAuthenticatedUser } from "@/shared";
+import { GridDotted, useAuthenticatedUser } from "@/shared";
+import { Box, Image, Stack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { useProfile } from "../hooks/useProfile";
 
 export function ProtectedRoute() {
@@ -12,7 +14,24 @@ export function ProtectedRoute() {
   const { isOnboarding } = useProfile(user);
 
   if ((isLoadingSession && user === null) || isLoadingProfile) {
-    return <div>loading...</div>;
+    return (
+      <GridDotted>
+        <Stack w="full" h="100vh" align="center" justify="center">
+          <motion.div
+            animate={{ opacity: [1, 0.4, 1] }}
+            transition={{
+              duration: 1.2,
+              repeat: Infinity,
+              repeatType: "loop",
+            }}
+          >
+            <Box>
+              <Image src="/logo-v2.png" alt="logo" height="40px" />
+            </Box>
+          </motion.div>
+        </Stack>
+      </GridDotted>
+    );
   }
 
   if (!user) {
