@@ -12,6 +12,7 @@ import { IconChartArea, IconDatabase, IconMenu2 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ToggleThemeButton from "./ToggleThemeButton";
 import UserMenu from "./UserMenu";
+import { Logo } from "../logo";
 
 type Props = {
   onMenuClick?: VoidFunction;
@@ -47,7 +48,7 @@ export default function Topnavbar({
               />
             )}
             <Link to="/">
-              <Image src="/logo.png" alt="logo" w="32px" />
+              <Logo w="20px" h="20px" mr={2} />
             </Link>
             <ButtonGroup size="sm" spacing={1}>
               <Button
