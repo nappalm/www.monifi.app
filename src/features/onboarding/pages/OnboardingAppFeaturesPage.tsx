@@ -31,7 +31,7 @@ export default function OnboardingAppFeaturesPage() {
     if (!user?.id) return;
     updateProfile.mutate(
       {
-        uuid: user?.id,
+        id: user?.id,
         onboarding: true,
       },
       {

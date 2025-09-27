@@ -45,26 +45,35 @@ export default function OnboardingCategoriesForm() {
 
   const methods = useForm<Tables<"categories">>();
 
-  const { handleSubmit, reset, setValue, watch } = methods;
+  const { handleSubmit, reset, watch } = methods;
   const id = watch("id");
 
   const onLocalSubmit = ({ id, ...data }: Tables<"categories">) => {
     if (!user?.id) return;
 
     if (id) {
-      updateCategoryMutation.mutate({ id, category: data });
+      updateCategoryMutation.mutate(
+        { id, category: data },
+        {
+          onSuccess: () => reset(),
+        },
+      );
     } else {
-      createCategoryMutation.mutate({
-        ...data,
-        user_id: user?.id,
-      });
+      createCategoryMutation.mutate(
+        {
+          ...data,
+          user_id: user?.id,
+        },
+        {
+          onSuccess: () => reset(),
+        },
+      );
     }
     reset();
   };
 
   const handleEdit = (category: Tables<"categories">) => {
-    setValue("id", category.id);
-    setValue("name", category.name);
+    reset(category);
   };
 
   const handleDelete = (id: number) => {
@@ -72,8 +81,45 @@ export default function OnboardingCategoriesForm() {
   };
 
   const handleCancelEdit = () => {
-    setValue("id", "");
-    setValue("name", "");
+    reset({
+      id: undefined,
+      name: "",
+    });
+  };
+
+  const renderTableContent = () => {
+    if (isLoading) {
+      return <TableSkeletonRow cols={3} />;
+    }
+
+    if (isEmpty(categories)) {
+      return <TableEmptyRows cols={3} />;
+    }
+
+    return categories?.map((category) => (
+      <Tr key={category.id}>
+        <Td w="10px" opacity={0.5}>
+          <IconTag size={18} />
+        </Td>
+        <Td>{category.name}</Td>
+        <Td isNumeric w="10px">
+          <ButtonGroup size="xs" spacing={1}>
+            <IconButton
+              aria-label="Edit"
+              icon={<IconPencil size={15} />}
+              variant="ghost"
+              onClick={() => handleEdit(category)}
+            />
+            <IconButton
+              aria-label="Delete"
+              icon={<IconTrashFilled size={15} />}
+              variant="ghost"
+              onClick={() => handleDelete(category.id)}
+            />
+          </ButtonGroup>
+        </Td>
+      </Tr>
+    ));
   };
 
   return (
@@ -111,38 +157,7 @@ export default function OnboardingCategoriesForm() {
               <Th isNumeric>Actions</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {isLoading ? (
-              <TableSkeletonRow cols={3} />
-            ) : isEmpty(categories) ? (
-              <TableEmptyRows cols={3} />
-            ) : (
-              categories?.map((category) => (
-                <Tr key={category.id}>
-                  <Td w="10px" opacity={0.5}>
-                    <IconTag size={18} />
-                  </Td>
-                  <Td>{category.name}</Td>
-                  <Td isNumeric w="10px">
-                    <ButtonGroup size="xs" spacing={1}>
-                      <IconButton
-                        aria-label="Edit"
-                        icon={<IconPencil size={15} />}
-                        variant="ghost"
-                        onClick={() => handleEdit(category)}
-                      />
-                      <IconButton
-                        aria-label="Delete"
-                        icon={<IconTrashFilled size={15} />}
-                        variant="ghost"
-                        onClick={() => handleDelete(category.id)}
-                      />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              ))
-            )}
-          </Tbody>
+          <Tbody>{renderTableContent()}</Tbody>
         </Table>
       </TableContainer>
     </Stack>

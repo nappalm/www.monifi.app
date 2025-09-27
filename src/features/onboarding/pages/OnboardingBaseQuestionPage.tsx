@@ -1,23 +1,23 @@
+import { TablesUpdate } from "@/lib";
 import { Logo, useAuthenticatedUser } from "@/shared";
-import { Container, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Container, Heading, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingBaseQuestionsForm from "../components/OnboardingBaseQuestionsForm";
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
-import { ONBOARDING_PATHS } from "../router";
-import { BaseQuestionsFormValues } from "../utils/types";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
+import { ONBOARDING_PATHS } from "../router";
 
 export default function OnboardingBaseQuestionPage() {
   const navigate = useNavigate();
   const { user } = useAuthenticatedUser();
   const updateProfile = useUpdateProfile();
 
-  const handleSubmit = (values: BaseQuestionsFormValues) => {
+  const handleSubmit = (values: TablesUpdate<"profiles">) => {
     if (!user?.id) return;
     updateProfile.mutate(
       {
-        uuid: user?.id,
+        id: user?.id,
         ...values,
       },
       {

@@ -5,14 +5,13 @@ import {
   Container,
   HStack,
   IconButton,
-  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { IconChartArea, IconDatabase, IconMenu2 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Logo } from "../logo";
 import ToggleThemeButton from "./ToggleThemeButton";
 import UserMenu from "./UserMenu";
-import { Logo } from "../logo";
 
 type Props = {
   onMenuClick?: VoidFunction;

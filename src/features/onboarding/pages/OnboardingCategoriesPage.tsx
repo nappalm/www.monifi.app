@@ -1,11 +1,11 @@
-import { Container, Heading, Image, Stack, Text } from "@chakra-ui/react";
+import { Logo } from "@/shared";
+import { Container, Heading, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingCategoriesForm from "../components/OnboardingCategoriesForm";
 import OnboardingFormButtons from "../components/OnboardingFormButtons";
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import { ONBOARDING_PATHS } from "../router";
-import { Logo } from "@/shared";
 
 export default function OnboardingCategoriesPage() {
   const navigate = useNavigate();

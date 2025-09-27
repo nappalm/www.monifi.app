@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 
+import { TablesUpdate } from "@/lib";
 import { updateProfile } from "@/shared/services/supabase.profiles";
-import { type UpdateProfile } from "@/shared/services/types";
 
 export function useUpdateProfile() {
   return useMutation({
-    mutationFn: (values: UpdateProfile) => updateProfile(values),
+    mutationFn: (values: TablesUpdate<"profiles">) => updateProfile(values),
   });
 }

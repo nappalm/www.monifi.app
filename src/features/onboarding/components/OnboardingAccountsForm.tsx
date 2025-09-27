@@ -49,7 +49,7 @@ export default function OnboardingAccountsForm() {
     },
   });
 
-  const { handleSubmit, reset, setValue, watch } = methods;
+  const { handleSubmit, reset, watch } = methods;
   const id = watch("id");
 
   const onLocalSubmit = ({ id, ...data }: Tables<"accounts">) => {
@@ -59,24 +59,25 @@ export default function OnboardingAccountsForm() {
       updateAccountMutation.mutate(
         { id, account: data },
         {
-          onSuccess: () => handleCancelEdit(),
+          onSuccess: () => reset(),
         },
       );
     } else {
-      createAccountMutation.mutate({
-        ...data,
-        user_id: user?.id,
-        type: "checking",
-      });
+      createAccountMutation.mutate(
+        {
+          ...data,
+          user_id: user?.id,
+          type: "checking",
+        },
+        {
+          onSuccess: () => reset(),
+        },
+      );
     }
-    reset();
   };
 
   const handleEdit = (account: Tables<"accounts">) => {
-    setValue("id", account.id);
-    setValue("name", account.name);
-    setValue("type", account.type);
-    setValue("color", account.color);
+    reset(account);
   };
 
   const handleDelete = (id: number) => {
@@ -84,8 +85,45 @@ export default function OnboardingAccountsForm() {
   };
 
   const handleCancelEdit = () => {
-    setValue("id", null);
-    setValue("name", null);
+    reset({
+      id: undefined,
+      name: "",
+    });
+  };
+
+  const renderTableContent = () => {
+    if (isLoading) {
+      return <TableSkeletonRow cols={3} />;
+    }
+
+    if (isEmpty(accounts)) {
+      return <TableEmptyRows cols={3} />;
+    }
+
+    return accounts?.map((account) => (
+      <Tr key={account.id}>
+        <Td w="10px" opacity={0.5}>
+          <IconWallet size={18} color={account.color || "gray"} />
+        </Td>
+        <Td>{account.name}</Td>
+        <Td isNumeric w="10px">
+          <ButtonGroup size="xs" spacing={1}>
+            <IconButton
+              aria-label="Edit"
+              icon={<IconPencil size={15} />}
+              variant="ghost"
+              onClick={() => handleEdit(account)}
+            />
+            <IconButton
+              aria-label="Delete"
+              icon={<IconTrashFilled size={15} />}
+              variant="ghost"
+              onClick={() => handleDelete(account.id)}
+            />
+          </ButtonGroup>
+        </Td>
+      </Tr>
+    ));
   };
 
   return (
@@ -123,38 +161,7 @@ export default function OnboardingAccountsForm() {
               <Th isNumeric>Actions</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {isLoading ? (
-              <TableSkeletonRow cols={3} />
-            ) : isEmpty(accounts) ? (
-              <TableEmptyRows cols={3} />
-            ) : (
-              accounts?.map((account) => (
-                <Tr key={account.id}>
-                  <Td w="10px" opacity={0.5}>
-                    <IconWallet size={18} color={account.color || "gray"} />
-                  </Td>
-                  <Td>{account.name}</Td>
-                  <Td isNumeric w="10px">
-                    <ButtonGroup size="xs" spacing={1}>
-                      <IconButton
-                        aria-label="Edit"
-                        icon={<IconPencil size={15} />}
-                        variant="ghost"
-                        onClick={() => handleEdit(account)}
-                      />
-                      <IconButton
-                        aria-label="Delete"
-                        icon={<IconTrashFilled size={15} />}
-                        variant="ghost"
-                        onClick={() => handleDelete(account.id)}
-                      />
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
-              ))
-            )}
-          </Tbody>
+          <Tbody>{renderTableContent()}</Tbody>
         </Table>
       </TableContainer>
     </Stack>

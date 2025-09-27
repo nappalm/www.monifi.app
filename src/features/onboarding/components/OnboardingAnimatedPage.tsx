@@ -7,7 +7,9 @@ const animations = {
   exit: { opacity: 0 },
 };
 
-export default function OnboardingAnimatedPage({ children }: PropsWithChildren) {
+export default function OnboardingAnimatedPage({
+  children,
+}: PropsWithChildren) {
   return (
     <motion.div
       variants={animations}

@@ -9,7 +9,7 @@ import {
 const Logo = forwardRef<IconProps, "svg">((props, ref) => {
   const [startColor, endColor] = useToken(
     "colors",
-    useColorModeValue(["black", "gray.800"], ["white", "gray.900"])
+    useColorModeValue(["black", "gray.800"], ["white", "gray.900"]),
   );
 
   return (
