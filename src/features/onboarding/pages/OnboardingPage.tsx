@@ -42,7 +42,10 @@ export default function OnboardingPage() {
             </Text>
           </Stack>
           <br />
-          <OnboardingBaseForm onSubmit={handleGetStarted} />
+          <OnboardingBaseForm
+            isLoading={updateProfile.isPending}
+            onSubmit={handleGetStarted}
+          />
         </Container>
       </OnboardingGridDotted>
     </OnboardingAnimatedPage>

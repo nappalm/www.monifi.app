@@ -7,7 +7,7 @@ type Props = {
   onSubmit: (values: OnboardingBaseFormValues) => void;
 } & Omit<CommmonFormProps, "onSubmit">;
 
-export default function OnboardingBaseForm({ onSubmit }: Props) {
+export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
   const methods = useForm<OnboardingBaseFormValues>({
     defaultValues: {
       currency: "USD",
@@ -36,7 +36,13 @@ export default function OnboardingBaseForm({ onSubmit }: Props) {
           <option value="MXN">MXN (Mexican Peso)</option>
         </RHFSelect>
         <br />
-        <Button w="full" colorScheme="cyan" type="submit" variant="outline">
+        <Button
+          w="full"
+          colorScheme="cyan"
+          type="submit"
+          variant="outline"
+          isLoading={isLoading}
+        >
           Get Started
         </Button>
       </Stack>
