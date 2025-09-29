@@ -47,7 +47,19 @@ export default function Topnavbar({
               />
             )}
             <Link to="/">
-              <Logo w="20px" h="20px" mr={2} />
+              <Logo
+                w="20px"
+                h="20px"
+                mr={2}
+                opacity={0.5}
+                _hover={{
+                  transition: "all 300ms ease-in-out",
+                  opacity: 1,
+                  transform: "rotate(-10deg)",
+                  w: "21px",
+                  h: "21px",
+                }}
+              />
             </Link>
             <ButtonGroup size="sm" spacing={1}>
               <Button
