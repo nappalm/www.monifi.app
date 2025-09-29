@@ -5,11 +5,11 @@ import {
   Container,
   HStack,
   IconButton,
-  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { IconChartArea, IconDatabase, IconMenu2 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Logo } from "../logo";
 import ToggleThemeButton from "./ToggleThemeButton";
 import UserMenu from "./UserMenu";
 
@@ -47,7 +47,19 @@ export default function Topnavbar({
               />
             )}
             <Link to="/">
-              <Image src="/logo.png" alt="logo" w="32px" />
+              <Logo
+                w="20px"
+                h="20px"
+                mr={2}
+                opacity={0.5}
+                _hover={{
+                  transition: "all 300ms ease-in-out",
+                  opacity: 1,
+                  transform: "rotate(-10deg)",
+                  w: "21px",
+                  h: "21px",
+                }}
+              />
             </Link>
             <ButtonGroup size="sm" spacing={1}>
               <Button

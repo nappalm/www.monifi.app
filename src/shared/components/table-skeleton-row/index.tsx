@@ -1,7 +1,7 @@
 import { Skeleton, Td, Tr } from "@chakra-ui/react";
 
 interface TableSkeletonRowProps {
-  rows: number;
+  rows?: number;
   cols: number;
 }
 

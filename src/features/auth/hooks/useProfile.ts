@@ -34,5 +34,6 @@ export const useProfile = (user: UserWithToken | null) => {
     profile,
     isLoadingProfile,
     isFree: profile?.subscription === "FREE" || !profile?.subscription,
+    isOnboarding: profile?.onboarding === true,
   };
 };
