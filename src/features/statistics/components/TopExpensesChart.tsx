@@ -11,6 +11,7 @@ import {
 import { IconChartInfographic } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Bar,
   BarChart,
@@ -34,6 +35,7 @@ export default function TopExpensesChart({
 }: {
   transactions: Tables<"transactions">[];
 }) {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const { data: categories } = useCategories();
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
@@ -50,7 +52,7 @@ export default function TopExpensesChart({
       .reduce(
         (acc, t) => {
           const category = categories?.find((c) => c.id === t.category_id);
-          const key = category?.name || "Uncategorized";
+          const key = category?.name || t("statistics.labels.uncategorized");
           acc[key] = (acc[key] || 0) + t.amount;
           return acc;
         },
@@ -61,7 +63,7 @@ export default function TopExpensesChart({
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value)
       .slice(0, 5);
-  }, [transactions, categories]);
+  }, [transactions, categories, t]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -108,7 +110,7 @@ export default function TopExpensesChart({
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">Top 5 Expenses</Text>
+          <Text color="gray.500">{t("statistics.charts.topExpenses")}</Text>
           {isEmpty(data) ? (
             <Stack
               w="full"
@@ -120,7 +122,7 @@ export default function TopExpensesChart({
             >
               <IconChartInfographic size={30} />
               <Text fontSize="xs" w="50%" textAlign="center">
-                We couldn’t find any data to show right now
+                {t("statistics.noData")}
               </Text>
             </Stack>
           ) : (

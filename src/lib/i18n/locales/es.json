@@ -131,5 +131,20 @@
       "totalExpenses": "Gastos Totales",
       "top5Expenses": "Top 5 Gastos"
     }
+  },
+  "statistics": {
+    "title": "Estadísticas",
+    "charts": {
+      "spendingByCategory": "Gastos por Categoría",
+      "topExpenses": "Top 5 Gastos",
+      "incomeVsExpenses": "Ingresos vs. Gastos",
+      "topAccounts": "Top 3 Cuentas"
+    },
+    "noData": "No pudimos encontrar datos para mostrar en este momento",
+    "labels": {
+      "uncategorized": "Sin categoría",
+      "income": "Ingresos",
+      "expenses": "Gastos"
+    }
   }
 }

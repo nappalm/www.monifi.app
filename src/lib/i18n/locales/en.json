@@ -131,5 +131,20 @@
       "totalExpenses": "Total Expenses",
       "top5Expenses": "Top 5 Expenses"
     }
+  },
+  "statistics": {
+    "title": "Statistics",
+    "charts": {
+      "spendingByCategory": "Spending by Category",
+      "topExpenses": "Top 5 Expenses",
+      "incomeVsExpenses": "Income vs. Expenses",
+      "topAccounts": "Top 3 Accounts"
+    },
+    "noData": "We couldn't find any data to show right now",
+    "labels": {
+      "uncategorized": "Uncategorized",
+      "income": "Income",
+      "expenses": "Expenses"
+    }
   }
 }
