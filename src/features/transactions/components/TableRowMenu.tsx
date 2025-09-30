@@ -14,6 +14,7 @@ import {
   IconToggleRightFilled,
   IconTrash,
 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isDisabled: boolean;
@@ -28,6 +29,8 @@ export default function TableRowMenu({
   onSeeDetails,
   onDelete,
 }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Menu isLazy>
       <MenuButton
@@ -42,7 +45,7 @@ export default function TableRowMenu({
       <Portal>
         <MenuList>
           <MenuItem icon={<IconSwipe size={16} />} onClick={onSeeDetails}>
-            See details
+            {t("transactions.menu.seeDetails")}
           </MenuItem>
           <MenuItem
             icon={
@@ -54,7 +57,9 @@ export default function TableRowMenu({
             }
             onClick={onDisabled}
           >
-            {isDisabled ? "Enable" : "Disable"}
+            {isDisabled
+              ? t("transactions.menu.enable")
+              : t("transactions.menu.disable")}
           </MenuItem>
           <MenuDivider />
           <MenuItem
@@ -62,7 +67,7 @@ export default function TableRowMenu({
             color="red.500"
             onClick={onDelete}
           >
-            Delete transaction
+            {t("transactions.menu.delete")}
           </MenuItem>
         </MenuList>
       </Portal>

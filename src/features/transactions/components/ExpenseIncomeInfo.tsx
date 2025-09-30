@@ -8,15 +8,17 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import TransactionsChart from "./TransactionsChart";
 import { Tables } from "@/lib";
-import { useMemo } from "react";
 import { formatCurrency } from "@/shared";
 
 type Props = {
   transactions: Tables<"transactions">[];
 };
 export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
+  const { t } = useTranslation();
   const { incomes, expenses, balance } = useMemo(() => {
     const incomes = transactions
       .filter((item) => item.type === "income")
@@ -37,7 +39,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
               {formatCurrency(balance, "USD")}
             </Heading>
             <Text fontSize="sm" color="gray.500">
-              Balance
+              {t("transactions.summary.balance")}
             </Text>
           </Stack>
           <Stack gap={0}>
@@ -45,7 +47,9 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
             <HStack justify="space-between" py={1}>
               <HStack>
                 <Box w="8px" h="8px" bg="commons.100" borderRadius="full" />
-                <Text fontSize="xs">Total Income</Text>
+                <Text fontSize="xs">
+                  {t("transactions.summary.totalIncome")}
+                </Text>
               </HStack>
               <Text fontSize="xs" fontFamily="Roboto Mono">
                 {formatCurrency(incomes, "USD")}
@@ -55,7 +59,9 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
             <HStack justify="space-between" py={1}>
               <HStack>
                 <Box w="8px" h="8px" bg="commons.200" borderRadius="full" />
-                <Text fontSize="xs">Total Expenses</Text>
+                <Text fontSize="xs">
+                  {t("transactions.summary.totalExpenses")}
+                </Text>
               </HStack>
               <Text fontSize="xs" fontFamily="Roboto Mono">
                 {formatCurrency(expenses, "USD")}

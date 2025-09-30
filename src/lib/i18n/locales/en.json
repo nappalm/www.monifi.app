@@ -87,5 +87,49 @@
       "categoryName": "Category Name",
       "category": "Category"
     }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "newRow": "New row",
+    "filters": {
+      "category": "Category",
+      "account": "Account",
+      "type": "Type"
+    },
+    "types": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "table": {
+      "id": "ID",
+      "date": "Date",
+      "category": "Category",
+      "account": "Account",
+      "type": "Type",
+      "description": "Description",
+      "amount": "Amount"
+    },
+    "menu": {
+      "seeDetails": "See details",
+      "enable": "Enable",
+      "disable": "Disable",
+      "delete": "Delete transaction"
+    },
+    "details": {
+      "title": "Transaction details",
+      "account": "Account",
+      "category": "Category",
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "unknown": "Unknown",
+      "noDetails": "No transaction details available."
+    },
+    "summary": {
+      "balance": "Balance",
+      "totalIncome": "Total Income",
+      "totalExpenses": "Total Expenses",
+      "top5Expenses": "Top 5 Expenses"
+    }
   }
 }

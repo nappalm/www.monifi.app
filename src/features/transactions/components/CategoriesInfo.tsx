@@ -11,11 +11,13 @@ import {
 } from "@chakra-ui/react";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   transactions: Tables<"transactions">[];
 };
 export default function CategoriesInfo({ transactions = [] }: Props) {
+  const { t } = useTranslation();
   const { data: categories } = useCategories();
 
   const categoriesWithTotals = useMemo(() => {
@@ -59,7 +61,7 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
       <CardBody>
         <Stack>
           <Text color="gray.500" fontSize="xs">
-            Top 5 Expenses
+            {t("transactions.summary.top5Expenses")}
           </Text>
           {categoriesWithTotals.map((category) => (
             <HStack key={category.id}>

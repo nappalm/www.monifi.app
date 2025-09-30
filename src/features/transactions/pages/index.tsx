@@ -29,6 +29,7 @@ import {
   IconTagFilled,
 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import AccountInfo from "../components/AccountInfo";
 import CategoriesInfo from "../components/CategoriesInfo";
 import { DetailsDrawer } from "../components/DetailsDrawer";
@@ -38,6 +39,7 @@ import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
 
 export default function TransactionsPage() {
+  const { t } = useTranslation();
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
   const { data: transactions, isLoading } = useTransactions(dateRange);
 
@@ -68,7 +70,7 @@ export default function TransactionsPage() {
     () => [
       {
         key: "categories",
-        label: "Category",
+        label: t("transactions.filters.category"),
         icon: <IconTagFilled size={16} />,
         options:
           categories?.map((c) => ({
@@ -78,7 +80,7 @@ export default function TransactionsPage() {
       },
       {
         key: "accounts",
-        label: "Account",
+        label: t("transactions.filters.account"),
         icon: <IconReceiptDollarFilled size={16} />,
         options:
           accounts?.map((a) => ({ label: a.name, value: a.id.toString() })) ||
@@ -86,15 +88,15 @@ export default function TransactionsPage() {
       },
       {
         key: "types",
-        label: "Type",
+        label: t("transactions.filters.type"),
         icon: <IconLineHeight size={16} />,
         options: [
-          { label: "Income", value: "income" },
-          { label: "Expense", value: "expense" },
+          { label: t("transactions.types.income"), value: "income" },
+          { label: t("transactions.types.expense"), value: "expense" },
         ],
       },
     ],
-    [categories, accounts],
+    [categories, accounts, t],
   );
 
   const filteredTransactions = useMemo(() => {
@@ -156,7 +158,7 @@ export default function TransactionsPage() {
       </Stack>
 
       <Stack gap={5}>
-        <Heading size="lg">Transactions</Heading>
+        <Heading size="lg">{t("transactions.title")}</Heading>
         <HStack justifyContent="space-between">
           <HStack gap="1px">
             <FilterButtonMenu
@@ -180,7 +182,7 @@ export default function TransactionsPage() {
               </Text>
             }
           >
-            New row
+            {t("transactions.newRow")}
           </Button>
         </HStack>
         <TransactionsTable

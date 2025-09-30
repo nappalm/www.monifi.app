@@ -87,5 +87,49 @@
       "categoryName": "Nombre de la categoría",
       "category": "Categoría"
     }
+  },
+  "transactions": {
+    "title": "Transacciones",
+    "newRow": "Nueva fila",
+    "filters": {
+      "category": "Categoría",
+      "account": "Cuenta",
+      "type": "Tipo"
+    },
+    "types": {
+      "income": "Ingreso",
+      "expense": "Gasto"
+    },
+    "table": {
+      "id": "ID",
+      "date": "Fecha",
+      "category": "Categoría",
+      "account": "Cuenta",
+      "type": "Tipo",
+      "description": "Descripción",
+      "amount": "Monto"
+    },
+    "menu": {
+      "seeDetails": "Ver detalles",
+      "enable": "Habilitar",
+      "disable": "Deshabilitar",
+      "delete": "Eliminar transacción"
+    },
+    "details": {
+      "title": "Detalles de la transacción",
+      "account": "Cuenta",
+      "category": "Categoría",
+      "date": "Fecha",
+      "description": "Descripción",
+      "amount": "Monto",
+      "unknown": "Desconocido",
+      "noDetails": "No hay detalles de transacción disponibles."
+    },
+    "summary": {
+      "balance": "Balance",
+      "totalIncome": "Ingresos Totales",
+      "totalExpenses": "Gastos Totales",
+      "top5Expenses": "Top 5 Gastos"
+    }
   }
 }

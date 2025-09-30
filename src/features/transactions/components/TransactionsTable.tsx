@@ -5,6 +5,7 @@ import {
   Column,
   InlineEditorGrid,
 } from "@/shared";
+import { useTranslation } from "react-i18next";
 import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
@@ -26,14 +27,16 @@ export default function TransactionsTable({
   onSeeDetailsRow,
   onDisabledRow,
 }: Props) {
+  const { t } = useTranslation();
+
   const columns: Column<Tables<"transactions">>[] = [
     {
       accessor: "id",
-      header: "ID",
+      header: t("transactions.table.id"),
       isVisible: false,
     },
     {
-      header: "Date",
+      header: t("transactions.table.date"),
       accessor: "occurred_at",
       isEditable: false,
       sx: {
@@ -55,7 +58,7 @@ export default function TransactionsTable({
       },
     },
     {
-      header: "Category",
+      header: t("transactions.table.category"),
       accessor: "category_id",
       isEditable: false,
       sx: {
@@ -77,7 +80,7 @@ export default function TransactionsTable({
       },
     },
     {
-      header: "Account",
+      header: t("transactions.table.account"),
       accessor: "account_id",
       isEditable: false,
       sx: {
@@ -99,7 +102,7 @@ export default function TransactionsTable({
       },
     },
     {
-      header: "Type",
+      header: t("transactions.table.type"),
       accessor: "type",
       isEditable: false,
       sx: {
@@ -121,14 +124,14 @@ export default function TransactionsTable({
       },
     },
     {
-      header: "Description",
+      header: t("transactions.table.description"),
       accessor: "description",
       sx: {
         maxW: "200px",
       },
     },
     {
-      header: "Amount",
+      header: t("transactions.table.amount"),
       accessor: "amount",
       isAmount: true,
       sx: {

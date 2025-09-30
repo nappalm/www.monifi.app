@@ -18,6 +18,7 @@ import {
   UseDisclosureProps,
 } from "@chakra-ui/react";
 import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 type DetailsDrawerProps = UseDisclosureProps & {
   transaction: Tables<"transactions"> | null;
@@ -28,6 +29,7 @@ export const DetailsDrawer = ({
   onClose,
   transaction,
 }: DetailsDrawerProps) => {
+  const { t } = useTranslation();
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
 
@@ -41,7 +43,7 @@ export const DetailsDrawer = ({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Transaction details</DrawerHeader>
+        <DrawerHeader>{t("transactions.details.title")}</DrawerHeader>
 
         <DrawerBody>
           {transaction ? (
@@ -73,7 +75,7 @@ export const DetailsDrawer = ({
                         {formatCurrency(transaction.amount, "USD")}
                       </Text>
                       <Text fontSize="sm" color="gray.500">
-                        Amount
+                        {t("transactions.details.amount")}
                       </Text>
                     </Stack>
                   </HStack>
@@ -81,31 +83,35 @@ export const DetailsDrawer = ({
               </Card>
               <Flex justify="space-between" align="center">
                 <Text fontSize="sm" fontWeight="bold">
-                  Account
+                  {t("transactions.details.account")}
                 </Text>
-                <Text fontSize="sm">{account?.name ?? "Unknown"}</Text>
+                <Text fontSize="sm">
+                  {account?.name ?? t("transactions.details.unknown")}
+                </Text>
               </Flex>
               <Flex justify="space-between" align="center">
                 <Text fontSize="sm" fontWeight="bold">
-                  Category
+                  {t("transactions.details.category")}
                 </Text>
-                <Text fontSize="sm">{category?.name ?? "Unknown"}</Text>
+                <Text fontSize="sm">
+                  {category?.name ?? t("transactions.details.unknown")}
+                </Text>
               </Flex>
               <Flex justify="space-between" align="center">
                 <Text fontSize="sm" fontWeight="bold">
-                  Date
+                  {t("transactions.details.date")}
                 </Text>
                 <Text fontSize="sm">{formatDate(transaction.occurred_at)}</Text>
               </Flex>
               <Box mt={4}>
                 <Text fontSize="sm" fontWeight="bold" mb={2}>
-                  Description
+                  {t("transactions.details.description")}
                 </Text>
                 <Text fontSize="md">{transaction.description}</Text>
               </Box>
             </Stack>
           ) : (
-            <Text>No transaction details available.</Text>
+            <Text>{t("transactions.details.noDetails")}</Text>
           )}
         </DrawerBody>
       </DrawerContent>
