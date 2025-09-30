@@ -30,12 +30,8 @@ export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Stack>
         <RHFSelect name="language" label={t("onboarding.form.language.label")}>
-          <option value="en">
-            {t("onboarding.form.language.english")}
-          </option>
-          <option value="es">
-            {t("onboarding.form.language.spanish")}
-          </option>
+          <option value="en">{t("onboarding.form.language.english")}</option>
+          <option value="es">{t("onboarding.form.language.spanish")}</option>
         </RHFSelect>
         <RHFSelect name="currency" label={t("onboarding.form.currency.label")}>
           <option value="USD">USD (United States Dollar)</option>
