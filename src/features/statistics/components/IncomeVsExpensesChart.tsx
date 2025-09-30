@@ -86,7 +86,9 @@ export default function IncomeVsExpensesChart({
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">{t("statistics.charts.incomeVsExpenses")}</Text>
+          <Text color="gray.500">
+            {t("statistics.charts.incomeVsExpenses")}
+          </Text>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart
               data={data}

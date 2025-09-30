@@ -114,7 +114,9 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">{t("statistics.charts.spendingByCategory")}</Text>
+          <Text color="gray.500">
+            {t("statistics.charts.spendingByCategory")}
+          </Text>
           {isEmpty(data) ? (
             <Stack
               w="full"
