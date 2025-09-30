@@ -8,6 +8,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { IconMenu2 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../logo";
 import ToggleThemeButton from "./ToggleThemeButton";
@@ -22,6 +23,7 @@ export default function Topnavbar({
   onMenuClick,
   hideResponseMenu = false,
 }: Props) {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ export default function Topnavbar({
               <IconButton
                 variant="ghost"
                 display={["flex", "flex", "flex", "none"]}
-                aria-label="Sidebar menu"
+                aria-label={t("components.topnavbar.sidebarMenu")}
                 size="sm"
                 icon={<IconMenu2 size={18} />}
                 onClick={() => onMenuClick?.()}
@@ -69,7 +71,7 @@ export default function Topnavbar({
                 onClick={() => handleNavigate("/transactions")}
                 bg="transparent"
               >
-                Transactions
+                {t("components.topnavbar.transactions")}
               </Button>
               <Button
                 onClick={() => handleNavigate("/statistics")}
@@ -78,7 +80,7 @@ export default function Topnavbar({
                 fontWeight={isPathActive("/statistics") ? "bold" : undefined}
                 opacity={isPathActive("/statistics") ? 1 : 0.5}
               >
-                Statistics
+                {t("components.topnavbar.statistics")}
               </Button>
             </ButtonGroup>
           </HStack>

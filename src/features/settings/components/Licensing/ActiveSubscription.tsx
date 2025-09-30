@@ -9,6 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IconDiamondFilled } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   activeSubscriptionName?: string | null;
@@ -22,6 +23,7 @@ export default function ActiveSubscription({
   onCancel,
   activeSubscriptionName = FREE_PLAN,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <Card size="sm">
       <CardHeader>
@@ -29,27 +31,33 @@ export default function ActiveSubscription({
           <HStack gap={3} alignItems="flex-start">
             <IconDiamondFilled />
             <Stack gap={0}>
-              <Text fontWeight="bold">Github Copilot</Text>
-              <Text color="gray.500">Your AI pair programmer</Text>
+              <Text fontWeight="bold">
+                {t("settings.licensing.proPlan.title")}
+              </Text>
+              <Text color="gray.500">
+                {t("settings.licensing.proPlan.description")}
+              </Text>
             </Stack>
           </HStack>
           {activeSubscriptionName === FREE_PLAN && (
             <Button colorScheme="cyan" size="sm" onClick={onUpgrade}>
-              Upgrade plan
+              {t("settings.licensing.upgradePlan")}
             </Button>
           )}
         </HStack>
       </CardHeader>
       <CardBody>
         <Stack gap={0}>
-          <Text fontWeight="bold">Active subscription</Text>
+          <Text fontWeight="bold">
+            {t("settings.licensing.activeSubscription")}
+          </Text>
           <Text>{activeSubscriptionName ?? FREE_PLAN}</Text>
         </Stack>
       </CardBody>
       {activeSubscriptionName !== FREE_PLAN && (
         <CardFooter>
           <Text>
-            You can cancel your subscription at any time.
+            {t("settings.licensing.cancelInfo")}
             <Text
               as="span"
               color="cyan.500"
@@ -60,9 +68,9 @@ export default function ActiveSubscription({
                 textDecoration: "underline",
               }}
             >
-              Click here{" "}
+              {t("settings.licensing.clickHere")}{" "}
             </Text>
-            for more details on the process
+            {t("settings.licensing.cancelDetails")}
           </Text>
         </CardFooter>
       )}

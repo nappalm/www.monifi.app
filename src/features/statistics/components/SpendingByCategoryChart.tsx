@@ -11,12 +11,14 @@ import {
 import { IconChartInfographic } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 type Props = {
   transactions: Tables<"transactions">[];
 };
 export default function SpendingByCategoryChart({ transactions = [] }: Props) {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const { data: categories } = useCategories();
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
@@ -30,7 +32,7 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
       .reduce(
         (acc, t) => {
           const category = categories?.find((c) => c.id === t.category_id);
-          const key = category?.name || "Uncategorized";
+          const key = category?.name || t("statistics.labels.uncategorized");
           acc[key] = (acc[key] || 0) + t.amount;
           return acc;
         },
@@ -40,7 +42,7 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
     return Object.entries(spending)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
-  }, [transactions, categories]);
+  }, [transactions, categories, t]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload }: any) => {
@@ -112,7 +114,9 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">Spending by Category</Text>
+          <Text color="gray.500">
+            {t("statistics.charts.spendingByCategory")}
+          </Text>
           {isEmpty(data) ? (
             <Stack
               w="full"
@@ -124,7 +128,7 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
             >
               <IconChartInfographic size={30} />
               <Text fontSize="xs" w="50%" textAlign="center">
-                We couldn’t find any data to show right now
+                {t("statistics.noData")}
               </Text>
             </Stack>
           ) : (

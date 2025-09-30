@@ -8,22 +8,8 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
-
-const types = [
-  {
-    value: "income",
-    label: "Income",
-    icon: <IconChevronsUp size={13} color={_colors.commons[100]} />,
-    // color: _colors.commons[100],
-  },
-  {
-    value: "expense",
-    label: "Expense",
-    icon: <IconChevronsDown size={13} color={_colors.commons[200]} />,
-    // color: _colors.commons[200],
-  },
-];
+import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   defaultValue: "income" | "expense";
@@ -32,7 +18,24 @@ type Props = {
 };
 
 export default function TypeSelect({ defaultValue, value, onChange }: Props) {
+  const { t } = useTranslation();
   const [type, setType] = useState(value || defaultValue);
+
+  const types = useMemo(
+    () => [
+      {
+        value: "income",
+        label: t("transactions.types.income"),
+        icon: <IconChevronsUp size={13} color={_colors.commons[100]} />,
+      },
+      {
+        value: "expense",
+        label: t("transactions.types.expense"),
+        icon: <IconChevronsDown size={13} color={_colors.commons[200]} />,
+      },
+    ],
+    [t],
+  );
 
   useEffect(() => {
     if (defaultValue) {

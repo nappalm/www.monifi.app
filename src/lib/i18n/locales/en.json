@@ -1,0 +1,318 @@
+{
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "soon": "Soon",
+    "actions": "Actions",
+    "cancelEdition": "Cancel edition"
+  },
+  "components": {
+    "accountSelect": {
+      "placeholder": "Account",
+      "searchOrCreate": "Search or create",
+      "loading": "Loading...",
+      "accounts": "Accounts",
+      "create": "Create",
+      "deleteAccount": "Delete account"
+    },
+    "categorySelect": {
+      "placeholder": "Category",
+      "searchOrCreate": "Search or create",
+      "loading": "Loading...",
+      "categories": "Categories",
+      "create": "Create",
+      "deleteCategory": "Delete category"
+    },
+    "topnavbar": {
+      "transactions": "Transactions",
+      "statistics": "Statistics",
+      "sidebarMenu": "Sidebar menu"
+    },
+    "userMenu": {
+      "profileSettings": "Profile settings",
+      "logout": "Logout"
+    },
+    "toggleThemeButton": {
+      "toggleTheme": "Toggle theme"
+    },
+    "tableEmptyRows": {
+      "noResults": "No results found. Start by adding..."
+    },
+    "tablePagination": {
+      "viewing": "Viewing {{from}}–{{to}} of {{total}} results",
+      "back": "Back",
+      "next": "Next"
+    },
+    "filterButtonMenu": {
+      "filter": "Filter",
+      "allFilters": "All Filters",
+      "clearAllFilters": "Clear all filters",
+      "search": "Search..."
+    },
+    "filterDateMenu": {
+      "selectRange": "Select a range"
+    },
+    "dateRange": {
+      "range": "Range",
+      "month": "Month",
+      "previousYear": "Previous year",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "nextYear": "Next year",
+      "weekDays": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
+    },
+    "datePicker": {
+      "previousYear": "Previous year",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "nextYear": "Next year",
+      "weekDays": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
+    },
+    "settingsSidebar": {
+      "profile": "Profile",
+      "plansAndPayments": "Plans and payments",
+      "licensing": "Licensing",
+      "paymentInformation": "Payment information",
+      "paymentHistory": "Payment history",
+      "passwordAndAuthentication": "Password and Authentication",
+      "authentication": "Authentication",
+      "changePassword": "Change password",
+      "deleteAccount": "Delete account"
+    },
+    "userInformation": {
+      "personalAccount": "Your personal account"
+    }
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome aboard Monifi",
+      "description": "You are about to take control of your finances. Find out where your money is going and how you can optimize your savings.",
+      "getStarted": "Get Started"
+    },
+    "baseQuestions": {
+      "title": "Set up your profile",
+      "description": "To personalize your experience, tell us about your priorities and how you currently manage your finances.",
+      "priority": {
+        "label": "What is your current priority?",
+        "saving": "Saving",
+        "debt": "Getting out of debt",
+        "spending": "Improve spending control",
+        "goals": "Plan goals (e.g., vacation, car, house)"
+      },
+      "financeManagement": {
+        "label": "How do you manage your finances today?",
+        "notebook": "Notebook/Excel",
+        "apps": "Apps",
+        "noTrack": "I don't keep track"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "description": "Add your wallets and manage all your finances in one place. You can register debit, credit, savings accounts, and even digital wallets to get a complete view of your transactions."
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "Create categories to classify your income and expenses. This will help you understand where your money is coming from and where it is going."
+    },
+    "appFeatures": {
+      "title": "You're all set!",
+      "description": "Welcome aboard! You're now ready to take control of your finances. Dive in to track spending, create budgets, and gain insights into your financial habits. Happy budgeting!",
+      "getStarted": "Get started",
+      "features": {
+        "transactions": {
+          "title": "Transactions",
+          "description": "Easily track all your financial transactions in one place for a clear overview."
+        },
+        "statistics": {
+          "title": "Statistics",
+          "description": "Visualize your spending habits and financial progress with insightful charts and graphs."
+        },
+        "budgets": {
+          "title": "Budgets",
+          "description": "Create and manage budgets to stay on top of your spending and achieve your financial goals."
+        },
+        "debts": {
+          "title": "Depts",
+          "description": "Keep track of your debts and manage repayments effectively."
+        },
+        "creditCards": {
+          "title": "Credit cards",
+          "description": "Monitor your credit card spending and balances to maintain financial health."
+        },
+        "aiSupport": {
+          "title": "AI Support",
+          "description": "Get personalized financial advice and insights from our AI assistant."
+        }
+      }
+    },
+    "form": {
+      "language": {
+        "label": "Select your language",
+        "english": "English",
+        "spanish": "Español"
+      },
+      "currency": {
+        "label": "Select your currency"
+      }
+    },
+    "accountsForm": {
+      "accountName": "Account Name",
+      "wallet": "Wallet"
+    },
+    "categoriesForm": {
+      "categoryName": "Category Name",
+      "category": "Category"
+    }
+  },
+  "transactions": {
+    "title": "Transactions",
+    "newRow": "New row",
+    "filters": {
+      "category": "Category",
+      "account": "Account",
+      "type": "Type"
+    },
+    "types": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "table": {
+      "id": "ID",
+      "date": "Date",
+      "category": "Category",
+      "account": "Account",
+      "type": "Type",
+      "description": "Description",
+      "amount": "Amount"
+    },
+    "menu": {
+      "seeDetails": "See details",
+      "enable": "Enable",
+      "disable": "Disable",
+      "delete": "Delete transaction"
+    },
+    "details": {
+      "title": "Transaction details",
+      "account": "Account",
+      "category": "Category",
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "unknown": "Unknown",
+      "noDetails": "No transaction details available."
+    },
+    "summary": {
+      "balance": "Balance",
+      "totalIncome": "Total Income",
+      "totalExpenses": "Total Expenses",
+      "top5Expenses": "Top 5 Expenses"
+    }
+  },
+  "statistics": {
+    "title": "Statistics",
+    "charts": {
+      "spendingByCategory": "Spending by Category",
+      "topExpenses": "Top 5 Expenses",
+      "incomeVsExpenses": "Income vs. Expenses",
+      "topAccounts": "Top 3 Accounts"
+    },
+    "noData": "We couldn't find any data to show right now",
+    "labels": {
+      "uncategorized": "Uncategorized",
+      "income": "Income",
+      "expenses": "Expenses"
+    }
+  },
+  "settings": {
+    "myProfile": {
+      "title": "My profile",
+      "name": "Name",
+      "email": "Email",
+      "changeEmail": "Change my email account",
+      "emailChangeInfo": "If you decide to update your email account, we will send a confirmation link to the new address you provide",
+      "updateProfile": "Update profile"
+    },
+    "authentication": {
+      "title": "Authentication",
+      "emailPassword": "Email and Password",
+      "google": "Google",
+      "active": "Active",
+      "authenticateCredentials": "Authenticate with your credentials",
+      "authenticateGoogle": "Authenticate with google"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "newPassword": "New passsword",
+      "repeatPassword": "Repeat new password",
+      "updatePassword": "Update password",
+      "managedByProvider": "Your password is managed by your login provider",
+      "externalServiceInfo": "Since you access this account through an external service ({{provider}}), we cannot change your password from here."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "warning": "Permanently delete account, this action cannot be undone",
+      "description": "Deleting your account will remove all your personal data, settings, and history. Once deleted, this information cannot be recovered.",
+      "button": "Delete my account",
+      "modal": {
+        "title": "Delete Account",
+        "message": "Deleting your account will <strong>permanently remove all your data</strong> and cannot be undone.",
+        "confirmation": "I understand and want to delete my account",
+        "cancel": "Cancel",
+        "delete": "Delete account"
+      }
+    },
+    "licensing": {
+      "title": "Licensing",
+      "activeSubscription": "Active subscription",
+      "upgradePlan": "Upgrade plan",
+      "cancelInfo": "You can cancel your subscription at any time.",
+      "clickHere": "Click here",
+      "cancelDetails": "for more details on the process",
+      "freePlan": {
+        "title": "Github Free",
+        "description": "The basics for all developers",
+        "notIncluded": "Not included"
+      },
+      "proPlan": {
+        "title": "Github Copilot",
+        "description": "Your AI pair programmer"
+      }
+    },
+    "paymentHistory": {
+      "title": "Payment History",
+      "id": "ID",
+      "paidAt": "Paid at",
+      "amount": "Amount",
+      "brand": "Brand",
+      "last4": "Last4",
+      "downloadInvoice": "Download invoice"
+    },
+    "paymentInformation": {
+      "title": "Payment Information",
+      "additionalInfo": "Additional information",
+      "description": "Add payment details to your receipts, such as the cardholder's name, card type, or the last four digits of the payment card used. This information will automatically appear on every receipt to make tracking your purchases easier.",
+      "addPaymentMethod": "Ad new payment method",
+      "brand": "Brand",
+      "last4": "Last4",
+      "expires": "Expires",
+      "remove": "Remove"
+    }
+  }
+}

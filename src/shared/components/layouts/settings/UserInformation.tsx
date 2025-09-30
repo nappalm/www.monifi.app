@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { IconDiamondFilled } from "@tabler/icons-react";
 import { keyframes } from "@emotion/react";
+import { useTranslation } from "react-i18next";
 
 const popInAnimation = keyframes`
   from {
@@ -23,6 +24,7 @@ const popInAnimation = keyframes`
 `;
 
 export default function UserInformation() {
+  const { t } = useTranslation();
   const { user, profile, isFree } = useAuthenticatedUser();
 
   const userName = profile?.name || user?.user_metadata?.name;
@@ -56,7 +58,9 @@ export default function UserInformation() {
       </Box>
       <Stack gap={0}>
         <Heading size="lg">{userName || userEmail}</Heading>
-        <Text color="gray.500">Your personal account</Text>
+        <Text color="gray.500">
+          {t("components.userInformation.personalAccount")}
+        </Text>
       </Stack>
     </HStack>
   );

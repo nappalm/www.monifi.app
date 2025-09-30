@@ -7,6 +7,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import ActiveSubscription from "../components/licensing/ActiveSubscription";
 import CancellationDrawer from "../components/licensing/CancellationDrawer";
 import FreePlanDetails from "../components/licensing/FreePlanDetails";
@@ -21,6 +22,7 @@ import {
 import { OnUpgrade } from "../utils/types";
 
 export default function LicensingPage() {
+  const { t } = useTranslation();
   const { profile } = useAuthenticatedUser();
 
   const products = useStripeProducts();
@@ -53,7 +55,7 @@ export default function LicensingPage() {
   return (
     <Stack>
       <Heading fontWeight={500} size="lg">
-        Licensing
+        {t("settings.licensing.title")}
       </Heading>
 
       {products.isError && (

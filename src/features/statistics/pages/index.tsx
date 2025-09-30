@@ -13,6 +13,7 @@ import {
   IconTagFilled,
 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useTransactions } from "../../transactions/hooks/useTransactions";
 import { filterTransactions } from "../../transactions/utils/filtered";
 import IncomeVsExpensesChart from "../components/IncomeVsExpensesChart";
@@ -21,6 +22,7 @@ import TopAccountsChart from "../components/TopAccountsChart";
 import TopExpensesChart from "../components/TopExpensesChart";
 
 export default function Statistics() {
+  const { t } = useTranslation();
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
   const { data: transactions } = useTransactions(dateRange);
 
@@ -48,7 +50,7 @@ export default function Statistics() {
     () => [
       {
         key: "categories",
-        label: "Category",
+        label: t("transactions.filters.category"),
         icon: <IconTagFilled size={16} />,
         options:
           categories?.map((c) => ({
@@ -58,7 +60,7 @@ export default function Statistics() {
       },
       {
         key: "accounts",
-        label: "Account",
+        label: t("transactions.filters.account"),
         icon: <IconReceiptDollarFilled size={16} />,
         options:
           accounts?.map((a) => ({ label: a.name, value: a.id.toString() })) ||
@@ -66,15 +68,15 @@ export default function Statistics() {
       },
       {
         key: "types",
-        label: "Type",
+        label: t("transactions.filters.type"),
         icon: <IconLineHeight size={16} />,
         options: [
-          { label: "Income", value: "income" },
-          { label: "Expense", value: "expense" },
+          { label: t("transactions.types.income"), value: "income" },
+          { label: t("transactions.types.expense"), value: "expense" },
         ],
       },
     ],
-    [categories, accounts],
+    [categories, accounts, t],
   );
 
   const filteredTransactions = useMemo(() => {
@@ -87,7 +89,7 @@ export default function Statistics() {
 
   return (
     <Stack gap={5}>
-      <Heading size="lg">Statistics</Heading>
+      <Heading size="lg">{t("statistics.title")}</Heading>
       <HStack gap="1px">
         <FilterButtonMenu
           filterGroups={filterGroups}

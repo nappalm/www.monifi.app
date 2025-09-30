@@ -5,6 +5,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   rowsPerPage?: number;
@@ -23,6 +24,7 @@ export function TablePagination({
   currentPage = 1,
   lastPage,
 }: Props) {
+  const { t } = useTranslation();
   const bg = useColorModeValue("gray.200", "whiteAlpha.200");
   if (!total) return null;
 
@@ -38,14 +40,14 @@ export function TablePagination({
       px={4}
     >
       <Text color="gray.400">
-        Viewing {from}–{to} of {total} results
+        {t("components.tablePagination.viewing", { from, to, total })}
       </Text>
       <ButtonGroup size="sm" alignItems="center" spacing={1}>
         <Button onClick={onPrev} isDisabled={currentPage === 1}>
-          Back
+          {t("components.tablePagination.back")}
         </Button>
         <Button onClick={onNext} isDisabled={currentPage === lastPage}>
-          Next
+          {t("components.tablePagination.next")}
         </Button>
       </ButtonGroup>
     </HStack>

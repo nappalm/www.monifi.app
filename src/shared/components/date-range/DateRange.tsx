@@ -34,6 +34,7 @@ import {
 } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type DateRangeValue = {
   initial_date: Date | null;
@@ -48,8 +49,6 @@ export type DateRangeProps = {
   onChange?: (value: DateRangeValue) => void;
 };
 
-const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 const MotionGrid = motion(Grid);
 
 export function DateRange({
@@ -57,6 +56,17 @@ export function DateRange({
   defaultValue = { initial_date: null, end_date: null },
   onChange,
 }: DateRangeProps) {
+  const { t } = useTranslation();
+
+  const WEEK_DAYS = [
+    t("components.dateRange.weekDays.sun"),
+    t("components.dateRange.weekDays.mon"),
+    t("components.dateRange.weekDays.tue"),
+    t("components.dateRange.weekDays.wed"),
+    t("components.dateRange.weekDays.thu"),
+    t("components.dateRange.weekDays.fri"),
+    t("components.dateRange.weekDays.sat"),
+  ];
   const [currentDate, setCurrentDate] = useState(
     defaultValue.initial_date || new Date(),
   );
@@ -206,14 +216,14 @@ export function DateRange({
         <HStack justifyContent="space-between" mb={3}>
           <HStack spacing={1}>
             <IconButton
-              aria-label="Previous year"
+              aria-label={t("components.dateRange.previousYear")}
               icon={<IconChevronsLeft size={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(subYears(currentDate, 1))}
             />
             <IconButton
-              aria-label="Previous month"
+              aria-label={t("components.dateRange.previousMonth")}
               icon={<IconChevronLeft size={16} />}
               size="xs"
               variant="ghost"
@@ -227,14 +237,14 @@ export function DateRange({
 
           <HStack spacing={1}>
             <IconButton
-              aria-label="Next month"
+              aria-label={t("components.dateRange.nextMonth")}
               icon={<IconChevronRight size={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(addMonths(currentDate, 1))}
             />
             <IconButton
-              aria-label="Next year"
+              aria-label={t("components.dateRange.nextYear")}
               icon={<IconChevronsRight size={16} />}
               size="xs"
               variant="ghost"
@@ -251,10 +261,10 @@ export function DateRange({
           >
             <HStack spacing={4}>
               <Radio size="sm" value="range">
-                Range
+                {t("components.dateRange.range")}
               </Radio>
               <Radio size="sm" value="month">
-                Month
+                {t("components.dateRange.month")}
               </Radio>
             </HStack>
           </RadioGroup>

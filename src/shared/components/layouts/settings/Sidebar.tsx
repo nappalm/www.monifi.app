@@ -22,6 +22,7 @@ import {
 } from "@tabler/icons-react";
 import { FC, ReactElement, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type ButtonProps = {
   size: string;
@@ -60,54 +61,55 @@ const iconProps: IconProps = {
   color: "#52525B",
 };
 
-const sidebarItems = (subscription: string): SidebarItem[] => [
+const sidebarItems = (subscription: string, t: any): SidebarItem[] => [
   {
-    title: "Profile",
+    title: t("components.settingsSidebar.profile"),
     icon: <IconUserSquareRounded {...iconProps} />,
     path: SETTINGS_PATHS.myProfile,
   },
   {
-    title: "Plans and payments",
+    title: t("components.settingsSidebar.plansAndPayments"),
     isHeader: true,
   },
   {
-    title: "Licensing",
+    title: t("components.settingsSidebar.licensing"),
     path: SETTINGS_PATHS.licensing,
     icon: <IconPlanet {...iconProps} />,
     badge: subscription,
   },
   {
-    title: "Payment information",
+    title: t("components.settingsSidebar.paymentInformation"),
     path: SETTINGS_PATHS.paymentInformation,
     icon: <IconCreditCard {...iconProps} />,
   },
   {
-    title: "Payment history",
+    title: t("components.settingsSidebar.paymentHistory"),
     path: SETTINGS_PATHS.paymentHistory,
     icon: <IconReceiptDollar {...iconProps} />,
   },
   {
-    title: "Password and Authentication",
+    title: t("components.settingsSidebar.passwordAndAuthentication"),
     isHeader: true,
   },
   {
-    title: "Authentication",
+    title: t("components.settingsSidebar.authentication"),
     path: SETTINGS_PATHS.authentication,
     icon: <IconFingerprint {...iconProps} />,
   },
   {
-    title: "Change password",
+    title: t("components.settingsSidebar.changePassword"),
     path: SETTINGS_PATHS.changePassword,
     icon: <IconAsterisk {...iconProps} />,
   },
   {
-    title: "Delete account",
+    title: t("components.settingsSidebar.deleteAccount"),
     path: SETTINGS_PATHS.deleteAccount,
     icon: <IconForbid {...iconProps} />,
   },
 ];
 
 const Sidebar: FC = () => {
+  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { profile, isFree } = useAuthenticatedUser();
   const [openSubmenus, setOpenSubmenus] = useState<Record<string, boolean>>({});
@@ -121,7 +123,7 @@ const Sidebar: FC = () => {
 
   return (
     <Stack width="full" gap="1px" position="relative">
-      {sidebarItems(profile?.subscription as string).map((item, index) => {
+      {sidebarItems(profile?.subscription as string, t).map((item, index) => {
         if (item.isHeader) {
           return (
             <div key={index}>

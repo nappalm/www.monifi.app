@@ -1,5 +1,6 @@
 import { Logo } from "@/shared";
 import { Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingCategoriesForm from "../components/OnboardingCategoriesForm";
@@ -8,6 +9,7 @@ import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import { ONBOARDING_PATHS } from "../router";
 
 export default function OnboardingCategoriesPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const onBack = () => navigate(ONBOARDING_PATHS.accounts);
@@ -21,12 +23,10 @@ export default function OnboardingCategoriesPage() {
           <Stack align="center" justify="center" pt="30%">
             <Logo w="40px" h="40px" />
             <Heading variant="onboarding-title" size="md">
-              Categories
+              {t("onboarding.categories.title")}
             </Heading>
             <Text fontSize="sm" color="gray.500">
-              Create categories to classify your income and expenses. This will
-              help you understand where your money is coming from and where it
-              is going.
+              {t("onboarding.categories.description")}
             </Text>
           </Stack>
           <br />

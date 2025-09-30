@@ -28,6 +28,7 @@ const formatXAxis = (tick: string) => {
   return date.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
+    timeZone: "UTC",
   });
 };
 

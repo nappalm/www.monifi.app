@@ -34,8 +34,10 @@ import {
 } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export default function OnboardingAccountsForm() {
+  const { t } = useTranslation();
   const { data: accounts, isLoading } = useAccounts();
   const { user } = useAuthenticatedUser();
 
@@ -130,7 +132,12 @@ export default function OnboardingAccountsForm() {
     <Stack spacing={6}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onLocalSubmit)}>
         <HStack>
-          <RHFInput size="sm" name="name" label="Account Name" autoFocus />
+          <RHFInput
+            size="sm"
+            name="name"
+            label={t("onboarding.accountsForm.accountName")}
+            autoFocus
+          />
           <IconButton
             aria-label="Add Account Button"
             type="submit"
@@ -147,7 +154,7 @@ export default function OnboardingAccountsForm() {
             color="red.600"
             onClick={handleCancelEdit}
           >
-            Cancel edition
+            {t("common.cancelEdition")}
           </Button>
         )}
       </FormProvider>
@@ -157,8 +164,8 @@ export default function OnboardingAccountsForm() {
           <Thead>
             <Tr>
               <Th />
-              <Th>Wallet</Th>
-              <Th isNumeric>Actions</Th>
+              <Th>{t("onboarding.accountsForm.wallet")}</Th>
+              <Th isNumeric>{t("common.actions")}</Th>
             </Tr>
           </Thead>
           <Tbody>{renderTableContent()}</Tbody>

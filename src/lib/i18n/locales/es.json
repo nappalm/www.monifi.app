@@ -1,0 +1,318 @@
+{
+  "common": {
+    "back": "Atrás",
+    "next": "Siguiente",
+    "skip": "Omitir",
+    "soon": "Pronto",
+    "actions": "Acciones",
+    "cancelEdition": "Cancelar edición"
+  },
+  "components": {
+    "accountSelect": {
+      "placeholder": "Cuenta",
+      "searchOrCreate": "Buscar o crear",
+      "loading": "Cargando...",
+      "accounts": "Cuentas",
+      "create": "Crear",
+      "deleteAccount": "Eliminar cuenta"
+    },
+    "categorySelect": {
+      "placeholder": "Categoría",
+      "searchOrCreate": "Buscar o crear",
+      "loading": "Cargando...",
+      "categories": "Categorías",
+      "create": "Crear",
+      "deleteCategory": "Eliminar categoría"
+    },
+    "topnavbar": {
+      "transactions": "Transacciones",
+      "statistics": "Estadísticas",
+      "sidebarMenu": "Menú lateral"
+    },
+    "userMenu": {
+      "profileSettings": "Configuración de perfil",
+      "logout": "Cerrar sesión"
+    },
+    "toggleThemeButton": {
+      "toggleTheme": "Cambiar tema"
+    },
+    "tableEmptyRows": {
+      "noResults": "No se encontraron resultados. Comienza agregando..."
+    },
+    "tablePagination": {
+      "viewing": "Viendo {{from}}–{{to}} de {{total}} resultados",
+      "back": "Atrás",
+      "next": "Siguiente"
+    },
+    "filterButtonMenu": {
+      "filter": "Filtrar",
+      "allFilters": "Todos los Filtros",
+      "clearAllFilters": "Limpiar todos los filtros",
+      "search": "Buscar..."
+    },
+    "filterDateMenu": {
+      "selectRange": "Selecciona un rango"
+    },
+    "dateRange": {
+      "range": "Rango",
+      "month": "Mes",
+      "previousYear": "Año anterior",
+      "previousMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "nextYear": "Año siguiente",
+      "weekDays": {
+        "sun": "Dom",
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb"
+      }
+    },
+    "datePicker": {
+      "previousYear": "Año anterior",
+      "previousMonth": "Mes anterior",
+      "nextMonth": "Mes siguiente",
+      "nextYear": "Año siguiente",
+      "weekDays": {
+        "sun": "Dom",
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb"
+      }
+    },
+    "settingsSidebar": {
+      "profile": "Perfil",
+      "plansAndPayments": "Planes y pagos",
+      "licensing": "Licencias",
+      "paymentInformation": "Información de pago",
+      "paymentHistory": "Historial de pagos",
+      "passwordAndAuthentication": "Contraseña y Autenticación",
+      "authentication": "Autenticación",
+      "changePassword": "Cambiar contraseña",
+      "deleteAccount": "Eliminar cuenta"
+    },
+    "userInformation": {
+      "personalAccount": "Tu cuenta personal"
+    }
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Bienvenido a Monifi",
+      "description": "Estás a punto de tomar el control de tus finanzas. Descubre a dónde va tu dinero y cómo puedes optimizar tus ahorros.",
+      "getStarted": "Comenzar"
+    },
+    "baseQuestions": {
+      "title": "Configura tu perfil",
+      "description": "Para personalizar tu experiencia, cuéntanos sobre tus prioridades y cómo gestionas actualmente tus finanzas.",
+      "priority": {
+        "label": "¿Cuál es tu prioridad actual?",
+        "saving": "Ahorrar",
+        "debt": "Salir de deudas",
+        "spending": "Mejorar control de gastos",
+        "goals": "Planificar metas (ej: vacaciones, auto, casa)"
+      },
+      "financeManagement": {
+        "label": "¿Cómo gestionas tus finanzas hoy?",
+        "notebook": "Libreta/Excel",
+        "apps": "Apps",
+        "noTrack": "No llevo registro"
+      }
+    },
+    "accounts": {
+      "title": "Cuentas",
+      "description": "Agrega tus carteras y gestiona todas tus finanzas en un solo lugar. Puedes registrar cuentas de débito, crédito, ahorro e incluso billeteras digitales para obtener una vista completa de tus transacciones."
+    },
+    "categories": {
+      "title": "Categorías",
+      "description": "Crea categorías para clasificar tus ingresos y gastos. Esto te ayudará a entender de dónde viene tu dinero y hacia dónde va."
+    },
+    "appFeatures": {
+      "title": "¡Todo listo!",
+      "description": "¡Bienvenido a bordo! Ahora estás listo para tomar el control de tus finanzas. Sumérgete para rastrear gastos, crear presupuestos y obtener información sobre tus hábitos financieros. ¡Feliz presupuestación!",
+      "getStarted": "Comenzar",
+      "features": {
+        "transactions": {
+          "title": "Transacciones",
+          "description": "Rastrea fácilmente todas tus transacciones financieras en un solo lugar para una visión clara."
+        },
+        "statistics": {
+          "title": "Estadísticas",
+          "description": "Visualiza tus hábitos de gasto y progreso financiero con gráficos perspicaces."
+        },
+        "budgets": {
+          "title": "Presupuestos",
+          "description": "Crea y gestiona presupuestos para mantenerte al tanto de tus gastos y alcanzar tus metas financieras."
+        },
+        "debts": {
+          "title": "Deudas",
+          "description": "Lleva un registro de tus deudas y gestiona los pagos de manera efectiva."
+        },
+        "creditCards": {
+          "title": "Tarjetas de crédito",
+          "description": "Monitorea tus gastos y saldos de tarjetas de crédito para mantener la salud financiera."
+        },
+        "aiSupport": {
+          "title": "Soporte IA",
+          "description": "Obtén asesoramiento financiero personalizado e información de nuestro asistente IA."
+        }
+      }
+    },
+    "form": {
+      "language": {
+        "label": "Selecciona tu idioma",
+        "english": "Inglés",
+        "spanish": "Español"
+      },
+      "currency": {
+        "label": "Selecciona tu moneda"
+      }
+    },
+    "accountsForm": {
+      "accountName": "Nombre de la cuenta",
+      "wallet": "Cartera"
+    },
+    "categoriesForm": {
+      "categoryName": "Nombre de la categoría",
+      "category": "Categoría"
+    }
+  },
+  "transactions": {
+    "title": "Transacciones",
+    "newRow": "Nueva fila",
+    "filters": {
+      "category": "Categoría",
+      "account": "Cuenta",
+      "type": "Tipo"
+    },
+    "types": {
+      "income": "Ingreso",
+      "expense": "Gasto"
+    },
+    "table": {
+      "id": "ID",
+      "date": "Fecha",
+      "category": "Categoría",
+      "account": "Cuenta",
+      "type": "Tipo",
+      "description": "Descripción",
+      "amount": "Monto"
+    },
+    "menu": {
+      "seeDetails": "Ver detalles",
+      "enable": "Habilitar",
+      "disable": "Deshabilitar",
+      "delete": "Eliminar transacción"
+    },
+    "details": {
+      "title": "Detalles de la transacción",
+      "account": "Cuenta",
+      "category": "Categoría",
+      "date": "Fecha",
+      "description": "Descripción",
+      "amount": "Monto",
+      "unknown": "Desconocido",
+      "noDetails": "No hay detalles de transacción disponibles."
+    },
+    "summary": {
+      "balance": "Balance",
+      "totalIncome": "Ingresos Totales",
+      "totalExpenses": "Gastos Totales",
+      "top5Expenses": "Top 5 Gastos"
+    }
+  },
+  "statistics": {
+    "title": "Estadísticas",
+    "charts": {
+      "spendingByCategory": "Gastos por Categoría",
+      "topExpenses": "Top 5 Gastos",
+      "incomeVsExpenses": "Ingresos vs. Gastos",
+      "topAccounts": "Top 3 Cuentas"
+    },
+    "noData": "No pudimos encontrar datos para mostrar en este momento",
+    "labels": {
+      "uncategorized": "Sin categoría",
+      "income": "Ingresos",
+      "expenses": "Gastos"
+    }
+  },
+  "settings": {
+    "myProfile": {
+      "title": "Mi perfil",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "changeEmail": "Cambiar mi correo electrónico",
+      "emailChangeInfo": "Si decides actualizar tu correo electrónico, enviaremos un enlace de confirmación a la nueva dirección que proporciones",
+      "updateProfile": "Actualizar perfil"
+    },
+    "authentication": {
+      "title": "Autenticación",
+      "emailPassword": "Correo y Contraseña",
+      "google": "Google",
+      "active": "Activo",
+      "authenticateCredentials": "Autenticarse con tus credenciales",
+      "authenticateGoogle": "Autenticarse con Google"
+    },
+    "changePassword": {
+      "title": "Cambiar Contraseña",
+      "newPassword": "Nueva contraseña",
+      "repeatPassword": "Repetir nueva contraseña",
+      "updatePassword": "Actualizar contraseña",
+      "managedByProvider": "Tu contraseña es gestionada por tu proveedor de inicio de sesión",
+      "externalServiceInfo": "Como accedes a esta cuenta a través de un servicio externo ({{provider}}), no podemos cambiar tu contraseña desde aquí."
+    },
+    "deleteAccount": {
+      "title": "Eliminar Cuenta",
+      "warning": "Eliminar cuenta permanentemente, esta acción no se puede deshacer",
+      "description": "Eliminar tu cuenta eliminará todos tus datos personales, configuraciones e historial. Una vez eliminado, esta información no se puede recuperar.",
+      "button": "Eliminar mi cuenta",
+      "modal": {
+        "title": "Eliminar Cuenta",
+        "message": "Eliminar tu cuenta <strong>eliminará permanentemente todos tus datos</strong> y no se puede deshacer.",
+        "confirmation": "Entiendo y quiero eliminar mi cuenta",
+        "cancel": "Cancelar",
+        "delete": "Eliminar cuenta"
+      }
+    },
+    "licensing": {
+      "title": "Licencias",
+      "activeSubscription": "Suscripción activa",
+      "upgradePlan": "Mejorar plan",
+      "cancelInfo": "Puedes cancelar tu suscripción en cualquier momento.",
+      "clickHere": "Haz clic aquí",
+      "cancelDetails": "para más detalles sobre el proceso",
+      "freePlan": {
+        "title": "Github Free",
+        "description": "Lo básico para todos los desarrolladores",
+        "notIncluded": "No incluido"
+      },
+      "proPlan": {
+        "title": "Github Copilot",
+        "description": "Tu programador de parejas IA"
+      }
+    },
+    "paymentHistory": {
+      "title": "Historial de Pagos",
+      "id": "ID",
+      "paidAt": "Fecha de pago",
+      "amount": "Monto",
+      "brand": "Marca",
+      "last4": "Últimos 4",
+      "downloadInvoice": "Descargar factura"
+    },
+    "paymentInformation": {
+      "title": "Información de Pago",
+      "additionalInfo": "Información adicional",
+      "description": "Agrega detalles de pago a tus recibos, como el nombre del titular de la tarjeta, tipo de tarjeta o los últimos cuatro dígitos de la tarjeta de pago utilizada. Esta información aparecerá automáticamente en cada recibo para facilitar el seguimiento de tus compras.",
+      "addPaymentMethod": "Agregar nuevo método de pago",
+      "brand": "Marca",
+      "last4": "Últimos 4",
+      "expires": "Vence",
+      "remove": "Eliminar"
+    }
+  }
+}

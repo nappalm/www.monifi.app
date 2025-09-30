@@ -1,10 +1,12 @@
 import { TablePagination, usePagination } from "@/shared";
 import { Heading, Stack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import PaymentHistoryTable from "../components/payment-history/PaymentHistoryTable";
 import usePaymentHistory from "../hooks/usePaymentHistory";
 import { useStripeDownloadInvoice } from "../hooks/useStripe";
 
 export default function PaymentHistory() {
+  const { t } = useTranslation();
   const { currentPage, onNext, onPrev } = usePagination();
   const { data, count, lastPage, isLoading } = usePaymentHistory(currentPage);
   const { mutate: onDownloadInvoce, pendingInvoiceIds } =
@@ -26,7 +28,7 @@ export default function PaymentHistory() {
   return (
     <Stack>
       <Heading fontWeight={500} size="lg">
-        Payment History
+        {t("settings.paymentHistory.title")}
       </Heading>
       <PaymentHistoryTable
         data={data}

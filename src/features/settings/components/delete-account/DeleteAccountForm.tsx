@@ -15,6 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   onSubmit: VoidFunction;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export default function DeleteAccountForm({ onSubmit, isLoading }: Props) {
+  const { t } = useTranslation();
   const { isOpen, onClose, onOpen } = useDisclosure();
   const [isConfirmed, setIsConfirmed] = useState(false);
 
@@ -29,14 +31,11 @@ export default function DeleteAccountForm({ onSubmit, isLoading }: Props) {
     <Stack>
       <Alert status="warning">
         <AlertIcon />
-        Permanently delete account, this action cannot be undone
+        {t("settings.deleteAccount.warning")}
       </Alert>
-      <Text color="gray.500">
-        Deleting your account will remove all your personal data, settings, and
-        history. Once deleted, this information cannot be recovered.
-      </Text>
+      <Text color="gray.500">{t("settings.deleteAccount.description")}</Text>
       <Button w="fit-content" variant="outline" onClick={onOpen} type="button">
-        Delete my account
+        {t("settings.deleteAccount.button")}
       </Button>
       <Modal
         isOpen={isOpen}
@@ -47,21 +46,22 @@ export default function DeleteAccountForm({ onSubmit, isLoading }: Props) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Delete Account</ModalHeader>
+          <ModalHeader>{t("settings.deleteAccount.modal.title")}</ModalHeader>
           <ModalBody>
             <Stack spacing={4}>
-              <Text fontSize="md">
-                Deleting your account will{" "}
-                <strong>permanently remove all your data</strong> and cannot be
-                undone.
-              </Text>
+              <Text
+                fontSize="md"
+                dangerouslySetInnerHTML={{
+                  __html: t("settings.deleteAccount.modal.message"),
+                }}
+              />
               <Checkbox
                 colorScheme="red"
                 color="red.500"
                 isChecked={isConfirmed}
                 onChange={(e) => setIsConfirmed(e.target.checked)}
               >
-                I understand and want to delete my account
+                {t("settings.deleteAccount.modal.confirmation")}
               </Checkbox>
             </Stack>
           </ModalBody>
@@ -72,7 +72,7 @@ export default function DeleteAccountForm({ onSubmit, isLoading }: Props) {
                 variant="outline"
                 isDisabled={isLoading}
               >
-                Cancel
+                {t("settings.deleteAccount.modal.cancel")}
               </Button>
               <Button
                 colorScheme="red"
@@ -80,7 +80,7 @@ export default function DeleteAccountForm({ onSubmit, isLoading }: Props) {
                 onClick={onSubmit}
                 isLoading={isLoading}
               >
-                Delete account
+                {t("settings.deleteAccount.modal.delete")}
               </Button>
             </ButtonGroup>
           </ModalFooter>

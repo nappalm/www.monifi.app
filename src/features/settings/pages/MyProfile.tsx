@@ -1,10 +1,12 @@
 import { useAuthenticatedUser } from "@/shared";
 import { Alert, AlertIcon, Heading, Stack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import ProfileForm from "../components/profile/ProfileForm";
 import { useUpdateEmail, useUpdateProfile } from "../hooks/useAccount";
 import { OnSubmitProfile } from "../utils/types";
 
 export default function MyProfile() {
+  const { t } = useTranslation();
   const { user } = useAuthenticatedUser();
   const profile = useUpdateProfile();
   const email = useUpdateEmail();
@@ -28,7 +30,7 @@ export default function MyProfile() {
   return (
     <Stack w={["100%", "100%", "100%", "50%"]}>
       <Heading fontWeight={500} size="lg">
-        My profile
+        {t("settings.myProfile.title")}
       </Heading>
 
       {profile.isError && (

@@ -9,6 +9,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Bar,
   BarChart,
@@ -32,6 +33,7 @@ export default function IncomeVsExpensesChart({
 }: {
   transactions: Tables<"transactions">[];
 }) {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
   const cartesianGridColor = useColorModeValue(
@@ -50,10 +52,10 @@ export default function IncomeVsExpensesChart({
       .reduce((acc, t) => acc + t.amount, 0);
 
     return [
-      { name: "Income", value: income },
-      { name: "Expenses", value: expenses },
+      { name: t("statistics.labels.income"), value: income },
+      { name: t("statistics.labels.expenses"), value: expenses },
     ];
-  }, [transactions]);
+  }, [transactions, t]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -84,7 +86,9 @@ export default function IncomeVsExpensesChart({
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">Income vs. Expenses</Text>
+          <Text color="gray.500">
+            {t("statistics.charts.incomeVsExpenses")}
+          </Text>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart
               data={data}

@@ -15,6 +15,7 @@ import {
 import { PaymentMethod } from "@stripe/stripe-js";
 import { IconCreditCardFilled } from "@tabler/icons-react";
 import { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data?: PaymentMethod[] | null;
@@ -30,6 +31,7 @@ export default function PaymentMethodsTable({
   onRemove,
   deletingIds = [],
 }: Props) {
+  const { t } = useTranslation();
   return (
     <TableContainer>
       <Table size="sm">
@@ -40,9 +42,9 @@ export default function PaymentMethodsTable({
         )}
         <Thead>
           <Tr>
-            <Th>Brand</Th>
-            <Th>Last4</Th>
-            <Th>Expires</Th>
+            <Th>{t("settings.paymentInformation.brand")}</Th>
+            <Th>{t("settings.paymentInformation.last4")}</Th>
+            <Th>{t("settings.paymentInformation.expires")}</Th>
             <Th />
           </Tr>
         </Thead>
@@ -67,7 +69,7 @@ export default function PaymentMethodsTable({
                   onClick={() => onRemove(item.id)}
                   isLoading={deletingIds.includes(item.id)}
                 >
-                  Remove
+                  {t("settings.paymentInformation.remove")}
                 </Button>
               </Td>
             </Tr>

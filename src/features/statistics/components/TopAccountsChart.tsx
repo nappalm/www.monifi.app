@@ -11,6 +11,7 @@ import {
 import { IconChartInfographic } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Bar,
   BarChart,
@@ -34,6 +35,7 @@ export default function TopAccountsChart({
 }: {
   transactions: Tables<"transactions">[];
 }) {
+  const { t } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const { data: accounts } = useAccounts();
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
@@ -47,16 +49,16 @@ export default function TopAccountsChart({
 
   const data = useMemo(() => {
     const spending = transactions.reduce(
-      (acc, t) => {
-        const account = accounts?.find((a) => a.id === t.account_id);
-        const key = account?.name || "Uncategorized";
+      (acc, transaction) => {
+        const account = accounts?.find((a) => a.id === transaction.account_id);
+        const key = account?.name || t("statistics.labels.uncategorized");
         if (!acc[key]) {
           acc[key] = { income: 0, expense: 0 };
         }
-        if (t.type === "income") {
-          acc[key].income += t.amount;
+        if (transaction.type === "income") {
+          acc[key].income += transaction.amount;
         } else {
-          acc[key].expense += t.amount;
+          acc[key].expense += transaction.amount;
         }
         return acc;
       },
@@ -67,7 +69,7 @@ export default function TopAccountsChart({
       .map(([name, values]) => ({ name, ...values }))
       .sort((a, b) => b.income + b.expense - (a.income + a.expense))
       .slice(0, 3);
-  }, [transactions, accounts]);
+  }, [transactions, accounts, t]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -89,11 +91,11 @@ export default function TopAccountsChart({
           }}
         >
           <p className="label">{`${label}`}</p>
-          <p className="intro">{`Income: ${formatCurrency(
+          <p className="intro">{`${t("statistics.labels.income")}: ${formatCurrency(
             payload[0].value,
             "USD",
           )}`}</p>
-          <p className="intro">{`Expense: ${formatCurrency(
+          <p className="intro">{`${t("statistics.labels.expenses")}: ${formatCurrency(
             payload[1].value,
             "USD",
           )}`}</p>
@@ -119,7 +121,7 @@ export default function TopAccountsChart({
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">Top 3 Accounts</Text>
+          <Text color="gray.500">{t("statistics.charts.topAccounts")}</Text>
           {isEmpty(data) ? (
             <Stack
               w="full"
@@ -131,7 +133,7 @@ export default function TopAccountsChart({
             >
               <IconChartInfographic size={30} />
               <Text fontSize="xs" w="50%" textAlign="center">
-                We couldn’t find any data to show right now
+                {t("statistics.noData")}
               </Text>
             </Stack>
           ) : (
