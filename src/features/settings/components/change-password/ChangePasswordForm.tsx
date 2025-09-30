@@ -2,11 +2,13 @@ import { FormProvider, RHFInput, useAuthenticatedUser } from "@/shared";
 import { Alert, AlertIcon, Button, Stack, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useChangePassword } from "../../hooks/useAccount";
 import { OnSubmitChangePassword } from "../../utils/types";
 import { changePasswordSchema } from "../../utils/yup";
 
 export default function ChangePasswordForm() {
+  const { t } = useTranslation();
   const methods = useForm<OnSubmitChangePassword>({
     resolver: yupResolver(changePasswordSchema),
     defaultValues: {
@@ -30,12 +32,12 @@ export default function ChangePasswordForm() {
       <Stack>
         <Alert>
           <AlertIcon />
-          Your password is managed by your login provider
+          {t("settings.changePassword.managedByProvider")}
         </Alert>
         <Text color="gray.500">
-          Since you access this account through an external service (
-          {user?.app_metadata.provider}), we cannot change your password from
-          here.
+          {t("settings.changePassword.externalServiceInfo", {
+            provider: user?.app_metadata.provider,
+          })}
         </Text>
       </Stack>
     );
@@ -44,10 +46,14 @@ export default function ChangePasswordForm() {
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Stack>
-        <RHFInput name="password" label="New passsword" type="password" />
+        <RHFInput
+          name="password"
+          label={t("settings.changePassword.newPassword")}
+          type="password"
+        />
         <RHFInput
           name="repeat_password"
-          label="Repeat new password"
+          label={t("settings.changePassword.repeatPassword")}
           type="password"
         />
         <Button
@@ -56,7 +62,7 @@ export default function ChangePasswordForm() {
           colorScheme="cyan"
           isLoading={isPending}
         >
-          Update password
+          {t("settings.changePassword.updatePassword")}
         </Button>
       </Stack>
     </FormProvider>

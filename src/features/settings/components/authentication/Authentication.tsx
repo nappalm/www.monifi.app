@@ -1,8 +1,10 @@
 import { useAuthenticatedUser } from "@/shared";
 import { Card, CardBody, HStack, Stack, Tag, Text } from "@chakra-ui/react";
 import { IconBrandGoogleFilled, IconMailFilled } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 export default function Authentication() {
+  const { t } = useTranslation();
   const { user } = useAuthenticatedUser();
 
   const isEmail = user?.app_metadata.providers.includes("email");
@@ -18,11 +20,15 @@ export default function Authentication() {
                 <IconMailFilled size={18} />
                 <Stack gap={0}>
                   <HStack>
-                    <Text fontSize="lg">Email and Password</Text>
-                    <Tag colorScheme="cyan">Active</Tag>
+                    <Text fontSize="lg">
+                      {t("settings.authentication.emailPassword")}
+                    </Text>
+                    <Tag colorScheme="cyan">
+                      {t("settings.authentication.active")}
+                    </Tag>
                   </HStack>
                   <Text color="gray.500">
-                    Authenticate with your credentials
+                    {t("settings.authentication.authenticateCredentials")}
                   </Text>
                 </Stack>
               </HStack>
@@ -40,10 +46,16 @@ export default function Authentication() {
                 <IconBrandGoogleFilled size={18} />
                 <Stack gap={0}>
                   <HStack>
-                    <Text fontSize="lg">Google</Text>
-                    <Tag colorScheme="cyan">Active</Tag>
+                    <Text fontSize="lg">
+                      {t("settings.authentication.google")}
+                    </Text>
+                    <Tag colorScheme="cyan">
+                      {t("settings.authentication.active")}
+                    </Tag>
                   </HStack>
-                  <Text color="gray.500">Authenticate with google</Text>
+                  <Text color="gray.500">
+                    {t("settings.authentication.authenticateGoogle")}
+                  </Text>
                 </Stack>
               </HStack>
               <Text color="gray.500">{user?.email}</Text>

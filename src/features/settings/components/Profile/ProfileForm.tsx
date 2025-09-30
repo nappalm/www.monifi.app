@@ -1,6 +1,7 @@
 import { FormProvider, RHFInput, useAuthenticatedUser } from "@/shared";
 import { Button, Checkbox, Stack, Text, useBoolean } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { OnSubmitProfile } from "../../utils/types";
 import { profileSchema } from "../../utils/yup";
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function ProfileForm({ onSubmit, isLoading = false }: Props) {
+  const { t } = useTranslation();
   const [enabledEmail, setEnabledEmail] = useBoolean();
 
   const { user, profile } = useAuthenticatedUser();
@@ -28,16 +30,19 @@ export default function ProfileForm({ onSubmit, isLoading = false }: Props) {
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Stack>
-        <RHFInput name="name" label="Name" />
-        <RHFInput name="email" label="Email" isDisabled={!enabledEmail} />
+        <RHFInput name="name" label={t("settings.myProfile.name")} />
+        <RHFInput
+          name="email"
+          label={t("settings.myProfile.email")}
+          isDisabled={!enabledEmail}
+        />
         {isEmail && (
           <>
             <Checkbox onChange={setEnabledEmail.toggle}>
-              Change my email account
+              {t("settings.myProfile.changeEmail")}
             </Checkbox>
             <Text fontSize="xs" color="gray.500">
-              If you decide to update your email account, we will send a
-              confirmation link to the new address you provide
+              {t("settings.myProfile.emailChangeInfo")}
             </Text>
           </>
         )}
@@ -47,7 +52,7 @@ export default function ProfileForm({ onSubmit, isLoading = false }: Props) {
           colorScheme="cyan"
           isLoading={isLoading}
         >
-          Update profile
+          {t("settings.myProfile.updateProfile")}
         </Button>
       </Stack>
     </FormProvider>

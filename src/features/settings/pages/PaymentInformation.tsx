@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { IconInfoCircle } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 import PaymentInformationDrawer from "../components/payment-information/PaymentInformationDrawer";
 import PaymentMethodsTable from "../components/payment-information/PaymentMethodsTable";
 import {
@@ -21,6 +22,7 @@ import {
 } from "../hooks/useStripe";
 
 export default function PaymentInformation() {
+  const { t } = useTranslation();
   const newPaymentMethodDrawer = useDisclosure();
   const paymentMethods = useStripePaymentMethods();
   const removePaymentMethod = useStripeRemovePaymentMethod();
@@ -40,7 +42,7 @@ export default function PaymentInformation() {
   return (
     <Stack>
       <Heading fontWeight={500} size="lg">
-        Payment Information
+        {t("settings.paymentInformation.title")}
       </Heading>
 
       {removePaymentMethod.isError && (
@@ -61,12 +63,11 @@ export default function PaymentInformation() {
           <HStack align="flex-start">
             <IconInfoCircle style={{ flexShrink: 0 }} />
             <Stack gap={0}>
-              <Text fontWeight="bold">Additional information</Text>
+              <Text fontWeight="bold">
+                {t("settings.paymentInformation.additionalInfo")}
+              </Text>
               <Text color="gray.500">
-                Add payment details to your receipts, such as the cardholder’s
-                name, card type, or the last four digits of the payment card
-                used. This information will automatically appear on every
-                receipt to make tracking your purchases easier.
+                {t("settings.paymentInformation.description")}
               </Text>
             </Stack>
           </HStack>
@@ -77,7 +78,7 @@ export default function PaymentInformation() {
             colorScheme="cyan"
             onClick={newPaymentMethodDrawer.onOpen}
           >
-            Ad new payment method
+            {t("settings.paymentInformation.addPaymentMethod")}
           </Button>
         </CardBody>
       </Card>

@@ -11,9 +11,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { IconPentagon } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 import LicensingFeatureIcon from "./LicensingFeatureIcon";
 
 export default function FreePlanDetails() {
+  const { t } = useTranslation();
   return (
     <Card size="sm">
       <CardHeader>
@@ -21,8 +23,12 @@ export default function FreePlanDetails() {
           <HStack gap={3} alignItems="flex-start">
             <IconPentagon />
             <Stack gap={0}>
-              <Text fontWeight="bold">Github Free</Text>
-              <Text color="gray.500">The basics for all developers</Text>
+              <Text fontWeight="bold">
+                {t("settings.licensing.freePlan.title")}
+              </Text>
+              <Text color="gray.500">
+                {t("settings.licensing.freePlan.description")}
+              </Text>
             </Stack>
           </HStack>
         </HStack>
@@ -38,7 +44,9 @@ export default function FreePlanDetails() {
             ))}
           </List>
           <Stack>
-            <Text color="gray.500">Not included</Text>
+            <Text color="gray.500">
+              {t("settings.licensing.freePlan.notIncluded")}
+            </Text>
             <List spacing={2}>
               {LICENSING_FREE_FEATURES.notIncluded.map((item) => (
                 <ListItem key={item.label}>

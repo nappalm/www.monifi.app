@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { IconDownload } from "@tabler/icons-react";
 import { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   data?: Tables<"stripe_payments">[];
@@ -29,6 +30,7 @@ export default function PaymentHistoryTable({
   pendingInvoiceIds = [],
   children,
 }: Props) {
+  const { t } = useTranslation();
   return (
     <TableContainer>
       <Table size="sm" variant="striped">
@@ -39,11 +41,11 @@ export default function PaymentHistoryTable({
         )}
         <Thead>
           <Tr>
-            <Th>ID</Th>
-            <Th>Paid at</Th>
-            <Th isNumeric>Amount</Th>
-            <Th>Brand</Th>
-            <Th>Last4</Th>
+            <Th>{t("settings.paymentHistory.id")}</Th>
+            <Th>{t("settings.paymentHistory.paidAt")}</Th>
+            <Th isNumeric>{t("settings.paymentHistory.amount")}</Th>
+            <Th>{t("settings.paymentHistory.brand")}</Th>
+            <Th>{t("settings.paymentHistory.last4")}</Th>
             <Th />
           </Tr>
         </Thead>
@@ -60,7 +62,7 @@ export default function PaymentHistoryTable({
               <Td>
                 <IconButton
                   variant="ghost"
-                  aria-label="Download invoice"
+                  aria-label={t("settings.paymentHistory.downloadInvoice")}
                   size="sm"
                   icon={<IconDownload size={18} />}
                   onClick={() => onDownloadInvoce?.(item.stripe_invoice_id)}

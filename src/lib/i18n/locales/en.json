@@ -146,5 +146,80 @@
       "income": "Income",
       "expenses": "Expenses"
     }
+  },
+  "settings": {
+    "myProfile": {
+      "title": "My profile",
+      "name": "Name",
+      "email": "Email",
+      "changeEmail": "Change my email account",
+      "emailChangeInfo": "If you decide to update your email account, we will send a confirmation link to the new address you provide",
+      "updateProfile": "Update profile"
+    },
+    "authentication": {
+      "title": "Authentication",
+      "emailPassword": "Email and Password",
+      "google": "Google",
+      "active": "Active",
+      "authenticateCredentials": "Authenticate with your credentials",
+      "authenticateGoogle": "Authenticate with google"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "newPassword": "New passsword",
+      "repeatPassword": "Repeat new password",
+      "updatePassword": "Update password",
+      "managedByProvider": "Your password is managed by your login provider",
+      "externalServiceInfo": "Since you access this account through an external service ({{provider}}), we cannot change your password from here."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "warning": "Permanently delete account, this action cannot be undone",
+      "description": "Deleting your account will remove all your personal data, settings, and history. Once deleted, this information cannot be recovered.",
+      "button": "Delete my account",
+      "modal": {
+        "title": "Delete Account",
+        "message": "Deleting your account will <strong>permanently remove all your data</strong> and cannot be undone.",
+        "confirmation": "I understand and want to delete my account",
+        "cancel": "Cancel",
+        "delete": "Delete account"
+      }
+    },
+    "licensing": {
+      "title": "Licensing",
+      "activeSubscription": "Active subscription",
+      "upgradePlan": "Upgrade plan",
+      "cancelInfo": "You can cancel your subscription at any time.",
+      "clickHere": "Click here",
+      "cancelDetails": "for more details on the process",
+      "freePlan": {
+        "title": "Github Free",
+        "description": "The basics for all developers",
+        "notIncluded": "Not included"
+      },
+      "proPlan": {
+        "title": "Github Copilot",
+        "description": "Your AI pair programmer"
+      }
+    },
+    "paymentHistory": {
+      "title": "Payment History",
+      "id": "ID",
+      "paidAt": "Paid at",
+      "amount": "Amount",
+      "brand": "Brand",
+      "last4": "Last4",
+      "downloadInvoice": "Download invoice"
+    },
+    "paymentInformation": {
+      "title": "Payment Information",
+      "additionalInfo": "Additional information",
+      "description": "Add payment details to your receipts, such as the cardholder's name, card type, or the last four digits of the payment card used. This information will automatically appear on every receipt to make tracking your purchases easier.",
+      "addPaymentMethod": "Ad new payment method",
+      "brand": "Brand",
+      "last4": "Last4",
+      "expires": "Expires",
+      "remove": "Remove"
+    }
   }
 }

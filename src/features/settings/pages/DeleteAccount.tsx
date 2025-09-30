@@ -1,10 +1,12 @@
 import { Heading, Stack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import DeleteAccountForm from "../components/delete-account/DeleteAccountForm";
 import { useDeleteAccount } from "../hooks/useAccount";
 import { useEffect } from "react";
 import { useSignOut } from "@/shared";
 
 export default function DeleteAccount() {
+  const { t } = useTranslation();
   const { mutate: signOut } = useSignOut();
   const { mutate, isPending, isSuccess } = useDeleteAccount();
 
@@ -16,7 +18,7 @@ export default function DeleteAccount() {
   return (
     <Stack w={["100%", "100%", "100%", "50%"]}>
       <Heading fontWeight={500} size="lg">
-        Delete Account
+        {t("settings.deleteAccount.title")}
       </Heading>
       <DeleteAccountForm onSubmit={() => mutate()} isLoading={isPending} />
     </Stack>

@@ -146,5 +146,80 @@
       "income": "Ingresos",
       "expenses": "Gastos"
     }
+  },
+  "settings": {
+    "myProfile": {
+      "title": "Mi perfil",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "changeEmail": "Cambiar mi correo electrónico",
+      "emailChangeInfo": "Si decides actualizar tu correo electrónico, enviaremos un enlace de confirmación a la nueva dirección que proporciones",
+      "updateProfile": "Actualizar perfil"
+    },
+    "authentication": {
+      "title": "Autenticación",
+      "emailPassword": "Correo y Contraseña",
+      "google": "Google",
+      "active": "Activo",
+      "authenticateCredentials": "Autenticarse con tus credenciales",
+      "authenticateGoogle": "Autenticarse con Google"
+    },
+    "changePassword": {
+      "title": "Cambiar Contraseña",
+      "newPassword": "Nueva contraseña",
+      "repeatPassword": "Repetir nueva contraseña",
+      "updatePassword": "Actualizar contraseña",
+      "managedByProvider": "Tu contraseña es gestionada por tu proveedor de inicio de sesión",
+      "externalServiceInfo": "Como accedes a esta cuenta a través de un servicio externo ({{provider}}), no podemos cambiar tu contraseña desde aquí."
+    },
+    "deleteAccount": {
+      "title": "Eliminar Cuenta",
+      "warning": "Eliminar cuenta permanentemente, esta acción no se puede deshacer",
+      "description": "Eliminar tu cuenta eliminará todos tus datos personales, configuraciones e historial. Una vez eliminado, esta información no se puede recuperar.",
+      "button": "Eliminar mi cuenta",
+      "modal": {
+        "title": "Eliminar Cuenta",
+        "message": "Eliminar tu cuenta <strong>eliminará permanentemente todos tus datos</strong> y no se puede deshacer.",
+        "confirmation": "Entiendo y quiero eliminar mi cuenta",
+        "cancel": "Cancelar",
+        "delete": "Eliminar cuenta"
+      }
+    },
+    "licensing": {
+      "title": "Licencias",
+      "activeSubscription": "Suscripción activa",
+      "upgradePlan": "Mejorar plan",
+      "cancelInfo": "Puedes cancelar tu suscripción en cualquier momento.",
+      "clickHere": "Haz clic aquí",
+      "cancelDetails": "para más detalles sobre el proceso",
+      "freePlan": {
+        "title": "Github Free",
+        "description": "Lo básico para todos los desarrolladores",
+        "notIncluded": "No incluido"
+      },
+      "proPlan": {
+        "title": "Github Copilot",
+        "description": "Tu programador de parejas IA"
+      }
+    },
+    "paymentHistory": {
+      "title": "Historial de Pagos",
+      "id": "ID",
+      "paidAt": "Fecha de pago",
+      "amount": "Monto",
+      "brand": "Marca",
+      "last4": "Últimos 4",
+      "downloadInvoice": "Descargar factura"
+    },
+    "paymentInformation": {
+      "title": "Información de Pago",
+      "additionalInfo": "Información adicional",
+      "description": "Agrega detalles de pago a tus recibos, como el nombre del titular de la tarjeta, tipo de tarjeta o los últimos cuatro dígitos de la tarjeta de pago utilizada. Esta información aparecerá automáticamente en cada recibo para facilitar el seguimiento de tus compras.",
+      "addPaymentMethod": "Agregar nuevo método de pago",
+      "brand": "Marca",
+      "last4": "Últimos 4",
+      "expires": "Vence",
+      "remove": "Eliminar"
+    }
   }
 }
