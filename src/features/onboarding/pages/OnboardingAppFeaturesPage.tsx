@@ -19,11 +19,13 @@ import {
   IconReceipt,
   IconSparkles,
 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 
 export default function OnboardingAppFeaturesPage() {
+  const { t } = useTranslation();
   const { user } = useAuthenticatedUser();
   const updateProfile = useUpdateProfile();
 
@@ -48,11 +50,11 @@ export default function OnboardingAppFeaturesPage() {
         <Container maxW="500px">
           <Stack align="center" justify="center" pt="30%">
             <Logo w="40px" h="40px" />
-            <Heading variant="onboarding-title">You're all set!</Heading>
+            <Heading variant="onboarding-title">
+              {t("onboarding.appFeatures.title")}
+            </Heading>
             <Text textAlign="center" color="gray.500" maxW="400px">
-              Welcome aboard! You're now ready to take control of your finances.
-              Dive in to track spending, create budgets, and gain insights into
-              your financial habits. Happy budgeting!
+              {t("onboarding.appFeatures.description")}
             </Text>
             <br />
             <SimpleGrid columns={2} gap={2} w="full">
@@ -60,11 +62,14 @@ export default function OnboardingAppFeaturesPage() {
                 <CardBody>
                   <HStack>
                     <IconReceipt />
-                    <Text fontSize="sm">Transactions</Text>
+                    <Text fontSize="sm">
+                      {t("onboarding.appFeatures.features.transactions.title")}
+                    </Text>
                   </HStack>
                   <Text fontSize="sm" color="gray.500">
-                    Easily track all your financial transactions in one place
-                    for a clear overview.
+                    {t(
+                      "onboarding.appFeatures.features.transactions.description",
+                    )}
                   </Text>
                 </CardBody>
               </Card>
@@ -72,11 +77,14 @@ export default function OnboardingAppFeaturesPage() {
                 <CardBody>
                   <HStack>
                     <IconChartPie />
-                    <Text fontSize="sm">Statistics</Text>
+                    <Text fontSize="sm">
+                      {t("onboarding.appFeatures.features.statistics.title")}
+                    </Text>
                   </HStack>
                   <Text fontSize="xs" color="gray.500">
-                    Visualize your spending habits and financial progress with
-                    insightful charts and graphs.
+                    {t(
+                      "onboarding.appFeatures.features.statistics.description",
+                    )}
                   </Text>
                 </CardBody>
               </Card>
@@ -85,15 +93,14 @@ export default function OnboardingAppFeaturesPage() {
                   <HStack>
                     <IconCash />
                     <Text fontSize="sm">
-                      Budgets
+                      {t("onboarding.appFeatures.features.budgets.title")}
                       <Tag size="sm" colorScheme="cyan" ml={1}>
-                        Soon
+                        {t("common.soon")}
                       </Tag>
                     </Text>
                   </HStack>
                   <Text fontSize="xs" color="gray.500">
-                    Create and manage budgets to stay on top of your spending
-                    and achieve your financial goals.
+                    {t("onboarding.appFeatures.features.budgets.description")}
                   </Text>
                 </CardBody>
               </Card>
@@ -102,14 +109,14 @@ export default function OnboardingAppFeaturesPage() {
                   <HStack>
                     <IconBug />
                     <Text fontSize="sm">
-                      Depts
+                      {t("onboarding.appFeatures.features.debts.title")}
                       <Tag size="sm" colorScheme="cyan" ml={1}>
-                        Soon
+                        {t("common.soon")}
                       </Tag>
                     </Text>
                   </HStack>
                   <Text fontSize="xs" color="gray.500">
-                    Keep track of your debts and manage repayments effectively.
+                    {t("onboarding.appFeatures.features.debts.description")}
                   </Text>
                 </CardBody>
               </Card>
@@ -118,15 +125,16 @@ export default function OnboardingAppFeaturesPage() {
                   <HStack>
                     <IconCreditCard />
                     <Text fontSize="sm">
-                      Credit cards
+                      {t("onboarding.appFeatures.features.creditCards.title")}
                       <Tag size="sm" colorScheme="cyan" ml={1}>
-                        Soon
+                        {t("common.soon")}
                       </Tag>
                     </Text>
                   </HStack>
                   <Text fontSize="xs" color="gray.500">
-                    Monitor your credit card spending and balances to maintain
-                    financial health.
+                    {t(
+                      "onboarding.appFeatures.features.creditCards.description",
+                    )}
                   </Text>
                 </CardBody>
               </Card>
@@ -135,15 +143,14 @@ export default function OnboardingAppFeaturesPage() {
                   <HStack>
                     <IconSparkles />
                     <Text fontSize="sm">
-                      AI Support
+                      {t("onboarding.appFeatures.features.aiSupport.title")}
                       <Tag size="sm" colorScheme="cyan" ml={1}>
-                        Soon
+                        {t("common.soon")}
                       </Tag>
                     </Text>
                   </HStack>
                   <Text fontSize="xs" color="gray.500">
-                    Get personalized financial advice and insights from our AI
-                    assistant.
+                    {t("onboarding.appFeatures.features.aiSupport.description")}
                   </Text>
                 </CardBody>
               </Card>
@@ -155,7 +162,7 @@ export default function OnboardingAppFeaturesPage() {
               onClick={handleGetStarted}
               isLoading={updateProfile.isPending}
             >
-              Get started
+              {t("onboarding.appFeatures.getStarted")}
             </Button>
           </Stack>
         </Container>

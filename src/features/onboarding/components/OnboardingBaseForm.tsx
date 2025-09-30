@@ -1,6 +1,8 @@
 import { FormProvider, RHFSelect } from "@/shared";
 import { Button, Stack } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { CommmonFormProps, OnboardingBaseFormValues } from "../utils/types";
 
 type Props = {
@@ -8,6 +10,7 @@ type Props = {
 } & Omit<CommmonFormProps, "onSubmit">;
 
 export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
+  const { t, i18n } = useTranslation();
   const methods = useForm<OnboardingBaseFormValues>({
     defaultValues: {
       currency: "USD",
@@ -15,14 +18,26 @@ export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
     },
   });
 
+  const language = methods.watch("language");
+
+  useEffect(() => {
+    if (language) {
+      i18n.changeLanguage(language);
+    }
+  }, [language, i18n]);
+
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Stack>
-        <RHFSelect name="language" label="Select your language">
-          <option value="en">English</option>
-          <option value="es">Español</option>
+        <RHFSelect name="language" label={t("onboarding.form.language.label")}>
+          <option value="en">
+            {t("onboarding.form.language.english")}
+          </option>
+          <option value="es">
+            {t("onboarding.form.language.spanish")}
+          </option>
         </RHFSelect>
-        <RHFSelect name="currency" label="Select your currency">
+        <RHFSelect name="currency" label={t("onboarding.form.currency.label")}>
           <option value="USD">USD (United States Dollar)</option>
           <option value="EUR">EUR (Euro)</option>
           <option value="JPY">JPY (Japanese Yen)</option>
@@ -43,7 +58,7 @@ export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
           variant="outline"
           isLoading={isLoading}
         >
-          Get Started
+          {t("onboarding.welcome.getStarted")}
         </Button>
       </Stack>
     </FormProvider>

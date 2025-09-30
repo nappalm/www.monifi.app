@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, HStack } from "@chakra-ui/react";
-import { CommmonFormProps } from "../utils/types";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
+import { CommmonFormProps } from "../utils/types";
 
 export default function OnboardingFormButtons({
   onSkip,
@@ -8,6 +9,8 @@ export default function OnboardingFormButtons({
   onNext,
   isLoading,
 }: CommmonFormProps) {
+  const { t } = useTranslation();
+
   return (
     <HStack justify="space-between">
       <Button
@@ -16,7 +19,7 @@ export default function OnboardingFormButtons({
         variant="ghost"
         leftIcon={<IconArrowLeft size={16} />}
       >
-        Back
+        {t("common.back")}
       </Button>
       <ButtonGroup spacing="1px" isDisabled={isLoading} size="sm">
         <Button
@@ -25,7 +28,7 @@ export default function OnboardingFormButtons({
           isDisabled={isLoading}
           borderRightRadius={0}
         >
-          Skip
+          {t("common.skip")}
         </Button>
         <Button
           type="submit"
@@ -34,7 +37,7 @@ export default function OnboardingFormButtons({
           isLoading={isLoading}
           rightIcon={<IconArrowRight size={16} />}
         >
-          Next
+          {t("common.next")}
         </Button>
       </ButtonGroup>
     </HStack>

@@ -34,8 +34,10 @@ import {
 } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export default function OnboardingCategoriesForm() {
+  const { t } = useTranslation();
   const { data: categories, isLoading } = useCategories();
   const { user } = useAuthenticatedUser();
 
@@ -126,7 +128,12 @@ export default function OnboardingCategoriesForm() {
     <Stack spacing={6}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onLocalSubmit)}>
         <HStack>
-          <RHFInput size="sm" name="name" label="Category Name" autoFocus />
+          <RHFInput
+            size="sm"
+            name="name"
+            label={t("onboarding.categoriesForm.categoryName")}
+            autoFocus
+          />
           <IconButton
             aria-label="Add Category Button"
             type="submit"
@@ -143,7 +150,7 @@ export default function OnboardingCategoriesForm() {
             color="red.600"
             onClick={handleCancelEdit}
           >
-            Cancel edition
+            {t("common.cancelEdition")}
           </Button>
         )}
       </FormProvider>
@@ -153,8 +160,8 @@ export default function OnboardingCategoriesForm() {
           <Thead>
             <Tr>
               <Th />
-              <Th>Category</Th>
-              <Th isNumeric>Actions</Th>
+              <Th>{t("onboarding.categoriesForm.category")}</Th>
+              <Th isNumeric>{t("common.actions")}</Th>
             </Tr>
           </Thead>
           <Tbody>{renderTableContent()}</Tbody>

@@ -1,6 +1,7 @@
 import { FormProvider, RHFSelect } from "@/shared";
 import { Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { BaseQuestionsFormValues, CommmonFormProps } from "../utils/types";
 import OnboardingFormButtons from "./OnboardingFormButtons";
 
@@ -14,6 +15,7 @@ export default function OnboardingBaseQuestionsForm({
   onBack,
   isLoading,
 }: Props) {
+  const { t } = useTranslation();
   const methods = useForm<BaseQuestionsFormValues>({
     defaultValues: {
       priority: "",
@@ -24,19 +26,36 @@ export default function OnboardingBaseQuestionsForm({
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Stack>
-        <RHFSelect name="priority" label="What is your current priority?">
-          <option value="saving">Saving</option>
-          <option value="debt">Getting out of debt</option>
-          <option value="spending">Improve spending control</option>
-          <option value="goals">Plan goals (e.g., vacation, car, house)</option>
+        <RHFSelect
+          name="priority"
+          label={t("onboarding.baseQuestions.priority.label")}
+        >
+          <option value="saving">
+            {t("onboarding.baseQuestions.priority.saving")}
+          </option>
+          <option value="debt">
+            {t("onboarding.baseQuestions.priority.debt")}
+          </option>
+          <option value="spending">
+            {t("onboarding.baseQuestions.priority.spending")}
+          </option>
+          <option value="goals">
+            {t("onboarding.baseQuestions.priority.goals")}
+          </option>
         </RHFSelect>
         <RHFSelect
           name="finance_management"
-          label="How do you manage your finances today?"
+          label={t("onboarding.baseQuestions.financeManagement.label")}
         >
-          <option value="notebook">Notebook/Excel</option>
-          <option value="apps">Apps</option>
-          <option value="no_track">I don't keep track</option>
+          <option value="notebook">
+            {t("onboarding.baseQuestions.financeManagement.notebook")}
+          </option>
+          <option value="apps">
+            {t("onboarding.baseQuestions.financeManagement.apps")}
+          </option>
+          <option value="no_track">
+            {t("onboarding.baseQuestions.financeManagement.noTrack")}
+          </option>
         </RHFSelect>
         <br />
         <OnboardingFormButtons
