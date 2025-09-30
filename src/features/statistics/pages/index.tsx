@@ -19,10 +19,6 @@ import IncomeVsExpensesChart from "../components/IncomeVsExpensesChart";
 import SpendingByCategoryChart from "../components/SpendingByCategoryChart";
 import TopExpensesChart from "../components/TopExpensesChart";
 
-// import BudgetVsActualChart from "../components/BudgetVsActualChart";
-// import FinancialTrendsChart from "../components/FinancialTrendsChart";
-// import NetSavingsChart from "../components/NetSavingsChart";
-
 export default function Statistics() {
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
   const { data: transactions } = useTransactions(dateRange);
