@@ -1,0 +1,91 @@
+{
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "soon": "Soon",
+    "actions": "Actions",
+    "cancelEdition": "Cancel edition"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome aboard Monifi",
+      "description": "You are about to take control of your finances. Find out where your money is going and how you can optimize your savings.",
+      "getStarted": "Get Started"
+    },
+    "baseQuestions": {
+      "title": "Set up your profile",
+      "description": "To personalize your experience, tell us about your priorities and how you currently manage your finances.",
+      "priority": {
+        "label": "What is your current priority?",
+        "saving": "Saving",
+        "debt": "Getting out of debt",
+        "spending": "Improve spending control",
+        "goals": "Plan goals (e.g., vacation, car, house)"
+      },
+      "financeManagement": {
+        "label": "How do you manage your finances today?",
+        "notebook": "Notebook/Excel",
+        "apps": "Apps",
+        "noTrack": "I don't keep track"
+      }
+    },
+    "accounts": {
+      "title": "Accounts",
+      "description": "Add your wallets and manage all your finances in one place. You can register debit, credit, savings accounts, and even digital wallets to get a complete view of your transactions."
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "Create categories to classify your income and expenses. This will help you understand where your money is coming from and where it is going."
+    },
+    "appFeatures": {
+      "title": "You're all set!",
+      "description": "Welcome aboard! You're now ready to take control of your finances. Dive in to track spending, create budgets, and gain insights into your financial habits. Happy budgeting!",
+      "getStarted": "Get started",
+      "features": {
+        "transactions": {
+          "title": "Transactions",
+          "description": "Easily track all your financial transactions in one place for a clear overview."
+        },
+        "statistics": {
+          "title": "Statistics",
+          "description": "Visualize your spending habits and financial progress with insightful charts and graphs."
+        },
+        "budgets": {
+          "title": "Budgets",
+          "description": "Create and manage budgets to stay on top of your spending and achieve your financial goals."
+        },
+        "debts": {
+          "title": "Depts",
+          "description": "Keep track of your debts and manage repayments effectively."
+        },
+        "creditCards": {
+          "title": "Credit cards",
+          "description": "Monitor your credit card spending and balances to maintain financial health."
+        },
+        "aiSupport": {
+          "title": "AI Support",
+          "description": "Get personalized financial advice and insights from our AI assistant."
+        }
+      }
+    },
+    "form": {
+      "language": {
+        "label": "Select your language",
+        "english": "English",
+        "spanish": "Español"
+      },
+      "currency": {
+        "label": "Select your currency"
+      }
+    },
+    "accountsForm": {
+      "accountName": "Account Name",
+      "wallet": "Wallet"
+    },
+    "categoriesForm": {
+      "categoryName": "Category Name",
+      "category": "Category"
+    }
+  }
+}
