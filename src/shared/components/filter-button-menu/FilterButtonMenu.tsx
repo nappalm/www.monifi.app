@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { IconChevronLeft, IconFilter2, IconX } from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export type FilterOption = {
   label: string;
@@ -41,6 +42,7 @@ export default function FilterButtonMenu({
   onClearFilters,
   areFiltersActive,
 }: FilterButtonMenuProps) {
+  const { t } = useTranslation();
   const [view, setView] = useState<string>("main");
   const [searchTerm, setSearchTerm] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -99,7 +101,7 @@ export default function FilterButtonMenu({
                 color="red.500"
                 icon={<IconX size={16} />}
               >
-                Clear all filters
+                {t("components.filterButtonMenu.clearAllFilters")}
               </MenuItem>
             </>
           )}
@@ -115,12 +117,12 @@ export default function FilterButtonMenu({
           icon={<IconChevronLeft size={16} />}
           onClick={() => handleViewChange("main")}
         >
-          All Filters
+          {t("components.filterButtonMenu.allFilters")}
         </MenuItem>
         <Box px={3} py={1}>
           <Input
             ref={searchInputRef}
-            placeholder="Search..."
+            placeholder={t("components.filterButtonMenu.search")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             size="sm"
@@ -154,7 +156,7 @@ export default function FilterButtonMenu({
       <Box position="relative">
         <MenuButton
           as={IconButton}
-          aria-label="Filter"
+          aria-label={t("components.filterButtonMenu.filter")}
           icon={<IconFilter2 size={16} />}
           size="sm"
           borderRightRadius={0}

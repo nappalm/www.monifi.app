@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { IconTrash, IconWallet } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   defaultValue?: number | null;
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export default function AccountSelect({ defaultValue, onChange }: Props) {
+  const { t } = useTranslation();
   const { data: accounts = [], isLoading } = useAccounts();
   const createAccount = useCreateAccount();
   const deleteAccount = useDeleteAccount();
@@ -100,19 +102,23 @@ export default function AccountSelect({ defaultValue, onChange }: Props) {
           boxShadow: "none",
         }}
       >
-        {selectedAccount ? selectedAccount.name : "Account"}
+        {selectedAccount
+          ? selectedAccount.name
+          : t("components.accountSelect.placeholder")}
       </MenuButton>
       <Portal>
         <MenuList>
           <Input
             ref={searchInputRef}
             mb={1}
-            placeholder="Search or create"
+            placeholder={t("components.accountSelect.searchOrCreate")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <MenuGroup title="Accounts">
-            {isLoading && <MenuItem>Loading...</MenuItem>}
+          <MenuGroup title={t("components.accountSelect.accounts")}>
+            {isLoading && (
+              <MenuItem>{t("components.accountSelect.loading")}</MenuItem>
+            )}
             {filteredAccounts.map((account) => (
               <MenuItem
                 key={account.id}
@@ -122,7 +128,7 @@ export default function AccountSelect({ defaultValue, onChange }: Props) {
                 <Flex justify="space-between" align="center" w="full">
                   <Text>{account.name}</Text>
                   <IconButton
-                    aria-label="delete account"
+                    aria-label={t("components.accountSelect.deleteAccount")}
                     icon={<IconTrash size={16} />}
                     size="xs"
                     variant="ghost"
@@ -133,7 +139,7 @@ export default function AccountSelect({ defaultValue, onChange }: Props) {
             ))}
             {filteredAccounts.length === 0 && searchTerm && (
               <MenuItem onClick={handleCreateAccount}>
-                Create "{searchTerm}"
+                {t("components.accountSelect.create")} "{searchTerm}"
               </MenuItem>
             )}
           </MenuGroup>

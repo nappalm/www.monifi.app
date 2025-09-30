@@ -30,14 +30,13 @@ import {
 } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export type DatePickerProps = {
   value?: Date | null;
   defaultValue?: Date | null;
   onChange?: (value: Date) => void;
 };
-
-const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const MotionGrid = motion(Grid);
 
@@ -46,6 +45,17 @@ export function DatePicker({
   defaultValue = null,
   onChange,
 }: DatePickerProps) {
+  const { t } = useTranslation();
+
+  const WEEK_DAYS = [
+    t("components.datePicker.weekDays.sun"),
+    t("components.datePicker.weekDays.mon"),
+    t("components.datePicker.weekDays.tue"),
+    t("components.datePicker.weekDays.wed"),
+    t("components.datePicker.weekDays.thu"),
+    t("components.datePicker.weekDays.fri"),
+    t("components.datePicker.weekDays.sat"),
+  ];
   const [currentDate, setCurrentDate] = useState(defaultValue || new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(defaultValue);
 
@@ -110,14 +120,14 @@ export function DatePicker({
         <HStack justifyContent="space-between" mb={3}>
           <HStack spacing={1}>
             <IconButton
-              aria-label="Previous year"
+              aria-label={t("components.datePicker.previousYear")}
               icon={<IconChevronsLeft size={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(subYears(currentDate, 1))}
             />
             <IconButton
-              aria-label="Previous month"
+              aria-label={t("components.datePicker.previousMonth")}
               icon={<IconChevronLeft size={16} />}
               size="xs"
               variant="ghost"
@@ -131,14 +141,14 @@ export function DatePicker({
 
           <HStack spacing={1}>
             <IconButton
-              aria-label="Next month"
+              aria-label={t("components.datePicker.nextMonth")}
               icon={<IconChevronRight size={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(addMonths(currentDate, 1))}
             />
             <IconButton
-              aria-label="Next year"
+              aria-label={t("components.datePicker.nextYear")}
               icon={<IconChevronsRight size={16} />}
               size="xs"
               variant="ghost"

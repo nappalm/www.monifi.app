@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { IconTag, IconTrash } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   defaultValue?: number | null;
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export default function CategorySelect({ defaultValue, onChange }: Props) {
+  const { t } = useTranslation();
   const { data: categories = [], isLoading } = useCategories();
   const createCategory = useCreateCategory();
   const deleteCategory = useDeleteCategory();
@@ -99,19 +101,23 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
           boxShadow: "none",
         }}
       >
-        {selectedCategory ? selectedCategory.name : "Category"}
+        {selectedCategory
+          ? selectedCategory.name
+          : t("components.categorySelect.placeholder")}
       </MenuButton>
       <Portal>
         <MenuList>
           <Input
             ref={searchInputRef}
             mb={1}
-            placeholder="Search or create"
+            placeholder={t("components.categorySelect.searchOrCreate")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <MenuGroup title="Categories">
-            {isLoading && <MenuItem>Loading...</MenuItem>}
+          <MenuGroup title={t("components.categorySelect.categories")}>
+            {isLoading && (
+              <MenuItem>{t("components.categorySelect.loading")}</MenuItem>
+            )}
             {filteredCategories.map((category) => (
               <MenuItem
                 key={category.id}
@@ -120,7 +126,7 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
                 <Flex justify="space-between" align="center" w="full">
                   <Text>{category.name}</Text>
                   <IconButton
-                    aria-label="delete category"
+                    aria-label={t("components.categorySelect.deleteCategory")}
                     icon={<IconTrash size={16} />}
                     size="xs"
                     variant="ghost"
@@ -131,7 +137,7 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
             ))}
             {filteredCategories.length === 0 && searchTerm && (
               <MenuItem onClick={handleCreateCategory}>
-                Create "{searchTerm}"
+                {t("components.categorySelect.create")} "{searchTerm}"
               </MenuItem>
             )}
           </MenuGroup>

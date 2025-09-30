@@ -20,6 +20,7 @@ import {
   IconSettings,
   IconUserFilled,
 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const popInAnimation = keyframes`
@@ -34,6 +35,7 @@ const popInAnimation = keyframes`
 `;
 
 export default function UserMenu() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { mutate: signOut, isPending: loadingLogout } = useSignOut();
@@ -89,7 +91,7 @@ export default function UserMenu() {
             onClick={() => handleNavigate(SETTINGS_PATHS.myProfile)}
             icon={<IconSettings size={18} />}
           >
-            Profile settings
+            {t("components.userMenu.profileSettings")}
           </MenuItem>
           <MenuDivider />
           <MenuItem
@@ -97,7 +99,7 @@ export default function UserMenu() {
             icon={<IconLogout size={18} />}
             color="red.500"
           >
-            Logout
+            {t("components.userMenu.logout")}
           </MenuItem>
         </MenuList>
       </Menu>

@@ -3,6 +3,7 @@ import { Button, Menu, MenuButton, MenuList, Portal } from "@chakra-ui/react";
 import { IconCalendarFilled } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type DateRangeValue = {
   initial_date: Date | null;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export default function FilterDateMenu({ onChange }: Props) {
+  const { t } = useTranslation();
   const [date, setDate] = useState<DateRangeValue>({
     initial_date: null,
     end_date: null,
@@ -41,7 +43,7 @@ export default function FilterDateMenu({ onChange }: Props) {
   const formattedDate =
     date.initial_date && date.end_date
       ? `${formatDate(date.initial_date)} - ${formatDate(date.end_date)}`
-      : "Select a range";
+      : t("components.filterDateMenu.selectRange");
 
   return (
     <Menu>

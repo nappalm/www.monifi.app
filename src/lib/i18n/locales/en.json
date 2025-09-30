@@ -7,6 +7,99 @@
     "actions": "Actions",
     "cancelEdition": "Cancel edition"
   },
+  "components": {
+    "accountSelect": {
+      "placeholder": "Account",
+      "searchOrCreate": "Search or create",
+      "loading": "Loading...",
+      "accounts": "Accounts",
+      "create": "Create",
+      "deleteAccount": "Delete account"
+    },
+    "categorySelect": {
+      "placeholder": "Category",
+      "searchOrCreate": "Search or create",
+      "loading": "Loading...",
+      "categories": "Categories",
+      "create": "Create",
+      "deleteCategory": "Delete category"
+    },
+    "topnavbar": {
+      "transactions": "Transactions",
+      "statistics": "Statistics",
+      "sidebarMenu": "Sidebar menu"
+    },
+    "userMenu": {
+      "profileSettings": "Profile settings",
+      "logout": "Logout"
+    },
+    "toggleThemeButton": {
+      "toggleTheme": "Toggle theme"
+    },
+    "tableEmptyRows": {
+      "noResults": "No results found. Start by adding..."
+    },
+    "tablePagination": {
+      "viewing": "Viewing {{from}}–{{to}} of {{total}} results",
+      "back": "Back",
+      "next": "Next"
+    },
+    "filterButtonMenu": {
+      "filter": "Filter",
+      "allFilters": "All Filters",
+      "clearAllFilters": "Clear all filters",
+      "search": "Search..."
+    },
+    "filterDateMenu": {
+      "selectRange": "Select a range"
+    },
+    "dateRange": {
+      "range": "Range",
+      "month": "Month",
+      "previousYear": "Previous year",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "nextYear": "Next year",
+      "weekDays": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
+    },
+    "datePicker": {
+      "previousYear": "Previous year",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "nextYear": "Next year",
+      "weekDays": {
+        "sun": "Sun",
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat"
+      }
+    },
+    "settingsSidebar": {
+      "profile": "Profile",
+      "plansAndPayments": "Plans and payments",
+      "licensing": "Licensing",
+      "paymentInformation": "Payment information",
+      "paymentHistory": "Payment history",
+      "passwordAndAuthentication": "Password and Authentication",
+      "authentication": "Authentication",
+      "changePassword": "Change password",
+      "deleteAccount": "Delete account"
+    },
+    "userInformation": {
+      "personalAccount": "Your personal account"
+    }
+  },
   "onboarding": {
     "welcome": {
       "title": "Welcome aboard Monifi",
