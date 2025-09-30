@@ -7,7 +7,7 @@ import {
   IconButton,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IconChartArea, IconDatabase, IconMenu2 } from "@tabler/icons-react";
+import { IconMenu2 } from "@tabler/icons-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../logo";
 import ToggleThemeButton from "./ToggleThemeButton";
@@ -63,16 +63,20 @@ export default function Topnavbar({
             </Link>
             <ButtonGroup size="sm" spacing={1}>
               <Button
-                variant={isPathActive("/transactions") ? "outline" : "ghost"}
-                leftIcon={<IconDatabase size={18} />}
+                variant="solid"
+                fontWeight={isPathActive("/transactions") ? "bold" : undefined}
+                opacity={isPathActive("/transactions") ? 1 : 0.5}
                 onClick={() => handleNavigate("/transactions")}
+                bg="transparent"
               >
                 Transactions
               </Button>
               <Button
-                leftIcon={<IconChartArea size={18} />}
                 onClick={() => handleNavigate("/statistics")}
-                variant={isPathActive("/statistics") ? "outline" : "ghost"}
+                variant="solid"
+                bg="transparent"
+                fontWeight={isPathActive("/statistics") ? "bold" : undefined}
+                opacity={isPathActive("/statistics") ? 1 : 0.5}
               >
                 Statistics
               </Button>

@@ -12,6 +12,7 @@ import { useMemo, useState } from "react";
 import {
   Bar,
   BarChart,
+  CartesianGrid,
   Cell,
   ResponsiveContainer,
   Tooltip,
@@ -33,6 +34,10 @@ export default function IncomeVsExpensesChart({
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
+  const cartesianGridColor = useColorModeValue(
+    _colors.gray[200],
+    _colors.gray[900],
+  );
   const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
   const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
 
@@ -90,6 +95,11 @@ export default function IncomeVsExpensesChart({
                 bottom: 5,
               }}
             >
+              <CartesianGrid
+                vertical={false}
+                stroke={cartesianGridColor}
+                strokeDasharray="3 3"
+              />
               <defs>
                 <linearGradient id="colorGray" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={gray500} stopOpacity={0.8} />

@@ -1,6 +1,6 @@
 import _colors from "@/lib/chakra-ui/_colors";
 import { Tables } from "@/lib/supabase/database.types";
-import { formatCurrency, useCategories } from "@/shared";
+import { formatCurrency, useAccounts } from "@/shared";
 import {
   Card,
   CardBody,
@@ -29,39 +29,45 @@ const formatYAxis = (tick: number) => {
   return tick.toString();
 };
 
-export default function TopExpensesChart({
+export default function TopAccountsChart({
   transactions = [],
 }: {
   transactions: Tables<"transactions">[];
 }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const { data: categories } = useCategories();
+  const { data: accounts } = useAccounts();
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
   const cartesianGridColor = useColorModeValue(
     _colors.gray[200],
     _colors.gray[900],
   );
   const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
-  const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
+  const red500 = useColorModeValue(_colors.red[500], _colors.red[500]);
+  const green500 = useColorModeValue(_colors.green[500], _colors.green[500]);
 
   const data = useMemo(() => {
-    const spending = transactions
-      .filter((t) => t.type === "expense" && t.category_id)
-      .reduce(
-        (acc, t) => {
-          const category = categories?.find((c) => c.id === t.category_id);
-          const key = category?.name || "Uncategorized";
-          acc[key] = (acc[key] || 0) + t.amount;
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
+    const spending = transactions.reduce(
+      (acc, t) => {
+        const account = accounts?.find((a) => a.id === t.account_id);
+        const key = account?.name || "Uncategorized";
+        if (!acc[key]) {
+          acc[key] = { income: 0, expense: 0 };
+        }
+        if (t.type === "income") {
+          acc[key].income += t.amount;
+        } else {
+          acc[key].expense += t.amount;
+        }
+        return acc;
+      },
+      {} as Record<string, { income: number; expense: number }>,
+    );
 
     return Object.entries(spending)
-      .map(([name, value]) => ({ name, value }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 5);
-  }, [transactions, categories]);
+      .map(([name, values]) => ({ name, ...values }))
+      .sort((a, b) => b.income + b.expense - (a.income + a.expense))
+      .slice(0, 3);
+  }, [transactions, accounts]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
@@ -83,8 +89,12 @@ export default function TopExpensesChart({
           }}
         >
           <p className="label">{`${label}`}</p>
-          <p className="intro">{`Value: ${formatCurrency(
+          <p className="intro">{`Income: ${formatCurrency(
             payload[0].value,
+            "USD",
+          )}`}</p>
+          <p className="intro">{`Expense: ${formatCurrency(
+            payload[1].value,
             "USD",
           )}`}</p>
         </div>
@@ -95,11 +105,12 @@ export default function TopExpensesChart({
 
   const displayData = [...data];
   if (!isEmpty(data)) {
-    const minLength = 5;
+    const minLength = 3;
     while (displayData.length < minLength) {
       displayData.push({
         name: `__pad__${displayData.length}`,
-        value: undefined,
+        income: undefined,
+        expense: undefined,
       });
     }
   }
@@ -108,7 +119,7 @@ export default function TopExpensesChart({
     <Card size="sm">
       <CardBody>
         <Stack>
-          <Text color="gray.500">Top 5 Expenses</Text>
+          <Text color="gray.500">Top 3 Accounts</Text>
           {isEmpty(data) ? (
             <Stack
               w="full"
@@ -133,6 +144,14 @@ export default function TopExpensesChart({
                   left: -30,
                   bottom: 5,
                 }}
+                barGap={10}
+                onMouseMove={(state) => {
+                  if (state.isTooltipActive) {
+                    setActiveIndex(state.activeTooltipIndex);
+                  } else {
+                    setActiveIndex(null);
+                  }
+                }}
               >
                 <CartesianGrid
                   vertical={false}
@@ -140,13 +159,33 @@ export default function TopExpensesChart({
                   strokeDasharray="3 3"
                 />
                 <defs>
-                  <linearGradient id="colorGray" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={gray500} stopOpacity={0.8} />
                     <stop offset="95%" stopColor={gray500} stopOpacity={0} />
                   </linearGradient>
-                  <linearGradient id="colorCyan" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={cyan500} stopOpacity={0.8} />
-                    <stop offset="95%" stopColor={cyan500} stopOpacity={0} />
+                  <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={gray500} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={gray500} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient
+                    id="colorActiveIncome"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor={green500} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={green500} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient
+                    id="colorActiveExpense"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor={red500} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={red500} stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -169,22 +208,29 @@ export default function TopExpensesChart({
                   cursor={{ fill: "rgba(174, 174, 178, 0.1)" }}
                   content={CustomTooltip}
                 />
-                <Bar
-                  dataKey="value"
-                  radius={[4, 4, 0, 0]}
-                  onMouseEnter={(_, index) => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
-                  maxBarSize={40}
-                >
-                  {displayData.map((_, index) => (
+                <Bar dataKey="income" radius={[4, 4, 0, 0]} barSize={20}>
+                  {displayData.map((_entry, index) => (
                     <Cell
-                      key={`cell-${index}`}
+                      key={`cell-income-${index}`}
                       fill={
                         activeIndex === index
-                          ? "url(#colorCyan)"
-                          : "url(#colorGray)"
+                          ? "url(#colorActiveIncome)"
+                          : "url(#colorIncome)"
                       }
-                      stroke={activeIndex === index ? cyan500 : gray500}
+                      stroke={activeIndex === index ? green500 : gray500}
+                    />
+                  ))}
+                </Bar>
+                <Bar dataKey="expense" radius={[4, 4, 0, 0]} barSize={20}>
+                  {displayData.map((_entry, index) => (
+                    <Cell
+                      key={`cell-expense-${index}`}
+                      fill={
+                        activeIndex === index
+                          ? "url(#colorActiveExpense)"
+                          : "url(#colorExpense)"
+                      }
+                      stroke={activeIndex === index ? red500 : gray500}
                     />
                   ))}
                 </Bar>

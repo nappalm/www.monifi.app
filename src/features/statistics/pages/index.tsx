@@ -17,6 +17,7 @@ import { useTransactions } from "../../transactions/hooks/useTransactions";
 import { filterTransactions } from "../../transactions/utils/filtered";
 import IncomeVsExpensesChart from "../components/IncomeVsExpensesChart";
 import SpendingByCategoryChart from "../components/SpendingByCategoryChart";
+import TopAccountsChart from "../components/TopAccountsChart";
 import TopExpensesChart from "../components/TopExpensesChart";
 
 export default function Statistics() {
@@ -97,10 +98,11 @@ export default function Statistics() {
         />
         <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
       </HStack>
-      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6}>
+      <SimpleGrid columns={[1, 1, 2, 3, 4]} spacing={6}>
         <IncomeVsExpensesChart transactions={filteredTransactions} />
         <SpendingByCategoryChart transactions={filteredTransactions} />
         <TopExpensesChart transactions={filteredTransactions} />
+        <TopAccountsChart transactions={filteredTransactions} />
       </SimpleGrid>
     </Stack>
   );
