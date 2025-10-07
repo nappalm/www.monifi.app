@@ -146,17 +146,11 @@ export default function TransactionsPage() {
       gridTemplateColumns={
         isSmallScreen
           ? "minmax(0, 1fr)"
-          : "296px minmax(0, calc(100% - 296px - 24px))"
+          : "minmax(0, calc(100% - 296px - 24px)) 296px"
       }
       gridGap="24px"
       py={5}
     >
-      <Stack>
-        <ExpenseIncomeInfo transactions={transactionsEnabled} />
-        <AccountInfo transactions={transactionsEnabled} />
-        <CategoriesInfo transactions={transactionsEnabled} />
-      </Stack>
-
       <Stack gap={5}>
         <Heading size="lg">{t("transactions.title")}</Heading>
         <HStack justifyContent="space-between">
@@ -199,6 +193,12 @@ export default function TransactionsPage() {
           onClose={() => setDetailsRow(null)}
           transaction={detailsRow}
         />
+      </Stack>
+
+      <Stack>
+        <ExpenseIncomeInfo transactions={transactionsEnabled} />
+        <AccountInfo transactions={transactionsEnabled} />
+        <CategoriesInfo transactions={transactionsEnabled} />
       </Stack>
     </Grid>
   );
