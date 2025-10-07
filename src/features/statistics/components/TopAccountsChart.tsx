@@ -43,7 +43,7 @@ export default function TopAccountsChart({
     _colors.gray[200],
     _colors.gray[900],
   );
-  const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
+  const gray500 = useColorModeValue(_colors.gray[300], _colors.gray[500]);
   const red500 = useColorModeValue(_colors.red[500], _colors.red[500]);
   const green500 = useColorModeValue(_colors.green[500], _colors.green[500]);
 

@@ -43,8 +43,8 @@ export default function TopExpensesChart({
     _colors.gray[200],
     _colors.gray[900],
   );
-  const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
-  const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
+  const gray500 = useColorModeValue(_colors.gray[300], _colors.gray[500]);
+  const cyan500 = useColorModeValue(_colors.cyan[400], _colors.cyan[500]);
 
   const data = useMemo(() => {
     const spending = transactions

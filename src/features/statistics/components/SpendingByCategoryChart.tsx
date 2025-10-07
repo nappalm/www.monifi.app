@@ -23,8 +23,8 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
   const { data: categories } = useCategories();
   const tooltipBg = useColorModeValue(_colors.gray[200], _colors.gray[500]);
   const labelColor = useColorModeValue(_colors.gray[600], _colors.gray[400]);
-  const gray500 = useColorModeValue(_colors.gray[500], _colors.gray[500]);
-  const cyan500 = useColorModeValue(_colors.cyan[500], _colors.cyan[500]);
+  const gray500 = useColorModeValue(_colors.gray[300], _colors.gray[500]);
+  const cyan500 = useColorModeValue(_colors.cyan[400], _colors.cyan[500]);
 
   const data = useMemo(() => {
     const spending = transactions
@@ -42,6 +42,7 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
     return Object.entries(spending)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactions, categories, t]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
