@@ -22,7 +22,8 @@
       "loading": "Loading...",
       "accounts": "Accounts",
       "create": "Create",
-      "deleteAccount": "Delete account"
+      "deleteAccount": "Delete account",
+      "manageAccounts": "Manage accounts"
     },
     "categorySelect": {
       "placeholder": "Category",
@@ -30,7 +31,8 @@
       "loading": "Loading...",
       "categories": "Categories",
       "create": "Create",
-      "deleteCategory": "Delete category"
+      "deleteCategory": "Delete category",
+      "manageCategories": "Manage categories"
     },
     "topnavbar": {
       "transactions": "Transactions",

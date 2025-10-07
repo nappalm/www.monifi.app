@@ -119,7 +119,7 @@ export default function CategorySelect({
             )}
             <MenuDivider />
             <MenuItem color="gray.500" onClick={onAdmin}>
-              Administrar categorias
+              {t("components.categorySelect.manageCategories")}
             </MenuItem>
           </MenuGroup>
         </MenuList>

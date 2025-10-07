@@ -12,6 +12,7 @@ import {
   Input,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuGroup,
   MenuItem,
   MenuList,
@@ -25,9 +26,14 @@ import { useTranslation } from "react-i18next";
 type Props = {
   defaultValue?: number | null;
   onChange: (account: Tables<"accounts"> | null) => void;
+  onAdmin: VoidFunction;
 };
 
-export default function AccountSelect({ defaultValue, onChange }: Props) {
+export default function AccountSelect({
+  defaultValue,
+  onChange,
+  onAdmin,
+}: Props) {
   const { t } = useTranslation();
   const { data: accounts = [], isLoading } = useAccounts();
   const createAccount = useCreateAccount();
@@ -142,6 +148,10 @@ export default function AccountSelect({ defaultValue, onChange }: Props) {
                 {t("components.accountSelect.create")} "{searchTerm}"
               </MenuItem>
             )}
+            <MenuDivider />
+            <MenuItem color="gray.500" onClick={onAdmin}>
+              {t("components.accountSelect.manageAccounts")}
+            </MenuItem>
           </MenuGroup>
         </MenuList>
       </Portal>

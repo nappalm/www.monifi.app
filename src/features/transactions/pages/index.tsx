@@ -6,6 +6,7 @@ import {
 } from "@/features/transactions/hooks/useTransactions";
 import { Tables } from "@/lib/supabase/database.types";
 import {
+  AccountsDrawer,
   CategoriesDrawer,
   FilterButtonMenu,
   FilterDateMenu,
@@ -50,6 +51,7 @@ export default function TransactionsPage() {
   const deleteTransaction = useDeleteTransaction();
 
   const adminCategories = useDisclosure();
+  const adminAccounts = useDisclosure();
 
   const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
     null,
@@ -192,6 +194,7 @@ export default function TransactionsPage() {
             onSeeDetailsRow={handleSeeDetailsRow}
             onDisabledRow={handleDisabledRow}
             onAdminCategories={adminCategories.onToggle}
+            onAdminAccounts={adminAccounts.onToggle}
           />
 
           <DetailsDrawer
@@ -209,6 +212,7 @@ export default function TransactionsPage() {
       </Grid>
 
       <CategoriesDrawer {...adminCategories} />
+      <AccountsDrawer {...adminAccounts} />
     </>
   );
 }

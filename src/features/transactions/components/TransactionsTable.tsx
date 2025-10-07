@@ -15,6 +15,7 @@ type Props = {
   isLoading: boolean;
   onRowChange: (updatedData: Tables<"transactions">, rowIndex: number) => void;
   onAdminCategories: VoidFunction;
+  onAdminAccounts: VoidFunction;
   onRemoveRow: (id: number) => void;
   onSeeDetailsRow: (id: number) => void;
   onDisabledRow: (id: number, previous: boolean) => void;
@@ -28,6 +29,7 @@ export default function TransactionsTable({
   onSeeDetailsRow,
   onDisabledRow,
   onAdminCategories,
+  onAdminAccounts,
 }: Props) {
   const { t } = useTranslation();
 
@@ -95,6 +97,7 @@ export default function TransactionsTable({
         return (
           <AccountSelect
             defaultValue={value as number | null}
+            onAdmin={onAdminAccounts}
             onChange={(account) => {
               if (account) {
                 updateCell(account.id);

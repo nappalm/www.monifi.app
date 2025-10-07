@@ -12,3 +12,4 @@ export * from "./filter-date-menu";
 export * from "./grid-dotted";
 export * from "./logo";
 export * from "./categories-drawer";
+export * from "./accounts-drawer";
