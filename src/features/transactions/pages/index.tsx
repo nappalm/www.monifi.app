@@ -6,6 +6,7 @@ import {
 } from "@/features/transactions/hooks/useTransactions";
 import { Tables } from "@/lib/supabase/database.types";
 import {
+  CategoriesDrawer,
   FilterButtonMenu,
   FilterDateMenu,
   useAccounts,
@@ -21,6 +22,7 @@ import {
   Stack,
   Text,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
@@ -46,6 +48,8 @@ export default function TransactionsPage() {
   const createTransaction = useCreateTransaction();
   const updateTransaction = useUpdateTransaction();
   const deleteTransaction = useDeleteTransaction();
+
+  const adminCategories = useDisclosure();
 
   const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
     null,
@@ -141,65 +145,70 @@ export default function TransactionsPage() {
   const isSmallScreen = useBreakpointValue({ base: true, lg: false });
 
   return (
-    <Grid
-      gridAutoFlow={isSmallScreen ? "row" : "column"}
-      gridTemplateColumns={
-        isSmallScreen
-          ? "minmax(0, 1fr)"
-          : "minmax(0, calc(100% - 296px - 24px)) 296px"
-      }
-      gridGap="24px"
-      py={5}
-    >
-      <Stack gap={5}>
-        <Heading size="lg">{t("transactions.title")}</Heading>
-        <HStack justifyContent="space-between">
-          <HStack gap="1px">
-            <FilterButtonMenu
-              filterGroups={filterGroups}
-              appliedFilters={filters}
-              onFilterChange={handleFilterChange}
-              onClearFilters={clearFilters}
-              areFiltersActive={areFiltersActive}
-            />
-            <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
+    <>
+      <Grid
+        gridAutoFlow={isSmallScreen ? "row" : "column"}
+        gridTemplateColumns={
+          isSmallScreen
+            ? "minmax(0, 1fr)"
+            : "minmax(0, calc(100% - 296px - 24px)) 296px"
+        }
+        gridGap="24px"
+        py={5}
+      >
+        <Stack gap={5}>
+          <Heading size="lg">{t("transactions.title")}</Heading>
+          <HStack justifyContent="space-between">
+            <HStack gap="1px">
+              <FilterButtonMenu
+                filterGroups={filterGroups}
+                appliedFilters={filters}
+                onFilterChange={handleFilterChange}
+                onClearFilters={clearFilters}
+                areFiltersActive={areFiltersActive}
+              />
+              <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
+            </HStack>
+            <Button
+              colorScheme="cyan"
+              size="sm"
+              leftIcon={<IconArrowBarToDownDashed size={16} />}
+              onClick={handleNewRow}
+              isLoading={createTransaction.isPending}
+              rightIcon={
+                <Text fontSize="xs" opacity={0.5}>
+                  Ctrl + I
+                </Text>
+              }
+            >
+              {t("transactions.newRow")}
+            </Button>
           </HStack>
-          <Button
-            colorScheme="cyan"
-            size="sm"
-            leftIcon={<IconArrowBarToDownDashed size={16} />}
-            onClick={handleNewRow}
-            isLoading={createTransaction.isPending}
-            rightIcon={
-              <Text fontSize="xs" opacity={0.5}>
-                Ctrl + I
-              </Text>
-            }
-          >
-            {t("transactions.newRow")}
-          </Button>
-        </HStack>
-        <TransactionsTable
-          data={filteredTransactions || []}
-          isLoading={isLoading}
-          onRowChange={handleUpdateRow}
-          onRemoveRow={handleRemoveRow}
-          onSeeDetailsRow={handleSeeDetailsRow}
-          onDisabledRow={handleDisabledRow}
-        />
+          <TransactionsTable
+            data={filteredTransactions || []}
+            isLoading={isLoading}
+            onRowChange={handleUpdateRow}
+            onRemoveRow={handleRemoveRow}
+            onSeeDetailsRow={handleSeeDetailsRow}
+            onDisabledRow={handleDisabledRow}
+            onAdminCategories={adminCategories.onToggle}
+          />
 
-        <DetailsDrawer
-          isOpen={!!detailsRow}
-          onClose={() => setDetailsRow(null)}
-          transaction={detailsRow}
-        />
-      </Stack>
+          <DetailsDrawer
+            isOpen={!!detailsRow}
+            onClose={() => setDetailsRow(null)}
+            transaction={detailsRow}
+          />
+        </Stack>
 
-      <Stack>
-        <ExpenseIncomeInfo transactions={transactionsEnabled} />
-        <AccountInfo transactions={transactionsEnabled} />
-        <CategoriesInfo transactions={transactionsEnabled} />
-      </Stack>
-    </Grid>
+        <Stack>
+          <ExpenseIncomeInfo transactions={transactionsEnabled} />
+          <AccountInfo transactions={transactionsEnabled} />
+          <CategoriesInfo transactions={transactionsEnabled} />
+        </Stack>
+      </Grid>
+
+      <CategoriesDrawer {...adminCategories} />
+    </>
   );
 }

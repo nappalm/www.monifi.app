@@ -1,37 +1,35 @@
 import { Tables } from "@/lib/supabase/database.types";
 import { useAuthenticatedUser } from "@/shared/hooks";
-import {
-  useCategories,
-  useCreateCategory,
-  useDeleteCategory,
-} from "@/shared/hooks/useCategories";
+import { useCategories, useCreateCategory } from "@/shared/hooks/useCategories";
 import {
   Button,
-  Flex,
-  IconButton,
   Input,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuGroup,
   MenuItem,
   MenuList,
   Portal,
-  Text,
 } from "@chakra-ui/react";
-import { IconTag, IconTrash } from "@tabler/icons-react";
+import { IconTag } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
   defaultValue?: number | null;
   onChange: (category: Tables<"categories"> | null) => void;
+  onAdmin: VoidFunction;
 };
 
-export default function CategorySelect({ defaultValue, onChange }: Props) {
+export default function CategorySelect({
+  defaultValue,
+  onAdmin,
+  onChange,
+}: Props) {
   const { t } = useTranslation();
   const { data: categories = [], isLoading } = useCategories();
   const createCategory = useCreateCategory();
-  const deleteCategory = useDeleteCategory();
   const { user } = useAuthenticatedUser();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -70,18 +68,6 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
   const handleSelectCategory = (category: Tables<"categories">) => {
     setSelectedCategory(category);
     onChange(category);
-  };
-
-  const handleDeleteCategory = (
-    e: React.MouseEvent,
-    categoryToDelete: Tables<"categories">,
-  ) => {
-    e.stopPropagation();
-    deleteCategory.mutate(categoryToDelete.id);
-    if (selectedCategory?.id === categoryToDelete.id) {
-      setSelectedCategory(null);
-      onChange(null);
-    }
   };
 
   return (
@@ -123,16 +109,7 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
                 key={category.id}
                 onClick={() => handleSelectCategory(category)}
               >
-                <Flex justify="space-between" align="center" w="full">
-                  <Text>{category.name}</Text>
-                  <IconButton
-                    aria-label={t("components.categorySelect.deleteCategory")}
-                    icon={<IconTrash size={16} />}
-                    size="xs"
-                    variant="ghost"
-                    onClick={(e) => handleDeleteCategory(e, category)}
-                  />
-                </Flex>
+                {category.name}
               </MenuItem>
             ))}
             {filteredCategories.length === 0 && searchTerm && (
@@ -140,6 +117,10 @@ export default function CategorySelect({ defaultValue, onChange }: Props) {
                 {t("components.categorySelect.create")} "{searchTerm}"
               </MenuItem>
             )}
+            <MenuDivider />
+            <MenuItem color="gray.500" onClick={onAdmin}>
+              Administrar categorias
+            </MenuItem>
           </MenuGroup>
         </MenuList>
       </Portal>
