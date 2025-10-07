@@ -1,5 +1,5 @@
 import { Tables } from "@/lib";
-import { formatCurrency, useCategories } from "@/shared";
+import { formatCurrency, useCategories, useAuthenticatedUser } from "@/shared";
 import {
   Card,
   CardBody,
@@ -19,6 +19,7 @@ type Props = {
 export default function CategoriesInfo({ transactions = [] }: Props) {
   const { t } = useTranslation();
   const { data: categories } = useCategories();
+  const { profile } = useAuthenticatedUser();
 
   const categoriesWithTotals = useMemo(() => {
     if (!categories || !transactions) return [];
@@ -69,7 +70,7 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
                 {category.name}
               </Text>
               <Tooltip
-                label={formatCurrency(category.total, "USD")}
+                label={formatCurrency(category.total, profile.currency)}
                 hasArrow
                 placement="right"
               >

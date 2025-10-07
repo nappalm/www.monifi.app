@@ -1,16 +1,35 @@
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 
+// Mapeo de monedas a sus locales nativos para formato correcto
+const currencyLocaleMap: Record<string, string> = {
+  USD: "en-US",
+  EUR: "de-DE", // Alemania: símbolo al final
+  JPY: "ja-JP",
+  GBP: "en-GB",
+  AUD: "en-AU",
+  CAD: "en-CA",
+  CHF: "fr-CH", // Suiza francés: muestra Fr. al final
+  CNH: "zh-CN",
+  HKD: "zh-HK",
+  NZD: "en-NZ",
+  MXN: "es-MX",
+};
+
 export const formatCurrency = (
   value: number,
   currency: string,
-  locale = "en-US",
+  locale?: string,
 ) => {
   const formattedValue = value;
 
-  const formatter = new Intl.NumberFormat(locale, {
+  // Usar el locale específico de la moneda si no se proporciona uno
+  const usedLocale = locale || currencyLocaleMap[currency] || "en-US";
+
+  const formatter = new Intl.NumberFormat(usedLocale, {
     style: "currency",
     currency,
+    currencyDisplay: "narrowSymbol",
   });
 
   return formatter.format(formattedValue);

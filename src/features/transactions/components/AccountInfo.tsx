@@ -1,6 +1,6 @@
 import { Tables } from "@/lib";
 import _colors from "@/lib/chakra-ui/_colors";
-import { formatCurrency, useAccounts } from "@/shared";
+import { formatCurrency, useAccounts, useAuthenticatedUser } from "@/shared";
 import {
   Card,
   CardBody,
@@ -41,6 +41,7 @@ const variants = {
 
 export default function AccountInfo({ transactions }: Props) {
   const { data: accounts } = useAccounts();
+  const { profile } = useAuthenticatedUser();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -125,7 +126,7 @@ export default function AccountInfo({ transactions }: Props) {
                     <Stack gap={0}>
                       <Text>{currentAccount.name}</Text>
                       <Text fontFamily="Roboto Mono" fontSize="xs">
-                        {formatCurrency(currentAccount.total, "USD")}
+                        {formatCurrency(currentAccount.total, profile.currency)}
                       </Text>
                     </Stack>
                   </HStack>

@@ -1,6 +1,6 @@
 import { Tables } from "@/lib/supabase/database.types";
 import { formatCurrency, formatDate } from "@/shared";
-import { useAccounts, useCategories } from "@/shared/hooks";
+import { useAccounts, useCategories, useAuthenticatedUser } from "@/shared/hooks";
 import {
   Box,
   Card,
@@ -32,6 +32,7 @@ export const DetailsDrawer = ({
   const { t } = useTranslation();
   const { data: accounts } = useAccounts();
   const { data: categories } = useCategories();
+  const { profile } = useAuthenticatedUser();
 
   const account = accounts?.find((acc) => acc.id === transaction?.account_id);
   const category = categories?.find(
@@ -72,7 +73,7 @@ export const DetailsDrawer = ({
                     </Stack>
                     <Stack gap={0} align="flex-end">
                       <Text fontSize="md" fontWeight="bold">
-                        {formatCurrency(transaction.amount, "USD")}
+                        {formatCurrency(transaction.amount, profile.currency)}
                       </Text>
                       <Text fontSize="sm" color="gray.500">
                         {t("transactions.details.amount")}

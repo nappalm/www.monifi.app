@@ -19,7 +19,7 @@ export default function MyProfile() {
 
     profile.mutate({
       ...values,
-      uuid: user.id,
+      id: user.id,
     });
   };
 

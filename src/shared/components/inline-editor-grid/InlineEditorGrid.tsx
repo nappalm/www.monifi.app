@@ -10,6 +10,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { formatCurrency } from "@/shared/utils/formats";
+import { useAuthenticatedUser } from "@/shared/hooks";
 import { useInlineEditor } from "./useInlineEditor";
 import { transparentize } from "@chakra-ui/theme-tools";
 import { TableSkeletonRow } from "../table-skeleton-row";
@@ -25,6 +26,7 @@ export function InlineEditorGrid<T extends DataRow>({
   isLoading = false,
   showRowNumber = false,
 }: InlineEditorGridProps<T>) {
+  const { profile } = useAuthenticatedUser();
   const visibleColumns = columns.filter((c) => c.isVisible !== false);
   const { tableRef, activeCell, getCellProps, getInputProps, updateCell } =
     useInlineEditor<T>({
@@ -219,7 +221,7 @@ export function InlineEditorGrid<T extends DataRow>({
                             );
                           }
                           if (column.isAmount) {
-                            return formatCurrency(cellValue || 0, "USD");
+                            return formatCurrency(cellValue || 0, profile.currency);
                           }
                           return cellValue;
                         })()}{" "}
