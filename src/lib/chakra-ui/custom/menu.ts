@@ -16,12 +16,14 @@ const baseStyle = definePartsStyle((props) => ({
     borderRadius: "xl",
     overflow: "hidden",
     fontFamily: "Roboto Mono",
+    letterSpacing: "-0.5px",
   },
   item: {
     bg: "transparent",
     borderTopRadius: "md",
     borderBottomRadius: "md",
     fontWeight: 500,
+    letterSpacing: "-0.5px",
     py: 1,
     fontSize: "sm",
     _focus: {
@@ -32,6 +34,7 @@ const baseStyle = definePartsStyle((props) => ({
     mx: 3,
     my: 2,
     fontWeight: "semibold",
+    letterSpacing: "-0.5px",
     fontSize: "sm",
     opacity: 0.5,
   },
