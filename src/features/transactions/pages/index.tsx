@@ -107,6 +107,11 @@ export default function TransactionsPage() {
     );
   }, [transactions, filters]);
 
+  const transactionsEnabled = useMemo(() => {
+    if (!filteredTransactions) return [];
+    return filteredTransactions.filter((t) => t.enabled);
+  }, [filteredTransactions]);
+
   const handleNewRow = () => {
     createTransaction.mutate(getNewTransaction());
   };
@@ -134,11 +139,6 @@ export default function TransactionsPage() {
   };
 
   const isSmallScreen = useBreakpointValue({ base: true, lg: false });
-
-  const transactionsEnabled = useMemo(() => {
-    if (!transactions) return [];
-    return transactions.filter((t) => t.enabled);
-  }, [transactions]);
 
   return (
     <Grid

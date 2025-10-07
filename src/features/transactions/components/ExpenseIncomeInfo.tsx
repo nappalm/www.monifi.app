@@ -1,3 +1,5 @@
+import { Tables } from "@/lib";
+import { formatCurrency } from "@/shared";
 import {
   Box,
   Card,
@@ -8,11 +10,10 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { animate } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TransactionsChart from "./TransactionsChart";
-import { Tables } from "@/lib";
-import { formatCurrency } from "@/shared";
 
 type Props = {
   transactions: Tables<"transactions">[];
@@ -30,13 +31,25 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
     return { incomes, expenses, balance };
   }, [transactions]);
 
+  const [displayBalance, setDisplayBalance] = useState(balance);
+
+  useEffect(() => {
+    const controls = animate(displayBalance, balance, {
+      duration: 0.5,
+      ease: "linear",
+      onUpdate: (latest) => setDisplayBalance(Math.floor(latest)),
+    });
+    return () => controls.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balance]);
+
   return (
     <Card size="sm">
       <CardBody>
         <Stack>
           <Stack align="center" py={5} gap={0}>
             <Heading fontFamily="Roboto Mono" letterSpacing="-2px">
-              {formatCurrency(balance, "USD")}
+              {formatCurrency(displayBalance, "USD")}
             </Heading>
             <Text fontSize="sm" color="gray.500">
               {t("transactions.summary.balance")}
