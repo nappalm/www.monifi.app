@@ -7,6 +7,7 @@ create table if not exists public.profiles (
   onboarding boolean not null default false,
   priority text,
   finance_management text,
+  balance numeric(12, 2) not null default 0,
   primary key (id)
 );
 
@@ -19,6 +20,7 @@ comment on column public.profiles.language is 'User''s preferred language (e.g.,
 comment on column public.profiles.onboarding is 'Indicates whether the user has completed the onboarding process.';
 comment on column public.profiles.priority is 'User''s financial priority.';
 comment on column public.profiles.finance_management is 'How the user manages their finances.';
+comment on column public.profiles.balance is 'User''s total balance calculated from all transactions.';
 
 alter table public.profiles enable row level security;
 

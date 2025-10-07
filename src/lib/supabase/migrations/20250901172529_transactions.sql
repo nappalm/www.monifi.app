@@ -99,6 +99,73 @@ BEGIN
 END
 $$;
 
+-- Function to update profile balance when transaction changes
+CREATE OR REPLACE FUNCTION public.update_profile_balance()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Handle INSERT
+  IF (TG_OP = 'INSERT') THEN
+    IF NEW.type = 'income' THEN
+      UPDATE public.profiles
+      SET balance = balance + NEW.amount
+      WHERE id = NEW.user_id;
+    ELSIF NEW.type = 'expense' THEN
+      UPDATE public.profiles
+      SET balance = balance - NEW.amount
+      WHERE id = NEW.user_id;
+    END IF;
+    RETURN NEW;
+  END IF;
+
+  -- Handle UPDATE
+  IF (TG_OP = 'UPDATE') THEN
+    -- Revert old transaction
+    IF OLD.type = 'income' THEN
+      UPDATE public.profiles
+      SET balance = balance - OLD.amount
+      WHERE id = OLD.user_id;
+    ELSIF OLD.type = 'expense' THEN
+      UPDATE public.profiles
+      SET balance = balance + OLD.amount
+      WHERE id = OLD.user_id;
+    END IF;
+
+    -- Apply new transaction
+    IF NEW.type = 'income' THEN
+      UPDATE public.profiles
+      SET balance = balance + NEW.amount
+      WHERE id = NEW.user_id;
+    ELSIF NEW.type = 'expense' THEN
+      UPDATE public.profiles
+      SET balance = balance - NEW.amount
+      WHERE id = NEW.user_id;
+    END IF;
+    RETURN NEW;
+  END IF;
+
+  -- Handle DELETE
+  IF (TG_OP = 'DELETE') THEN
+    IF OLD.type = 'income' THEN
+      UPDATE public.profiles
+      SET balance = balance - OLD.amount
+      WHERE id = OLD.user_id;
+    ELSIF OLD.type = 'expense' THEN
+      UPDATE public.profiles
+      SET balance = balance + OLD.amount
+      WHERE id = OLD.user_id;
+    END IF;
+    RETURN OLD;
+  END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Create trigger for balance updates
+DROP TRIGGER IF EXISTS on_transaction_change ON public.transactions;
+
+CREATE TRIGGER on_transaction_change
+  AFTER INSERT OR UPDATE OR DELETE ON public.transactions
+  FOR EACH ROW EXECUTE FUNCTION public.update_profile_balance();
+
 BEGIN;
   ALTER PUBLICATION supabase_realtime ADD TABLE public.transactions;
 COMMIT;
