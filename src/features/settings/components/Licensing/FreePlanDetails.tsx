@@ -37,9 +37,9 @@ export default function FreePlanDetails() {
         <SimpleGrid columns={[1, 1, 1, 2]} gap={5}>
           <List spacing={2}>
             {LICENSING_FREE_FEATURES.included.map((item) => (
-              <ListItem key={item.label}>
+              <ListItem key={item.labelKey}>
                 <LicensingFeatureIcon type={item.type} color="cyan.500" />
-                {item.label}
+                {t(item.labelKey)}
               </ListItem>
             ))}
           </List>
@@ -49,9 +49,9 @@ export default function FreePlanDetails() {
             </Text>
             <List spacing={2}>
               {LICENSING_FREE_FEATURES.notIncluded.map((item) => (
-                <ListItem key={item.label}>
+                <ListItem key={item.labelKey}>
                   <LicensingFeatureIcon type={item.type} color="red.500" />
-                  {item.label}
+                  {t(item.labelKey)}
                 </ListItem>
               ))}
             </List>

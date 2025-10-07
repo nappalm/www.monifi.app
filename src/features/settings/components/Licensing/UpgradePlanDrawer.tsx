@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { PaymentMethod } from "@stripe/stripe-js";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { SETTINGS_PATHS } from "../../router";
 
@@ -46,6 +47,7 @@ export default function UpgradePlanDrawer({
   isError = false,
   error = null,
 }: Props) {
+  const { t } = useTranslation();
   const [paymentMethodId, setPaymentMethodId] = useState<string | null>(null);
 
   const handleUpgrade = () => {
@@ -62,13 +64,15 @@ export default function UpgradePlanDrawer({
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Upgrade PRO</DrawerHeader>
+        <DrawerHeader>
+          {t("settings.licensing.upgradeDrawer.title")}
+        </DrawerHeader>
         <DrawerBody>
           <List spacing={2}>
             {LICENSING_PRO_FEATURES.map((item) => (
-              <ListItem key={item.label}>
+              <ListItem key={item.labelKey}>
                 <LicensingFeatureIcon type={item.type} color="cyan.500" />
-                {item.label}
+                {t(item.labelKey)}
               </ListItem>
             ))}
           </List>
@@ -89,14 +93,16 @@ export default function UpgradePlanDrawer({
               />
             )}
             <Text fontSize="sm">
-              Don't have a payment method yet?
+              {t("settings.licensing.upgradeDrawer.noPaymentMethod")}
               <Link
                 as={RouterLink}
                 to={SETTINGS_PATHS.paymentInformation}
                 color="cyan.500"
                 ml={1}
               >
-                <Text as="span">You can add one here.</Text>
+                <Text as="span">
+                  {t("settings.licensing.upgradeDrawer.addPaymentMethod")}
+                </Text>
               </Link>
             </Text>
 
@@ -107,7 +113,7 @@ export default function UpgradePlanDrawer({
               onClick={handleUpgrade}
               isLoading={isLoading}
             >
-              Upgrade
+              {t("settings.licensing.upgradeDrawer.upgradeButton")}
             </Button>
           </Stack>
         </DrawerFooter>

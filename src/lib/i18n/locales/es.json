@@ -286,13 +286,42 @@
       "clickHere": "Haz clic aquí",
       "cancelDetails": "para más detalles sobre el proceso",
       "freePlan": {
-        "title": "Github Free",
-        "description": "Lo básico para todos los desarrolladores",
+        "title": "Monifi Free",
+        "description": "Todo lo que necesitas para empezar a organizar mejor tu dinero",
         "notIncluded": "No incluido"
       },
       "proPlan": {
-        "title": "Github Copilot",
-        "description": "Tu programador de parejas IA"
+        "title": "Monifi PRO",
+        "description": "Accede a herramientas expertas para una gestión financiera inteligente."
+      },
+      "upgradeDrawer": {
+        "title": "Mejorar a PRO",
+        "noPaymentMethod": "¿Aún no tienes un método de pago?",
+        "addPaymentMethod": "Puedes agregar uno aquí.",
+        "upgradeButton": "Mejorar"
+      },
+      "features": {
+        "unlimitedBudgets": "Presupuestos y categorías ilimitados",
+        "unlimitedTransactions": "Transacciones ilimitadas",
+        "advancedBudgetManagement": "Gestión avanzada de presupuestos",
+        "completeIncomeExpenseControl": "Control completo de ingresos y gastos",
+        "customTransactionCategorization": "Categorización personalizada de transacciones",
+        "savingsTrackingOptimization": "Seguimiento y optimización de ahorros",
+        "creditCardMonitoring": "Registro y monitoreo de tarjetas de crédito",
+        "debtManagement": "Herramientas de gestión de deudas",
+        "detailedFinancialReports": "Reportes financieros detallados",
+        "aiExpenseOptimization": "Optimización de gastos con IA",
+        "aiBudgetRecommendations": "Recomendaciones de presupuesto con IA",
+        "personalizedInsights": "Insights financieros personalizados",
+        "prioritySupport": "Soporte prioritario",
+        "exportData": "Exportar datos a múltiples formatos",
+        "basicBudgetManagement": "Gestión básica de presupuestos",
+        "incomeExpenseTracking": "Seguimiento de ingresos y gastos",
+        "transactionCategorization": "Categorización de transacciones",
+        "savingsMonitoring": "Monitoreo de ahorros",
+        "financialReports": "Reportes financieros",
+        "creditCardControl": "Control de tarjetas de crédito (2 tarjetas)",
+        "communitySupport": "Soporte de la comunidad"
       }
     },
     "paymentHistory": {

@@ -286,13 +286,42 @@
       "clickHere": "Click here",
       "cancelDetails": "for more details on the process",
       "freePlan": {
-        "title": "Github Free",
-        "description": "The basics for all developers",
+        "title": "Monifi Free",
+        "description": "The basics to start managing your personal finances.",
         "notIncluded": "Not included"
       },
       "proPlan": {
-        "title": "Github Copilot",
-        "description": "Your AI pair programmer"
+        "title": "Monifi PRO",
+        "description": "Access expert tools for smart financial management."
+      },
+      "upgradeDrawer": {
+        "title": "Upgrade PRO",
+        "noPaymentMethod": "Don't have a payment method yet?",
+        "addPaymentMethod": "You can add one here.",
+        "upgradeButton": "Upgrade"
+      },
+      "features": {
+        "unlimitedBudgets": "Unlimited budgets and categories",
+        "unlimitedTransactions": "Unlimited transactions",
+        "advancedBudgetManagement": "Advanced budget management",
+        "completeIncomeExpenseControl": "Complete income and expense control",
+        "customTransactionCategorization": "Custom transaction categorization",
+        "savingsTrackingOptimization": "Savings tracking and optimization",
+        "creditCardMonitoring": "Credit card registration and monitoring",
+        "debtManagement": "Debt management tools",
+        "detailedFinancialReports": "Detailed financial reports",
+        "aiExpenseOptimization": "AI-powered expense optimization",
+        "aiBudgetRecommendations": "AI budget recommendations",
+        "personalizedInsights": "Personalized financial insights",
+        "prioritySupport": "Priority support",
+        "exportData": "Export data to multiple formats",
+        "basicBudgetManagement": "Basic budget management",
+        "incomeExpenseTracking": "Income and expense tracking",
+        "transactionCategorization": "Transaction categorization",
+        "savingsMonitoring": "Savings monitoring",
+        "financialReports": "Financial reports",
+        "creditCardControl": "Credit card control (2 cards)",
+        "communitySupport": "Community support"
       }
     },
     "paymentHistory": {
