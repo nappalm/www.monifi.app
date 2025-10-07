@@ -14,4 +14,6 @@ export const changePasswordSchema = yup.object().shape({
 export const profileSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
+  language: yup.string().required("Language is required"),
+  currency: yup.string().required("Currency is required"),
 });

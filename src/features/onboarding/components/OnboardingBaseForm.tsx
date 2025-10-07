@@ -1,4 +1,4 @@
-import { FormProvider, RHFSelect } from "@/shared";
+import { FormProvider, RHFCurrency, RHFLanguage } from "@/shared";
 import { Button, Stack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -29,23 +29,8 @@ export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Stack>
-        <RHFSelect name="language" label={t("onboarding.form.language.label")}>
-          <option value="en">{t("onboarding.form.language.english")}</option>
-          <option value="es">{t("onboarding.form.language.spanish")}</option>
-        </RHFSelect>
-        <RHFSelect name="currency" label={t("onboarding.form.currency.label")}>
-          <option value="USD">USD (United States Dollar)</option>
-          <option value="EUR">EUR (Euro)</option>
-          <option value="JPY">JPY (Japanese Yen)</option>
-          <option value="GBP">GBP (British Pound Sterling)</option>
-          <option value="AUD">AUD (Australian Dollar)</option>
-          <option value="CAD">CAD (Canadian Dollar)</option>
-          <option value="CHF">CHF (Swiss Franc)</option>
-          <option value="CNH">CNH (Chinese Yuan Renminbi)</option>
-          <option value="HKD">HKD (Hong Kong Dollar)</option>
-          <option value="NZD">NZD (New Zealand Dollar)</option>
-          <option value="MXN">MXN (Mexican Peso)</option>
-        </RHFSelect>
+        <RHFLanguage />
+        <RHFCurrency />
         <br />
         <Button
           w="full"

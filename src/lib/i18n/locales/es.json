@@ -5,7 +5,15 @@
     "skip": "Omitir",
     "soon": "Pronto",
     "actions": "Acciones",
-    "cancelEdition": "Cancelar edición"
+    "cancelEdition": "Cancelar edición",
+    "language": {
+      "label": "Selecciona tu idioma",
+      "english": "Inglés",
+      "spanish": "Español"
+    },
+    "currency": {
+      "label": "Selecciona tu moneda"
+    }
   },
   "components": {
     "accountSelect": {
@@ -160,16 +168,6 @@
           "title": "Soporte IA",
           "description": "Obtén asesoramiento financiero personalizado e información de nuestro asistente IA."
         }
-      }
-    },
-    "form": {
-      "language": {
-        "label": "Selecciona tu idioma",
-        "english": "Inglés",
-        "spanish": "Español"
-      },
-      "currency": {
-        "label": "Selecciona tu moneda"
       }
     },
     "accountsForm": {

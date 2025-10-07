@@ -6,6 +6,8 @@ export type OnSubmitChangePassword = {
 export type OnSubmitProfile = {
   name: string;
   email: string;
+  currency: string;
+  language: string;
 };
 
 export type OnUpgrade = {

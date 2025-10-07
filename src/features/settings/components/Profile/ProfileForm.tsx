@@ -1,8 +1,21 @@
-import { FormProvider, RHFInput, useAuthenticatedUser } from "@/shared";
-import { Button, Checkbox, Stack, Text, useBoolean } from "@chakra-ui/react";
+import {
+  FormProvider,
+  RHFCurrency,
+  RHFInput,
+  RHFLanguage,
+  useAuthenticatedUser,
+} from "@/shared";
+import {
+  Button,
+  Checkbox,
+  SimpleGrid,
+  Stack,
+  Text,
+  useBoolean,
+} from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { OnSubmitProfile } from "../../utils/types";
 import { profileSchema } from "../../utils/yup";
 
@@ -22,6 +35,8 @@ export default function ProfileForm({ onSubmit, isLoading = false }: Props) {
     defaultValues: {
       email: user?.email,
       name: profile?.name ?? user?.user_metadata?.name,
+      language: profile?.language ?? "en",
+      currency: profile?.currency ?? "USD",
     },
   });
 
@@ -46,6 +61,10 @@ export default function ProfileForm({ onSubmit, isLoading = false }: Props) {
             </Text>
           </>
         )}
+        <SimpleGrid columns={2} gap={2}>
+          <RHFCurrency />
+          <RHFLanguage />
+        </SimpleGrid>
         <Button
           type="submit"
           w="fit-content"
