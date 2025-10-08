@@ -108,7 +108,8 @@ export default function TransactionsPage() {
         ],
       },
     ],
-    [categories, accounts, t],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [categories, accounts],
   );
 
   const filteredTransactions = useMemo(() => {
