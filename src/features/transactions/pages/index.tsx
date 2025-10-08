@@ -144,10 +144,8 @@ export default function TransactionsPage() {
     setDetailsRow(row || null);
   };
 
-  const isSmallScreen = useBreakpointValue(
-    { base: true, lg: false },
-    { ssr: false }
-  ) ?? false;
+  const isSmallScreen =
+    useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
   return (
     <>
