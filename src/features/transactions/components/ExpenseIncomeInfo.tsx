@@ -38,7 +38,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
     const controls = animate(displayBalance, balance, {
       duration: 0.5,
       ease: "linear",
-      onUpdate: (latest) => setDisplayBalance(Math.floor(latest)),
+      onUpdate: (latest) => setDisplayBalance(latest),
     });
     return () => controls.stop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
