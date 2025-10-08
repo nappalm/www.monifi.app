@@ -16,7 +16,7 @@ export const DragHandle = memo(function DragHandle({
   const handleBg = useColorModeValue(
     "cyan.500",
     transparentize("cyan.500", 0.5),
-  );
+  ) as string;
   const handleBgHover = useColorModeValue("cyan.600", "cyan.300");
 
   const direction = position === "top" ? "up" : "down";
@@ -24,7 +24,7 @@ export const DragHandle = memo(function DragHandle({
   return (
     <Box
       data-drag-handle
-      position="absolute !important"
+      position="absolute"
       left="50%"
       transform="translateX(-50%)"
       {...(position === "top" ? { top: "-2px" } : { bottom: "-2px" })}
@@ -50,6 +50,7 @@ export const DragHandle = memo(function DragHandle({
         transform: "translateX(-50%) scale(0.9)",
       }}
       sx={{
+        position: "absolute !important",
         boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
       }}
     />
