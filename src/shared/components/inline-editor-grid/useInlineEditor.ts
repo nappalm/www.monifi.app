@@ -16,6 +16,9 @@ export function useInlineEditor<T extends DataRow>({
   const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
+  const [dragDirection, setDragDirection] = useState<"up" | "down" | null>(
+    null
+  );
   const [dragStartCell, setDragStartCell] = useState<{
     row: number;
     col: number;
@@ -275,9 +278,27 @@ export function useInlineEditor<T extends DataRow>({
     [activeCell],
   );
 
+  const handleDragHandleStart = useCallback(
+    (
+      event: React.MouseEvent,
+      direction: "up" | "down",
+      rowIndex: number,
+      colIndex: number
+    ) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      setIsDragging(true);
+      setDragDirection(direction);
+      setDragStartCell({ row: rowIndex, col: colIndex });
+      setDragEndCell({ row: rowIndex, col: colIndex });
+    },
+    []
+  );
+
   const handleDragMove = useCallback(
     (event: MouseEvent) => {
-      if (!isDragging || !tableRef.current) return;
+      if (!isDragging || !tableRef.current || !dragStartCell) return;
 
       // Get the cell element under the mouse
       const targetElement = event.target as HTMLElement;
@@ -286,10 +307,25 @@ export function useInlineEditor<T extends DataRow>({
       if (cellElement) {
         const row = parseInt(cellElement.dataset.row || "0");
         const col = parseInt(cellElement.dataset.col || "0");
-        setDragEndCell({ row, col });
+
+        // Si hay una dirección de arrastre específica (desde los handles)
+        if (dragDirection) {
+          // Solo permitir arrastre en la misma columna
+          if (col === dragStartCell.col) {
+            // Validar la dirección del arrastre
+            if (dragDirection === "down" && row >= dragStartCell.row) {
+              setDragEndCell({ row, col });
+            } else if (dragDirection === "up" && row <= dragStartCell.row) {
+              setDragEndCell({ row, col });
+            }
+          }
+        } else {
+          // Arrastre normal (sin dirección específica)
+          setDragEndCell({ row, col });
+        }
       }
     },
-    [isDragging],
+    [isDragging, dragStartCell, dragDirection],
   );
 
   const handleDragEnd = useCallback(() => {
@@ -317,9 +353,10 @@ export function useInlineEditor<T extends DataRow>({
         onRowChange?.(newData[r], r);
       }
 
-      // Reset drag cells
+      // Reset drag cells and direction
       setDragStartCell(null);
       setDragEndCell(null);
+      setDragDirection(null);
     }
   }, [
     isDragging,
@@ -369,13 +406,17 @@ export function useInlineEditor<T extends DataRow>({
     );
     if (!cellElement) return { style: { display: "none" } };
 
-    const { offsetTop, offsetLeft, offsetWidth, offsetHeight } = cellElement;
+    const cellRect = cellElement.getBoundingClientRect();
+    const containerRect = tableRef.current?.getBoundingClientRect();
+
+    if (!containerRect) return { style: { display: "none" } };
+
     const style = {
       position: "absolute" as const,
-      top: offsetTop,
-      left: offsetLeft,
-      width: offsetWidth,
-      height: offsetHeight,
+      top: cellRect.top - containerRect.top,
+      left: cellRect.left - containerRect.left,
+      width: cellRect.width,
+      height: cellRect.height,
       zIndex: 1,
     };
 
@@ -403,6 +444,7 @@ export function useInlineEditor<T extends DataRow>({
     getCellProps,
     getInputProps,
     handleDragStart,
+    handleDragHandleStart,
     isDragging,
     dragStartCell,
     dragEndCell,

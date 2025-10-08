@@ -1,7 +1,8 @@
-import { Td } from "@chakra-ui/react";
+import { Td, useColorModeValue } from "@chakra-ui/react";
 import { memo } from "react";
 import { formatCurrency } from "@/shared/utils/formats";
 import type { DataRow } from "./types";
+import { DragHandle } from "./DragHandle";
 
 interface InlineEditableCellProps<T extends DataRow> {
   row: T;
@@ -18,6 +19,14 @@ interface InlineEditableCellProps<T extends DataRow> {
   cyanTransparent50: string;
   cyanTransparent70: string;
   currency: string;
+  onDragHandleStart: (
+    e: React.MouseEvent,
+    direction: "up" | "down",
+    rowIndex: number,
+    colIndex: number
+  ) => void;
+  isInDragRange: boolean;
+  isDragging: boolean;
 }
 
 function InlineEditableCellComponent<T extends DataRow>({
@@ -35,9 +44,18 @@ function InlineEditableCellComponent<T extends DataRow>({
   cyanTransparent50,
   cyanTransparent70,
   currency,
+  onDragHandleStart,
+  isInDragRange,
+  isDragging,
 }: InlineEditableCellProps<T>) {
   const isNumericColumn =
     (column.accessor as string) === "amount" || column.isAmount;
+
+  const handleDragStart = (e: React.MouseEvent, direction: "up" | "down") => {
+    onDragHandleStart(e, direction, rowIndex, colIndex);
+  };
+
+  const dragRangeBg = useColorModeValue("cyan.200", "cyan.800");
 
   return (
     <Td
@@ -50,6 +68,14 @@ function InlineEditableCellComponent<T extends DataRow>({
         cursor: "cell",
         position: "relative",
         fontFamily: "Roboto Mono",
+        overflow: "visible !important",
+        // Borde y background cuando está en rango de arrastre
+        ...(isInDragRange &&
+          isDragging && {
+            boxShadow: "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
+            background: `${dragRangeBg} !important`,
+            borderRadius: "md",
+          }),
 
         "&::after": {
           content: '""',
@@ -75,7 +101,7 @@ function InlineEditableCellComponent<T extends DataRow>({
           boxShadow: `0 0 15px 3px ${cyanTransparent70}`,
         },
 
-        "> *": {
+        "> *:not([data-drag-handle])": {
           position: "relative",
           zIndex: 2,
         },
@@ -100,6 +126,20 @@ function InlineEditableCellComponent<T extends DataRow>({
         }
         return cellValue;
       })()}{" "}
+      {isCellActive && !shouldShowInput && (
+        <>
+          <DragHandle
+            position="top"
+            onDragStart={handleDragStart}
+            isVisible={true}
+          />
+          <DragHandle
+            position="bottom"
+            onDragStart={handleDragStart}
+            isVisible={true}
+          />
+        </>
+      )}
     </Td>
   );
 }
