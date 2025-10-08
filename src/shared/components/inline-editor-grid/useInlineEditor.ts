@@ -17,7 +17,7 @@ export function useInlineEditor<T extends DataRow>({
   const [inputValue, setInputValue] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
   const [dragDirection, setDragDirection] = useState<"up" | "down" | null>(
-    null
+    null,
   );
   const [dragStartCell, setDragStartCell] = useState<{
     row: number;
@@ -283,7 +283,7 @@ export function useInlineEditor<T extends DataRow>({
       event: React.MouseEvent,
       direction: "up" | "down",
       rowIndex: number,
-      colIndex: number
+      colIndex: number,
     ) => {
       event.preventDefault();
       event.stopPropagation();
@@ -293,7 +293,7 @@ export function useInlineEditor<T extends DataRow>({
       setDragStartCell({ row: rowIndex, col: colIndex });
       setDragEndCell({ row: rowIndex, col: colIndex });
     },
-    []
+    [],
   );
 
   const handleDragMove = useCallback(

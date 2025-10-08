@@ -23,7 +23,7 @@ interface InlineEditableCellProps<T extends DataRow> {
     e: React.MouseEvent,
     direction: "up" | "down",
     rowIndex: number,
-    colIndex: number
+    colIndex: number,
   ) => void;
   isInDragRange: boolean;
   isDragging: boolean;
@@ -72,7 +72,8 @@ function InlineEditableCellComponent<T extends DataRow>({
         // Borde y background cuando está en rango de arrastre
         ...(isInDragRange &&
           isDragging && {
-            boxShadow: "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
+            boxShadow:
+              "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
             background: `${dragRangeBg} !important`,
             borderRadius: "md",
           }),
@@ -118,7 +119,7 @@ function InlineEditableCellComponent<T extends DataRow>({
       {(() => {
         if (column.render) {
           return column.render(cellValue, row, (newValue: any) =>
-            updateCell(rowIndex, colIndex, newValue)
+            updateCell(rowIndex, colIndex, newValue),
           );
         }
         if (column.isAmount) {
@@ -145,5 +146,5 @@ function InlineEditableCellComponent<T extends DataRow>({
 }
 
 export const InlineEditableCell = memo(
-  InlineEditableCellComponent
+  InlineEditableCellComponent,
 ) as typeof InlineEditableCellComponent;
