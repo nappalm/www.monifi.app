@@ -1,5 +1,5 @@
-import { useSignUpWithEmail } from "@/shared";
-import { Button, Container, Image, Stack, Text } from "@chakra-ui/react";
+import { Logo, useSignUpWithEmail } from "@/shared";
+import { Button, Container, Stack, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import SignUpForm from "../components/SignUpForm";
 import { AUTH_PATHS } from "../router";
@@ -10,7 +10,7 @@ export default function SignUpPage() {
   if (email.isSuccess) {
     return (
       <Stack justify="center" align="center" h="full">
-        <Image src="/logo.png" alt="logo" height="32px" width="32px" />
+        <Logo h="50px" w="50px" />
         <Container maxW="400px" textAlign="center">
           <Stack align="center">
             <Text fontSize="lg">Thank you for registering with us!</Text>
@@ -37,7 +37,11 @@ export default function SignUpPage() {
   return (
     <Stack justify="center" align="center" h="full">
       <Container maxW="400px">
-        <SignUpForm onSubmit={email.mutate} isLoading={email.isPending} />
+        <SignUpForm
+          onSubmit={email.mutate}
+          isLoading={email.isPending}
+          error={email?.error?.message}
+        />
       </Container>
     </Stack>
   );

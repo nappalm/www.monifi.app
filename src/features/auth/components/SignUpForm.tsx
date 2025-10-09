@@ -1,6 +1,14 @@
 import { FormProvider, RHFInput } from "@/shared";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Heading,
+  Link,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import { AUTH_PATHS } from "../router/paths";
@@ -9,10 +17,11 @@ import { emailPasswordSchema } from "../utils/yup";
 
 type Props = {
   isLoading?: boolean;
+  error?: string;
   onSubmit: (values: OnSubmitEmailPassword) => void;
 };
 
-export default function SignUpForm({ onSubmit, isLoading }: Props) {
+export default function SignUpForm({ onSubmit, isLoading, error }: Props) {
   const methods = useForm<OnSubmitEmailPassword>({
     defaultValues: {
       email: "",
@@ -35,6 +44,12 @@ export default function SignUpForm({ onSubmit, isLoading }: Props) {
         <Stack>
           <RHFInput name="email" label="Email" />
           <RHFInput name="password" label="Password" type="password" />
+          {error && (
+            <Alert status="error">
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
           <Button type="submit" isLoading={isLoading}>
             Sign Up
           </Button>
