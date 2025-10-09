@@ -28,6 +28,9 @@ import {
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
+  IconCircle,
+  IconCircleFilled,
+  IconDivide,
   IconLineHeight,
   IconReceiptDollarFilled,
   IconTagFilled,
@@ -209,29 +212,31 @@ export default function TransactionsPage() {
                 areFiltersActive={areFiltersActive}
               />
               <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
-            </HStack>
-            <HStack gap="1px">
+              <IconCircleFilled
+                size={10}
+                style={{ opacity: 0.2, margin: "0 10px 0 10px" }}
+              />
               <UndoRedoButtons
                 onUndo={handleUndo}
                 onRedo={handleRedo}
                 canUndo={canUndo}
                 canRedo={canRedo}
               />
-              <Button
-                colorScheme="cyan"
-                size="sm"
-                leftIcon={<IconArrowBarToDownDashed size={16} />}
-                onClick={handleNewRow}
-                isLoading={createTransaction.isPending}
-                rightIcon={
-                  <Text fontSize="xs" opacity={0.5}>
-                    Ctrl + I
-                  </Text>
-                }
-              >
-                {t("transactions.newRow")}
-              </Button>
             </HStack>
+            <Button
+              colorScheme="cyan"
+              size="sm"
+              leftIcon={<IconArrowBarToDownDashed size={16} />}
+              onClick={handleNewRow}
+              isLoading={createTransaction.isPending}
+              rightIcon={
+                <Text fontSize="xs" opacity={0.5}>
+                  Ctrl + I
+                </Text>
+              }
+            >
+              {t("transactions.newRow")}
+            </Button>
           </HStack>
           <TransactionsTable
             data={filteredTransactions || []}

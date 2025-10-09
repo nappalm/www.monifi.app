@@ -108,6 +108,10 @@
     },
     "userInformation": {
       "personalAccount": "Your personal account"
+    },
+    "undoRedoButtons": {
+      "undo": "Undo",
+      "redo": "Redo"
     }
   },
   "onboarding": {

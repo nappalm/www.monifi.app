@@ -108,6 +108,10 @@
     },
     "userInformation": {
       "personalAccount": "Tu cuenta personal"
+    },
+    "undoRedoButtons": {
+      "undo": "Deshacer",
+      "redo": "Rehacer"
     }
   },
   "onboarding": {

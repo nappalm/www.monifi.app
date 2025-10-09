@@ -1,5 +1,6 @@
-import { ButtonGroup, IconButton } from "@chakra-ui/react";
+import { ButtonGroup, IconButton, Tooltip } from "@chakra-ui/react";
 import { IconRotate2, IconRotateClockwise2 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 interface UndoRedoButtonsProps {
   onUndo: () => void;
@@ -14,24 +15,30 @@ export default function UndoRedoButtons({
   canUndo,
   canRedo,
 }: UndoRedoButtonsProps) {
+  const { t } = useTranslation();
+
   return (
     <ButtonGroup spacing="1px">
-      <IconButton
-        aria-label="Undo"
-        borderRightRadius={0}
-        size="sm"
-        icon={<IconRotate2 size={18} />}
-        onClick={onUndo}
-        isDisabled={!canUndo}
-      />
-      <IconButton
-        aria-label="Redo"
-        borderLeftRadius={0}
-        size="sm"
-        icon={<IconRotateClockwise2 size={18} />}
-        onClick={onRedo}
-        isDisabled={!canRedo}
-      />
+      <Tooltip label={t("components.undoRedoButtons.undo")}>
+        <IconButton
+          aria-label="Undo"
+          borderRightRadius={0}
+          size="sm"
+          icon={<IconRotate2 size={18} />}
+          onClick={onUndo}
+          isDisabled={!canUndo}
+        />
+      </Tooltip>
+      <Tooltip label={t("components.undoRedoButtons.redo")}>
+        <IconButton
+          aria-label="Redo"
+          borderLeftRadius={0}
+          size="sm"
+          icon={<IconRotateClockwise2 size={18} />}
+          onClick={onRedo}
+          isDisabled={!canRedo}
+        />
+      </Tooltip>
     </ButtonGroup>
   );
 }

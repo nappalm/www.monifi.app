@@ -112,6 +112,7 @@ const variantStripe = definePartsStyle((props) => {
             borderColor: mode(`${c}.200`, `${c}.800`)(props),
             borderLeftWidth: 0,
             borderBottomWidth: 0,
+            borderTopWidth: 0,
           },
         },
 
