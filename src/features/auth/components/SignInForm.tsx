@@ -1,4 +1,4 @@
-import { FormProvider, RHFInput } from "@/shared";
+import { FormProvider, Logo, RHFInput } from "@/shared";
 import { Button, Heading, HStack, Link, Stack, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
@@ -33,7 +33,10 @@ export default function SignInForm({
 
   return (
     <Stack>
-      <Heading mb={4}>Sign In</Heading>
+      <Stack align="center">
+        <Logo h="30px" w="30px" />
+        <Heading mb={4}>Sign In</Heading>
+      </Stack>
       <FormProvider
         methods={methods}
         onSubmit={methods.handleSubmit(handleSignIn)}
@@ -47,7 +50,7 @@ export default function SignInForm({
             </Link>
           </HStack>
           <Button type="submit" colorScheme="cyan" isLoading={isLoading}>
-            Submit
+            Sign In
           </Button>
         </Stack>
       </FormProvider>

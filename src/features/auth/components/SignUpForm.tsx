@@ -1,4 +1,4 @@
-import { FormProvider, RHFInput } from "@/shared";
+import { FormProvider, Logo, RHFInput } from "@/shared";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Alert,
@@ -9,19 +9,26 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import { AUTH_PATHS } from "../router/paths";
-import { OnSubmitEmailPassword } from "../utils/types";
+import { OnSubmitEmailPassword, OnSubmitOAuth } from "../utils/types";
 import { emailPasswordSchema } from "../utils/yup";
 
 type Props = {
   isLoading?: boolean;
   error?: string;
   onSubmit: (values: OnSubmitEmailPassword) => void;
+  onSubmitOAuth: (provider: OnSubmitOAuth) => void;
 };
 
-export default function SignUpForm({ onSubmit, isLoading, error }: Props) {
+export default function SignUpForm({
+  onSubmit,
+  onSubmitOAuth,
+  isLoading,
+  error,
+}: Props) {
   const methods = useForm<OnSubmitEmailPassword>({
     defaultValues: {
       email: "",
@@ -36,7 +43,11 @@ export default function SignUpForm({ onSubmit, isLoading, error }: Props) {
 
   return (
     <Stack>
-      <Heading mb={4}>Sign Up</Heading>
+      <Stack align="center">
+        <Logo h="30px" w="30px" />
+        <Heading mb={4}>Sign Up</Heading>
+        <Text color="gray.500">Sign up with your email and password</Text>
+      </Stack>
       <FormProvider
         methods={methods}
         onSubmit={methods.handleSubmit(handleSignUp)}
@@ -50,11 +61,26 @@ export default function SignUpForm({ onSubmit, isLoading, error }: Props) {
               {error}
             </Alert>
           )}
-          <Button type="submit" isLoading={isLoading}>
+          <Button type="submit" isLoading={isLoading} colorScheme="cyan">
             Sign Up
           </Button>
         </Stack>
       </FormProvider>
+
+      <Text mt={4} textAlign="center">
+        Or sign up with:
+      </Text>
+
+      <Stack mt={4} justify="center">
+        <Button
+          onClick={() => onSubmitOAuth("google")}
+          isLoading={isLoading}
+          leftIcon={<IconBrandGoogleFilled size={18} />}
+        >
+          Google
+        </Button>
+      </Stack>
+
       <Text mt={4} textAlign="center">
         Already have an account?{" "}
         <Link as={RouterLink} to={AUTH_PATHS.signIn} color="cyan.500">

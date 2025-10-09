@@ -1,9 +1,10 @@
+import { TRANSACTIONS_PATHS } from "@/features/transactions";
 import { useSignInWithEmail, useSignInWithOAuth } from "@/shared";
-import { Container, Stack } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import BackgroundImage from "../components/BackgroundImage";
 import SignInForm from "../components/SignInForm";
-import { TRANSACTIONS_PATHS } from "@/features/transactions";
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -17,14 +18,14 @@ export default function SignInPage() {
 
   const isLoading = email.isPending || oauth.isPending;
   return (
-    <Stack justify="center" align="center" h="full">
-      <Container maxW="400px">
+    <BackgroundImage>
+      <Container maxW="400px" position="relative" zIndex={1}>
         <SignInForm
           onSubmitOAuth={oauth.mutate}
           onSubmitEmailPassword={email.mutate}
           isLoading={isLoading}
         />
       </Container>
-    </Stack>
+    </BackgroundImage>
   );
 }
