@@ -143,6 +143,7 @@ export default function TransactionsTable({
       sx: {
         w: "120px",
         minW: "120px",
+        fontFamily: "Roboto Mono",
       },
     },
     {

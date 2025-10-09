@@ -13,7 +13,6 @@ const baseStyle = definePartsStyle({
     fontVariantNumeric: "lining-nums tabular-nums",
     borderCollapse: "collapse",
     width: "full",
-    fontFamily: "Roboto Mono",
   },
   th: {
     fontFamily: "heading",

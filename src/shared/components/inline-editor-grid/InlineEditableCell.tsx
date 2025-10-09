@@ -17,7 +17,6 @@ interface InlineEditableCellProps<T extends DataRow> {
   updateCell: (row: number, col: number, value: any) => void;
   cyanTransparent: string;
   cyanTransparent50: string;
-  cyanTransparent70: string;
   currency: string;
   onDragHandleStart: (
     e: React.MouseEvent,
@@ -42,7 +41,6 @@ function InlineEditableCellComponent<T extends DataRow>({
   updateCell,
   cyanTransparent,
   cyanTransparent50,
-  cyanTransparent70,
   currency,
   onDragHandleStart,
   isInDragRange,
@@ -67,7 +65,6 @@ function InlineEditableCellComponent<T extends DataRow>({
         outline: "none",
         cursor: "cell",
         position: "relative",
-        fontFamily: "Roboto Mono",
         overflow: "visible !important",
         // Borde y background cuando está en rango de arrastre
         ...(isInDragRange &&
