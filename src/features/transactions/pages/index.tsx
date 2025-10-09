@@ -148,16 +148,22 @@ export default function TransactionsPage() {
   };
 
   const handleUndo = () => {
-    const previousState = undo();
-    if (previousState) {
-      updateTransaction.mutate(previousState);
+    const previousStates = undo();
+    if (previousStates && previousStates.length > 0) {
+      // Aplicar todos los cambios en batch
+      previousStates.forEach((state) => {
+        updateTransaction.mutate(state);
+      });
     }
   };
 
   const handleRedo = () => {
-    const nextState = redo();
-    if (nextState) {
-      updateTransaction.mutate(nextState);
+    const nextStates = redo();
+    if (nextStates && nextStates.length > 0) {
+      // Aplicar todos los cambios en batch
+      nextStates.forEach((state) => {
+        updateTransaction.mutate(state);
+      });
     }
   };
 

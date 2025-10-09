@@ -1,6 +1,10 @@
 import { Tables } from "@/lib/supabase/database.types";
 import { formatCurrency, formatDate } from "@/shared";
-import { useAccounts, useCategories, useAuthenticatedUser } from "@/shared/hooks";
+import {
+  useAccounts,
+  useCategories,
+  useAuthenticatedUser,
+} from "@/shared/hooks";
 import {
   Box,
   Card,
