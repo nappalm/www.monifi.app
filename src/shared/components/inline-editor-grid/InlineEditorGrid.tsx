@@ -64,6 +64,7 @@ export function InlineEditorGrid<T extends DataRow>({
       borderColor: "cyan.500",
       background: "cyan.800",
       borderRadius: "md",
+      color: "cyan.500",
     }),
     [],
   );

@@ -99,7 +99,11 @@ function InlineEditableCellComponent<T extends DataRow>({
         "&:hover::after, &[data-active='true']::after": {
           opacity: 1,
           transform: "scale(1)",
-          boxShadow: `0 0 15px 3px ${cyanTransparent70}`,
+          boxShadow: "none",
+        },
+
+        "&[data-active='true']": {
+          color: "cyan.500",
         },
 
         "> *:not([data-drag-handle])": {
