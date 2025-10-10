@@ -89,13 +89,11 @@ const variantStripe = definePartsStyle((props) => {
     },
     td: {
       borderWidth: "1px",
+      borderLeftWidth: 0,
       borderStyle: "solid",
       borderColor: mode(`${c}.200`, `${c}.800`)(props),
       "&:last-of-type": {
         borderRight: 0,
-      },
-      "&:first-of-type": {
-        borderLeftWidth: 0,
       },
       ...numericStyles,
     },
@@ -109,7 +107,6 @@ const variantStripe = definePartsStyle((props) => {
           td: {
             background: stripedBg,
             borderColor: mode(`${c}.200`, `${c}.800`)(props),
-            borderLeftWidth: 0,
             borderBottomWidth: 0,
             borderTopWidth: 0,
           },
