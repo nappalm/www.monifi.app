@@ -19,7 +19,6 @@ import {
   IconChevronDown,
   IconDiamondFilled,
   IconLogout,
-  IconMessage,
   IconSettings,
   IconUserFilled,
 } from "@tabler/icons-react";
@@ -98,13 +97,12 @@ export default function UserMenu() {
           >
             {t("components.userMenu.profileSettings")}
           </MenuItem>
-          <MenuDivider />
           <MenuItem icon={<IconBug size={18} />} onClick={reports.onToggle}>
             {t("components.userMenu.reportProblem")}
           </MenuItem>
-          <MenuItem icon={<IconMessage size={18} />}>
-            {t("components.userMenu.sendComments")}
-          </MenuItem>
+          {/* <MenuItem icon={<IconMessage size={18} />}> */}
+          {/*   {t("components.userMenu.sendComments")} */}
+          {/* </MenuItem> */}
           <MenuDivider />
           <MenuItem
             onClick={() => signOut()}
