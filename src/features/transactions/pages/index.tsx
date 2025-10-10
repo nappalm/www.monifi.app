@@ -28,9 +28,7 @@ import {
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
-  IconCircle,
   IconCircleFilled,
-  IconDivide,
   IconLineHeight,
   IconReceiptDollarFilled,
   IconTagFilled,
