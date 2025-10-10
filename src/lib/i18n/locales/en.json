@@ -41,6 +41,8 @@
     },
     "userMenu": {
       "profileSettings": "Profile settings",
+      "reportProblem": "Report a problem",
+      "sendComments": "Send comments",
       "logout": "Logout"
     },
     "toggleThemeButton": {
@@ -112,6 +114,36 @@
     "undoRedoButtons": {
       "undo": "Undo",
       "redo": "Redo"
+    },
+    "reportProblem": {
+      "title": "Report a problem",
+      "form": {
+        "label": "Describe the problem",
+        "placeholder": "Describe the problem you encountered...",
+        "submitButton": "Send report",
+        "cancel": "Cancel",
+        "thankYouMessage": "Thank you for your report. Your feedback is very valuable to us and helps us improve continuously. We will analyze your case as soon as possible and work on a solution."
+      },
+      "validation": {
+        "required": "Please describe the problem",
+        "minLength": "The description must be at least 10 characters",
+        "maxLength": "The description cannot exceed 1000 characters"
+      },
+      "toast": {
+        "successTitle": "Report sent",
+        "successDescription": "Your report has been sent successfully. Thank you for your collaboration.",
+        "errorTitle": "Error sending report",
+        "errorDescription": "There was a problem sending your report. Please try again."
+      },
+      "list": {
+        "problem": "Problem",
+        "status": "Status",
+        "date": "Date",
+        "noReports": "You haven't sent any reports yet.",
+        "loadError": "Error loading reports",
+        "statusPending": "Pending",
+        "statusResolved": "Resolved"
+      }
     }
   },
   "onboarding": {

@@ -13,16 +13,13 @@ import {
   IconAsterisk,
   IconChevronDown,
   IconChevronUp,
-  IconCreditCard,
   IconFingerprint,
   IconForbid,
-  IconPlanet,
-  IconReceiptDollar,
   IconUserSquareRounded,
 } from "@tabler/icons-react";
 import { FC, ReactElement, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link, useLocation } from "react-router-dom";
 
 type ButtonProps = {
   size: string;
@@ -67,26 +64,26 @@ const sidebarItems = (subscription: string, t: any): SidebarItem[] => [
     icon: <IconUserSquareRounded {...iconProps} />,
     path: SETTINGS_PATHS.myProfile,
   },
-  {
-    title: t("components.settingsSidebar.plansAndPayments"),
-    isHeader: true,
-  },
-  {
-    title: t("components.settingsSidebar.licensing"),
-    path: SETTINGS_PATHS.licensing,
-    icon: <IconPlanet {...iconProps} />,
-    badge: subscription,
-  },
-  {
-    title: t("components.settingsSidebar.paymentInformation"),
-    path: SETTINGS_PATHS.paymentInformation,
-    icon: <IconCreditCard {...iconProps} />,
-  },
-  {
-    title: t("components.settingsSidebar.paymentHistory"),
-    path: SETTINGS_PATHS.paymentHistory,
-    icon: <IconReceiptDollar {...iconProps} />,
-  },
+  // {
+  //   title: t("components.settingsSidebar.plansAndPayments"),
+  //   isHeader: true,
+  // },
+  // {
+  //   title: t("components.settingsSidebar.licensing"),
+  //   path: SETTINGS_PATHS.licensing,
+  //   icon: <IconPlanet {...iconProps} />,
+  //   badge: subscription,
+  // },
+  // {
+  //   title: t("components.settingsSidebar.paymentInformation"),
+  //   path: SETTINGS_PATHS.paymentInformation,
+  //   icon: <IconCreditCard {...iconProps} />,
+  // },
+  // {
+  //   title: t("components.settingsSidebar.paymentHistory"),
+  //   path: SETTINGS_PATHS.paymentHistory,
+  //   icon: <IconReceiptDollar {...iconProps} />,
+  // },
   {
     title: t("components.settingsSidebar.passwordAndAuthentication"),
     isHeader: true,
