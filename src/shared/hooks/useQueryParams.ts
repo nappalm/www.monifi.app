@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-type ParamsObject = Record<string, string | number | boolean | null | undefined>;
+type ParamsObject = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
 
 const useQueryParams = (defaultParams: ParamsObject = {}) => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -150,7 +150,7 @@ export default function TopAccountsChart({
                 onMouseMove={(state) => {
                   if (state.isTooltipActive) {
                     const index = state.activeTooltipIndex;
-                    setActiveIndex(typeof index === 'number' ? index : null);
+                    setActiveIndex(typeof index === "number" ? index : null);
                   } else {
                     setActiveIndex(null);
                   }

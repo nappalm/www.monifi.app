@@ -28,10 +28,15 @@ export default function SpendingByCategoryChart({ transactions = [] }: Props) {
 
   const data = useMemo(() => {
     const spending = transactions
-      .filter((transaction) => transaction.type === "expense" && transaction.category_id)
+      .filter(
+        (transaction) =>
+          transaction.type === "expense" && transaction.category_id,
+      )
       .reduce(
         (acc, transaction) => {
-          const category = categories?.find((c) => c.id === transaction.category_id);
+          const category = categories?.find(
+            (c) => c.id === transaction.category_id,
+          );
           const key = category?.name || t("statistics.labels.uncategorized");
           acc[key] = (acc[key] || 0) + transaction.amount;
           return acc;

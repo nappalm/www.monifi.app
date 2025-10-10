@@ -126,7 +126,10 @@ export default function AccountInfo({ transactions }: Props) {
                     <Stack gap={0}>
                       <Text>{currentAccount.name}</Text>
                       <Text fontFamily="Roboto Mono" fontSize="xs">
-                        {formatCurrency(currentAccount.total, profile?.currency)}
+                        {formatCurrency(
+                          currentAccount.total,
+                          profile?.currency,
+                        )}
                       </Text>
                     </Stack>
                   </HStack>
