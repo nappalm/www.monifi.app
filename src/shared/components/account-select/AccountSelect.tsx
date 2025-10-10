@@ -99,6 +99,7 @@ export default function AccountSelect({
         as={Button}
         leftIcon={<IconWallet size={13} />}
         w="full"
+        cursor="default"
         textAlign="left"
         pl={2}
         borderRadius="inherit"

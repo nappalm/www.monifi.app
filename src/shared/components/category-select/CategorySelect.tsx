@@ -77,6 +77,7 @@ export default function CategorySelect({
         variant="unstyled"
         as={Button}
         leftIcon={<IconTag size={13} />}
+        cursor="default"
         w="full"
         textAlign="left"
         pl={2}

@@ -56,6 +56,7 @@ export default function TypeSelect({ defaultValue, value, onChange }: Props) {
         variant="unstyled"
         as={Button}
         leftIcon={selected?.icon}
+        cursor="default"
         w="full"
         borderRadius="inherit"
         fontWeight="semibold"

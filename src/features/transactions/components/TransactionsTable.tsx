@@ -150,6 +150,7 @@ export default function TransactionsTable({
       header: "",
       accessor: "options",
       isEditable: false,
+      isDraggable: false,
       sx: {
         w: "10px",
         opacity: 0.5,
