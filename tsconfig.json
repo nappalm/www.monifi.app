@@ -25,5 +25,6 @@
     }
   },
   "include": ["src", ".plop"],
+  "exclude": ["src/lib/supabase/functions/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

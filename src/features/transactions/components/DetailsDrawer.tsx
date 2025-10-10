@@ -77,7 +77,7 @@ export const DetailsDrawer = ({
                     </Stack>
                     <Stack gap={0} align="flex-end">
                       <Text fontSize="md" fontWeight="bold">
-                        {formatCurrency(transaction.amount, profile.currency)}
+                        {formatCurrency(transaction.amount, profile?.currency)}
                       </Text>
                       <Text fontSize="sm" color="gray.500">
                         {t("transactions.details.amount")}

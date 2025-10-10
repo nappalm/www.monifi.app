@@ -48,12 +48,12 @@ export default function TopExpensesChart({
 
   const data = useMemo(() => {
     const spending = transactions
-      .filter((t) => t.type === "expense" && t.category_id)
+      .filter((transaction) => transaction.type === "expense" && transaction.category_id)
       .reduce(
-        (acc, t) => {
-          const category = categories?.find((c) => c.id === t.category_id);
+        (acc, transaction) => {
+          const category = categories?.find((c) => c.id === transaction.category_id);
           const key = category?.name || t("statistics.labels.uncategorized");
-          acc[key] = (acc[key] || 0) + t.amount;
+          acc[key] = (acc[key] || 0) + transaction.amount;
           return acc;
         },
         {} as Record<string, number>,
@@ -101,7 +101,7 @@ export default function TopExpensesChart({
     while (displayData.length < minLength) {
       displayData.push({
         name: `__pad__${displayData.length}`,
-        value: undefined,
+        value: 0,
       });
     }
   }

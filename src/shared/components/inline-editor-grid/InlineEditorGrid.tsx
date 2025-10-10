@@ -173,7 +173,6 @@ export function InlineEditorGrid<T extends DataRow>({
                 updateCell={updateCell}
                 cyanTransparent={cyanTransparent}
                 cyanTransparent50={cyanTransparent50}
-                cyanTransparent70={cyanTransparent70}
                 currency={profile?.currency ?? "USD"}
                 onDragHandleStart={handleDragHandleStart}
                 isInDragRange={isInDragRange}

@@ -75,7 +75,6 @@ export default function TypeSelect({ defaultValue, value, onChange }: Props) {
             <MenuItem
               key={t.value}
               icon={t.icon}
-              color={t.color}
               onClick={() => handleTypeChange(t.value as "income" | "expense")}
             >
               {t.label}

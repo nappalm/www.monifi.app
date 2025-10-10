@@ -70,7 +70,7 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
                 {category.name}
               </Text>
               <Tooltip
-                label={formatCurrency(category.total, profile.currency)}
+                label={formatCurrency(category.total, profile?.currency)}
                 fontFamily="Roboto Mono"
                 hasArrow
                 placement="right"

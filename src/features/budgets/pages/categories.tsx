@@ -46,7 +46,7 @@ export default function BudgetCategories() {
 
   const handleNewRow = () => {
     const newRow = {
-      id: data.length + 1,
+      id: String(data.length + 1),
       rowNumber: `#${data.length + 1}`,
       category: "",
       description: "",

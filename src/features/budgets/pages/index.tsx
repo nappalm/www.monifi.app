@@ -47,6 +47,8 @@ export default function Budgets() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleNew = (values: OnSubmitBudget) => {
+    // eslint-disable-next-line prettier/prettier
+    console.log({ values });
     navigate("/budgets/1/categories");
   };
 

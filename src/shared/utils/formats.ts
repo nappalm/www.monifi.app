@@ -18,17 +18,18 @@ const currencyLocaleMap: Record<string, string> = {
 
 export const formatCurrency = (
   value: number,
-  currency: string,
+  currency?: string,
   locale?: string,
 ) => {
   const formattedValue = value;
+  const usedCurrency = currency || "USD";
 
   // Usar el locale específico de la moneda si no se proporciona uno
-  const usedLocale = locale || currencyLocaleMap[currency] || "en-US";
+  const usedLocale = locale || currencyLocaleMap[usedCurrency] || "en-US";
 
   const formatter = new Intl.NumberFormat(usedLocale, {
     style: "currency",
-    currency,
+    currency: usedCurrency,
     currencyDisplay: "narrowSymbol",
   });
 

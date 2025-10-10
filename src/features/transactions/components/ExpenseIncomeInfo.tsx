@@ -50,7 +50,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
         <Stack>
           <Stack align="center" py={5} gap={0}>
             <Heading fontFamily="Roboto Mono" letterSpacing="-2px">
-              {formatCurrency(displayBalance, profile.currency)}
+              {formatCurrency(displayBalance, profile?.currency)}
             </Heading>
             <Text fontSize="sm" color="gray.500">
               {t("transactions.summary.balance")}
@@ -66,7 +66,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
                 </Text>
               </HStack>
               <Text fontSize="xs" fontFamily="Roboto Mono">
-                {formatCurrency(incomes, profile.currency)}
+                {formatCurrency(incomes, profile?.currency)}
               </Text>
             </HStack>
             <Divider />
@@ -78,7 +78,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
                 </Text>
               </HStack>
               <Text fontSize="xs" fontFamily="Roboto Mono">
-                {formatCurrency(expenses, profile.currency)}
+                {formatCurrency(expenses, profile?.currency)}
               </Text>
             </HStack>
           </Stack>

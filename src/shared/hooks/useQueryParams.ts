@@ -1,31 +1,38 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const useQueryParams = (defaultParams = {}) => {
+type ParamsObject = Record<string, string | number | boolean | null | undefined>;
+
+const useQueryParams = (defaultParams: ParamsObject = {}) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { hasOwnProperty } = Object.prototype;
 
-  const setParams = (newParams) => {
+  const setParams = (newParams: ParamsObject) => {
     const currentParams = Object.fromEntries(searchParams.entries());
     const mergedParams = { ...defaultParams, ...currentParams, ...newParams };
 
+    const cleanedParams: Record<string, string> = {};
     Object.keys(mergedParams).forEach((key) => {
-      if (mergedParams[key] === null || mergedParams[key] === undefined) {
-        delete mergedParams[key];
+      const value = mergedParams[key];
+      if (value !== null && value !== undefined) {
+        cleanedParams[key] = String(value);
       }
     });
 
-    setSearchParams(mergedParams, { replace: true });
+    setSearchParams(cleanedParams, { replace: true });
   };
 
   useEffect(() => {
     const currentParams = Object.fromEntries(searchParams.entries());
-    const missingDefaults = {};
+    const missingDefaults: Record<string, string> = {};
 
     Object.keys(defaultParams).forEach((key) => {
       if (!hasOwnProperty.call(currentParams, key)) {
-        missingDefaults[key] = defaultParams[key];
+        const value = defaultParams[key];
+        if (value !== null && value !== undefined) {
+          missingDefaults[key] = String(value);
+        }
       }
     });
 

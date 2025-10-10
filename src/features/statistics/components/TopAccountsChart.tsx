@@ -111,8 +111,8 @@ export default function TopAccountsChart({
     while (displayData.length < minLength) {
       displayData.push({
         name: `__pad__${displayData.length}`,
-        income: undefined,
-        expense: undefined,
+        income: 0,
+        expense: 0,
       });
     }
   }
@@ -149,7 +149,8 @@ export default function TopAccountsChart({
                 barGap={10}
                 onMouseMove={(state) => {
                   if (state.isTooltipActive) {
-                    setActiveIndex(state.activeTooltipIndex);
+                    const index = state.activeTooltipIndex;
+                    setActiveIndex(typeof index === 'number' ? index : null);
                   } else {
                     setActiveIndex(null);
                   }
