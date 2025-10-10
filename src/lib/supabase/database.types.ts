@@ -203,6 +203,33 @@ export type Database = {
         };
         Relationships: [];
       };
+      reports: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          problem: string;
+          status: Database["public"]["Enums"]["report_status"];
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          problem: string;
+          status?: Database["public"]["Enums"]["report_status"];
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string | null;
+          problem?: string;
+          status?: Database["public"]["Enums"]["report_status"];
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       stripe_customers: {
         Row: {
           created_at: string | null;
@@ -393,6 +420,7 @@ export type Database = {
       budget_repeat: "day" | "week" | "month" | "year";
       locale: "es" | "en";
       notification_type: "error" | "info" | "warning";
+      report_status: "pending" | "resolved";
       transaction_type: "income" | "expense";
     };
     CompositeTypes: {
@@ -527,6 +555,7 @@ export const Constants = {
       budget_repeat: ["day", "week", "month", "year"],
       locale: ["es", "en"],
       notification_type: ["error", "info", "warning"],
+      report_status: ["pending", "resolved"],
       transaction_type: ["income", "expense"],
     },
   },

@@ -39,6 +39,7 @@ export default function DatePickerSelect({
         variant="unstyled"
         as={Button}
         w="full"
+        cursor="default"
         borderRadius="inherit"
         fontWeight="semibold"
         leftIcon={<IconCalendarFilled size={13} />}

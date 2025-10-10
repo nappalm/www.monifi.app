@@ -11,9 +11,11 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import {
+  IconBug,
   IconChevronDown,
   IconDiamondFilled,
   IconLogout,
@@ -22,6 +24,7 @@ import {
 } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { ReportProblemDrawer } from "../report-problem-drawer";
 
 const popInAnimation = keyframes`
   from {
@@ -37,6 +40,7 @@ const popInAnimation = keyframes`
 export default function UserMenu() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const reports = useDisclosure();
 
   const { mutate: signOut, isPending: loadingLogout } = useSignOut();
   const { user, isLoadingSession, isFree, profile } = useAuthenticatedUser();
@@ -93,9 +97,15 @@ export default function UserMenu() {
           >
             {t("components.userMenu.profileSettings")}
           </MenuItem>
+          <MenuItem icon={<IconBug size={18} />} onClick={reports.onToggle}>
+            {t("components.userMenu.reportProblem")}
+          </MenuItem>
+          {/* <MenuItem icon={<IconMessage size={18} />}> */}
+          {/*   {t("components.userMenu.sendComments")} */}
+          {/* </MenuItem> */}
           <MenuDivider />
           <MenuItem
-            onClick={signOut}
+            onClick={() => signOut()}
             icon={<IconLogout size={18} />}
             color="red.500"
           >
@@ -103,6 +113,8 @@ export default function UserMenu() {
           </MenuItem>
         </MenuList>
       </Menu>
+
+      <ReportProblemDrawer {...reports} />
     </HStack>
   );
 }

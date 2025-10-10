@@ -15,6 +15,7 @@ export interface Column<T extends DataRow> {
   isAmount?: boolean;
   sx?: TableCellProps;
   isVisible?: boolean;
+  isDraggable?: boolean;
 }
 
 export interface CellChange<T extends DataRow> {

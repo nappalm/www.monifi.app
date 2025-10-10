@@ -41,6 +41,8 @@
     },
     "userMenu": {
       "profileSettings": "Configuración de perfil",
+      "reportProblem": "Reportar un problema",
+      "sendComments": "Enviar comentarios",
       "logout": "Cerrar sesión"
     },
     "toggleThemeButton": {
@@ -108,6 +110,40 @@
     },
     "userInformation": {
       "personalAccount": "Tu cuenta personal"
+    },
+    "undoRedoButtons": {
+      "undo": "Deshacer",
+      "redo": "Rehacer"
+    },
+    "reportProblem": {
+      "title": "Reportar un problema",
+      "form": {
+        "label": "Describe el problema",
+        "placeholder": "Describe el problema que encontraste...",
+        "submitButton": "Enviar reporte",
+        "cancel": "Cancelar",
+        "thankYouMessage": "Gracias por tu reporte. Tu retroalimentación es muy valiosa para nosotros y nos ayuda a mejorar continuamente. Analizaremos tu caso lo antes posible y trabajaremos en una solución."
+      },
+      "validation": {
+        "required": "Por favor describe el problema",
+        "minLength": "La descripción debe tener al menos 10 caracteres",
+        "maxLength": "La descripción no puede exceder 1000 caracteres"
+      },
+      "toast": {
+        "successTitle": "Reporte enviado",
+        "successDescription": "Tu reporte ha sido enviado exitosamente. Gracias por tu colaboración.",
+        "errorTitle": "Error al enviar reporte",
+        "errorDescription": "Hubo un problema al enviar tu reporte. Por favor intenta nuevamente."
+      },
+      "list": {
+        "problem": "Problema",
+        "status": "Estado",
+        "date": "Fecha",
+        "noReports": "No has enviado ningún reporte aún.",
+        "loadError": "Error al cargar los reportes",
+        "statusPending": "Pendiente",
+        "statusResolved": "Resuelto"
+      }
     }
   },
   "onboarding": {

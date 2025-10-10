@@ -31,17 +31,26 @@ export function InlineEditorGrid<T extends DataRow>({
 
   const visibleColumns = useMemo(
     () => columns.filter((c) => c.isVisible !== false),
-    [columns]
+    [columns],
   );
 
-  const { tableRef, activeCell, getCellProps, getInputProps, updateCell } =
-    useInlineEditor<T>({
-      columns: visibleColumns,
-      data: data,
-      onDataChange,
-      onCellChange,
-      onRowChange,
-    });
+  const {
+    tableRef,
+    activeCell,
+    getCellProps,
+    getInputProps,
+    updateCell,
+    handleDragHandleStart,
+    isDragging,
+    dragStartCell,
+    dragEndCell,
+  } = useInlineEditor<T>({
+    columns: visibleColumns,
+    data: data,
+    onDataChange,
+    onCellChange,
+    onRowChange,
+  });
 
   const inputProps = getInputProps();
 
@@ -53,32 +62,33 @@ export function InlineEditorGrid<T extends DataRow>({
       transform: "scale(1)",
       border: "1px solid",
       borderColor: "cyan.500",
-      background: "rgba(107,198,124,0.15)",
+      background: "cyan.800",
       borderRadius: "md",
+      color: "cyan.500",
     }),
-    []
+    [],
   );
 
   const borderBgContainer = useColorModeValue("gray.200", "gray.800");
 
   const columnCount = useMemo(
     () => (showRowNumber ? visibleColumns.length + 1 : visibleColumns.length),
-    [showRowNumber, visibleColumns.length]
+    [showRowNumber, visibleColumns.length],
   );
 
   const cyanTransparent = useMemo(
     () => transparentize("cyan.500", 0.15)({}),
-    []
+    [],
   );
 
   const cyanTransparent50 = useMemo(
     () => transparentize("cyan.500", 0.5)({}),
-    []
+    [],
   );
 
   const cyanTransparent70 = useMemo(
     () => transparentize("cyan.500", 0.7)({}),
-    []
+    [],
   );
 
   const handleContainerFocus = useCallback(
@@ -88,12 +98,12 @@ export function InlineEditorGrid<T extends DataRow>({
           ?.querySelector<HTMLElement>(
             `[data-row="${activeCell?.row || 0}"][data-col="${
               activeCell?.col || 0
-            }"]`
+            }"]`,
           )
           ?.focus();
       }
     },
-    [tableRef, activeCell]
+    [tableRef, activeCell],
   );
 
   const renderTableBody = useCallback(() => {
@@ -119,6 +129,8 @@ export function InlineEditorGrid<T extends DataRow>({
             ...(row.enabled === false && {
               opacity: 0.5,
             }),
+            // Permitir que los drag handles sobresalgan
+            position: "relative",
           }}
         >
           {showRowNumber && (
@@ -130,6 +142,21 @@ export function InlineEditorGrid<T extends DataRow>({
             const cellValue = row[column.accessor as keyof T];
             const isCellActive =
               activeCell?.row === rowIndex && activeCell?.col === colIndex;
+
+            // Calcular si la celda está en el rango de arrastre
+            let isInDragRange = false;
+            if (isDragging && dragStartCell && dragEndCell) {
+              const minRow = Math.min(dragStartCell.row, dragEndCell.row);
+              const maxRow = Math.max(dragStartCell.row, dragEndCell.row);
+              const minCol = Math.min(dragStartCell.col, dragEndCell.col);
+              const maxCol = Math.max(dragStartCell.col, dragEndCell.col);
+
+              isInDragRange =
+                rowIndex >= minRow &&
+                rowIndex <= maxRow &&
+                colIndex >= minCol &&
+                colIndex <= maxCol;
+            }
 
             return (
               <InlineEditableCell
@@ -148,6 +175,10 @@ export function InlineEditorGrid<T extends DataRow>({
                 cyanTransparent50={cyanTransparent50}
                 cyanTransparent70={cyanTransparent70}
                 currency={profile?.currency ?? "USD"}
+                onDragHandleStart={handleDragHandleStart}
+                isInDragRange={isInDragRange}
+                isDragging={isDragging}
+                isDraggable={column.isDraggable !== false}
               />
             );
           })}
@@ -169,6 +200,10 @@ export function InlineEditorGrid<T extends DataRow>({
     cyanTransparent50,
     cyanTransparent70,
     profile,
+    handleDragHandleStart,
+    isDragging,
+    dragStartCell,
+    dragEndCell,
   ]);
 
   return (
@@ -181,6 +216,12 @@ export function InlineEditorGrid<T extends DataRow>({
       tabIndex={0}
       ref={tableRef}
       onFocus={handleContainerFocus}
+      sx={{
+        "& table": {
+          borderCollapse: "separate",
+          borderSpacing: 0,
+        },
+      }}
     >
       <FloatingInput inputProps={inputProps} cellEditStyle={cellEditStyle} />
       <Table variant="striped" size="sm">
@@ -203,7 +244,9 @@ export function InlineEditorGrid<T extends DataRow>({
             ))}
           </Tr>
         </Thead>
-        <Tbody>{renderTableBody()}</Tbody>
+        <Tbody sx={{ "& > tr": { overflow: "visible !important" } }}>
+          {renderTableBody()}
+        </Tbody>
       </Table>
     </TableContainer>
   );

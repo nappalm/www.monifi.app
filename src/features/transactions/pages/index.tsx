@@ -10,6 +10,7 @@ import {
   CategoriesDrawer,
   FilterButtonMenu,
   FilterDateMenu,
+  UndoRedoButtons,
   useAccounts,
   useCategories,
   useFilters,
@@ -27,17 +28,19 @@ import {
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
+  IconCircleFilled,
   IconLineHeight,
   IconReceiptDollarFilled,
   IconTagFilled,
 } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AccountInfo from "../components/AccountInfo";
 import CategoriesInfo from "../components/CategoriesInfo";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import ExpenseIncomeInfo from "../components/ExpenseIncomeInfo";
 import TransactionsTable from "../components/TransactionsTable";
+import { useTransactionHistory } from "../hooks/useTransactionHistory";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
 
@@ -59,6 +62,10 @@ export default function TransactionsPage() {
 
   const { data: categories } = useCategories();
   const { data: accounts } = useAccounts();
+
+  const { addToHistory, undo, redo, canUndo, canRedo } =
+    useTransactionHistory();
+  const previousStateRef = useRef<Record<number, Tables<"transactions">>>({});
 
   const { filters, setFilter, clearFilters, areFiltersActive } = useFilters({
     categories: [],
@@ -102,7 +109,8 @@ export default function TransactionsPage() {
         ],
       },
     ],
-    [categories, accounts, t],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [categories, accounts],
   );
 
   const filteredTransactions = useMemo(() => {
@@ -126,7 +134,38 @@ export default function TransactionsPage() {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleUpdateRow = (data: Tables<"transactions">) => {
-    updateTransaction.mutate(data);
+    // Guardar estado previo antes de actualizar
+    const currentTransaction = transactions?.find((t) => t.id === data.id);
+    if (currentTransaction) {
+      previousStateRef.current[data.id] = currentTransaction;
+      addToHistory(data, currentTransaction);
+    }
+
+    updateTransaction.mutate(data, {
+      onError: () => {
+        // React Query ya maneja el rollback automático en caso de error
+      },
+    });
+  };
+
+  const handleUndo = () => {
+    const previousStates = undo();
+    if (previousStates && previousStates.length > 0) {
+      // Aplicar todos los cambios en batch
+      previousStates.forEach((state) => {
+        updateTransaction.mutate(state);
+      });
+    }
+  };
+
+  const handleRedo = () => {
+    const nextStates = redo();
+    if (nextStates && nextStates.length > 0) {
+      // Aplicar todos los cambios en batch
+      nextStates.forEach((state) => {
+        updateTransaction.mutate(state);
+      });
+    }
   };
 
   const handleRemoveRow = (id: number) => {
@@ -144,7 +183,8 @@ export default function TransactionsPage() {
     setDetailsRow(row || null);
   };
 
-  const isSmallScreen = useBreakpointValue({ base: true, lg: false });
+  const isSmallScreen =
+    useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
   return (
     <>
@@ -170,6 +210,16 @@ export default function TransactionsPage() {
                 areFiltersActive={areFiltersActive}
               />
               <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
+              <IconCircleFilled
+                size={10}
+                style={{ opacity: 0.2, margin: "0 10px 0 10px" }}
+              />
+              <UndoRedoButtons
+                onUndo={handleUndo}
+                onRedo={handleRedo}
+                canUndo={canUndo}
+                canRedo={canRedo}
+              />
             </HStack>
             <Button
               colorScheme="cyan"

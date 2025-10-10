@@ -3,6 +3,7 @@ import {
   useQueryClient,
   MutationFunction,
 } from "@tanstack/react-query";
+import { useRef } from "react";
 
 type OptimisticUpdateFn<TData, TVariables> = (
   previousData: TData[] | undefined,
@@ -15,6 +16,7 @@ export default function useOptimisticMutation<TData, TVariables>(
   optimisticUpdate: OptimisticUpdateFn<TData, TVariables>,
 ) {
   const queryClient = useQueryClient();
+  const invalidateTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   return useMutation({
     mutationFn,
@@ -38,7 +40,15 @@ export default function useOptimisticMutation<TData, TVariables>(
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey, exact: false });
+      // Cancelar el timer anterior si existe
+      if (invalidateTimerRef.current) {
+        clearTimeout(invalidateTimerRef.current);
+      }
+
+      // Configurar un nuevo timer para agrupar invalidaciones
+      invalidateTimerRef.current = setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey, exact: false });
+      }, 200); // 200ms de debounce
     },
   });
 }

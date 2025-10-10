@@ -198,7 +198,7 @@ export default defineStyleConfig({
   variants,
   sizes,
   defaultProps: {
-    variant: "solid",
+    variant: "outline",
     size: "md",
     colorScheme: "gray",
   },

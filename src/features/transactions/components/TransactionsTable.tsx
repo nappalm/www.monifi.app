@@ -143,12 +143,14 @@ export default function TransactionsTable({
       sx: {
         w: "120px",
         minW: "120px",
+        fontFamily: "Roboto Mono",
       },
     },
     {
       header: "",
       accessor: "options",
       isEditable: false,
+      isDraggable: false,
       sx: {
         w: "10px",
         opacity: 0.5,
