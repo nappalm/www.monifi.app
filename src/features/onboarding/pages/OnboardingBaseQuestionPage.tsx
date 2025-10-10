@@ -1,4 +1,3 @@
-import { TablesUpdate } from "@/lib";
 import { Logo, useAuthenticatedUser } from "@/shared";
 import { Container, Heading, Stack, Text } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +7,7 @@ import OnboardingBaseQuestionsForm from "../components/OnboardingBaseQuestionsFo
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { ONBOARDING_PATHS } from "../router";
+import { BaseQuestionsFormValues } from "../utils/types";
 
 export default function OnboardingBaseQuestionPage() {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ export default function OnboardingBaseQuestionPage() {
   const { user } = useAuthenticatedUser();
   const updateProfile = useUpdateProfile();
 
-  const handleSubmit = (values: TablesUpdate<"profiles">) => {
+  const handleSubmit = (values: BaseQuestionsFormValues) => {
     if (!user?.id) return;
     updateProfile.mutate(
       {

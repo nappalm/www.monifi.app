@@ -35,7 +35,7 @@ export const useCreateCategory = () => {
       );
       return { previousCategories };
     },
-    onError: (err, newCategory, context) => {
+    onError: (_err, _newCategory, context) => {
       queryClient.setQueryData(["categories"], context?.previousCategories);
     },
     onSettled: () => {
@@ -69,7 +69,7 @@ export const useUpdateCategory = () => {
       );
       return { previousCategories };
     },
-    onError: (err, newCategory, context) => {
+    onError: (_err, _newCategory, context) => {
       queryClient.setQueryData(["categories"], context?.previousCategories);
     },
     onSettled: () => {
@@ -93,7 +93,8 @@ export const useDeleteCategory = () => {
       );
       return { previousCategories };
     },
-    onError: (err, id, context) => {
+
+    onError: (_err, _id, context) => {
       queryClient.setQueryData(["categories"], context?.previousCategories);
     },
     onSettled: () => {

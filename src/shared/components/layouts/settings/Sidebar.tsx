@@ -58,7 +58,7 @@ const iconProps: IconProps = {
   color: "#52525B",
 };
 
-const sidebarItems = (subscription: string, t: any): SidebarItem[] => [
+const sidebarItems = (_subscription: string, t: any): SidebarItem[] => [
   {
     title: t("components.settingsSidebar.profile"),
     icon: <IconUserSquareRounded {...iconProps} />,

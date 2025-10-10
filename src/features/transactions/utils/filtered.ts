@@ -1,6 +1,11 @@
 import { Tables } from "@/lib/supabase/database.types";
 import { filter } from "lodash";
-import { TransactionFilters } from "../hooks/useTransactionFilters";
+
+export type TransactionFilters = {
+  categories?: string[];
+  accounts?: string[];
+  types?: ("income" | "expense")[];
+};
 
 export const filterTransactions = (
   transactions: Tables<"transactions">[],

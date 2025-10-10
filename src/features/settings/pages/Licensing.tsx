@@ -8,10 +8,10 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import ActiveSubscription from "../components/licensing/ActiveSubscription";
-import CancellationDrawer from "../components/licensing/CancellationDrawer";
-import FreePlanDetails from "../components/licensing/FreePlanDetails";
-import UpgradePlanDrawer from "../components/licensing/UpgradePlanDrawer";
+import ActiveSubscription from "../components/Licensing/ActiveSubscription";
+import CancellationDrawer from "../components/Licensing/CancellationDrawer";
+import FreePlanDetails from "../components/Licensing/FreePlanDetails";
+import UpgradePlanDrawer from "../components/Licensing/UpgradePlanDrawer";
 
 import {
   useStripeCreateSubscription,

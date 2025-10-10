@@ -87,7 +87,7 @@ export function useStripeDownloadInvoice() {
       setPendingInvoiceIds((current) => [...current, invoiceId]);
     },
     mutationFn: stripeDownloadInvoice,
-    onSettled: (data, error, { invoiceId }) => {
+    onSettled: (_data, _error, { invoiceId }) => {
       setPendingInvoiceIds((current) =>
         current.filter((id) => id !== invoiceId),
       );

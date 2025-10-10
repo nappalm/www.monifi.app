@@ -36,7 +36,7 @@ export default function BudgetsCategoriesTable({
         padding: 0,
       },
       render: () => {
-        return <CategorySelect />;
+        return <CategorySelect onChange={() => {}} onAdmin={() => {}} />;
       },
     },
     { header: "Description", accessor: "description" },

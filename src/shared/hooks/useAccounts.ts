@@ -34,7 +34,7 @@ export const useCreateAccount = () => {
       );
       return { previousAccounts };
     },
-    onError: (err, newAccount, context) => {
+    onError: (_err, _newAccount, context) => {
       queryClient.setQueryData(["accounts"], context?.previousAccounts);
     },
     onSettled: () => {
@@ -68,7 +68,7 @@ export const useUpdateAccount = () => {
       );
       return { previousAccounts };
     },
-    onError: (err, newAccount, context) => {
+    onError: (_err, _newAccount, context) => {
       queryClient.setQueryData(["accounts"], context?.previousAccounts);
     },
     onSettled: () => {
@@ -92,7 +92,7 @@ export const useDeleteAccount = () => {
       );
       return { previousAccounts };
     },
-    onError: (err, id, context) => {
+    onError: (_err, _id, context) => {
       queryClient.setQueryData(["accounts"], context?.previousAccounts);
     },
     onSettled: () => {
