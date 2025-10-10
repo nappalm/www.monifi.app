@@ -26,6 +26,7 @@ interface InlineEditableCellProps<T extends DataRow> {
   ) => void;
   isInDragRange: boolean;
   isDragging: boolean;
+  isDraggable: boolean;
 }
 
 function InlineEditableCellComponent<T extends DataRow>({
@@ -45,6 +46,7 @@ function InlineEditableCellComponent<T extends DataRow>({
   onDragHandleStart,
   isInDragRange,
   isDragging,
+  isDraggable,
 }: InlineEditableCellProps<T>) {
   const isNumericColumn =
     (column.accessor as string) === "amount" || column.isAmount;
@@ -128,7 +130,7 @@ function InlineEditableCellComponent<T extends DataRow>({
         }
         return cellValue;
       })()}{" "}
-      {isCellActive && !shouldShowInput && (
+      {isCellActive && !shouldShowInput && isDraggable && (
         <>
           <DragHandle
             position="top"

@@ -178,6 +178,7 @@ export function InlineEditorGrid<T extends DataRow>({
                 onDragHandleStart={handleDragHandleStart}
                 isInDragRange={isInDragRange}
                 isDragging={isDragging}
+                isDraggable={column.isDraggable !== false}
               />
             );
           })}
