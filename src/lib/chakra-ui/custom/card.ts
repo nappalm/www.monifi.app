@@ -33,7 +33,7 @@ const outlineVariant = definePartsStyle((props) => ({
     boxShadow: "none",
     transition: "all ease-in-out 300ms",
     borderWidth: "1px",
-    borderColor: mode("gray.300", "whiteAlpha.300")(props),
+    borderColor: mode("gray.300", "gray.800")(props),
     bg: "transparent",
   },
   body: {
