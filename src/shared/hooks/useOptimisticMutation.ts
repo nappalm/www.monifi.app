@@ -3,20 +3,29 @@ import {
   useQueryClient,
   MutationFunction,
 } from "@tanstack/react-query";
-import { useRef } from "react";
+// import { useRef } from "react";
 
 type OptimisticUpdateFn<TData, TVariables> = (
   previousData: TData[] | undefined,
   variables: TVariables,
 ) => TData[] | undefined;
 
-export default function useOptimisticMutation<TData, TVariables>(
+type SuccessUpdateFn<TData, TResponse> = (
+  previousData: TData[] | undefined,
+  response: TResponse,
+) => TData[] | undefined;
+
+export default function useOptimisticMutation<
+  TData,
+  TVariables,
+  TResponse = TData,
+>(
   queryKey: string[],
-  mutationFn: MutationFunction<any, TVariables>,
+  mutationFn: MutationFunction<TResponse, TVariables>,
   optimisticUpdate: OptimisticUpdateFn<TData, TVariables>,
+  successUpdate?: SuccessUpdateFn<TData, TResponse>,
 ) {
   const queryClient = useQueryClient();
-  const invalidateTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   return useMutation({
     mutationFn,
@@ -32,23 +41,22 @@ export default function useOptimisticMutation<TData, TVariables>(
 
       return { queries };
     },
+    onSuccess: (response, _variables, _context) => {
+      if (successUpdate) {
+        const queries = queryClient.getQueriesData<TData[]>({ queryKey });
+
+        queries.forEach(([key, previousData]) => {
+          const newData = successUpdate(previousData, response);
+          queryClient.setQueryData(key, newData);
+        });
+      }
+    },
     onError: (_err, _variables, context) => {
       if (context?.queries) {
         context.queries.forEach(([key, data]) => {
           queryClient.setQueryData(key, data);
         });
       }
-    },
-    onSettled: () => {
-      // Cancelar el timer anterior si existe
-      if (invalidateTimerRef.current) {
-        clearTimeout(invalidateTimerRef.current);
-      }
-
-      // Configurar un nuevo timer para agrupar invalidaciones
-      invalidateTimerRef.current = setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey, exact: false });
-      }, 200); // 200ms de debounce
     },
   });
 }

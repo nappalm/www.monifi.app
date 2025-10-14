@@ -26,10 +26,21 @@ export const useTransactions = (dateRange?: [string, string] | null) => {
 export const useCreateTransaction = () =>
   useOptimisticMutation<
     Partial<Tables<"transactions">>,
-    Omit<TablesInsert<"transactions">, "user_id">
-  >([CACHE_KEY], createTransaction, (previous, newTransaction) => {
-    return [...(previous || []), newTransaction];
-  });
+    Omit<TablesInsert<"transactions">, "user_id">,
+    Tables<"transactions">
+  >(
+    [CACHE_KEY],
+    createTransaction,
+    (previous, newTransaction) => {
+      return [...(previous || []), newTransaction];
+    },
+    (previous, serverResponse) => {
+      // Reemplazar el elemento optimista con el elemento real del servidor
+      // Asumiendo que el elemento optimista es el último
+      const withoutOptimistic = previous?.slice(0, -1) || [];
+      return [...withoutOptimistic, serverResponse];
+    },
+  );
 
 export const useUpdateTransaction = () =>
   useOptimisticMutation<
@@ -42,7 +53,7 @@ export const useUpdateTransaction = () =>
   );
 
 export const useDeleteTransaction = () =>
-  useOptimisticMutation<Tables<"transactions">, number>(
+  useOptimisticMutation<Tables<"transactions">, number, null>(
     [CACHE_KEY],
     deleteTransaction,
     (previous, id) => previous?.filter((t) => t.id !== id),
