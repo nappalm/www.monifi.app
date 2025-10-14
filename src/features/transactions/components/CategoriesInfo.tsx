@@ -26,9 +26,9 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
 
     const categoryTotals = transactions.reduce(
       (acc, transaction) => {
-        if (transaction.category_id && transaction.type === "expense") {
-          acc[transaction.category_id] =
-            (acc[transaction.category_id] || 0) + transaction.amount;
+        if (transaction.type === "expense") {
+          const key = transaction.category_id?.toString() || "uncategorized";
+          acc[key] = (acc[key] || 0) + transaction.amount;
         }
         return acc;
       },
@@ -42,6 +42,15 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
 
     return Object.entries(categoryTotals)
       .map(([categoryId, total]) => {
+        if (categoryId === "uncategorized") {
+          return {
+            id: categoryId,
+            name: t("transactions.summary.uncategorized"),
+            total,
+            percentage: totalExpenses > 0 ? (total / totalExpenses) * 100 : 0,
+          };
+        }
+
         const category = categories.find(
           (c) => c.id === parseInt(categoryId, 10),
         );
@@ -54,7 +63,7 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
       })
       .sort((a, b) => b.total - a.total)
       .slice(0, 5);
-  }, [categories, transactions]);
+  }, [categories, transactions, t]);
 
   if (isEmpty(categoriesWithTotals)) return null;
   return (

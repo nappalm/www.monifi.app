@@ -259,7 +259,8 @@
       "balance": "Balance",
       "totalIncome": "Total Income",
       "totalExpenses": "Total Expenses",
-      "top5Expenses": "Top 5 Expenses"
+      "top5Expenses": "Top 5 Expenses",
+      "uncategorized": "Uncategorized"
     }
   },
   "statistics": {

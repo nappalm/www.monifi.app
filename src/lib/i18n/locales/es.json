@@ -259,7 +259,8 @@
       "balance": "Balance",
       "totalIncome": "Ingresos Totales",
       "totalExpenses": "Gastos Totales",
-      "top5Expenses": "Top 5 Gastos"
+      "top5Expenses": "Top 5 Gastos",
+      "uncategorized": "Sin categoría"
     }
   },
   "statistics": {
