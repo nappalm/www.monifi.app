@@ -51,8 +51,7 @@ const baseStyleDialog = defineStyle((props) => {
     [$bg.variable]: "colors.white",
     [$bs.variable]: "none",
     _dark: {
-      [$bg.variable]: "#000",
-      backdropFilter: "blur(8px)",
+      [$bg.variable]: "#0A0B0B",
       [$bs.variable]: "none",
     },
     bg: $bg.reference,
