@@ -341,16 +341,28 @@ export function useInlineEditor<T extends DataRow>({
       const sourceValue = data[dragStartCell.row][sourceAccessor];
       const newData = data.map((row) => ({ ...row })); // Create a deep copy of objects
 
-      for (let r = startRow; r <= endRow; r++) {
-        for (let c = startCol; c <= endCol; c++) {
-          const accessor = columns[c].accessor as keyof T;
-          newData[r][accessor] = sourceValue;
-        }
-      }
-      onDataChange?.(newData);
+      const modifiedRows = new Set<number>();
 
       for (let r = startRow; r <= endRow; r++) {
-        onRowChange?.(newData[r], r);
+        for (let c = startCol; c <= endCol; c++) {
+          // Skip the source cell to avoid unnecessary updates
+          if (r === dragStartCell.row && c === dragStartCell.col) {
+            continue;
+          }
+
+          const accessor = columns[c].accessor as keyof T;
+          newData[r][accessor] = sourceValue;
+          modifiedRows.add(r);
+        }
+      }
+
+      // Only update if there were actual changes
+      if (modifiedRows.size > 0) {
+        onDataChange?.(newData);
+
+        for (const r of modifiedRows) {
+          onRowChange?.(newData[r], r);
+        }
       }
 
       // Reset drag cells and direction
