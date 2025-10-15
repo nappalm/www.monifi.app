@@ -7,6 +7,7 @@
     "actions": "Acciones",
     "cancelEdition": "Cancelar edición",
     "save": "Guardar",
+    "fieldRequired": "Este campo es requerido",
     "language": {
       "label": "Selecciona tu idioma",
       "english": "Inglés",
@@ -211,7 +212,11 @@
     },
     "accountsForm": {
       "accountName": "Nombre de la cuenta",
-      "wallet": "Cartera"
+      "wallet": "Cartera",
+      "edit": "Editar",
+      "remove": "Eliminar",
+      "addNewAccount": "Agregar nueva cuenta",
+      "walletDescription": "Una cartera te permitirá visualizar y controlar los movimientos de tu dinero"
     },
     "categoriesForm": {
       "categoryName": "Nombre de la categoría",

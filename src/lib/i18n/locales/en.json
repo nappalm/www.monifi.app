@@ -7,6 +7,7 @@
     "actions": "Actions",
     "save": "Save",
     "cancelEdition": "Cancel edition",
+    "fieldRequired": "This field is required",
     "language": {
       "label": "Select your language",
       "english": "English",
@@ -211,7 +212,11 @@
     },
     "accountsForm": {
       "accountName": "Account Name",
-      "wallet": "Wallet"
+      "wallet": "Wallet",
+      "edit": "Edit",
+      "remove": "Remove",
+      "addNewAccount": "Add new account",
+      "walletDescription": "A wallet will allow you to visualize and control your money movements"
     },
     "categoriesForm": {
       "categoryName": "Category Name",
