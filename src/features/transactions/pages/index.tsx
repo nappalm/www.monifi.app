@@ -200,7 +200,11 @@ export default function TransactionsPage() {
       >
         <Stack gap={5}>
           <Heading size="lg">{t("transactions.title")}</Heading>
-          <HStack justifyContent="space-between">
+          <HStack
+            justifyContent={["flex-start", "flex-start", "space-between"]}
+            alignItems={["flex-start", "flex-start", "space-between"]}
+            flexDir={["column", "column", "row"]}
+          >
             <HStack gap="1px">
               <FilterButtonMenu
                 filterGroups={filterGroups}
@@ -223,6 +227,7 @@ export default function TransactionsPage() {
             </HStack>
             <Button
               colorScheme="cyan"
+              w={["full", "full", "fit-content"]}
               size="sm"
               leftIcon={<IconArrowBarToDownDashed size={16} />}
               onClick={handleNewRow}
