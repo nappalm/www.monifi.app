@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import SignUpForm from "../components/SignUpForm";
 import { AUTH_PATHS } from "../router";
 import BackgroundImage from "../components/BackgroundImage";
+import BackButton from "../components/BackButton";
 
 export default function SignUpPage() {
   const email = useSignUpWithEmail();
@@ -48,6 +49,7 @@ export default function SignUpPage() {
 
   return (
     <BackgroundImage>
+      <BackButton />
       <Container maxW="400px" position="relative" zIndex={1}>
         <SignUpForm
           onSubmit={email.mutate}

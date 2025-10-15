@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BackgroundImage from "../components/BackgroundImage";
 import SignInForm from "../components/SignInForm";
+import BackButton from "../components/BackButton";
 
 export default function SignInPage() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function SignInPage() {
   const isLoading = email.isPending || oauth.isPending;
   return (
     <BackgroundImage>
+      <BackButton />
       <Container maxW="400px" position="relative" zIndex={1}>
         <SignInForm
           onSubmitOAuth={oauth.mutate}

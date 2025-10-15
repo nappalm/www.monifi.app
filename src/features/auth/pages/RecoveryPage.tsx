@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import BackgroundImage from "../components/BackgroundImage";
 import RecoveryForm from "../components/RecoveryForm";
 import { AUTH_PATHS } from "../router";
+import BackButton from "../components/BackButton";
 
 export default function RecoveryPage() {
   const { mutate, isPending, isSuccess } = useRecoveryPassword();
@@ -37,6 +38,7 @@ export default function RecoveryPage() {
 
   return (
     <BackgroundImage>
+      <BackButton />
       <Stack
         justify="center"
         align="center"
