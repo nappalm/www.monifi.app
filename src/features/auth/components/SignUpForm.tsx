@@ -87,6 +87,17 @@ export default function SignUpForm({
           Sign In
         </Link>
       </Text>
+      <Text fontSize="sm" color="gray.500" textAlign="center">
+        By creating an account, you agree to accept our{" "}
+        <Link href="https://www.monifi.app/terms" color="cyan.500" isExternal>
+          Terms of Service
+        </Link>{" "}
+        and acknowledge that you have read and understood our{" "}
+        <Link href="https://www.monifi.app/privacy" color="cyan.500" isExternal>
+          Privacy Policy
+        </Link>
+        .
+      </Text>
     </Stack>
   );
 }
