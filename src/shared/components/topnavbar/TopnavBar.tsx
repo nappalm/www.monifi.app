@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   ButtonGroup,
@@ -83,6 +84,7 @@ export default function Topnavbar({ onMenuClick }: Props) {
             </ButtonGroup>
           </HStack>
           <HStack display={["none", "none", "none", "flex"]}>
+            <Badge size="sm">BETA</Badge>
             <ToggleThemeButton />
             <UserMenu />
           </HStack>
