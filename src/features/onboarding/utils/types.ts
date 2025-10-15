@@ -15,3 +15,8 @@ export type OnboardingBaseFormValues = {
   currency: string;
   language: string;
 };
+
+export type OnboardingAccountFormData = {
+  name: string;
+  color?: string | null | undefined;
+};

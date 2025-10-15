@@ -1,11 +1,15 @@
-import { Tables } from "@/lib/supabase/database.types";
+import {
+  Tables,
+  TablesInsert,
+  TablesUpdate,
+} from "@/lib/supabase/database.types";
 import {
   FormProvider,
   RHFInput,
-  TableSkeletonRow,
+  RHFLineColors,
   useAuthenticatedUser,
+  Carousel,
 } from "@/shared";
-import TableEmptyRows from "@/shared/components/table-empty-rows";
 import {
   useAccounts,
   useCreateAccount,
@@ -15,26 +19,29 @@ import {
 import {
   Button,
   ButtonGroup,
+  Card,
+  CardBody,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
+  Flex,
   HStack,
-  IconButton,
+  Skeleton,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import {
-  IconCheck,
-  IconPencil,
-  IconTrashFilled,
-  IconWallet,
-} from "@tabler/icons-react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { IconWallet } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { OnboardingAccountFormData } from "../utils/types";
+import { onboardingAccountFormSchema } from "../utils/yup";
 
 export default function OnboardingAccountsForm() {
   const { t } = useTranslation();
@@ -45,132 +52,173 @@ export default function OnboardingAccountsForm() {
   const updateAccountMutation = useUpdateAccount();
   const deleteAccountMutation = useDeleteAccount();
 
-  const methods = useForm<Tables<"accounts">>({
+  const drawer = useDisclosure();
+
+  const [editingAccountId, setEditingAccountId] = React.useState<number | null>(
+    null,
+  );
+
+  const methods = useForm({
+    resolver: yupResolver(onboardingAccountFormSchema(t)) as any,
     defaultValues: {
       name: "",
+      color: undefined,
     },
   });
 
-  const { handleSubmit, reset, watch } = methods;
-  const id = watch("id");
+  const { handleSubmit, reset } = methods;
 
-  const onLocalSubmit = ({ id, ...data }: Tables<"accounts">) => {
+  const onLocalSubmit = async (formData: OnboardingAccountFormData) => {
     if (!user?.id) return;
 
-    if (id) {
-      updateAccountMutation.mutate(
-        { id, account: data },
-        {
-          onSuccess: () => reset(),
-        },
-      );
+    if (editingAccountId) {
+      const updateData: TablesUpdate<"accounts"> = {
+        name: formData.name,
+        color: formData.color,
+      };
+
+      await updateAccountMutation.mutateAsync({
+        id: editingAccountId,
+        account: updateData,
+      });
     } else {
-      createAccountMutation.mutate(
-        {
-          ...data,
-          user_id: user?.id,
-          type: "checking",
-        },
-        {
-          onSuccess: () => reset(),
-        },
-      );
+      const insertData: TablesInsert<"accounts"> = {
+        name: formData.name,
+        color: formData.color,
+        user_id: user.id,
+        type: "checking",
+      };
+
+      await createAccountMutation.mutateAsync(insertData);
     }
+
+    onRestoreForm();
   };
 
   const handleEdit = (account: Tables<"accounts">) => {
-    reset(account);
+    setEditingAccountId(account.id);
+    reset({
+      name: account.name,
+      color: account.color ?? undefined,
+    } as any);
   };
 
   const handleDelete = (id: number) => {
     deleteAccountMutation.mutate(id);
   };
 
-  const handleCancelEdit = () => {
+  const handleAddNew = () => {
+    onRestoreForm();
+    drawer.onOpen();
+  };
+
+  const onRestoreForm = () => {
+    setEditingAccountId(null);
+    drawer.onClose();
     reset({
-      id: undefined,
       name: "",
+      color: undefined,
     });
   };
 
-  const renderTableContent = () => {
+  const renderCarouselContent = () => {
     if (isLoading) {
-      return <TableSkeletonRow cols={3} />;
-    }
-
-    if (isEmpty(accounts)) {
-      return <TableEmptyRows cols={3} />;
+      return (
+        <Card w="70%" size="sm">
+          <CardBody>
+            <Stack spacing={4}>
+              <Skeleton height="60px" borderRadius="md" />
+            </Stack>
+          </CardBody>
+        </Card>
+      );
     }
 
     return accounts?.map((account) => (
-      <Tr key={account.id}>
-        <Td w="10px" opacity={0.5}>
-          <IconWallet size={18} color={account.color || "gray"} />
-        </Td>
-        <Td>{account.name}</Td>
-        <Td isNumeric w="10px">
-          <ButtonGroup size="xs" spacing={1}>
-            <IconButton
-              aria-label="Edit"
-              icon={<IconPencil size={15} />}
-              variant="ghost"
-              onClick={() => handleEdit(account)}
-            />
-            <IconButton
-              aria-label="Delete"
-              icon={<IconTrashFilled size={15} />}
-              variant="ghost"
-              onClick={() => handleDelete(account.id)}
-            />
-          </ButtonGroup>
-        </Td>
-      </Tr>
+      <Card key={account.id} w="70%">
+        <CardBody>
+          <Stack gap={0}>
+            <Flex align="center" gap={2}>
+              <IconWallet />
+              <Text size="md" flex={1}>
+                {account.name}
+              </Text>
+            </Flex>
+            <HStack justify="space-between" mt={-1}>
+              <Text fontSize="sm" opacity={0.5} ml={8}>
+                {t("onboarding.accountsForm.wallet")}
+              </Text>
+              <ButtonGroup size="sm" spacing={0} variant="ghost">
+                <Button
+                  aria-label="Edit"
+                  onClick={() => {
+                    handleEdit(account);
+                    drawer.onOpen();
+                  }}
+                >
+                  {t("onboarding.accountsForm.edit")}
+                </Button>
+                <Button
+                  aria-label="Delete"
+                  colorScheme="red"
+                  onClick={() => handleDelete(account.id)}
+                >
+                  {t("onboarding.accountsForm.remove")}
+                </Button>
+              </ButtonGroup>
+            </HStack>
+          </Stack>
+        </CardBody>
+      </Card>
     ));
   };
 
   return (
     <Stack spacing={6}>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onLocalSubmit)}>
-        <HStack>
-          <RHFInput
-            size="sm"
-            name="name"
-            label={t("onboarding.accountsForm.accountName")}
-            autoFocus
-          />
-          <IconButton
-            aria-label="Add Account Button"
-            type="submit"
-            w="fit-content"
-            icon={<IconCheck size={18} />}
-          />
-        </HStack>
-        {id && (
-          <Button
-            p={2}
-            size="xs"
-            variant="unstyled"
-            textAlign="left"
-            color="red.600"
-            onClick={handleCancelEdit}
-          >
-            {t("common.cancelEdition")}
-          </Button>
-        )}
-      </FormProvider>
+      <Drawer {...drawer} size="sm">
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>{t("onboarding.accountsForm.wallet")}</DrawerHeader>
+          <DrawerBody>
+            <FormProvider
+              methods={methods}
+              onSubmit={handleSubmit(onLocalSubmit)}
+            >
+              <Stack>
+                <RHFLineColors />
+                <RHFInput
+                  name="name"
+                  label={t("onboarding.accountsForm.accountName")}
+                  autoFocus
+                  description={t("onboarding.accountsForm.walletDescription")}
+                />
+                <br />
+                <Button
+                  aria-label="Add Account Button"
+                  type="submit"
+                  colorScheme="cyan"
+                >
+                  {t("common.save")}
+                </Button>
+              </Stack>
+            </FormProvider>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
 
-      <TableContainer>
-        <Table size="sm" variant="striped">
-          <Thead>
-            <Tr>
-              <Th />
-              <Th>{t("onboarding.accountsForm.wallet")}</Th>
-              <Th isNumeric>{t("common.actions")}</Th>
-            </Tr>
-          </Thead>
-          <Tbody>{renderTableContent()}</Tbody>
-        </Table>
-      </TableContainer>
+      {!isEmpty(accounts) && (
+        <Carousel
+          height="200px"
+          showControls={!isEmpty(accounts) && !isLoading}
+        >
+          {renderCarouselContent()}
+        </Carousel>
+      )}
+
+      <Button colorScheme="cyan" onClick={handleAddNew}>
+        {t("onboarding.accountsForm.addNewAccount")}
+      </Button>
     </Stack>
   );
 }
