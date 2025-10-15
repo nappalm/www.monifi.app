@@ -22,8 +22,10 @@ export default function DatePickerSelect({
   useEffect(() => {
     if (value !== undefined) {
       setDate(value);
+    } else {
+      setDate(defaultValue);
     }
-  }, [value]);
+  }, [value, defaultValue]);
 
   const handleDateChange = (newDate: Date | null) => {
     setDate(newDate);
