@@ -7,7 +7,7 @@ import { AUTH_PATHS } from "../router";
 import BackButton from "../components/BackButton";
 
 export default function RecoveryPage() {
-  const { mutate, isPending, isSuccess } = useRecoveryPassword();
+  const { mutate, isPending, isSuccess, error } = useRecoveryPassword();
 
   if (isSuccess) {
     return (
@@ -48,6 +48,7 @@ export default function RecoveryPage() {
       >
         <Container maxW="400px">
           <RecoveryForm
+            error={error?.message}
             isLoading={isPending}
             onSubmit={({ email }) => mutate(email)}
           />

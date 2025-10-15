@@ -8,11 +8,12 @@ import { OnSubmitRecovery } from "../utils/types";
 import { recoverySchema } from "../utils/yup";
 
 type Props = {
+  error?: string;
   isLoading?: boolean;
   onSubmit: (values: OnSubmitRecovery) => void;
 };
 
-export default function RecoveryForm({ onSubmit, isLoading }: Props) {
+export default function RecoveryForm({ onSubmit, error, isLoading }: Props) {
   const methods = useForm<OnSubmitRecovery>({
     defaultValues: {
       email: "",
@@ -37,6 +38,7 @@ export default function RecoveryForm({ onSubmit, isLoading }: Props) {
       >
         <Stack>
           <RHFInput name="email" label="Email" autoFocus />
+          {error && <Text color="red.500">{error}</Text>}
           <Button type="submit" colorScheme="cyan" isLoading={isLoading}>
             Send Recovery Email
           </Button>

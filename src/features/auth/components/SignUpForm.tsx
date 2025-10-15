@@ -1,14 +1,6 @@
 import { FormProvider, Logo, RHFInput } from "@/shared";
+import { Button, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  Alert,
-  AlertIcon,
-  Button,
-  Heading,
-  Link,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
@@ -55,12 +47,7 @@ export default function SignUpForm({
         <Stack>
           <RHFInput name="email" label="Email" />
           <RHFInput name="password" label="Password" type="password" />
-          {error && (
-            <Alert status="error">
-              <AlertIcon />
-              {error}
-            </Alert>
-          )}
+          {error && <Text color="red.500">{error}</Text>}
           <Button type="submit" isLoading={isLoading} colorScheme="cyan">
             Sign Up
           </Button>

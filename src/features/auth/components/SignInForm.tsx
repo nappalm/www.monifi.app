@@ -10,6 +10,7 @@ import { emailPasswordSchema } from "../utils/yup";
 
 type Props = {
   isLoading?: boolean;
+  error?: string;
   onSubmitEmailPassword: (values: OnSubmitEmailPassword) => void;
   onSubmitOAuth: (provider: OnSubmitOAuth) => void;
 };
@@ -17,6 +18,7 @@ type Props = {
 export default function SignInForm({
   onSubmitEmailPassword,
   onSubmitOAuth,
+  error,
   isLoading,
 }: Props) {
   const methods = useForm<OnSubmitEmailPassword>({
@@ -44,6 +46,7 @@ export default function SignInForm({
         <Stack>
           <RHFInput name="email" label="Email" />
           <RHFInput name="password" label="Password" type="password" />
+          {error && <Text color="red.500">{error}</Text>}
           <HStack justify="flex-end">
             <Link as={RouterLink} to={AUTH_PATHS.recovery} color="cyan.500">
               Recovery password

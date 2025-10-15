@@ -18,11 +18,14 @@ export default function SignInPage() {
   }, [email.isSuccess]);
 
   const isLoading = email.isPending || oauth.isPending;
+  const error = email.error || oauth.error;
+
   return (
     <BackgroundImage>
       <BackButton />
       <Container maxW="400px" position="relative" zIndex={1}>
         <SignInForm
+          error={error?.message}
           onSubmitOAuth={oauth.mutate}
           onSubmitEmailPassword={email.mutate}
           isLoading={isLoading}
