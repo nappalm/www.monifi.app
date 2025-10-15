@@ -1,18 +1,15 @@
 import { FormProvider, RHFSelect } from "@/shared";
-import { Stack } from "@chakra-ui/react";
+import { Button, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BaseQuestionsFormValues, CommmonFormProps } from "../utils/types";
-import OnboardingFormButtons from "./OnboardingFormButtons";
 
 type Props = {
   onSubmit: (values: BaseQuestionsFormValues) => void;
 } & Omit<CommmonFormProps, "onSubmit">;
 
 export default function OnboardingBaseQuestionsForm({
-  onSkip,
   onSubmit,
-  onBack,
   isLoading,
 }: Props) {
   const { t } = useTranslation();
@@ -25,7 +22,7 @@ export default function OnboardingBaseQuestionsForm({
 
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-      <Stack>
+      <Stack gap={3}>
         <RHFSelect
           name="priority"
           label={t("onboarding.baseQuestions.priority.label")}
@@ -57,12 +54,9 @@ export default function OnboardingBaseQuestionsForm({
             {t("onboarding.baseQuestions.financeManagement.noTrack")}
           </option>
         </RHFSelect>
-        <br />
-        <OnboardingFormButtons
-          isLoading={isLoading}
-          onSkip={onSkip}
-          onBack={onBack}
-        />
+        <Button colorScheme="cyan" type="submit" isLoading={isLoading}>
+          {t("common.continue")}
+        </Button>
       </Stack>
     </FormProvider>
   );

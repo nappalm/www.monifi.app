@@ -26,6 +26,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   IconCheck,
   IconPencil,
@@ -33,8 +34,11 @@ import {
   IconTrashFilled,
 } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { OnboardingCategoryFormData } from "../utils/types";
+import { onboardingCategoryFormSchema } from "../utils/yup";
 
 export default function OnboardingCategoriesForm() {
   const { t } = useTranslation();
@@ -45,46 +49,51 @@ export default function OnboardingCategoriesForm() {
   const updateCategoryMutation = useUpdateCategory();
   const deleteCategoryMutation = useDeleteCategory();
 
-  const methods = useForm<Tables<"categories">>();
+  const [editingCategoryId, setEditingCategoryId] = React.useState<
+    number | null
+  >(null);
 
-  const { handleSubmit, reset, watch } = methods;
-  const id = watch("id");
+  const methods = useForm({
+    resolver: yupResolver(onboardingCategoryFormSchema(t)) as any,
+    defaultValues: {
+      name: "",
+    },
+  });
 
-  const onLocalSubmit = ({ id, ...data }: Tables<"categories">) => {
+  const { handleSubmit, reset } = methods;
+
+  const onLocalSubmit = async (formData: OnboardingCategoryFormData) => {
     if (!user?.id) return;
 
-    if (id) {
-      updateCategoryMutation.mutate(
-        { id, category: data },
-        {
-          onSuccess: () => reset(),
-        },
-      );
+    if (editingCategoryId) {
+      await updateCategoryMutation.mutateAsync({
+        id: editingCategoryId,
+        category: { name: formData.name },
+      });
     } else {
-      createCategoryMutation.mutate(
-        {
-          ...data,
-          user_id: user?.id,
-        },
-        {
-          onSuccess: () => reset(),
-        },
-      );
+      await createCategoryMutation.mutateAsync({
+        name: formData.name,
+        user_id: user.id,
+      });
     }
-    reset();
+
+    onRestoreForm();
   };
 
   const handleEdit = (category: Tables<"categories">) => {
-    reset(category);
+    setEditingCategoryId(category.id);
+    reset({
+      name: category.name,
+    } as any);
   };
 
   const handleDelete = (id: number) => {
     deleteCategoryMutation.mutate(id);
   };
 
-  const handleCancelEdit = () => {
+  const onRestoreForm = () => {
+    setEditingCategoryId(null);
     reset({
-      id: undefined,
       name: "",
     });
   };
@@ -129,7 +138,6 @@ export default function OnboardingCategoriesForm() {
       <FormProvider methods={methods} onSubmit={handleSubmit(onLocalSubmit)}>
         <HStack>
           <RHFInput
-            size="sm"
             name="name"
             label={t("onboarding.categoriesForm.categoryName")}
             autoFocus
@@ -139,16 +147,17 @@ export default function OnboardingCategoriesForm() {
             type="submit"
             w="fit-content"
             icon={<IconCheck size={18} />}
+            size="lg"
           />
         </HStack>
-        {id && (
+        {editingCategoryId && (
           <Button
             p={2}
             size="xs"
             variant="unstyled"
             textAlign="left"
             color="red.600"
-            onClick={handleCancelEdit}
+            onClick={onRestoreForm}
           >
             {t("common.cancelEdition")}
           </Button>

@@ -8,6 +8,7 @@ import OnboardingBaseForm from "../components/OnboardingBaseForm";
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { ONBOARDING_PATHS } from "../router";
+import PageTitle from "../components/PageTitle";
 
 export default function OnboardingPage() {
   const { t } = useTranslation();
@@ -32,21 +33,17 @@ export default function OnboardingPage() {
   return (
     <OnboardingAnimatedPage>
       <OnboardingGridDotted>
-        <Container maxW="500px">
-          <Stack align="center" pt="40%" justify="center" w="full">
-            <Logo w="40px" h="40px" />
-            <Heading variant="onboarding-title" textAlign="center">
-              {t("onboarding.welcome.title")}
-            </Heading>
-            <Text textAlign="center" fontSize="md" color="gray.500">
-              {t("onboarding.welcome.description")}
-            </Text>
+        <Container>
+          <Stack gap={3}>
+            <PageTitle
+              title={t("onboarding.welcome.title")}
+              description={t("onboarding.welcome.description")}
+            />
+            <OnboardingBaseForm
+              isLoading={updateProfile.isPending}
+              onSubmit={handleGetStarted}
+            />
           </Stack>
-          <br />
-          <OnboardingBaseForm
-            isLoading={updateProfile.isPending}
-            onSubmit={handleGetStarted}
-          />
         </Container>
       </OnboardingGridDotted>
     </OnboardingAnimatedPage>

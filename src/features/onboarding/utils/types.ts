@@ -20,3 +20,7 @@ export type OnboardingAccountFormData = {
   name: string;
   color?: string | null | undefined;
 };
+
+export type OnboardingCategoryFormData = {
+  name: string;
+};

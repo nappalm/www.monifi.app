@@ -2,6 +2,7 @@
   "common": {
     "back": "Back",
     "next": "Next",
+    "continue": "Continue",
     "skip": "Skip",
     "soon": "Soon",
     "actions": "Actions",

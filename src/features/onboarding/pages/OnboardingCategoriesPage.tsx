@@ -1,11 +1,11 @@
-import { Logo } from "@/shared";
-import { Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { Button, Container, Stack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../components/BackButton";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingCategoriesForm from "../components/OnboardingCategoriesForm";
-import OnboardingFormButtons from "../components/OnboardingFormButtons";
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
+import PageTitle from "../components/PageTitle";
 import { ONBOARDING_PATHS } from "../router";
 
 export default function OnboardingCategoriesPage() {
@@ -14,31 +14,26 @@ export default function OnboardingCategoriesPage() {
 
   const onBack = () => navigate(ONBOARDING_PATHS.accounts);
   const onNext = () => navigate(ONBOARDING_PATHS.appFeatures);
-  const onSkip = () => navigate(ONBOARDING_PATHS.appFeatures);
 
   return (
-    <OnboardingAnimatedPage>
-      <OnboardingGridDotted>
-        <Container maxW={"500px"}>
-          <Stack align="center" justify="center" pt="30%">
-            <Logo w="40px" h="40px" />
-            <Heading variant="onboarding-title" size="md">
-              {t("onboarding.categories.title")}
-            </Heading>
-            <Text fontSize="sm" color="gray.500">
-              {t("onboarding.categories.description")}
-            </Text>
-          </Stack>
-          <br />
-          <OnboardingCategoriesForm />
-          <br />
-          <OnboardingFormButtons
-            onBack={onBack}
-            onNext={onNext}
-            onSkip={onSkip}
-          />
-        </Container>
-      </OnboardingGridDotted>
-    </OnboardingAnimatedPage>
+    <>
+      <BackButton total={5} step={4} onClick={onBack} />
+      <OnboardingAnimatedPage>
+        <OnboardingGridDotted>
+          <Container>
+            <Stack gap={3}>
+              <PageTitle
+                title={t("onboarding.categories.title")}
+                description={t("onboarding.categories.description")}
+              />
+              <OnboardingCategoriesForm />
+              <Button colorScheme="cyan" onClick={onNext}>
+                {t("common.continue")}
+              </Button>
+            </Stack>
+          </Container>
+        </OnboardingGridDotted>
+      </OnboardingAnimatedPage>
+    </>
   );
 }
