@@ -71,7 +71,7 @@ export default function CategorySelect({
   };
 
   return (
-    <Menu isLazy initialFocusRef={searchInputRef}>
+    <Menu isLazy initialFocusRef={searchInputRef} placement="right-start">
       <MenuButton
         size="xs"
         variant="unstyled"

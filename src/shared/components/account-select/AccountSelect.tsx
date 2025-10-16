@@ -1,15 +1,9 @@
 import _colors from "@/lib/chakra-ui/_colors";
 import { Tables } from "@/lib/supabase/database.types";
 import { useAuthenticatedUser } from "@/shared/hooks";
-import {
-  useAccounts,
-  useCreateAccount,
-  useDeleteAccount,
-} from "@/shared/hooks/useAccounts";
+import { useAccounts, useCreateAccount } from "@/shared/hooks/useAccounts";
 import {
   Button,
-  Flex,
-  IconButton,
   Input,
   Menu,
   MenuButton,
@@ -18,9 +12,8 @@ import {
   MenuItem,
   MenuList,
   Portal,
-  Text,
 } from "@chakra-ui/react";
-import { IconCircleFilled, IconTrash, IconWallet } from "@tabler/icons-react";
+import { IconCircleFilled } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -38,7 +31,6 @@ export default function AccountSelect({
   const { t } = useTranslation();
   const { data: accounts = [], isLoading } = useAccounts();
   const createAccount = useCreateAccount();
-  const deleteAccount = useDeleteAccount();
   const { user } = useAuthenticatedUser();
 
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -80,20 +72,8 @@ export default function AccountSelect({
     onChange(account);
   };
 
-  const handleDeleteAccount = (
-    e: React.MouseEvent,
-    accountToDelete: Tables<"accounts">,
-  ) => {
-    e.stopPropagation();
-    deleteAccount.mutate(accountToDelete.id);
-    if (selectedAccount?.id === accountToDelete.id) {
-      setSelectedAccount(null);
-      onChange(null);
-    }
-  };
-
   return (
-    <Menu isLazy initialFocusRef={searchInputRef}>
+    <Menu isLazy initialFocusRef={searchInputRef} placement="right-start">
       <MenuButton
         size="xs"
         variant="unstyled"
@@ -134,20 +114,16 @@ export default function AccountSelect({
             )}
             {filteredAccounts.map((account) => (
               <MenuItem
+                icon={
+                  <IconCircleFilled
+                    color={account?.color ?? _colors.gray[500]}
+                    size={10}
+                  />
+                }
                 key={account.id}
-                as="div"
                 onClick={() => handleSelectAccount(account)}
               >
-                <Flex justify="space-between" align="center" w="full">
-                  <Text>{account.name}</Text>
-                  <IconButton
-                    aria-label={t("components.accountSelect.deleteAccount")}
-                    icon={<IconTrash size={16} />}
-                    size="xs"
-                    variant="ghost"
-                    onClick={(e) => handleDeleteAccount(e, account)}
-                  />
-                </Flex>
+                {account.name}
               </MenuItem>
             ))}
             {filteredAccounts.length === 0 && searchTerm && (
