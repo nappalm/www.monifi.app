@@ -1,3 +1,4 @@
+import _colors from "@/lib/chakra-ui/_colors";
 import { Tables } from "@/lib/supabase/database.types";
 import { useAuthenticatedUser } from "@/shared/hooks";
 import {
@@ -19,7 +20,7 @@ import {
   Portal,
   Text,
 } from "@chakra-ui/react";
-import { IconTrash, IconWallet } from "@tabler/icons-react";
+import { IconCircleFilled, IconTrash, IconWallet } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -97,7 +98,12 @@ export default function AccountSelect({
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconWallet size={13} />}
+        leftIcon={
+          <IconCircleFilled
+            color={selectedAccount?.color ?? _colors.gray[500]}
+            size={10}
+          />
+        }
         w="full"
         cursor="default"
         textAlign="left"
