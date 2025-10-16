@@ -5,6 +5,7 @@ import {
   defineStyle,
 } from "@chakra-ui/styled-system";
 import { runIfFn } from "../utils/run-if-fn";
+import { mode } from "@chakra-ui/theme-tools";
 
 const { defineMultiStyleConfig, definePartsStyle } =
   createMultiStyleConfigHelpers(parts.keys);
@@ -12,10 +13,11 @@ const { defineMultiStyleConfig, definePartsStyle } =
 const $bg = cssVar("modal-bg");
 const $shadow = cssVar("modal-shadow");
 
-const baseStyleOverlay = defineStyle({
-  bg: "blackAlpha.600",
+const baseStyleOverlay = defineStyle((props) => ({
+  bg: mode("whiteAlpha.500", "blackAlpha.500")(props),
   zIndex: "modal",
-});
+  backdropFilter: "blur(9px)",
+}));
 
 const baseStyleDialogContainer = defineStyle((props) => {
   const { isCentered, scrollBehavior } = props;
@@ -80,7 +82,7 @@ const baseStyleFooter = defineStyle({
 });
 
 const baseStyle = definePartsStyle((props) => ({
-  overlay: baseStyleOverlay,
+  overlay: baseStyleOverlay(props),
   dialogContainer: runIfFn(baseStyleDialogContainer, props),
   dialog: runIfFn(baseStyleDialog, props),
   header: baseStyleHeader,
