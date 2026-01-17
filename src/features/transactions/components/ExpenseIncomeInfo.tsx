@@ -21,6 +21,7 @@ type Props = {
 export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
   const { t } = useTranslation();
   const { profile } = useAuthenticatedUser();
+
   const { incomes, expenses, balance } = useMemo(() => {
     const incomes = transactions
       .filter((item) => item.type === "income")
@@ -50,14 +51,18 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
         <Stack>
           <Stack align="center" py={5} gap={0}>
             <Heading fontFamily="Roboto Mono" letterSpacing="-2px">
-              {formatCurrency(displayBalance, profile?.currency)}
+              {formatCurrency(profile?.balance ?? 0, profile?.currency)}
             </Heading>
             <Text fontSize="sm" color="gray.500">
               {t("transactions.summary.balance")}
             </Text>
           </Stack>
           <Stack gap={0}>
-            <TransactionsChart data={transactions} />
+            <TransactionsChart
+              data={transactions}
+              initialBalance={profile?.balance}
+              initialBalanceDate={profile?.balance_update}
+            />
             <HStack justify="space-between" py={1}>
               <HStack>
                 <Box w="8px" h="8px" bg="commons.100" borderRadius="full" />

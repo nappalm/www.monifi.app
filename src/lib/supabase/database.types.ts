@@ -181,6 +181,8 @@ export type Database = {
           currency: string;
           id: string;
           language: string;
+          balance: number;
+          balance_update: string | null;
           name: string | null;
           subscription: string | null;
           onboarding: boolean;
@@ -189,6 +191,8 @@ export type Database = {
           currency?: string;
           id: string;
           language?: string;
+          balance?: number;
+          balance_update?: string | null;
           name?: string | null;
           subscription?: string | null;
           onboarding?: boolean;
@@ -197,6 +201,8 @@ export type Database = {
           currency?: string;
           id?: string;
           language?: string;
+          balance?: number;
+          balance_update?: string | null;
           name?: string | null;
           subscription?: string | null;
           onboarding?: boolean;
