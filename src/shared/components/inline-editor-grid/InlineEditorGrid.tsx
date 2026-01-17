@@ -86,11 +86,6 @@ export function InlineEditorGrid<T extends DataRow>({
     [],
   );
 
-  const cyanTransparent70 = useMemo(
-    () => transparentize("cyan.500", 0.7)({}),
-    [],
-  );
-
   const handleContainerFocus = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {
       if (e.target === tableRef.current) {
@@ -197,7 +192,6 @@ export function InlineEditorGrid<T extends DataRow>({
     updateCell,
     cyanTransparent,
     cyanTransparent50,
-    cyanTransparent70,
     profile,
     handleDragHandleStart,
     isDragging,
