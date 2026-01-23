@@ -17,17 +17,14 @@ import {
   useKeyPress,
 } from "@/shared";
 import {
-  Button,
   Grid,
   Heading,
   HStack,
   Stack,
-  Text,
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  IconArrowBarToDownDashed,
   IconCircleFilled,
   IconLineHeight,
   IconReceiptDollarFilled,
@@ -36,6 +33,7 @@ import {
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AccountInfo from "../components/AccountInfo";
+import ActionButtons from "../components/ActionButtons";
 import CategoriesInfo from "../components/CategoriesInfo";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import ExpenseIncomeInfo from "../components/ExpenseIncomeInfo";
@@ -43,6 +41,7 @@ import TransactionsTable from "../components/TransactionsTable";
 import { useTransactionHistory } from "../hooks/useTransactionHistory";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
+import LoadFileDrawer from "../components/LoadFileDrawer";
 
 export default function TransactionsPage() {
   const { t } = useTranslation();
@@ -55,6 +54,7 @@ export default function TransactionsPage() {
 
   const adminCategories = useDisclosure();
   const adminAccounts = useDisclosure();
+  const adminFiles = useDisclosure();
 
   const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
     null,
@@ -225,21 +225,11 @@ export default function TransactionsPage() {
                 canRedo={canRedo}
               />
             </HStack>
-            <Button
-              colorScheme="cyan"
-              w={["full", "full", "fit-content"]}
-              size="sm"
-              leftIcon={<IconArrowBarToDownDashed size={16} />}
-              onClick={handleNewRow}
-              isLoading={createTransaction.isPending}
-              rightIcon={
-                <Text fontSize="xs" opacity={0.5}>
-                  Ctrl + I
-                </Text>
-              }
-            >
-              {t("transactions.newRow")}
-            </Button>
+            <ActionButtons
+              onClickLoadFile={adminFiles.onOpen}
+              onClickNewRow={handleNewRow}
+              isLoadingNewRow={createTransaction.isPending}
+            />
           </HStack>
           <TransactionsTable
             data={filteredTransactions || []}
@@ -268,6 +258,7 @@ export default function TransactionsPage() {
 
       <CategoriesDrawer {...adminCategories} />
       <AccountsDrawer {...adminAccounts} />
+      <LoadFileDrawer {...adminFiles} />
     </>
   );
 }
