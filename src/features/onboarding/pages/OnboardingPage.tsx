@@ -1,14 +1,14 @@
 import { TablesUpdate } from "@/lib";
-import { Logo, useAuthenticatedUser } from "@/shared";
-import { Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { useAuthenticatedUser } from "@/shared";
+import { Container, Stack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingBaseForm from "../components/OnboardingBaseForm";
 import OnboardingGridDotted from "../components/OnboardingGridDotted";
+import PageTitle from "../components/PageTitle";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
 import { ONBOARDING_PATHS } from "../router";
-import PageTitle from "../components/PageTitle";
 
 export default function OnboardingPage() {
   const { t } = useTranslation();

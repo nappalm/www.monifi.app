@@ -360,9 +360,9 @@ export function useInlineEditor<T extends DataRow>({
       if (modifiedRows.size > 0) {
         onDataChange?.(newData);
 
-        for (const r of modifiedRows) {
+        modifiedRows.forEach((r) => {
           onRowChange?.(newData[r], r);
-        }
+        });
       }
 
       // Reset drag cells and direction

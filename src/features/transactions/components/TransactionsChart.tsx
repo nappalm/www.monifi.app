@@ -14,6 +14,8 @@ import {
 
 type Props = {
   data?: Tables<"transactions">[];
+  initialBalance?: number;
+  initialBalanceDate?: string | null;
 };
 
 const formatYAxis = (tick: number) => {
@@ -32,9 +34,27 @@ const formatXAxis = (tick: string) => {
   });
 };
 
-export default function TransactionsChart({ data = [] }: Props) {
+export default function TransactionsChart({
+  data = [],
+  initialBalance,
+  initialBalanceDate,
+}: Props) {
   const chartData = useMemo(() => {
     const transactions = data;
+
+    // Si no hay transacciones pero tenemos balance inicial, mostrar solo ese punto
+    if (
+      transactions.length === 0 &&
+      initialBalance !== undefined &&
+      initialBalanceDate
+    ) {
+      return [
+        {
+          date: initialBalanceDate.split("T")[0],
+          balance: initialBalance,
+        },
+      ];
+    }
 
     const dailyNetChanges = transactions.reduce(
       (acc, transaction) => {
@@ -68,7 +88,7 @@ export default function TransactionsChart({ data = [] }: Props) {
     });
 
     return cumulativeData;
-  }, [data]);
+  }, [data, initialBalance, initialBalanceDate]);
 
   const stopColor = useColorModeValue(_colors.gray[300], _colors.gray[500]);
   const stopColor2 = useColorModeValue(_colors.gray[200], _colors.gray[900]);
