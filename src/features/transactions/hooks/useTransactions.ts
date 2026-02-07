@@ -5,6 +5,7 @@ import {
 } from "@/lib/supabase/database.types";
 import { useOptimisticMutation } from "@/shared";
 import {
+  createBulkTransactions,
   createTransaction,
   deleteTransaction,
   getTransactions,
@@ -39,6 +40,24 @@ export const useCreateTransaction = () =>
       // Asumiendo que el elemento optimista es el último
       const withoutOptimistic = previous?.slice(0, -1) || [];
       return [...withoutOptimistic, serverResponse];
+    },
+  );
+
+export const useCreateBulkTransactions = () =>
+  useOptimisticMutation<
+    Partial<Tables<"transactions">>,
+    Omit<TablesInsert<"transactions">, "user_id">[],
+    Tables<"transactions">[]
+  >(
+    [CACHE_KEY],
+    createBulkTransactions,
+    (previous, newTransactions) => {
+      return [...(previous || []), ...newTransactions];
+    },
+    (previous, serverResponse) => {
+      const withoutOptimistic =
+        previous?.slice(0, -serverResponse.length) || [];
+      return [...withoutOptimistic, ...serverResponse];
     },
   );
 

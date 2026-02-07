@@ -42,6 +42,8 @@ import { useTransactionHistory } from "../hooks/useTransactionHistory";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
 import LoadFileDrawer from "../components/LoadFileDrawer";
+import { useNavigate } from "react-router-dom";
+import { TRANSACTIONS_PATHS } from "../router";
 
 export default function TransactionsPage() {
   const { t } = useTranslation();
@@ -55,6 +57,7 @@ export default function TransactionsPage() {
   const adminCategories = useDisclosure();
   const adminAccounts = useDisclosure();
   const adminFiles = useDisclosure();
+  const navigate = useNavigate();
 
   const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
     null,
@@ -183,6 +186,10 @@ export default function TransactionsPage() {
     setDetailsRow(row || null);
   };
 
+  const handleLoadFile = () => {
+    navigate(TRANSACTIONS_PATHS.extract);
+  };
+
   const isSmallScreen =
     useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
@@ -226,7 +233,7 @@ export default function TransactionsPage() {
               />
             </HStack>
             <ActionButtons
-              onClickLoadFile={adminFiles.onOpen}
+              onClickLoadFile={handleLoadFile}
               onClickNewRow={handleNewRow}
               isLoadingNewRow={createTransaction.isPending}
             />
