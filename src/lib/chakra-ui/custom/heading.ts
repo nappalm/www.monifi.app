@@ -4,7 +4,7 @@ export default defineStyleConfig({
   variants: {
     "onboarding-title": {
       textDecoration: "underline",
-      fontSize: 20,
+      fontSize: "30px",
       textUnderlineOffset: 6,
       textDecorationThickness: 4,
       marginTop: 3,
@@ -12,6 +12,7 @@ export default defineStyleConfig({
     },
   },
   baseStyle: {
-    fontWeight: 400,
+    fontFamily: "Geist Mono",
+    fontWeight: 500,
   },
 });

@@ -15,9 +15,9 @@ const baseStyle = definePartsStyle({
     width: "full",
   },
   th: {
-    fontFamily: "heading",
-    fontWeight: "bold",
-    textTransform: "capitalize",
+    fontFamily: "Geist Mono",
+    fontWeight: 400,
+    textTransform: "uppercase",
     letterSpacing: "wider",
     textAlign: "start",
   },
