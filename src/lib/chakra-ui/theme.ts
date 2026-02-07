@@ -17,8 +17,8 @@ const styles = {
 };
 
 const fonts = {
-  heading: "Manrope",
-  body: "Manrope",
+  heading: "Geist",
+  body: "Geist",
 };
 
 const fontSizes = {
