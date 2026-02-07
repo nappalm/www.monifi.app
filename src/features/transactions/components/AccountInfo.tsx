@@ -125,7 +125,7 @@ export default function AccountInfo({ transactions }: Props) {
                     <IconWallet style={{ color: _colors.gray[500] }} />
                     <Stack gap={0}>
                       <Text>{currentAccount.name}</Text>
-                      <Text fontFamily="Roboto Mono" fontSize="xs">
+                      <Text fontSize="xs">
                         {formatCurrency(
                           currentAccount.total,
                           profile?.currency,

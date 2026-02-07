@@ -80,7 +80,6 @@ export default function CategoriesInfo({ transactions = [] }: Props) {
               </Text>
               <Tooltip
                 label={formatCurrency(category.total, profile?.currency)}
-                fontFamily="Roboto Mono"
                 hasArrow
                 placement="right"
               >

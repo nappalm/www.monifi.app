@@ -12,6 +12,6 @@ export default defineStyleConfig({
     },
   },
   baseStyle: {
-    fontWeight: 500,
+    fontWeight: 400,
   },
 });

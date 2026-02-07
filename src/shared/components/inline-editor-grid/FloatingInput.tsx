@@ -34,7 +34,6 @@ export const FloatingInput = memo(function FloatingInput({
       variant="unstyled"
       bg={inputBg}
       fontSize="sm"
-      fontFamily="Roboto Mono"
       fontWeight="semibold"
       px="3"
       sx={{
