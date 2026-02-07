@@ -1,16 +1,30 @@
-import { useRef, useState, useCallback } from "react";
-import { Box, Card, CardBody, Text, VStack, useToast } from "@chakra-ui/react";
-import { IconUpload, IconFileTypePdf } from "@tabler/icons-react";
+import {
+  Card,
+  CardBody,
+  HStack,
+  IconButton,
+  Text,
+  VStack,
+  useToast,
+} from "@chakra-ui/react";
+import { IconFileTypePdf, IconTrash, IconUpload } from "@tabler/icons-react";
+import type { ChangeEvent, DragEvent } from "react";
+import { useCallback, useRef, useState } from "react";
 
 const ACCEPTED_TYPES = ["application/pdf"];
 
-export default function LoadFilePC({ onFileSelect }) {
-  const inputRef = useRef(null);
+interface LoadFilePCProps {
+  onFileSelect?: (file: File | null) => void;
+}
+
+export default function LoadFilePC({ onFileSelect }: LoadFilePCProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
 
   const [isDragging, setIsDragging] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const validateFile = (file) => {
+  const validateFile = (file: File): boolean => {
     if (!ACCEPTED_TYPES.includes(file.type)) {
       toast({
         title: "Archivo inválido",
@@ -25,14 +39,21 @@ export default function LoadFilePC({ onFileSelect }) {
   };
 
   const handleFile = useCallback(
-    (file) => {
+    (file: File | undefined) => {
       if (!file || !validateFile(file)) return;
+      setSelectedFile(file);
       onFileSelect?.(file);
     },
-    [onFileSelect],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [validateFile],
   );
 
-  const handleDrop = (e) => {
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    onFileSelect?.(null);
+  };
+
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
 
@@ -40,7 +61,7 @@ export default function LoadFilePC({ onFileSelect }) {
     handleFile(file);
   };
 
-  const handleDragOver = (e) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
 
@@ -56,11 +77,41 @@ export default function LoadFilePC({ onFileSelect }) {
     inputRef.current?.click();
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     handleFile(file);
     e.target.value = "";
   };
+
+  if (selectedFile) {
+    return (
+      <Card>
+        <CardBody>
+          <HStack justify="space-between">
+            <HStack spacing={3}>
+              <IconFileTypePdf size={24} />
+              <VStack align="start" gap={0}>
+                <Text fontSize="sm" fontWeight="medium" noOfLines={1}>
+                  {selectedFile.name}
+                </Text>
+                <Text fontSize="xs" color="gray.500">
+                  {(selectedFile.size / 1024).toFixed(1)} KB
+                </Text>
+              </VStack>
+            </HStack>
+            <IconButton
+              aria-label="Eliminar archivo"
+              icon={<IconTrash size={16} />}
+              size="sm"
+              variant="ghost"
+              colorScheme="red"
+              onClick={handleRemoveFile}
+            />
+          </HStack>
+        </CardBody>
+      </Card>
+    );
+  }
 
   return (
     <>
@@ -71,7 +122,6 @@ export default function LoadFilePC({ onFileSelect }) {
         onDragOver={handleDragOver}
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
-        variant="solid"
       >
         <CardBody>
           <VStack gap={0}>

@@ -15,18 +15,58 @@ import {
   UseDisclosureProps,
 } from "@chakra-ui/react";
 import { Icon3dCubeSphere } from "@tabler/icons-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import LoadFilePC from "./LoadFilePC";
 import TransactionsTable from "./TransactionsTable";
+import useTransactionExtract from "../hooks/useTransactionExtract";
+import extractMock from "../_mocks_/extractMock.json";
 
 type Props = UseDisclosureProps;
 
 export default function LoadFileDrawer({ isOpen = false, onClose }: Props) {
-  const [step] = useState<"upload" | "verify">("verify");
+  const transactionExtract = useTransactionExtract();
+
+  const [file, setFile] = useState<File | null>(null);
+  const [step, setStep] = useState<"upload" | "verify">("verify");
+
+  const handleSendfile = () => {
+    if (!file) return;
+    const form = new FormData();
+    form.append("file", file);
+    transactionExtract.mutate(form, {
+      onSuccess: () => {
+        setStep("verify");
+      },
+    });
+  };
+
+  const normalizeDataTable = useMemo(() => {
+    const mock = extractMock;
+    return mock.data.map(({ date, ...item }) => ({
+      occurred_at: date,
+      ...item,
+      category_id: null,
+      account_id: null,
+    }));
+
+    if (transactionExtract.data) {
+      return transactionExtract.data?.data.map((item, index) => {
+        return {
+          ...item,
+          id: index,
+          account_id: null,
+          category_id: null,
+          enabled: true,
+        };
+      });
+    }
+
+    return [];
+  }, [transactionExtract.data]);
 
   return (
     <Drawer
-      isOpen={isOpen}
+      isOpen={isOpen || !!file}
       onClose={() => onClose?.()}
       size={step === "upload" ? "sm" : "xl"}
     >
@@ -44,8 +84,13 @@ export default function LoadFileDrawer({ isOpen = false, onClose }: Props) {
                 Usaremos Inteligencia artificial para procesar tus
                 transacciones.
               </Text>
-              <LoadFilePC />
-              <Button variant="solid" colorScheme="cyan">
+              <LoadFilePC onFileSelect={setFile} />
+              <Button
+                variant="solid"
+                colorScheme="cyan"
+                onClick={handleSendfile}
+                isLoading={transactionExtract.isPending}
+              >
                 Inicializar reconocimiento
               </Button>
             </Stack>
@@ -67,7 +112,7 @@ export default function LoadFileDrawer({ isOpen = false, onClose }: Props) {
                   monto que debe procesarse.
                 </Highlight>
               </Alert>
-              <TransactionsTable data={[]} />
+              <TransactionsTable data={normalizeDataTable} />
             </Stack>
           )}
         </DrawerBody>
