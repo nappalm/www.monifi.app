@@ -1,3 +1,4 @@
+import { ButtonSpinner } from "@/shared";
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
 import {
   IconFileFilled,
   IconFileTypePdf,
+  IconLoader,
   IconPdf,
   IconTrashFilled,
 } from "@tabler/icons-react";
@@ -176,6 +178,8 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
                   variant="solid"
                   colorScheme="cyan"
                   isLoading={isLoading}
+                  spinner={<ButtonSpinner />}
+                  loadingText="Procesando documento"
                 >
                   Extraer información
                 </Button>

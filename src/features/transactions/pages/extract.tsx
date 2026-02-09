@@ -1,5 +1,5 @@
 import { Tables } from "@/lib/supabase/database.types";
-import { AccountsDrawer, CategoriesDrawer } from "@/shared";
+import { AccountsDrawer, ButtonSpinner, CategoriesDrawer } from "@/shared";
 import {
   Button,
   Container,
@@ -11,12 +11,24 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { IconX } from "@tabler/icons-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import LoadFilePC from "../components/LoadFilePC";
 import TransactionsTable from "../components/TransactionsTable";
 import useTransactionExtract from "../hooks/useTransactionExtract";
-import { useCreateBulkTransactions } from "../hooks/useTransactions";
+import {
+  useCreateBulkTransactions,
+  useTransactions,
+} from "../hooks/useTransactions";
+
+const normalizeDescription = (d: string | null | undefined) =>
+  (d || "").replace(/[*]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+
+const getTransactionKey = (t: {
+  description?: string | null;
+  amount: number;
+  type: string;
+}) => `${normalizeDescription(t.description)}|${t.amount}|${t.type}`;
 
 export default function ExtractPage() {
   const transactionExtract = useTransactionExtract();
@@ -29,21 +41,63 @@ export default function ExtractPage() {
   const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
     null,
   );
+  const [duplicateKeys, setDuplicateKeys] = useState<Set<string>>(new Set());
+
+  const extractDateRange = useMemo<[string, string] | null>(() => {
+    if (!transactionExtract.isSuccess || !transactionExtract.data.data.length)
+      return null;
+    const dates = transactionExtract.data.data.map((t) => t.date);
+    const sorted = [...dates].sort();
+
+    const MARGIN_DAYS = 7;
+    const start = new Date(sorted[0]);
+    start.setDate(start.getDate() - MARGIN_DAYS);
+    const end = new Date(sorted[sorted.length - 1]);
+    end.setDate(end.getDate() + MARGIN_DAYS);
+
+    return [start.toISOString().split("T")[0], end.toISOString().split("T")[0]];
+  }, [transactionExtract.isSuccess, transactionExtract.data]);
+
+  const existingTransactions = useTransactions(extractDateRange);
 
   useEffect(() => {
-    if (transactionExtract.isSuccess) {
-      setTableData(() => {
-        return transactionExtract.data.data.map(({ date, ...item }, index) => ({
-          id: index + 1,
-          occurred_at: date,
-          ...item,
-          enabled: true,
-          category_id: null,
-          account_id: null,
-        })) as Tables<"transactions">[];
-      });
-    }
+    if (!transactionExtract.isSuccess) return;
+
+    setTableData(
+      transactionExtract.data.data.map(({ date, ...item }, index) => ({
+        id: index + 1,
+        occurred_at: date + "T00:00:00",
+        ...item,
+        enabled: true,
+        category_id: null,
+        account_id: null,
+      })) as Tables<"transactions">[],
+    );
+    setDuplicateKeys(new Set());
   }, [transactionExtract.data, transactionExtract.isSuccess]);
+
+  // Detect duplicates when existing transactions are available
+  useEffect(() => {
+    if (!existingTransactions.data || !transactionExtract.isSuccess) return;
+
+    const existingKeys = new Set(
+      existingTransactions.data.map(getTransactionKey),
+    );
+
+    setDuplicateKeys(existingKeys);
+
+    if (existingKeys.size > 0) {
+      setTableData((prev) =>
+        prev.map((t) =>
+          existingKeys.has(getTransactionKey(t)) ? { ...t, enabled: false } : t,
+        ),
+      );
+    }
+  }, [
+    existingTransactions.data,
+    transactionExtract.isSuccess,
+    transactionExtract.data,
+  ]);
 
   const handleExtract = (file: File) => {
     transactionExtract.mutate({ file });
@@ -91,7 +145,14 @@ export default function ExtractPage() {
           </Stack>
           {transactionExtract.isSuccess && (
             <HStack>
-              <Button colorScheme="cyan" variant="solid">
+              <Button
+                colorScheme="cyan"
+                variant="solid"
+                isLoading={createBulkTransactions.isPending}
+                onClick={handleSave}
+                spinner={<ButtonSpinner />}
+                loadingText="Guardando transacciones"
+              >
                 Save transactions
               </Button>
               <IconButton
@@ -111,16 +172,29 @@ export default function ExtractPage() {
         )}
 
         {transactionExtract.isSuccess && (
-          <TransactionsTable
-            data={tableData}
-            isLoading={transactionExtract.isPending}
-            onRowChange={handleUpdateRow}
-            onRemoveRow={handleRemoveRow}
-            onSeeDetailsRow={handleSeeDetailsRow}
-            onDisabledRow={handleDisabledRow}
-            onAdminCategories={adminCategories.onToggle}
-            onAdminAccounts={adminAccounts.onToggle}
-          />
+          <>
+            {duplicateKeys.size > 0 && (
+              <Text color="orange.300" fontSize="sm">
+                {
+                  tableData.filter((t) =>
+                    duplicateKeys.has(getTransactionKey(t)),
+                  ).length
+                }{" "}
+                transacción(es) duplicada(s) detectada(s) y deshabilitada(s).
+              </Text>
+            )}
+            <TransactionsTable
+              data={tableData}
+              isLoading={transactionExtract.isPending}
+              duplicateKeys={duplicateKeys}
+              onRowChange={handleUpdateRow}
+              onRemoveRow={handleRemoveRow}
+              onSeeDetailsRow={handleSeeDetailsRow}
+              onDisabledRow={handleDisabledRow}
+              onAdminCategories={adminCategories.onToggle}
+              onAdminAccounts={adminAccounts.onToggle}
+            />
+          </>
         )}
       </Stack>
 

@@ -5,14 +5,26 @@ import {
   Column,
   InlineEditorGrid,
 } from "@/shared";
+import { Tag } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
 import TypeSelect from "./TypeSelect";
+import { isEmpty } from "lodash";
+
+const normalizeDescription = (d: string | null | undefined) =>
+  (d || "").replace(/[*]/g, " ").replace(/\s+/g, " ").trim().toLowerCase();
+
+const getTransactionKey = (t: {
+  description?: string | null;
+  amount: number;
+  type: string;
+}) => `${normalizeDescription(t.description)}|${t.amount}|${t.type}`;
 
 type Props = {
   data: Tables<"transactions">[];
   isLoading: boolean;
+  duplicateKeys?: Set<string>;
   onRowChange: (updatedData: Tables<"transactions">, rowIndex: number) => void;
   onAdminCategories: VoidFunction;
   onAdminAccounts: VoidFunction;
@@ -24,6 +36,7 @@ type Props = {
 export default function TransactionsTable({
   data,
   isLoading,
+  duplicateKeys,
   onRowChange,
   onRemoveRow,
   onSeeDetailsRow,
@@ -134,6 +147,9 @@ export default function TransactionsTable({
       accessor: "description",
       sx: {
         maxW: "200px",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
       },
     },
     {
@@ -145,6 +161,25 @@ export default function TransactionsTable({
         minW: "120px",
         fontFamily: "Geist Mono",
       },
+    },
+    {
+      header: "",
+      accessor: "enabled",
+      isEditable: false,
+      isDraggable: false,
+      isVisible: !isEmpty(duplicateKeys),
+      sx: {
+        w: "90px",
+        minW: "90px",
+        textAlign: "center",
+        p: 0,
+      },
+      render: (_, row) =>
+        duplicateKeys?.has(getTransactionKey(row)) ? (
+          <Tag size="sm" colorScheme="orange">
+            Duplicada
+          </Tag>
+        ) : null,
     },
     {
       header: "",
