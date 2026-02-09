@@ -6,23 +6,11 @@ import {
   Heading,
   HStack,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuIcon,
-  MenuItem,
-  MenuList,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  IconArrowNarrowLeft,
-  IconCancel,
-  IconChevronDown,
-  IconMenu3,
-  IconMenu4,
-  IconX,
-} from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import LoadFilePC from "../components/LoadFilePC";
@@ -33,8 +21,6 @@ import { useCreateBulkTransactions } from "../hooks/useTransactions";
 export default function ExtractPage() {
   const transactionExtract = useTransactionExtract();
   const createBulkTransactions = useCreateBulkTransactions();
-
-  const [file, setFile] = useState<File | null>(null);
 
   const adminCategories = useDisclosure();
   const adminAccounts = useDisclosure();
