@@ -2,15 +2,27 @@ import { Tables } from "@/lib/supabase/database.types";
 import { AccountsDrawer, CategoriesDrawer } from "@/shared";
 import {
   Button,
-  Grid,
+  Container,
   Heading,
   HStack,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuIcon,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
-  useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IconArrowNarrowLeft } from "@tabler/icons-react";
+import {
+  IconArrowNarrowLeft,
+  IconCancel,
+  IconChevronDown,
+  IconMenu3,
+  IconMenu4,
+  IconX,
+} from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import LoadFilePC from "../components/LoadFilePC";
@@ -23,8 +35,6 @@ export default function ExtractPage() {
   const createBulkTransactions = useCreateBulkTransactions();
 
   const [file, setFile] = useState<File | null>(null);
-  const isSmallScreen =
-    useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
   const adminCategories = useDisclosure();
   const adminAccounts = useDisclosure();
@@ -49,8 +59,7 @@ export default function ExtractPage() {
     }
   }, [transactionExtract.data, transactionExtract.isSuccess]);
 
-  const handleExtract = () => {
-    if (!file) return;
+  const handleExtract = (file: File) => {
     transactionExtract.mutate({ file });
   };
 
@@ -94,53 +103,39 @@ export default function ExtractPage() {
               listos para analizar.
             </Text>
           </Stack>
-          <Button leftIcon={<IconArrowNarrowLeft size={16} />} variant="ghost">
-            Back
-          </Button>
+          {transactionExtract.isSuccess && (
+            <HStack>
+              <Button colorScheme="cyan" variant="solid">
+                Save transactions
+              </Button>
+              <IconButton
+                aria-label="Cancel extract file"
+                icon={<IconX size={16} />}
+              />
+            </HStack>
+          )}
         </HStack>
-        <Grid
-          gridAutoFlow={isSmallScreen ? "row" : "column"}
-          gridTemplateColumns={
-            isSmallScreen
-              ? "minmax(0, 1fr)"
-              : "296px minmax(0, calc(100% - 296px - 24px))"
-          }
-          gridGap="24px"
-          py={5}
-        >
-          <Stack gap={2}>
-            <LoadFilePC onFileSelect={setFile} />
-            <Button
-              colorScheme="cyan"
-              variant="solid"
-              onClick={handleExtract}
-              isDisabled={!file}
+        {!transactionExtract.isSuccess && (
+          <Container mt={20} maxWidth="container.md">
+            <LoadFilePC
+              onContinue={handleExtract}
               isLoading={transactionExtract.isPending}
-            >
-              Extraer información
-            </Button>
-            <Button
-              colorScheme="cyan"
-              variant="solid"
-              onClick={handleSave}
-              isDisabled={!file}
-            >
-              Guardar transacciones
-            </Button>
-          </Stack>
-          <Stack>
-            <TransactionsTable
-              data={tableData}
-              isLoading={transactionExtract.isPending}
-              onRowChange={handleUpdateRow}
-              onRemoveRow={handleRemoveRow}
-              onSeeDetailsRow={handleSeeDetailsRow}
-              onDisabledRow={handleDisabledRow}
-              onAdminCategories={adminCategories.onToggle}
-              onAdminAccounts={adminAccounts.onToggle}
             />
-          </Stack>
-        </Grid>
+          </Container>
+        )}
+
+        {transactionExtract.isSuccess && (
+          <TransactionsTable
+            data={tableData}
+            isLoading={transactionExtract.isPending}
+            onRowChange={handleUpdateRow}
+            onRemoveRow={handleRemoveRow}
+            onSeeDetailsRow={handleSeeDetailsRow}
+            onDisabledRow={handleDisabledRow}
+            onAdminCategories={adminCategories.onToggle}
+            onAdminAccounts={adminAccounts.onToggle}
+          />
+        )}
       </Stack>
 
       <DetailsDrawer
