@@ -8,17 +8,16 @@ import Components from "./custom";
 const styles = {
   global: (props: StyleFunctionProps) => ({
     body: {
-      // "#0A0B0B"
       bg: mode("#ffffff", "transparent")(props),
-      fontWeight: 500,
+      fontWeight: 400,
       fontSize: "14px",
     },
   }),
 };
 
 const fonts = {
-  heading: "Manrope",
-  body: "Manrope",
+  heading: "Geist",
+  body: "Geist",
 };
 
 const fontSizes = {

@@ -55,8 +55,7 @@ export default function GlobalStyle() {
   return (
     <Global
       styles={css`
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
-        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&display=swap");
 
         #root,
         html,

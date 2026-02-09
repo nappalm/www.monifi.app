@@ -20,7 +20,10 @@ const $bs = cssVar("drawer-box-shadow");
 function getSize(value: string) {
   if (value === "full") {
     return definePartsStyle({
-      dialog: { maxW: "100vw", h: "100vh" },
+      dialog: {
+        maxW: "calc(100vw - var(--chakra-space-6))",
+        h: "calc(100vh - var(--chakra-space-6))",
+      },
     });
   }
   return definePartsStyle({

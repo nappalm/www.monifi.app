@@ -10,12 +10,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  useState,
-  type FocusEvent,
-  type ReactNode,
-  type RefObject,
-} from "react";
+import { type FocusEvent, type ReactNode, type RefObject } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import RHFError from "./RHFError";
 
@@ -49,12 +44,9 @@ export default function RHFInput({
   ...inputProps
 }: Props) {
   const { control } = useFormContext();
-  const [isFocused, setIsFocused] = useState(false);
 
   const bg = useColorModeValue("gray.200", "gray.900");
-  const height = size === "sm" ? "40px" : "56px";
-  const floatingLabelTop = size === "sm" ? "-10px" : "-12px";
-  const inputFloatingMt = size === "sm" ? "calc(38px / 2)" : "calc(50px / 2)";
+  const height = size === "sm" ? "40px" : "48px";
   const labelFontSize = size === "sm" ? "xs" : "sm";
 
   return (
@@ -63,23 +55,12 @@ export default function RHFInput({
       control={control}
       render={({ field, fieldState: { error } }) => {
         const { ref: fieldRef, onBlur: fieldOnBlur, ...restField } = field;
-        const hasValue = field.value?.toString().length > 0;
-        const showFloating = isFocused || hasValue;
-
-        let labelColor = "gray.500";
-        if (error) {
-          labelColor = "red.500";
-        } else if (isFocused) {
-          labelColor = "inherit";
-        }
 
         const handleFocus = (e: FocusEvent<HTMLInputElement>) => {
-          setIsFocused(true);
           onFocus?.(e);
         };
 
         const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-          setIsFocused(false);
           fieldOnBlur();
           onBlur?.(e);
         };
@@ -98,9 +79,23 @@ export default function RHFInput({
         };
 
         return (
-          <Stack w="full">
+          <Stack w="full" spacing={1}>
+            {label && (
+              <Text
+                as="label"
+                htmlFor={name}
+                fontSize={labelFontSize}
+                color={error ? "red.500" : "gray.500"}
+                fontFamily="Geist Mono"
+                textTransform="uppercase"
+                px="1"
+              >
+                {label}
+                {isRequired && " *"}
+              </Text>
+            )}
+
             <Box
-              position="relative"
               w="full"
               borderRadius="xl"
               bg={error ? "#F3126050" : bg}
@@ -108,23 +103,6 @@ export default function RHFInput({
               lineHeight={height}
               transition="background 500ms cubic-bezier(0.4, 0, 0.2, 1)"
             >
-              <Box
-                as="label"
-                htmlFor={name}
-                position="absolute"
-                top={showFloating ? floatingLabelTop : "0px"}
-                left={icon ? "40px" : "12px"}
-                fontSize={showFloating ? "xs" : labelFontSize}
-                color={labelColor}
-                px="1"
-                transition="all 0.2s ease"
-                zIndex="1"
-                pointerEvents="none"
-              >
-                {label}
-                {isRequired && " *"}
-              </Box>
-
               <InputGroup {...inputGroup}>
                 {icon && (
                   <InputLeftElement pointerEvents="none">
@@ -136,8 +114,7 @@ export default function RHFInput({
                   bg="transparent"
                   variant="unstyled"
                   px={4}
-                  height={showFloating ? "20px" : height}
-                  mt={showFloating ? inputFloatingMt : "0px"}
+                  height={height}
                   {...restField}
                   {...inputProps}
                   onFocus={handleFocus}

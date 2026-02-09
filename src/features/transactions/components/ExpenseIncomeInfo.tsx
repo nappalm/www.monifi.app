@@ -50,7 +50,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
       <CardBody>
         <Stack>
           <Stack align="center" py={5} gap={0}>
-            <Heading fontFamily="Roboto Mono" letterSpacing="-2px">
+            <Heading fontFamily="Geist Mono" letterSpacing="-2px">
               {formatCurrency(profile?.balance ?? 0, profile?.currency)}
             </Heading>
             <Text fontSize="sm" color="gray.500">
@@ -70,7 +70,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
                   {t("transactions.summary.totalIncome")}
                 </Text>
               </HStack>
-              <Text fontSize="xs" fontFamily="Roboto Mono">
+              <Text fontSize="xs" fontFamily="Geist Mono">
                 {formatCurrency(incomes, profile?.currency)}
               </Text>
             </HStack>
@@ -82,7 +82,7 @@ export default function ExpenseIncomeInfo({ transactions = [] }: Props) {
                   {t("transactions.summary.totalExpenses")}
                 </Text>
               </HStack>
-              <Text fontSize="xs" fontFamily="Roboto Mono">
+              <Text fontSize="xs" fontFamily="Geist Mono">
                 {formatCurrency(expenses, profile?.currency)}
               </Text>
             </HStack>

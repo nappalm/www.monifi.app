@@ -5,7 +5,7 @@ import { runIfFn } from "../utils/run-if-fn";
 const baseStyle = defineStyle({
   lineHeight: "1.2",
   borderRadius: "xl",
-  fontWeight: "semibold",
+  fontWeight: 500,
   transitionProperty: "common",
   transitionDuration: "normal",
   _focusVisible: {
