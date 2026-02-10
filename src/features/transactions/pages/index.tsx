@@ -212,7 +212,7 @@ export default function TransactionsPage() {
             alignItems={["flex-start", "flex-start", "space-between"]}
             flexDir={["column", "column", "row"]}
           >
-            <HStack gap="1px">
+            <HStack gap={0}>
               <FilterButtonMenu
                 filterGroups={filterGroups}
                 appliedFilters={filters}

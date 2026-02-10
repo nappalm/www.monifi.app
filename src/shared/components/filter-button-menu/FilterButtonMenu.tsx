@@ -155,6 +155,7 @@ export default function FilterButtonMenu({
     >
       <Box position="relative">
         <MenuButton
+          mr="-1px"
           as={IconButton}
           aria-label={t("components.filterButtonMenu.filter")}
           icon={<IconFilter2 size={16} />}
