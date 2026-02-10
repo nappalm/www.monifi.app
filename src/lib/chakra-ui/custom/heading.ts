@@ -13,6 +13,6 @@ export default defineStyleConfig({
   },
   baseStyle: {
     fontFamily: "Geist Mono",
-    fontWeight: 500,
+    fontWeight: 300,
   },
 });
