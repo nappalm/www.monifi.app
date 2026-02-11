@@ -1,8 +1,9 @@
-import { FormProvider, RHFSelect } from "@/shared";
+import { ButtonSpinner, FormProvider, RHFSelect } from "@/shared";
 import { Button, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BaseQuestionsFormValues, CommmonFormProps } from "../utils/types";
+import { IconArrowNarrowRight } from "@tabler/icons-react";
 
 type Props = {
   onSubmit: (values: BaseQuestionsFormValues) => void;
@@ -54,9 +55,20 @@ export default function OnboardingBaseQuestionsForm({
             {t("onboarding.baseQuestions.financeManagement.noTrack")}
           </option>
         </RHFSelect>
-        <Button colorScheme="cyan" type="submit" isLoading={isLoading}>
-          {t("common.continue")}
-        </Button>
+        <Stack mt={3} align="end">
+          <Button
+            w="fit-content"
+            colorScheme="cyan"
+            type="submit"
+            variant="solid"
+            isLoading={isLoading}
+            rightIcon={<IconArrowNarrowRight size={16} />}
+            spinner={<ButtonSpinner />}
+            loadingText={t("common.continue") + "..."}
+          >
+            {t("common.continue")}
+          </Button>
+        </Stack>
       </Stack>
     </FormProvider>
   );
