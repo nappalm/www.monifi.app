@@ -17,9 +17,9 @@ const baseStyleField = defineStyle({
   paddingBottom: "1px",
   lineHeight: "normal",
   bg: $bg.reference,
-  [$bg.variable]: "colors.black2",
+  [$bg.variable]: "gray.200",
   _dark: {
-    [$bg.variable]: "colors.black2",
+    [$bg.variable]: "gray.900",
   },
   "> option, > optgroup": {
     bg: $bg.reference,
