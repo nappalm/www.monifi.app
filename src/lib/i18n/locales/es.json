@@ -176,10 +176,6 @@
       "title": "Cuentas",
       "description": "Agrega tus carteras y gestiona todas tus finanzas en un solo lugar. Puedes registrar cuentas de débito, crédito, ahorro e incluso billeteras digitales para obtener una vista completa de tus transacciones."
     },
-    "categories": {
-      "title": "Categorías",
-      "description": "Crea categorías para clasificar tus ingresos y gastos. Esto te ayudará a entender de dónde viene tu dinero y hacia dónde va."
-    },
     "appFeatures": {
       "title": "¡Todo listo!",
       "description": "¡Bienvenido a bordo! Ahora estás listo para tomar el control de tus finanzas. Sumérgete para rastrear gastos, crear presupuestos y obtener información sobre tus hábitos financieros. ¡Feliz presupuestación!",
@@ -197,14 +193,6 @@
           "title": "Presupuestos",
           "description": "Crea y gestiona presupuestos para mantenerte al tanto de tus gastos y alcanzar tus metas financieras."
         },
-        "debts": {
-          "title": "Deudas",
-          "description": "Lleva un registro de tus deudas y gestiona los pagos de manera efectiva."
-        },
-        "creditCards": {
-          "title": "Tarjetas de crédito",
-          "description": "Monitorea tus gastos y saldos de tarjetas de crédito para mantener la salud financiera."
-        },
         "aiSupport": {
           "title": "Soporte IA",
           "description": "Obtén asesoramiento financiero personalizado e información de nuestro asistente IA."
@@ -213,6 +201,7 @@
     },
     "accountsForm": {
       "accountName": "Nombre de la cuenta",
+      "accountAmount": "Monto actual",
       "wallet": "Cartera",
       "edit": "Editar",
       "remove": "Eliminar",
@@ -222,6 +211,31 @@
     "categoriesForm": {
       "categoryName": "Nombre de la categoría",
       "category": "Categoría"
+    },
+    "categories": {
+      "title": "Categorías",
+      "description": "Crea categorías para clasificar tus ingresos y gastos. Esto te ayudará a entender de dónde viene tu dinero y hacia dónde va.",
+      "food": "Alimentación",
+      "transport": "Transporte",
+      "housing": "Vivienda",
+      "utilities": "Servicios",
+      "entertainment": "Entretenimiento",
+      "health": "Salud",
+      "education": "Educación",
+      "equipment": "Equipamiento de trabajo",
+      "clothing": "Ropa y accesorios",
+      "savings": "Ahorro",
+      "investments": "Inversiones",
+      "insurance": "Seguros",
+      "shopping": "Compras",
+      "personal_care": "Cuidado personal",
+      "travel": "Viajes",
+      "subscriptions": "Suscripciones",
+      "gifts": "Regalos",
+      "debt": "Deudas",
+      "taxes": "Impuestos",
+      "income": "Ingresos",
+      "other": "Otros"
     }
   },
   "transactions": {

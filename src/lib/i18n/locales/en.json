@@ -176,10 +176,6 @@
       "title": "Accounts",
       "description": "Add your wallets and manage all your finances in one place. You can register debit, credit, savings accounts, and even digital wallets to get a complete view of your transactions."
     },
-    "categories": {
-      "title": "Categories",
-      "description": "Create categories to classify your income and expenses. This will help you understand where your money is coming from and where it is going."
-    },
     "appFeatures": {
       "title": "You're all set!",
       "description": "Welcome aboard! You're now ready to take control of your finances. Dive in to track spending, create budgets, and gain insights into your financial habits. Happy budgeting!",
@@ -197,14 +193,6 @@
           "title": "Budgets",
           "description": "Create and manage budgets to stay on top of your spending and achieve your financial goals."
         },
-        "debts": {
-          "title": "Depts",
-          "description": "Keep track of your debts and manage repayments effectively."
-        },
-        "creditCards": {
-          "title": "Credit cards",
-          "description": "Monitor your credit card spending and balances to maintain financial health."
-        },
         "aiSupport": {
           "title": "AI Support",
           "description": "Get personalized financial advice and insights from our AI assistant."
@@ -213,6 +201,7 @@
     },
     "accountsForm": {
       "accountName": "Account Name",
+      "accountAmount": "Current amount",
       "wallet": "Wallet",
       "edit": "Edit",
       "remove": "Remove",
@@ -222,6 +211,31 @@
     "categoriesForm": {
       "categoryName": "Category Name",
       "category": "Category"
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "Create categories to classify your income and expenses. This will help you understand where your money is coming from and where it is going.",
+      "food": "Food",
+      "transport": "Transportation",
+      "housing": "Housing",
+      "utilities": "Utilities",
+      "entertainment": "Entertainment",
+      "health": "Health",
+      "education": "Education",
+      "equipment": "Work Equipment",
+      "clothing": "Clothing and Accessories",
+      "savings": "Savings",
+      "investments": "Investments",
+      "insurance": "Insurance",
+      "shopping": "Shopping",
+      "personal_care": "Personal Care",
+      "travel": "Travel",
+      "subscriptions": "Subscriptions",
+      "gifts": "Gifts",
+      "debt": "Debt",
+      "taxes": "Taxes",
+      "income": "Income",
+      "other": "Other"
     }
   },
   "transactions": {
