@@ -1,19 +1,12 @@
 import { TablesInsert } from "@/lib";
-import { useAuthenticatedUser } from "@/shared";
+import { ButtonSpinner, useAuthenticatedUser } from "@/shared";
 import {
   useBulkCreateCategories,
   useCategories,
   useDeleteCategory,
   useUpdateCategory,
 } from "@/shared/hooks/useCategories";
-import {
-  Button,
-  ButtonSpinner,
-  Container,
-  HStack,
-  Stack,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, Container, HStack, Stack, useToast } from "@chakra-ui/react";
 import {
   IconArrowNarrowRight,
   IconRowInsertBottom,
