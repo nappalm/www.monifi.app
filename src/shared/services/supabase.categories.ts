@@ -27,6 +27,17 @@ export const createCategory = async (category: TablesInsert<"categories">) => {
   return data;
 };
 
+export const bulkCreateCategories = async (
+  categories: TablesInsert<"categories">[],
+) => {
+  const { data, error } = await supabaseClient
+    .from("categories")
+    .insert(categories)
+    .select();
+  if (error) throw new Error(error.message);
+  return data;
+};
+
 export const updateCategory = async (
   id: number,
   category: TablesUpdate<"categories">,
