@@ -131,15 +131,15 @@ const variantOutline = definePartsStyle((props) => {
 
 const variantFilled = definePartsStyle((props) => {
   const { theme } = props;
-  const { focusBorderColor: fc, errorBorderColor: ec } = getDefaults(props);
+  const { errorBorderColor: ec } = getDefaults(props);
 
   return {
     field: {
-      border: "2px solid",
-      borderColor: "transparent",
-      bg: mode("gray.100", "whiteAlpha.50")(props),
+      border: "1px solid",
+      borderColor: mode("gray.200", "gray.800")(props),
+      bg: mode("gray.100", "gray.900")(props),
       _hover: {
-        bg: mode("gray.200", "whiteAlpha.100")(props),
+        bg: mode("gray.100", "gray.900")(props),
       },
       _readOnly: {
         boxShadow: "none !important",
@@ -149,14 +149,17 @@ const variantFilled = definePartsStyle((props) => {
         borderColor: getColor(theme, ec),
       },
       _focusVisible: {
-        bg: "transparent",
-        borderColor: getColor(theme, fc),
+        borderColor: mode("gray.100", "gray.900")(props),
+        bg: mode("gray.100", "gray.900")(props),
+        outline: "1px solid",
+        outlineColor: mode("gray.200", "gray.800")(props),
+        outlineOffset: "2px",
       },
     },
     addon: {
-      border: "2px solid",
+      border: "1px solid",
       borderColor: "transparent",
-      bg: mode("gray.100", "whiteAlpha.50")(props),
+      bg: mode("gray.100", "gray.900")(props),
     },
   };
 });
@@ -221,6 +224,6 @@ export default defineMultiStyleConfig({
   variants,
   defaultProps: {
     size: "md",
-    variant: "outline",
+    variant: "filled",
   },
 });

@@ -2,12 +2,10 @@ import { useAuthenticatedUser } from "@/shared";
 import { Container, Stack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
-import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 import OnboardingBaseQuestionsForm from "../components/OnboardingBaseQuestionsForm";
-import OnboardingGridDotted from "../components/OnboardingGridDotted";
 import PageTitle from "../components/PageTitle";
 import { useUpdateProfile } from "../hooks/useUpdateProfile";
+import StepLayout from "../layout/StepLayout";
 import { ONBOARDING_PATHS } from "../router";
 import { BaseQuestionsFormValues } from "../utils/types";
 
@@ -37,28 +35,21 @@ export default function OnboardingBaseQuestionPage() {
 
   return (
     <>
-      <BackButton
-        onClick={() => navigate(ONBOARDING_PATHS.base)}
-        total={5}
-        step={2}
-      />
-
-      <OnboardingAnimatedPage>
-        <OnboardingGridDotted>
-          <Container>
-            <Stack gap={3}>
-              <PageTitle
-                title={t("onboarding.baseQuestions.title")}
-                description={t("onboarding.baseQuestions.description")}
-              />
-              <OnboardingBaseQuestionsForm
-                isLoading={updateProfile.isPending}
-                onSubmit={handleSubmit}
-              />
-            </Stack>
-          </Container>
-        </OnboardingGridDotted>
-      </OnboardingAnimatedPage>
+      <StepLayout activeStep={1}>
+        <Container>
+          <Stack gap={3}>
+            <PageTitle
+              title={t("onboarding.baseQuestions.title")}
+              description={t("onboarding.baseQuestions.description")}
+              onBack={() => navigate(ONBOARDING_PATHS.base)}
+            />
+            <OnboardingBaseQuestionsForm
+              isLoading={updateProfile.isPending}
+              onSubmit={handleSubmit}
+            />
+          </Stack>
+        </Container>
+      </StepLayout>
     </>
   );
 }

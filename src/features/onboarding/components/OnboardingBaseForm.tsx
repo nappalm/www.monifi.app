@@ -1,9 +1,15 @@
-import { FormProvider, RHFCurrency, RHFLanguage } from "@/shared";
+import {
+  ButtonSpinner,
+  FormProvider,
+  RHFCurrency,
+  RHFLanguage,
+} from "@/shared";
 import { Button, Stack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { CommmonFormProps, OnboardingBaseFormValues } from "../utils/types";
+import { IconArrowNarrowRight } from "@tabler/icons-react";
 
 type Props = {
   onSubmit: (values: OnboardingBaseFormValues) => void;
@@ -28,19 +34,23 @@ export default function OnboardingBaseForm({ onSubmit, isLoading }: Props) {
 
   return (
     <FormProvider methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-      <Stack>
+      <Stack gap={3}>
         <RHFLanguage />
         <RHFCurrency />
-        <br />
-        <Button
-          w="full"
-          colorScheme="cyan"
-          type="submit"
-          variant="outline"
-          isLoading={isLoading}
-        >
-          {t("onboarding.welcome.getStarted")}
-        </Button>
+        <Stack mt={3} align="end">
+          <Button
+            w="fit-content"
+            colorScheme="cyan"
+            type="submit"
+            variant="solid"
+            isLoading={isLoading}
+            spinner={<ButtonSpinner />}
+            loadingText={t("onboarding.welcome.getStarted") + "..."}
+            rightIcon={<IconArrowNarrowRight size={16} />}
+          >
+            {t("onboarding.welcome.getStarted")}
+          </Button>
+        </Stack>
       </Stack>
     </FormProvider>
   );

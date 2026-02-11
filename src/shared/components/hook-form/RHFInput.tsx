@@ -98,10 +98,10 @@ export default function RHFInput({
             <Box
               w="full"
               borderRadius="xl"
-              bg={error ? "#F3126050" : bg}
+              // bg={error ? "#F3126050" : bg}
               height={height}
               lineHeight={height}
-              transition="background 500ms cubic-bezier(0.4, 0, 0.2, 1)"
+              // transition="background 500ms cubic-bezier(0.4, 0, 0.2, 1)"
             >
               <InputGroup {...inputGroup}>
                 {icon && (
@@ -111,8 +111,8 @@ export default function RHFInput({
                 )}
                 <Input
                   id={name}
-                  bg="transparent"
-                  variant="unstyled"
+                  // bg="transparent"
+                  // variant="fille"
                   px={4}
                   height={height}
                   {...restField}

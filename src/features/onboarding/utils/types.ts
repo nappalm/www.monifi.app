@@ -1,3 +1,5 @@
+import { Tables } from "@/lib";
+
 export type CommmonFormProps = {
   onSubmit?: () => void;
   onSkip?: () => void;
@@ -24,3 +26,5 @@ export type OnboardingAccountFormData = {
 export type OnboardingCategoryFormData = {
   name: string;
 };
+
+export type CategoriesLocalData = Pick<Tables<"categories">, "name" | "id">;

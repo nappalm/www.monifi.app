@@ -91,14 +91,7 @@ export default function RHFSelect({
               </Text>
             )}
 
-            <Box
-              w="full"
-              borderRadius="xl"
-              bg={error ? "#F3126050" : bg}
-              height="48px"
-              lineHeight="48px"
-              transition="background 500ms cubic-bezier(0.4, 0, 0.2, 1)"
-            >
+            <Box w="full" borderRadius="xl" height="48px" lineHeight="48px">
               <InputGroup {...inputGroup}>
                 {icon && (
                   <InputLeftElement pointerEvents="none">
@@ -107,9 +100,6 @@ export default function RHFSelect({
                 )}
                 <Select
                   id={name}
-                  bg="transparent"
-                  variant="unstyled"
-                  px={4}
                   height="48px"
                   {...restField}
                   {...selectProps}

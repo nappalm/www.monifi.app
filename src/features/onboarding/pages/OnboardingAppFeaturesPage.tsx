@@ -1,30 +1,26 @@
-import { Logo, useAuthenticatedUser } from "@/shared";
+import { ButtonSpinner, useAuthenticatedUser } from "@/shared";
 import {
+  Badge,
   Button,
   Card,
   CardBody,
   Container,
-  Heading,
   HStack,
-  SimpleGrid,
   Stack,
-  Tag,
   Text,
 } from "@chakra-ui/react";
 import {
-  IconBug,
-  IconCash,
+  IconArrowNarrowRight,
+  IconAutomaticGearbox,
   IconChartPie,
-  IconCreditCard,
-  IconReceipt,
-  IconSparkles,
+  IconDisc,
+  IconSatellite,
 } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
-import OnboardingGridDotted from "../components/OnboardingGridDotted";
-import { useUpdateProfile } from "../hooks/useUpdateProfile";
-import BackButton from "../components/BackButton";
 import { useNavigate } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
+import { useUpdateProfile } from "../hooks/useUpdateProfile";
+import StepLayout from "../layout/StepLayout";
 import { ONBOARDING_PATHS } from "../router";
 
 export default function OnboardingAppFeaturesPage() {
@@ -51,138 +47,98 @@ export default function OnboardingAppFeaturesPage() {
 
   return (
     <>
-      <BackButton
-        total={5}
-        step={5}
-        onClick={() => navigate(ONBOARDING_PATHS.categories)}
-      />
-      <OnboardingAnimatedPage>
-        <OnboardingGridDotted>
-          <Container maxW="500px">
-            <Stack align="center" justify="center" pt="30%">
-              <Logo w="40px" h="40px" />
-              <Heading variant="onboarding-title">
-                {t("onboarding.appFeatures.title")}
-              </Heading>
-              <Text textAlign="center" color="gray.500" maxW="400px">
-                {t("onboarding.appFeatures.description")}
-              </Text>
-              <br />
-              <SimpleGrid columns={2} gap={2} w="full">
-                <Card size="sm">
-                  <CardBody>
-                    <HStack>
-                      <IconReceipt />
-                      <Text fontSize="sm">
-                        {t(
-                          "onboarding.appFeatures.features.transactions.title",
-                        )}
-                      </Text>
-                    </HStack>
-                    <Text fontSize="sm" color="gray.500">
-                      {t(
-                        "onboarding.appFeatures.features.transactions.description",
-                      )}
+      <StepLayout activeStep={4}>
+        <Container>
+          <PageTitle
+            title={t("onboarding.appFeatures.title")}
+            description={t("onboarding.appFeatures.description")}
+            onBack={() => navigate(ONBOARDING_PATHS.categories)}
+          />
+
+          <Stack>
+            <Card variant="solid" size="sm">
+              <CardBody>
+                <Stack gap={0}>
+                  <HStack>
+                    <IconAutomaticGearbox />
+                    <Text fontSize="sm">
+                      {t("onboarding.appFeatures.features.transactions.title")}
                     </Text>
-                  </CardBody>
-                </Card>
-                <Card size="sm">
-                  <CardBody>
-                    <HStack>
-                      <IconChartPie />
-                      <Text fontSize="sm">
-                        {t("onboarding.appFeatures.features.statistics.title")}
-                      </Text>
-                    </HStack>
-                    <Text fontSize="xs" color="gray.500">
-                      {t(
-                        "onboarding.appFeatures.features.statistics.description",
-                      )}
+                  </HStack>
+                  <Text fontSize="sm" color="gray.500" ml={8}>
+                    {t(
+                      "onboarding.appFeatures.features.transactions.description",
+                    )}
+                  </Text>
+                </Stack>
+              </CardBody>
+            </Card>
+            <Card variant="solid" size="sm">
+              <CardBody>
+                <Stack gap={0}>
+                  <HStack>
+                    <IconChartPie />
+                    <Text fontSize="sm">
+                      {t("onboarding.appFeatures.features.statistics.title")}
                     </Text>
-                  </CardBody>
-                </Card>
-                <Card size="sm">
-                  <CardBody>
-                    <HStack>
-                      <IconCash />
-                      <Text fontSize="sm">
-                        {t("onboarding.appFeatures.features.budgets.title")}
-                        <Tag size="sm" colorScheme="cyan" ml={1}>
-                          {t("common.soon")}
-                        </Tag>
-                      </Text>
-                    </HStack>
-                    <Text fontSize="xs" color="gray.500">
-                      {t("onboarding.appFeatures.features.budgets.description")}
+                  </HStack>
+                  <Text fontSize="sm" color="gray.500" ml={8}>
+                    {t(
+                      "onboarding.appFeatures.features.statistics.description",
+                    )}
+                  </Text>
+                </Stack>
+              </CardBody>
+            </Card>
+            <Card variant="solid" size="sm">
+              <CardBody>
+                <Stack gap={0}>
+                  <HStack>
+                    <IconDisc />
+                    <Text fontSize="sm">
+                      {t("onboarding.appFeatures.features.budgets.title")}
                     </Text>
-                  </CardBody>
-                </Card>
-                <Card size="sm">
-                  <CardBody>
-                    <HStack>
-                      <IconBug />
-                      <Text fontSize="sm">
-                        {t("onboarding.appFeatures.features.debts.title")}
-                        <Tag size="sm" colorScheme="cyan" ml={1}>
-                          {t("common.soon")}
-                        </Tag>
-                      </Text>
-                    </HStack>
-                    <Text fontSize="xs" color="gray.500">
-                      {t("onboarding.appFeatures.features.debts.description")}
+                  </HStack>
+                  <Text fontSize="xs" color="gray.500" ml={8}>
+                    {t("onboarding.appFeatures.features.budgets.description")}
+                  </Text>
+                </Stack>
+              </CardBody>
+            </Card>
+            <Card variant="solid" size="sm">
+              <CardBody>
+                <Stack gap={0}>
+                  <HStack>
+                    <IconSatellite />
+                    <Text fontSize="sm">
+                      {t("onboarding.appFeatures.features.aiSupport.title")}
                     </Text>
-                  </CardBody>
-                </Card>
-                <Card size="sm">
-                  <CardBody>
-                    <HStack>
-                      <IconCreditCard />
-                      <Text fontSize="sm">
-                        {t("onboarding.appFeatures.features.creditCards.title")}
-                        <Tag size="sm" colorScheme="cyan" ml={1}>
-                          {t("common.soon")}
-                        </Tag>
-                      </Text>
-                    </HStack>
-                    <Text fontSize="xs" color="gray.500">
-                      {t(
-                        "onboarding.appFeatures.features.creditCards.description",
-                      )}
-                    </Text>
-                  </CardBody>
-                </Card>
-                <Card size="sm">
-                  <CardBody>
-                    <HStack>
-                      <IconSparkles />
-                      <Text fontSize="sm">
-                        {t("onboarding.appFeatures.features.aiSupport.title")}
-                        <Tag size="sm" colorScheme="cyan" ml={1}>
-                          {t("common.soon")}
-                        </Tag>
-                      </Text>
-                    </HStack>
-                    <Text fontSize="xs" color="gray.500">
-                      {t(
-                        "onboarding.appFeatures.features.aiSupport.description",
-                      )}
-                    </Text>
-                  </CardBody>
-                </Card>
-              </SimpleGrid>
-              <Button
-                colorScheme="cyan"
-                w="full"
-                variant="outline"
-                onClick={handleGetStarted}
-                isLoading={updateProfile.isPending}
-              >
-                {t("onboarding.appFeatures.getStarted")}
-              </Button>
-            </Stack>
-          </Container>
-        </OnboardingGridDotted>
-      </OnboardingAnimatedPage>
+                  </HStack>
+                  <Text fontSize="xs" color="gray.500" ml={8}>
+                    {t("onboarding.appFeatures.features.aiSupport.description")}
+                  </Text>
+                </Stack>
+                <Badge colorScheme="teal" position="absolute" right={2} top={2}>
+                  Only PRO
+                </Badge>
+              </CardBody>
+            </Card>
+          </Stack>
+          <Stack align="end" mt={5}>
+            <Button
+              colorScheme="cyan"
+              variant="solid"
+              onClick={handleGetStarted}
+              isLoading={updateProfile.isPending}
+              rightIcon={<IconArrowNarrowRight size={16} />}
+              spinner={<ButtonSpinner />}
+              loadingText={t("onboarding.appFeatures.getStarted") + "..."}
+            >
+              {t("onboarding.appFeatures.getStarted")}
+            </Button>
+          </Stack>
+        </Container>
+      </StepLayout>
     </>
   );
 }

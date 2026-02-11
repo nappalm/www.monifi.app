@@ -58,6 +58,12 @@ const variantOutline = defineStyle((props) => {
   return {
     border: "1px solid",
     borderColor: c === "gray" ? borderColor : "currentColor",
+    outline: "1px solid",
+    outlineColor: mode(
+      c === "gray" ? "gray.200" : `${c}.200`,
+      c === "gray" ? "gray.800" : `${c}.700`,
+    )(props),
+    outlineOffset: "2px",
     ".chakra-button__group[data-attached][data-orientation=horizontal] > &:not(:last-of-type)":
       { marginEnd: "-1px" },
     ".chakra-button__group[data-attached][data-orientation=vertical] > &:not(:last-of-type)":
@@ -98,13 +104,22 @@ const variantSolid = defineStyle((props) => {
     return {
       bg,
       color: mode(`gray.900`, `whiteAlpha.900`)(props),
+      border: "1px solid",
+      borderColor: mode("gray.300", "gray.800")(props),
+      outline: "1px solid",
+      outlineColor: mode("gray.200", "gray.800")(props),
+      outlineOffset: "2px",
+      boxShadow: mode(
+        "inset 1px 1px 0px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
+        "inset 1px 1px 0px rgba(255, 255, 255, 0.1), inset -1px -1px 0px rgba(0, 0, 0, 0.3)",
+      )(props),
       _hover: {
         bg: mode(`gray.200`, `gray.900`)(props),
         _disabled: {
           bg,
         },
       },
-      _active: { bg: mode(`gray.200`, `whiteAlpha.400`)(props) },
+      _active: { bg: mode(`gray.300`, `gray.800`)(props) },
     };
   }
 
@@ -119,6 +134,13 @@ const variantSolid = defineStyle((props) => {
   return {
     bg: background,
     color: mode("white", `#000`)(props),
+    outline: "1px solid",
+    outlineColor: mode(`${c}.200`, `${c}.700`)(props),
+    outlineOffset: "2px",
+    boxShadow: mode(
+      "inset 1px 1px 0px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
+      "inset 1px 1px 0px rgba(255, 255, 255, 0.1), inset -1px -1px 0px rgba(0, 0, 0, 0.3)",
+    )(props),
     _hover: {
       bg: mode(hoverBg, `${c}.500`)(props),
       _disabled: {

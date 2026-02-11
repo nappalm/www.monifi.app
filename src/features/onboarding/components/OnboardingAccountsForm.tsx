@@ -4,11 +4,11 @@ import {
   TablesUpdate,
 } from "@/lib/supabase/database.types";
 import {
+  ButtonSpinner,
   FormProvider,
   RHFInput,
   RHFLineColors,
   useAuthenticatedUser,
-  Carousel,
 } from "@/shared";
 import {
   useAccounts,
@@ -17,8 +17,8 @@ import {
   useUpdateAccount,
 } from "@/shared/hooks/useAccounts";
 import {
+  Box,
   Button,
-  ButtonGroup,
   Card,
   CardBody,
   Drawer,
@@ -29,21 +29,33 @@ import {
   DrawerOverlay,
   Flex,
   HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Skeleton,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IconWallet } from "@tabler/icons-react";
+import {
+  IconCardsFilled,
+  IconChevronDown,
+  IconCreditCardFilled,
+  IconPencil,
+  IconTrashFilled,
+} from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { OnboardingAccountFormData } from "../utils/types";
 import { onboardingAccountFormSchema } from "../utils/yup";
+import EmptyWallets from "./EmptyWallets";
 
-export default function OnboardingAccountsForm() {
+type Props = { onContinue: VoidFunction };
+export default function OnboardingAccountsForm({ onContinue }: Props) {
   const { t } = useTranslation();
   const { data: accounts, isLoading } = useAccounts();
   const { user } = useAuthenticatedUser();
@@ -124,7 +136,7 @@ export default function OnboardingAccountsForm() {
   const renderCarouselContent = () => {
     if (isLoading) {
       return (
-        <Card w="70%" size="sm">
+        <Card variant="solid" size="sm">
           <CardBody>
             <Stack spacing={4}>
               <Skeleton height="60px" borderRadius="md" />
@@ -135,39 +147,53 @@ export default function OnboardingAccountsForm() {
     }
 
     return accounts?.map((account) => (
-      <Card key={account.id} w="70%">
+      <Card key={account.id} variant="solid" size="sm">
         <CardBody>
-          <Stack gap={0}>
+          <HStack gap={0} justify="space-between">
             <Flex align="center" gap={2}>
-              <IconWallet />
-              <Text size="md" flex={1}>
-                {account.name}
-              </Text>
+              <IconCardsFilled />
+              <HStack gap={2}>
+                <Text size="md">{account.name}</Text>
+              </HStack>
+              <Box
+                h="6px"
+                w="15px"
+                position="absolute"
+                bottom={3}
+                left="45px"
+                borderRadius="full"
+                bg={account.color ?? undefined}
+              />
             </Flex>
-            <HStack justify="space-between" mt={-1}>
-              <Text fontSize="sm" opacity={0.5} ml={8}>
+            <Menu>
+              <MenuButton
+                as={Button}
+                size="sm"
+                variant="solid"
+                rightIcon={<IconChevronDown size={16} />}
+              >
                 {t("onboarding.accountsForm.wallet")}
-              </Text>
-              <ButtonGroup size="sm" spacing={0} variant="ghost">
-                <Button
-                  aria-label="Edit"
+              </MenuButton>
+              <MenuList>
+                <MenuItem
+                  icon={<IconPencil size={16} />}
                   onClick={() => {
                     handleEdit(account);
                     drawer.onOpen();
                   }}
                 >
                   {t("onboarding.accountsForm.edit")}
-                </Button>
-                <Button
-                  aria-label="Delete"
-                  colorScheme="red"
+                </MenuItem>
+                <MenuItem
+                  icon={<IconTrashFilled size={16} />}
+                  color="red.500"
                   onClick={() => handleDelete(account.id)}
                 >
                   {t("onboarding.accountsForm.remove")}
-                </Button>
-              </ButtonGroup>
-            </HStack>
-          </Stack>
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </HStack>
         </CardBody>
       </Card>
     ));
@@ -185,19 +211,34 @@ export default function OnboardingAccountsForm() {
               methods={methods}
               onSubmit={handleSubmit(onLocalSubmit)}
             >
-              <Stack>
+              <Stack gap={5}>
                 <RHFLineColors />
                 <RHFInput
                   name="name"
                   label={t("onboarding.accountsForm.accountName")}
                   autoFocus
                   description={t("onboarding.accountsForm.walletDescription")}
+                  placeholder="American Express TDC"
+                />
+                <RHFInput
+                  name="amount"
+                  label={t("onboarding.accountsForm.accountAmount")}
+                  autoFocus
+                  type="number"
+                  placeholder="$0.00 - current amount"
                 />
                 <br />
                 <Button
                   aria-label="Add Account Button"
                   type="submit"
                   colorScheme="cyan"
+                  variant="solid"
+                  isLoading={
+                    updateAccountMutation.isPending ||
+                    createAccountMutation.isPending
+                  }
+                  spinner={<ButtonSpinner />}
+                  loadingText={t("common.save") + "..."}
                 >
                   {t("common.save")}
                 </Button>
@@ -207,18 +248,24 @@ export default function OnboardingAccountsForm() {
         </DrawerContent>
       </Drawer>
 
+      {isEmpty(accounts) && <EmptyWallets />}
       {!isEmpty(accounts) && (
-        <Carousel
-          height="200px"
-          showControls={!isEmpty(accounts) && !isLoading}
-        >
-          {renderCarouselContent()}
-        </Carousel>
+        <Stack spacing={3}>{renderCarouselContent()}</Stack>
       )}
 
-      <Button colorScheme="cyan" onClick={handleAddNew}>
-        {t("onboarding.accountsForm.addNewAccount")}
-      </Button>
+      <HStack justify="end" gap={2} mt={10}>
+        <Button onClick={onContinue} variant="ghost">
+          {t("common.continue")}
+        </Button>
+        <Button
+          onClick={handleAddNew}
+          variant="solid"
+          colorScheme="cyan"
+          leftIcon={<IconCreditCardFilled size={16} />}
+        >
+          {t("onboarding.accountsForm.addNewAccount")}
+        </Button>
+      </HStack>
     </Stack>
   );
 }

@@ -64,7 +64,7 @@ export default function Topnavbar({ onMenuClick }: Props) {
             )}
             <ButtonGroup size="sm" spacing={1}>
               <Button
-                variant="solid"
+                variant={isPathActive("/transactions") ? "solid" : "ghost"}
                 fontWeight={isPathActive("/transactions") ? "bold" : undefined}
                 opacity={isPathActive("/transactions") ? 1 : 0.5}
                 onClick={() => handleNavigate("/transactions")}
@@ -74,8 +74,8 @@ export default function Topnavbar({ onMenuClick }: Props) {
               </Button>
               <Button
                 onClick={() => handleNavigate("/statistics")}
-                variant="solid"
                 bg="transparent"
+                variant={isPathActive("/statistics") ? "solid" : "ghost"}
                 fontWeight={isPathActive("/statistics") ? "bold" : undefined}
                 opacity={isPathActive("/statistics") ? 1 : 0.5}
               >
