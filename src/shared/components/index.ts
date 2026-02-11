@@ -15,3 +15,4 @@ export * from "./categories-drawer";
 export * from "./accounts-drawer";
 export * from "./undo-redo-buttons";
 export * from "./carousel";
+export * from "./button-spinner";
