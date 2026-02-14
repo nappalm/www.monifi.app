@@ -6,7 +6,15 @@ import {
   useCategories,
   useFilters,
 } from "@/shared";
-import { Heading, HStack, SimpleGrid, Stack } from "@chakra-ui/react";
+import {
+  Badge,
+  Heading,
+  HStack,
+  SimpleGrid,
+  Stack,
+  Tag,
+  Text,
+} from "@chakra-ui/react";
 import {
   IconLineHeight,
   IconReceiptDollarFilled,
@@ -89,8 +97,10 @@ export default function Statistics() {
 
   return (
     <Stack gap={5}>
-      <Heading size="lg">{t("statistics.title")}</Heading>
       <HStack gap="1px">
+        <Tag mr={2} colorScheme="orange">
+          {t("statistics.title")}
+        </Tag>
         <FilterButtonMenu
           filterGroups={filterGroups}
           appliedFilters={filters}
