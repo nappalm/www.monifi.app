@@ -52,12 +52,12 @@ export default function BottleChart({ level = 0.5 }: BottleChartProps) {
               Budget
             </Text>
             <HStack>
-              <Text fontWeight="semibold" fontSize="xl">
+              <Text fontWeight="semibold" fontSize="xl" fontFamily="Geist Mono">
                 $35,800
               </Text>
             </HStack>
             <HStack gap={2}>
-              <Text color="green.500" fontSize="xs">
+              <Text color="green.500" fontSize="xs" fontFamily="Geist Mono">
                 +0.5%
               </Text>
               <Text fontSize="xs" color="gray.500">
@@ -89,18 +89,18 @@ export default function BottleChart({ level = 0.5 }: BottleChartProps) {
                 <pattern
                   id="bottle-hatch"
                   patternUnits="userSpaceOnUse"
-                  width="8"
-                  height="8"
+                  width="10"
+                  height="10"
                   patternTransform="rotate(45)"
                 >
-                  <rect width="8" height="8" fill={hatchBg} />
+                  <rect width="10" height="10" fill={hatchBg} />
                   <line
                     x1="0"
                     y1="0"
                     x2="0"
-                    y2="8"
+                    y2="10"
                     stroke={hatchStroke}
-                    strokeWidth="1"
+                    strokeWidth="2"
                   />
                 </pattern>
                 <clipPath id="bottle-clip">

@@ -149,6 +149,7 @@ export default function CategoriesChart({
               <Text
                 color={percentageChange >= 0 ? "green.500" : "red.500"}
                 fontSize="xs"
+                fontFamily="Geist Mono"
               >
                 {percentageChange >= 0 ? "+" : ""}
                 {percentageChange.toFixed(1)}%

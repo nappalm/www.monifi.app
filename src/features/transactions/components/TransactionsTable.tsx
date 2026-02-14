@@ -19,6 +19,7 @@ type Props = {
   onRemoveRow: (id: number) => void;
   onSeeDetailsRow: (id: number) => void;
   onDisabledRow: (id: number, previous: boolean) => void;
+  height?: string;
 };
 
 export default function TransactionsTable({
@@ -30,6 +31,7 @@ export default function TransactionsTable({
   onDisabledRow,
   onAdminCategories,
   onAdminAccounts,
+  height,
 }: Props) {
   const { t } = useTranslation();
 
@@ -174,6 +176,7 @@ export default function TransactionsTable({
       isLoading={isLoading}
       onRowChange={onRowChange}
       showRowNumber
+      height={height}
     />
   );
 }

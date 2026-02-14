@@ -18,9 +18,8 @@ import {
 } from "@/shared";
 import {
   Button,
-  Grid,
-  Heading,
   HStack,
+  IconButton,
   Stack,
   Text,
   useBreakpointValue,
@@ -28,17 +27,16 @@ import {
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
-  IconCircleFilled,
+  IconLayoutSidebarRightFilled,
   IconLineHeight,
   IconReceiptDollarFilled,
   IconTagFilled,
 } from "@tabler/icons-react";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AccountInfo from "../components/AccountInfo";
-import CategoriesInfo from "../components/CategoriesInfo";
+import Charts from "../components/Charts";
 import { DetailsDrawer } from "../components/DetailsDrawer";
-import ExpenseIncomeInfo from "../components/ExpenseIncomeInfo";
+import RightPanel from "../components/RightPanel";
 import TransactionsTable from "../components/TransactionsTable";
 import { useTransactionHistory } from "../hooks/useTransactionHistory";
 import { filterTransactions } from "../utils/filtered";
@@ -59,6 +57,7 @@ export default function TransactionsPage() {
   const [detailsRow, setDetailsRow] = useState<Tables<"transactions"> | null>(
     null,
   );
+  const [isRightPanelOpen, setIsRightPanelOpen] = useState(true);
 
   const { data: categories } = useCategories();
   const { data: accounts } = useAccounts();
@@ -187,44 +186,35 @@ export default function TransactionsPage() {
     useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
   return (
-    <>
-      <Grid
-        gridAutoFlow={isSmallScreen ? "row" : "column"}
-        gridTemplateColumns={
-          isSmallScreen
-            ? "minmax(0, 1fr)"
-            : "minmax(0, calc(100% - 296px - 24px)) 296px"
-        }
-        gridGap="24px"
-        py={5}
+    <Stack pt="49px">
+      <HStack
+        position="fixed"
+        top={0}
+        height="50px"
+        bg="gray.900"
+        w="full"
+        borderBottom="1px solid"
+        borderColor="gray.800"
+        px={2}
       >
-        <Stack gap={5}>
-          <Heading size="lg">{t("transactions.title")}</Heading>
-          <HStack
-            justifyContent={["flex-start", "flex-start", "space-between"]}
-            alignItems={["flex-start", "flex-start", "space-between"]}
-            flexDir={["column", "column", "row"]}
-          >
-            <HStack gap="1px">
-              <FilterButtonMenu
-                filterGroups={filterGroups}
-                appliedFilters={filters}
-                onFilterChange={handleFilterChange}
-                onClearFilters={clearFilters}
-                areFiltersActive={areFiltersActive}
-              />
-              <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
-              <IconCircleFilled
-                size={10}
-                style={{ opacity: 0.2, margin: "0 10px 0 10px" }}
-              />
-              <UndoRedoButtons
-                onUndo={handleUndo}
-                onRedo={handleRedo}
-                canUndo={canUndo}
-                canRedo={canRedo}
-              />
-            </HStack>
+        <HStack gap={0} justify="space-between" w="full">
+          <HStack>
+            <FilterButtonMenu
+              filterGroups={filterGroups}
+              appliedFilters={filters}
+              onFilterChange={handleFilterChange}
+              onClearFilters={clearFilters}
+              areFiltersActive={areFiltersActive}
+            />
+            <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
+          </HStack>
+          <HStack gap={2}>
+            <UndoRedoButtons
+              onUndo={handleUndo}
+              onRedo={handleRedo}
+              canUndo={canUndo}
+              canRedo={canRedo}
+            />
             <Button
               colorScheme="cyan"
               w={["full", "full", "fit-content"]}
@@ -240,7 +230,20 @@ export default function TransactionsPage() {
             >
               {t("transactions.newRow")}
             </Button>
+            <IconButton
+              size="sm"
+              variant="ghost"
+              aria-label="Toggle right panel"
+              icon={<IconLayoutSidebarRightFilled size={18} />}
+              onClick={() => setIsRightPanelOpen((prev) => !prev)}
+              color={isRightPanelOpen ? "cyan.300" : undefined}
+            />
           </HStack>
+        </HStack>
+      </HStack>
+      <HStack align="stretch" overflow="hidden" gap={0}>
+        <Stack gap={0} flex={1} minW={0}>
+          <Charts transactions={filteredTransactions} />
           <TransactionsTable
             data={filteredTransactions || []}
             isLoading={isLoading}
@@ -250,6 +253,7 @@ export default function TransactionsPage() {
             onDisabledRow={handleDisabledRow}
             onAdminCategories={adminCategories.onToggle}
             onAdminAccounts={adminAccounts.onToggle}
+            height="calc(100vh - 175px)"
           />
 
           <DetailsDrawer
@@ -258,16 +262,21 @@ export default function TransactionsPage() {
             transaction={detailsRow}
           />
         </Stack>
-
-        <Stack>
-          <ExpenseIncomeInfo transactions={transactionsEnabled} />
-          <AccountInfo transactions={transactionsEnabled} />
-          <CategoriesInfo transactions={transactionsEnabled} />
-        </Stack>
-      </Grid>
+        {!isSmallScreen && (
+          <Stack
+            w="296px"
+            minW="296px"
+            mr={isRightPanelOpen ? "0px" : "-296px"}
+            transition="margin-right 0.3s ease-in-out"
+            overflow="hidden"
+          >
+            <RightPanel />
+          </Stack>
+        )}
+      </HStack>
 
       <CategoriesDrawer {...adminCategories} />
       <AccountsDrawer {...adminAccounts} />
-    </>
+    </Stack>
   );
 }

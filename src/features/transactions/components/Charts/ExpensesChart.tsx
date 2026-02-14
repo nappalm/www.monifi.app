@@ -129,7 +129,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
               Balance
             </Text>
             <HStack>
-              <Text fontWeight="semibold" fontSize="xl">
+              <Text fontWeight="semibold" fontSize="xl" fontFamily="Geist Mono">
                 ${currentBalance.toLocaleString()}
               </Text>
             </HStack>
@@ -137,6 +137,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
               <Text
                 color={percentageChange >= 0 ? "green.500" : "red.500"}
                 fontSize="xs"
+                fontFamily="Geist Mono"
               >
                 {percentageChange >= 0 ? "+" : ""}
                 {percentageChange.toFixed(1)}%
@@ -178,7 +179,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
                     />
                   </pattern>
                 </defs>
-                <YAxis hide domain={['dataMin', 'dataMax']} />
+                <YAxis hide domain={["dataMin", "dataMax"]} />
                 <Tooltip
                   content={
                     <CustomTooltip

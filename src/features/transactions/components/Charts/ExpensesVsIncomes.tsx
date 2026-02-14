@@ -6,7 +6,9 @@ interface ExpensesVsIncomesProps {
   transactions: Tables<"transactions">[];
 }
 
-export default function ExpensesVsIncomes({ transactions }: ExpensesVsIncomesProps) {
+export default function ExpensesVsIncomes({
+  transactions,
+}: ExpensesVsIncomesProps) {
   const { expenses, incomes } = useMemo(() => {
     const enabledTransactions = transactions.filter((t) => t.enabled);
 
@@ -28,11 +30,26 @@ export default function ExpensesVsIncomes({ transactions }: ExpensesVsIncomesPro
   const expensePct = max > 0 ? (expenses / max) * 100 : 0;
   const incomePct = max > 0 ? (incomes / max) * 100 : 0;
 
-  const hatchExpBg = useColorModeValue("var(--chakra-colors-gray-100)", "var(--chakra-colors-gray-900)");
-  const hatchExpStroke = useColorModeValue("var(--chakra-colors-gray-300)", "var(--chakra-colors-gray-700)");
-  const hatchIncBg = useColorModeValue("var(--chakra-colors-gray-200)", "var(--chakra-colors-gray-800)");
-  const hatchIncStroke = useColorModeValue("var(--chakra-colors-gray-400)", "var(--chakra-colors-gray-600)");
-  const barStroke = useColorModeValue("var(--chakra-colors-gray-400)", "var(--chakra-colors-gray-600)");
+  const hatchExpBg = useColorModeValue(
+    "var(--chakra-colors-gray-100)",
+    "var(--chakra-colors-gray-900)",
+  );
+  const hatchExpStroke = useColorModeValue(
+    "var(--chakra-colors-gray-300)",
+    "var(--chakra-colors-gray-700)",
+  );
+  const hatchIncBg = useColorModeValue(
+    "var(--chakra-colors-gray-200)",
+    "var(--chakra-colors-gray-800)",
+  );
+  const hatchIncStroke = useColorModeValue(
+    "var(--chakra-colors-gray-400)",
+    "var(--chakra-colors-gray-600)",
+  );
+  const barStroke = useColorModeValue(
+    "var(--chakra-colors-gray-400)",
+    "var(--chakra-colors-gray-600)",
+  );
   const dividerBg = useColorModeValue("gray.300", "gray.700");
 
   return (
@@ -99,7 +116,7 @@ export default function ExpensesVsIncomes({ transactions }: ExpensesVsIncomesPro
               />
             </svg>
           </Box>
-          <Text fontSize="xs" color="gray.400">
+          <Text fontSize="xs" color="gray.400" fontFamily="Geist Mono">
             ${expenses.toLocaleString()}
           </Text>
         </Box>
@@ -130,7 +147,7 @@ export default function ExpensesVsIncomes({ transactions }: ExpensesVsIncomesPro
               />
             </svg>
           </Box>
-          <Text fontSize="xs" color="gray.400">
+          <Text fontSize="xs" color="gray.400" fontFamily="Geist Mono">
             ${incomes.toLocaleString()}
           </Text>
         </Box>
