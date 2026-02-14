@@ -23,6 +23,7 @@ const baseStyle = definePartsStyle({
   },
   td: {
     textAlign: "start",
+    fontWeight: 500,
   },
   caption: {
     mt: 4,
@@ -85,6 +86,23 @@ const variantStripe = definePartsStyle((props) => {
       color: mode("gray.600", "gray.400")(props),
       borderStyle: "solid",
       borderColor: mode(`${c}.200`, `${c}.800`)(props),
+      bg: mode(`${c}.200`, "gray.900")(props),
+      backgroundImage: mode(
+        `repeating-linear-gradient(
+          45deg,
+          ${transparentize(`${c}.200`, 1)(theme)},
+          ${transparentize(`${c}.200`, 1)(theme)} 2px,
+          ${transparentize(`${c}.300`, 0.3)(theme)} 2px,
+          ${transparentize(`${c}.300`, 0.3)(theme)} 4px
+        )`,
+        `repeating-linear-gradient(
+          45deg,
+          ${transparentize("gray.900", 1)(theme)},
+          ${transparentize("gray.900", 1)(theme)} 2px,
+          ${transparentize("gray.700", 0.5)(theme)} 2px,
+          ${transparentize("gray.700", 0.5)(theme)} 4px
+        )`,
+      )(props),
       ...numericStyles,
     },
     td: {
@@ -121,7 +139,7 @@ const variantStripe = definePartsStyle((props) => {
             content: '""',
             position: "absolute",
             inset: 0,
-            borderRadius: "md",
+            borderRadius: 0,
             border: "1px solid",
             borderColor: "cyan.500",
             background: transparentize("cyan.500", 0.15),
