@@ -21,6 +21,7 @@ import {
   HStack,
   IconButton,
   Stack,
+  Tag,
   Text,
   useBreakpointValue,
   useDisclosure,
@@ -199,6 +200,7 @@ export default function TransactionsPage() {
       >
         <HStack gap={0} justify="space-between" w="full">
           <HStack>
+            <Tag colorScheme="teal">Transactions</Tag>
             <FilterButtonMenu
               filterGroups={filterGroups}
               appliedFilters={filters}
