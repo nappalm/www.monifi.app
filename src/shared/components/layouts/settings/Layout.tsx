@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { TopnavBar } from "../../topnavbar";
 import Sidebar from "./Sidebar";
 import UserInformation from "./UserInformation";
+import BottomBar from "../../bottom-bar";
 
 export default function Layout() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,7 +33,6 @@ export default function Layout() {
   return (
     <Stack>
       <Box as="main">
-        <TopnavBar onMenuClick={onOpen} />
         {isSmallScreen && (
           <Drawer
             isOpen={isOpen}
@@ -66,6 +66,7 @@ export default function Layout() {
             <Outlet />
           </Grid>
         </Container>
+        <BottomBar />
       </Box>
     </Stack>
   );

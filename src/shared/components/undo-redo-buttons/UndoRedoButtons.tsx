@@ -21,6 +21,7 @@ export default function UndoRedoButtons({
     <ButtonGroup spacing="1px">
       <Tooltip label={t("components.undoRedoButtons.undo")}>
         <IconButton
+          variant="ghost"
           aria-label="Undo"
           borderRightRadius={0}
           size="sm"
@@ -31,6 +32,7 @@ export default function UndoRedoButtons({
       </Tooltip>
       <Tooltip label={t("components.undoRedoButtons.redo")}>
         <IconButton
+          variant="ghost"
           aria-label="Redo"
           borderLeftRadius={0}
           size="sm"

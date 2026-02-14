@@ -74,14 +74,14 @@ function InlineEditableCellComponent<T extends DataRow>({
             boxShadow:
               "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
             background: `${dragRangeBg} !important`,
-            borderRadius: "md",
+            borderRadius: 0,
           }),
 
         "&::after": {
           content: '""',
           position: "absolute",
           inset: 0,
-          borderRadius: "md",
+          borderRadius: 0,
           border: "1px solid",
           borderColor: "cyan.500",
           background: cyanTransparent,

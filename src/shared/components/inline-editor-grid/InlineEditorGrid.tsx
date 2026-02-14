@@ -26,6 +26,7 @@ export function InlineEditorGrid<T extends DataRow>({
   onRowChange,
   isLoading = false,
   showRowNumber = false,
+  height,
 }: InlineEditorGridProps<T>) {
   const { profile } = useAuthenticatedUser();
 
@@ -107,7 +108,7 @@ export function InlineEditorGrid<T extends DataRow>({
     }
 
     if (data.length === 0) {
-      return <TableEmptyRows cols={columnCount} />;
+      return <TableEmptyRows cols={columnCount} height={height} />;
     }
 
     return data.map((row, rowIndex) => {
@@ -203,9 +204,10 @@ export function InlineEditorGrid<T extends DataRow>({
     <TableContainer
       border="1px solid"
       borderColor={borderBgContainer}
-      borderRadius="xl"
+      borderRadius="0px"
       pos="relative"
       overflow="auto"
+      {...(height && { h: height })}
       tabIndex={0}
       ref={tableRef}
       onFocus={handleContainerFocus}

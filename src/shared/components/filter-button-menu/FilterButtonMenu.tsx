@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   IconButton,
   Input,
   Menu,
@@ -11,7 +12,12 @@ import {
   MenuOptionGroup,
   Portal,
 } from "@chakra-ui/react";
-import { IconChevronLeft, IconFilter2, IconX } from "@tabler/icons-react";
+import {
+  IconChevronLeft,
+  IconFilter2,
+  IconFilterFilled,
+  IconX,
+} from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -155,13 +161,18 @@ export default function FilterButtonMenu({
     >
       <Box position="relative">
         <MenuButton
-          as={IconButton}
+          as={Button}
           aria-label={t("components.filterButtonMenu.filter")}
-          icon={<IconFilter2 size={16} />}
-          size="sm"
+          leftIcon={<IconFilterFilled size={16} />}
+          size="md"
           borderRightRadius={0}
           color={areFiltersActive ? "red.500" : undefined}
-        ></MenuButton>
+          variant="ghost"
+          border="1px dashed"
+          borderColor="gray.700"
+        >
+          Filter data
+        </MenuButton>
       </Box>
       <Portal>
         <MenuList minWidth="240px">{renderContent()}</MenuList>
