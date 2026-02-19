@@ -91,33 +91,42 @@ export type Database = {
           active: boolean;
           amount: number;
           created_at: string;
-          end_date: string | null;
+          end_day: number | null;
+          end_month: number | null;
           id: number;
-          initial_date: string | null;
           name: string;
-          repeat: Database["public"]["Enums"]["budget_repeat"];
+          recurrent: boolean | null;
+          specific_year: string | null;
+          start_day: number | null;
+          start_month: number | null;
           user_id: string;
         };
         Insert: {
           active?: boolean;
           amount?: number;
           created_at?: string;
-          end_date?: string | null;
+          end_day?: number | null;
+          end_month?: number | null;
           id?: never;
-          initial_date?: string | null;
           name: string;
-          repeat?: Database["public"]["Enums"]["budget_repeat"];
+          recurrent?: boolean | null;
+          specific_year?: string | null;
+          start_day?: number | null;
+          start_month?: number | null;
           user_id: string;
         };
         Update: {
           active?: boolean;
           amount?: number;
           created_at?: string;
-          end_date?: string | null;
+          end_day?: number | null;
+          end_month?: number | null;
           id?: never;
-          initial_date?: string | null;
           name?: string;
-          repeat?: Database["public"]["Enums"]["budget_repeat"];
+          recurrent?: boolean | null;
+          specific_year?: string | null;
+          start_day?: number | null;
+          start_month?: number | null;
           user_id?: string;
         };
         Relationships: [];
@@ -423,7 +432,6 @@ export type Database = {
       [_ in never]: never;
     };
     Enums: {
-      budget_repeat: "day" | "week" | "month" | "year";
       locale: "es" | "en";
       notification_type: "error" | "info" | "warning";
       report_status: "pending" | "resolved";
@@ -558,7 +566,6 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      budget_repeat: ["day", "week", "month", "year"],
       locale: ["es", "en"],
       notification_type: ["error", "info", "warning"],
       report_status: ["pending", "resolved"],
