@@ -7,6 +7,8 @@
     "soon": "Soon",
     "actions": "Actions",
     "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
     "cancelEdition": "Cancel edition",
     "fieldRequired": "This field is required",
     "language": {
@@ -296,6 +298,60 @@
       "uncategorized": "Uncategorized",
       "income": "Income",
       "expenses": "Expenses"
+    }
+  },
+  "budgets": {
+    "title": "Budgets",
+    "table": {
+      "id": "ID",
+      "category": "Category",
+      "limitValue": "Limit Value",
+      "description": "Description",
+      "addCategory": "Add new category",
+      "removeCategory": {
+        "title": "Remove category",
+        "description": "This will remove the category from your general catalog. This action cannot be undone."
+      }
+    },
+    "modal": {
+      "titleCreate": "Create budget",
+      "titleEdit": "Edit budget",
+      "description": "Budget settings can help you visualize your spending over time",
+      "name": "Budget name",
+      "namePlaceholder": "My personal budget",
+      "amount": "Budget amount",
+      "recurrent": "Recurring (repeats every month)",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "repeatEveryYear": "Repeat every year",
+      "year": "Year",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "empty": {
+      "title": "No budgets",
+      "description": "Create your first budget to start tracking your expenses",
+      "create": "Create budget"
+    },
+    "selector": {
+      "selectBudget": "Select budget",
+      "recurrent": "Repeats every month",
+      "repeatsYearly": "Repeats every year",
+      "expired": "Expired",
+      "custom": "Custom",
+      "addNew": "Add new budget"
+    },
+    "menu": {
+      "delete": "Delete category"
+    },
+    "rightPanel": {
+      "title": "Budget information",
+      "allocatedAmount": "Allocated amount",
+      "budgetAmount": "Assigned budget amount",
+      "over": "{{pct}}% exceeded",
+      "available": "{{pct}}% available",
+      "allocationTitle": "Allocation percentage"
     }
   },
   "settings": {

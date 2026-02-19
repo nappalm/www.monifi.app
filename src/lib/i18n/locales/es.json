@@ -6,6 +6,8 @@
     "skip": "Omitir",
     "soon": "Pronto",
     "actions": "Acciones",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
     "cancelEdition": "Cancelar edición",
     "save": "Guardar",
     "fieldRequired": "Este campo es requerido",
@@ -296,6 +298,60 @@
       "uncategorized": "Sin categoría",
       "income": "Ingresos",
       "expenses": "Gastos"
+    }
+  },
+  "budgets": {
+    "title": "Presupuestos",
+    "table": {
+      "id": "ID",
+      "category": "Categoría",
+      "limitValue": "Valor Límite",
+      "description": "Descripción",
+      "addCategory": "Agregar nueva categoría",
+      "removeCategory": {
+        "title": "Eliminar categoría",
+        "description": "Esto eliminará la categoría de tu catálogo general. Esta acción no se puede deshacer."
+      }
+    },
+    "modal": {
+      "titleCreate": "Crear presupuesto",
+      "titleEdit": "Editar presupuesto",
+      "description": "La configuración de los presupuestos te puede ayudar a ver tus gastos con el paso del tiempo",
+      "name": "Nombre del presupuesto",
+      "namePlaceholder": "Mi presupuesto personal",
+      "amount": "Monto del presupuesto",
+      "recurrent": "Recurrente (se repetirá cada mes)",
+      "startDate": "Fecha inicio",
+      "endDate": "Fecha fin",
+      "repeatEveryYear": "Repetir cada año",
+      "year": "Año",
+      "delete": "Eliminar",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "empty": {
+      "title": "No hay presupuestos",
+      "description": "Crea tu primer presupuesto para comenzar a controlar tus gastos",
+      "create": "Crear presupuesto"
+    },
+    "selector": {
+      "selectBudget": "Seleccionar presupuesto",
+      "recurrent": "Se repite cada mes",
+      "repeatsYearly": "Se repite cada año",
+      "expired": "Vencido",
+      "custom": "Personalizado",
+      "addNew": "Agregar nuevo presupuesto"
+    },
+    "menu": {
+      "delete": "Eliminar categoría"
+    },
+    "rightPanel": {
+      "title": "Información de tu presupuesto",
+      "allocatedAmount": "Presupuesto acumulado",
+      "budgetAmount": "Monto asignado a presupuesto",
+      "over": "{{pct}}% excedido",
+      "available": "{{pct}}% disponible",
+      "allocationTitle": "Porcentaje de acumulación"
     }
   },
   "settings": {
