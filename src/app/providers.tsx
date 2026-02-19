@@ -1,4 +1,4 @@
-import { ChakraProvider, ReactQueryClient } from "@/lib";
+import { ChakraProvider, GlobalUIProvider, ReactQueryClient } from "@/lib";
 import RouterProvider from "./router";
 import { AuthProvider } from "@/features/auth";
 
@@ -9,7 +9,9 @@ export default function Providers() {
     <ChakraProvider>
       <ReactQueryClient>
         <AuthProvider>
-          <RouterProvider />
+          <GlobalUIProvider>
+            <RouterProvider />
+          </GlobalUIProvider>
         </AuthProvider>
       </ReactQueryClient>
     </ChakraProvider>
