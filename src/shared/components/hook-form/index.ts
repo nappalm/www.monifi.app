@@ -6,3 +6,6 @@ export { default as RHFTextarea } from "./RHFTextarea";
 export { default as RHFCheckbox } from "./RHFCheckbox";
 export { default as RHFCurrency } from "./RHFCurrency";
 export { default as RHFLanguage } from "./RHFLanguage";
+export { default as RHFSwitch } from "./RHFSwitch";
+export { default as RHFDayMonth } from "./RHFDayMonth";
+export { default as RHFAmount } from "./RHFAmount";

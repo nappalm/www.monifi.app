@@ -11,6 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
+  IconBucket,
   IconSunFilled,
   IconTransactionDollar,
   IconUserFilled,
@@ -37,6 +38,7 @@ export default function BottomBar() {
   return (
     <HStack
       position="fixed"
+      zIndex={10}
       borderTop="1px solid"
       borderColor={border}
       bottom={0}
@@ -74,6 +76,13 @@ export default function BottomBar() {
             onClick={() => handleNavigate("/transactions")}
           >
             {t("components.topnavbar.transactions")}
+          </Button>
+          <Button
+            leftIcon={<IconBucket size={16} />}
+            variant={isPathActive("/budgets") ? "solid" : "ghost"}
+            onClick={() => handleNavigate("/budgets")}
+          >
+            Budget
           </Button>
           <Button
             onClick={() => handleNavigate("/statistics")}

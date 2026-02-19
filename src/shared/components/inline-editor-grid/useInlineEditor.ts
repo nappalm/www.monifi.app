@@ -76,7 +76,7 @@ export function useInlineEditor<T extends DataRow>({
             row: changedRow,
           });
 
-          onRowChange?.(changedRow, rowIndex);
+          onRowChange?.(changedRow, rowIndex, colIndex);
         }
       }
       setIsEditing(false);
@@ -121,7 +121,7 @@ export function useInlineEditor<T extends DataRow>({
           row: changedRow,
         });
 
-        onRowChange?.(changedRow, rowIndex);
+        onRowChange?.(changedRow, rowIndex, colIndex);
       }
     },
     [columns, data, onDataChange, onCellChange, onRowChange],
@@ -341,7 +341,7 @@ export function useInlineEditor<T extends DataRow>({
       const sourceValue = data[dragStartCell.row][sourceAccessor];
       const newData = data.map((row) => ({ ...row })); // Create a deep copy of objects
 
-      const modifiedRows = new Set<number>();
+      const modifiedCells: Array<{ r: number; c: number }> = [];
 
       for (let r = startRow; r <= endRow; r++) {
         for (let c = startCol; c <= endCol; c++) {
@@ -352,16 +352,16 @@ export function useInlineEditor<T extends DataRow>({
 
           const accessor = columns[c].accessor as keyof T;
           newData[r][accessor] = sourceValue;
-          modifiedRows.add(r);
+          modifiedCells.push({ r, c });
         }
       }
 
       // Only update if there were actual changes
-      if (modifiedRows.size > 0) {
+      if (modifiedCells.length > 0) {
         onDataChange?.(newData);
 
-        modifiedRows.forEach((r) => {
-          onRowChange?.(newData[r], r);
+        modifiedCells.forEach(({ r, c }) => {
+          onRowChange?.(newData[r], r, c);
         });
       }
 

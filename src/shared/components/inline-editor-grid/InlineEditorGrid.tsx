@@ -233,6 +233,7 @@ export function InlineEditorGrid<T extends DataRow>({
                 isNumeric={
                   (column.accessor as string) === "amount" || column.isAmount
                 }
+                sx={column.sx}
               >
                 {column.header}
               </Th>

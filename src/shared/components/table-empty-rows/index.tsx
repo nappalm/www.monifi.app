@@ -1,5 +1,5 @@
 import { Stack, Td, Text, Tr } from "@chakra-ui/react";
-import { IconMugFilled } from "@tabler/icons-react";
+import { IconTexture } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 
 interface TableEmptyRowsProps {
@@ -19,7 +19,7 @@ export default function TableEmptyRows({ cols, height }: TableEmptyRowsProps) {
         verticalAlign={height ? "middle" : undefined}
       >
         <Stack w="full" justify="center" align="center" py={10}>
-          <IconMugFilled />
+          <IconTexture />
           <Text fontSize="xs">{t("components.tableEmptyRows.noResults")}</Text>
         </Stack>
       </Td>
