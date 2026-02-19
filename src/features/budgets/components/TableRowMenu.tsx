@@ -2,32 +2,20 @@ import {
   IconButton,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import {
-  IconArrowRight,
-  IconCancel,
-  IconDots,
-  IconPencil,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconDots, IconTrashFilled } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
-  onConfig: () => void;
-  onEdit: () => void;
-  onDisabled: () => void;
-  onDelete: () => void;
+  onDelete: VoidFunction;
 };
 
-export default function TableRowMenu({
-  onConfig,
-  onEdit,
-  onDisabled,
-  onDelete,
-}: Props) {
+export default function TableRowMenu({ onDelete }: Props) {
+  const { t } = useTranslation();
+
   return (
     <Menu isLazy>
       <MenuButton
@@ -35,33 +23,18 @@ export default function TableRowMenu({
         w="full"
         aria-label="Row options"
         size="xs"
+        display="flex"
         variant="unstyled"
-        pl="7px"
-        icon={<IconDots size={15} />}
+        icon={<IconDots size={16} />}
       />
       <Portal>
         <MenuList>
           <MenuItem
-            icon={<IconArrowRight size={16} />}
-            color="cyan.500"
-            onClick={onConfig}
-          >
-            Config budget
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem icon={<IconPencil size={16} />} onClick={onEdit}>
-            Edit information
-          </MenuItem>
-          <MenuItem icon={<IconCancel size={16} />} onClick={onDisabled}>
-            Disabled
-          </MenuItem>
-          <MenuDivider />
-          <MenuItem
-            icon={<IconTrash size={16} />}
+            icon={<IconTrashFilled size={16} />}
             color="red.500"
             onClick={onDelete}
           >
-            Delete budget
+            {t("budgets.menu.delete")}
           </MenuItem>
         </MenuList>
       </Portal>

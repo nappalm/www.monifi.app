@@ -1,94 +1,95 @@
 import { Column, InlineEditorGrid } from "@/shared";
-import { HStack, Text } from "@chakra-ui/react";
-import { IconAntennaBars2 } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 import TableRowMenu from "./TableRowMenu";
 
+type BudgetCategoryRow = {
+  id: number;
+  category_id: number;
+  category_name: string;
+  amount: number;
+  description?: string;
+};
+
 type Props = {
-  data: any[];
-  onDataChange: (data: any) => void;
-  onRemoveRow: (id: string) => void;
-  onDisabledRow: (id: string) => void;
-  onConfigRow: (id: string) => void;
-  onEditRow: (id: string) => void;
+  data: BudgetCategoryRow[];
+  isLoading: boolean;
+  onRowChange: (
+    updatedData: BudgetCategoryRow,
+    rowIndex: number,
+    colIndex: number,
+  ) => void;
+  onRemoveRow: (id: number) => void;
+  height?: string;
 };
 
 export default function BudgetsTable({
   data,
-  onDataChange,
+  isLoading,
+  onRowChange,
   onRemoveRow,
-  onDisabledRow,
-  onConfigRow,
-  onEditRow,
+  height,
 }: Props) {
-  const columns: Column<any>[] = [
+  const { t } = useTranslation();
+
+  const columns: Column<BudgetCategoryRow>[] = [
     {
       accessor: "id",
-      header: "ID",
+      header: t("budgets.table.id"),
       isVisible: false,
     },
     {
-      header: "",
-      accessor: "rowNumber",
-      isEditable: false,
+      header: t("budgets.table.category"),
+      accessor: "category_name",
+      isDraggable: false,
       sx: {
-        w: "10px",
-        opacity: 0.7,
+        w: "200px",
+        minW: "200px",
       },
-      render: (value: any) => `#${value}`,
     },
     {
-      header: "Name",
-      accessor: "name",
-    },
-    {
-      header: "Period",
-      accessor: "period",
-      isEditable: false,
-    },
-    {
-      header: "Current",
-      accessor: "current",
+      header: t("budgets.table.limitValue"),
+      accessor: "amount",
       isAmount: true,
-      isEditable: false,
-      render: (value: any) => (
-        <HStack justifyContent="flex-end" w="full">
-          <Text as="span">{value}</Text>
-          <IconAntennaBars2 size={16} />
-        </HStack>
-      ),
+      sx: {
+        w: "150px",
+        minW: "150px",
+        fontFamily: "Geist Mono",
+      },
     },
     {
-      header: "Limit",
-      accessor: "limit",
-      isAmount: true,
-      isEditable: false,
+      header: t("budgets.table.description"),
+      accessor: "description",
+      sx: {
+        w: "200px",
+        minW: "200px",
+      },
     },
     {
       header: "",
       accessor: "options",
       isEditable: false,
+      isDraggable: false,
       sx: {
-        w: "10px",
+        w: "15px",
+        maxW: "15px",
+        minW: "15px",
         opacity: 0.5,
         p: 0,
       },
       render: (_, row) => (
-        <TableRowMenu
-          onDelete={() => onRemoveRow(row.id)}
-          onDisabled={() => onDisabledRow(row.id)}
-          onConfig={() => onConfigRow(row.id)}
-          onEdit={() => onEditRow(row.id)}
-        />
+        <TableRowMenu onDelete={() => onRemoveRow(row.category_id)} />
       ),
     },
   ];
 
   return (
-    <InlineEditorGrid
+    <InlineEditorGrid<BudgetCategoryRow>
       columns={columns}
       data={data}
-      isLoading={false}
-      onDataChange={onDataChange}
+      isLoading={isLoading}
+      onRowChange={onRowChange}
+      showRowNumber
+      height={height}
     />
   );
 }
