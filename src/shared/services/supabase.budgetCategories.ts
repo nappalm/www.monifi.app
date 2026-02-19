@@ -1,10 +1,11 @@
 import { supabaseClient } from "@/lib";
 import { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 
-export const getBudgetCategories = async () => {
+export const getBudgetCategories = async (budgetId: number) => {
   const { data, error } = await supabaseClient
     .from("budget_categories")
-    .select("*");
+    .select("*")
+    .eq("budget_id", budgetId);
   if (error) throw new Error(error.message);
   return data;
 };
@@ -50,6 +51,17 @@ export const deleteBudgetCategory = async (id: number) => {
     .from("budget_categories")
     .delete()
     .eq("id", id);
+  if (error) throw new Error(error.message);
+  return data;
+};
+
+export const bulkUpsertBudgetCategories = async (
+  categories: TablesInsert<"budget_categories">[],
+) => {
+  const { data, error } = await supabaseClient
+    .from("budget_categories")
+    .upsert(categories)
+    .select();
   if (error) throw new Error(error.message);
   return data;
 };
