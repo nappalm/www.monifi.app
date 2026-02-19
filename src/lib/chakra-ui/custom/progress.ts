@@ -11,9 +11,10 @@ const { defineMultiStyleConfig, definePartsStyle } =
 const filledStyle = defineStyle((props) => {
   const { colorScheme: c, theme: t, isIndeterminate, hasStripe } = props;
 
-  const stripeStyle = mode(
-    generateStripe(),
-    generateStripe("1rem", "rgba(0,0,0,0.1)"),
+  // Hatched pattern style
+  const hatchedStyle = mode(
+    generateStripe("0.75rem", "rgba(255,255,255,0.15)"),
+    generateStripe("0.75rem", "rgba(0,0,0,0.15)"),
   )(props);
 
   const bgColor = mode(`${c}.500`, `${c}.500`)(props);
@@ -25,10 +26,11 @@ const filledStyle = defineStyle((props) => {
     transparent 100%
   )`;
 
-  const addStripe = !isIndeterminate && hasStripe;
+  // Always apply hatched pattern unless indeterminate
+  const addStripe = !isIndeterminate;
 
   return {
-    ...(addStripe && stripeStyle),
+    ...(addStripe && hatchedStyle),
     ...(isIndeterminate ? { bgImage: gradient } : { bgColor }),
   };
 });
@@ -43,7 +45,7 @@ const baseStyleLabel = defineStyle({
 const baseStyleTrack = defineStyle((props) => {
   return {
     bg: mode("gray.100", "whiteAlpha.100")(props),
-    borderRadius: "xl",
+    borderRadius: "none",
   };
 });
 
@@ -82,5 +84,6 @@ export default defineMultiStyleConfig({
   defaultProps: {
     size: "sm",
     colorScheme: "cyan",
+    hasStripe: true,
   },
 });

@@ -78,7 +78,7 @@ const variantSimple = definePartsStyle((props) => {
 
 const variantStripe = definePartsStyle((props) => {
   const { colorScheme: c, theme } = props;
-  const stripedBgBase = mode(`${c}.100`, `${c}.900`)(props);
+  const stripedBgBase = mode(`${c}.100`, `${c}.800`)(props);
   const stripedBg = transparentize(stripedBgBase, 0.6)(theme);
 
   return {
@@ -127,6 +127,12 @@ const variantStripe = definePartsStyle((props) => {
             borderColor: mode(`${c}.200`, `${c}.800`)(props),
             borderBottomWidth: 0,
             borderTopWidth: 0,
+          },
+        },
+        "&:last-of-type": {
+          td: {
+            borderBottomWidth: "1px",
+            borderColor: mode(`${c}.200`, `${c}.800`)(props),
           },
         },
 
