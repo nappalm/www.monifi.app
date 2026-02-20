@@ -17,6 +17,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import BottleChart from "./BottleChart";
 import CategoryProgress from "./CategoryProgress";
+import PeriodNavigation from "./PeriodNavigation";
 
 type CategoryRow = {
   category_name: string;
@@ -26,9 +27,20 @@ type CategoryRow = {
 type Props = {
   categories: CategoryRow[];
   budgetAmount: number;
+  spentAmount: number;
+  period: { year: number; month: number };
+  onPrevPeriod: () => void;
+  onNextPeriod: () => void;
 };
 
-export default function RightPanel({ categories, budgetAmount }: Props) {
+export default function RightPanel({
+  categories,
+  budgetAmount,
+  spentAmount,
+  period,
+  onPrevPeriod,
+  onNextPeriod,
+}: Props) {
   const { t } = useTranslation();
   const allocatedAmount = useMemo(
     () => categories.reduce((sum, cat) => sum + cat.amount, 0),
@@ -36,8 +48,8 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
   );
 
   const spentPct =
-    budgetAmount > 0 ? Math.round((allocatedAmount / budgetAmount) * 100) : 0;
-  const remainingAmount = budgetAmount - allocatedAmount;
+    budgetAmount > 0 ? Math.round((spentAmount / budgetAmount) * 100) : 0;
+  const remainingAmount = budgetAmount - spentAmount;
 
   const top5 = useMemo(() => {
     const sorted = [...categories].sort((a, b) => b.amount - a.amount);
@@ -63,20 +75,11 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
             {formatCurrency(allocatedAmount)}
           </Text>
         </Stack>
-        <Menu>
-          <MenuButton
-            size="xs"
-            as={Button}
-            rightIcon={<IconChevronDown size={16} />}
-            borderRadius="md"
-          >
-            July
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Ago</MenuItem>
-            <MenuItem>Sep</MenuItem>
-          </MenuList>
-        </Menu>
+        <PeriodNavigation
+          period={period}
+          onPrev={onPrevPeriod}
+          onNext={onNextPeriod}
+        />
       </HStack>
       <BottleChart categories={categories} budgetAmount={budgetAmount} />
       <Card size="sm" mr={2} variant="solid">
@@ -85,14 +88,14 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
             <Text fontSize="sm" color="gray.500">
               {t("budgets.rightPanel.spendingLimit")}
             </Text>
-            <HatchBar value={allocatedAmount} max={budgetAmount} />
+            <HatchBar value={spentAmount} max={budgetAmount} />
             <HStack justify="space-between">
               <Stack gap={0}>
                 <Text color="gray.500" fontSize="sm">
                   {t("budgets.rightPanel.spent")}
                 </Text>
                 <HStack>
-                  <Text>{formatCurrency(allocatedAmount)}</Text>
+                  <Text>{formatCurrency(spentAmount)}</Text>
                   <Tag size="sm">{spentPct}%</Tag>
                 </HStack>
               </Stack>

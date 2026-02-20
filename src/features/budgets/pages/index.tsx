@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 import { IconBucket, IconPlus } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import BudgetSelector from "../components/BudgetSelector";
 import BudgetsTable from "../components/BudgetsTable";
@@ -42,6 +42,7 @@ import {
   useDeleteBudget,
   useUpdateBudget,
 } from "../hooks/useBudgets";
+import { useTransactions } from "../../transactions/hooks/useTransactions";
 
 type BudgetCategoryRow = {
   id: number;
@@ -59,6 +60,39 @@ export default function BudgetsPage() {
   const [activeBudgetId, setActiveBudgetId] = useState<number | null>(null);
   const [selectedBudget, setSelectedBudget] =
     useState<Tables<"budgets"> | null>(null);
+
+  const now = new Date();
+  const [period, setPeriod] = useState({
+    year: now.getFullYear(),
+    month: now.getMonth() + 1,
+  });
+
+  const dateRange = useMemo((): [string, string] => {
+    const { year, month } = period;
+    const pad = (n: number) => String(n).padStart(2, "0");
+    const lastDay = new Date(year, month, 0).getDate();
+    return [`${year}-${pad(month)}-01`, `${year}-${pad(month)}-${lastDay}`];
+  }, [period]);
+
+  const transactions = useTransactions(dateRange);
+
+  const spentAmount = useMemo(
+    () =>
+      (transactions.data ?? [])
+        .filter((t) => t.type === "expense")
+        .reduce((sum, t) => sum + t.amount, 0),
+    [transactions.data],
+  );
+
+  const handlePrevPeriod = () =>
+    setPeriod((p) =>
+      p.month === 1 ? { year: p.year - 1, month: 12 } : { ...p, month: p.month - 1 },
+    );
+
+  const handleNextPeriod = () =>
+    setPeriod((p) =>
+      p.month === 12 ? { year: p.year + 1, month: 1 } : { ...p, month: p.month + 1 },
+    );
 
   const categories = useCategories();
   const createCategory = useCreateCategory();
@@ -297,6 +331,10 @@ export default function BudgetsPage() {
           <RightPanel
             categories={data}
             budgetAmount={activeBudget?.amount ?? 0}
+            spentAmount={spentAmount}
+            period={period}
+            onPrevPeriod={handlePrevPeriod}
+            onNextPeriod={handleNextPeriod}
           />
         </Grid>
       )}
