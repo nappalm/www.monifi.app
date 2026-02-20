@@ -348,9 +348,9 @@
     "rightPanel": {
       "title": "Información de tu presupuesto",
       "allocatedAmount": "Presupuesto acumulado",
-      "budgetAmount": "Monto asignado a presupuesto",
-      "over": "{{pct}}% excedido",
-      "available": "{{pct}}% disponible",
+      "spendingLimit": "Límite de gasto mensual",
+      "spent": "Gastado",
+      "remaining": "Restante",
       "allocationTitle": "Porcentaje de acumulación"
     }
   },
