@@ -45,6 +45,7 @@ export default function BudgetSelector({
     <HStack gap={0}>
       <Button
         size="sm"
+        variant="solid"
         borderRightRadius={0}
         onClick={() => selected && onEdit(selected)}
         leftIcon={<IconBucket size={16} />}
@@ -54,6 +55,7 @@ export default function BudgetSelector({
       <Menu>
         <MenuButton
           size="sm"
+          variant="solid"
           ml="-1px"
           as={IconButton}
           borderLeftRadius={0}

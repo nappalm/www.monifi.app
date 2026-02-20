@@ -1,5 +1,18 @@
-import { formatCurrency } from "@/shared";
-import { Card, CardBody, HStack, Stack, Text } from "@chakra-ui/react";
+import { formatCurrency, HatchBar } from "@/shared";
+import {
+  Button,
+  Card,
+  CardBody,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Stack,
+  Tag,
+  Text,
+} from "@chakra-ui/react";
+import { IconChevronDown } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import BottleChart from "./BottleChart";
@@ -22,6 +35,10 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
     [categories],
   );
 
+  const spentPct =
+    budgetAmount > 0 ? Math.round((allocatedAmount / budgetAmount) * 100) : 0;
+  const remainingAmount = budgetAmount - allocatedAmount;
+
   const top5 = useMemo(() => {
     const sorted = [...categories].sort((a, b) => b.amount - a.amount);
     return sorted.slice(0, 5).map((cat) => ({
@@ -37,51 +54,59 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
       <Text fontWeight="semibold" fontSize="lg">
         {t("budgets.rightPanel.title")}
       </Text>
-      <Stack gap={0}>
-        <Text color="gray.500" fontSize="sm">
-          {t("budgets.rightPanel.allocatedAmount")}
-        </Text>
-        <Text fontFamily="Geist Mono" fontSize="lg" fontWeight="semibold">
-          {formatCurrency(allocatedAmount)}
-        </Text>
-      </Stack>
+      <HStack justify="space-between">
+        <Stack gap={0}>
+          <Text color="gray.500" fontSize="sm">
+            {t("budgets.rightPanel.allocatedAmount")}
+          </Text>
+          <Text fontFamily="Geist Mono" fontSize="lg" fontWeight="semibold">
+            {formatCurrency(allocatedAmount)}
+          </Text>
+        </Stack>
+        <Menu>
+          <MenuButton
+            size="xs"
+            as={Button}
+            rightIcon={<IconChevronDown size={16} />}
+            borderRadius="md"
+          >
+            July
+          </MenuButton>
+          <MenuList>
+            <MenuItem>Ago</MenuItem>
+            <MenuItem>Sep</MenuItem>
+          </MenuList>
+        </Menu>
+      </HStack>
       <BottleChart categories={categories} budgetAmount={budgetAmount} />
-      <Card size="sm" mr={2} mt={3}>
+      <Card size="sm" mr={2} variant="solid">
         <CardBody>
-          <HStack justify="space-between" align="flex-end">
-            <Stack gap={0}>
-              <Text fontSize="xs" color="gray.500">
-                {t("budgets.rightPanel.budgetAmount")}
-              </Text>
-              <Text fontWeight="semibold" fontFamily="Geist Mono" fontSize="sm">
-                {formatCurrency(budgetAmount)}
-              </Text>
-            </Stack>
-            {budgetAmount > 0 &&
-              (() => {
-                const usedPct = Math.round(
-                  (allocatedAmount / budgetAmount) * 100,
-                );
-                const availablePct = 100 - usedPct;
-                const isOver = availablePct < 0;
-                return (
-                  <Stack gap={0} align="flex-end">
-                    <Text
-                      fontSize="xs"
-                      color={isOver ? "red.400" : "green.400"}
-                    >
-                      {isOver
-                        ? t("budgets.rightPanel.over", { pct: availablePct })
-                        : t("budgets.rightPanel.available", {
-                            pct: availablePct,
-                          })}
-                    </Text>
-                  </Stack>
-                );
-              })()}
-          </HStack>
+          <Stack gap={1}>
+            <Text fontSize="sm" color="gray.500">
+              {t("budgets.rightPanel.spendingLimit")}
+            </Text>
+            <HatchBar value={allocatedAmount} max={budgetAmount} />
+            <HStack justify="space-between">
+              <Stack gap={0}>
+                <Text color="gray.500" fontSize="sm">
+                  {t("budgets.rightPanel.spent")}
+                </Text>
+                <HStack>
+                  <Text>{formatCurrency(allocatedAmount)}</Text>
+                  <Tag size="sm">{spentPct}%</Tag>
+                </HStack>
+              </Stack>
+              <Stack gap={0} align="end">
+                <Text color="gray.500" fontSize="sm">
+                  {t("budgets.rightPanel.remaining")}
+                </Text>
+                <Text>{formatCurrency(remainingAmount)}</Text>
+              </Stack>
+            </HStack>
+          </Stack>
         </CardBody>
       </Card>
+
       <Stack gap={2} mt={4}>
         <Text fontWeight="semibold" fontSize="lg">
           {t("budgets.rightPanel.allocationTitle")}

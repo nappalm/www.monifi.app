@@ -1,4 +1,4 @@
-import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Stack, useColorModeValue } from "@chakra-ui/react";
 import { useMemo } from "react";
 
 const BOTTOM_PATH =

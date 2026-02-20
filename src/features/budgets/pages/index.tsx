@@ -1,3 +1,4 @@
+import { useGlobalUI } from "@/lib";
 import {
   Tables,
   TablesInsert,
@@ -11,14 +12,16 @@ import {
   useUpdateCategory,
 } from "@/shared";
 import {
-  Badge,
   Button,
   Grid,
   HStack,
   Stack,
   Tag,
+  TagLabel,
+  TagLeftIcon,
   useDisclosure,
 } from "@chakra-ui/react";
+import { IconBucket, IconPlus } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -39,8 +42,6 @@ import {
   useDeleteBudget,
   useUpdateBudget,
 } from "../hooks/useBudgets";
-import { useGlobalUI } from "@/lib";
-import { IconPlus } from "@tabler/icons-react";
 
 type BudgetCategoryRow = {
   id: number;
@@ -261,7 +262,13 @@ export default function BudgetsPage() {
         onDelete={handleDelete}
       />
       <HStack p={2} pb={0} justify="space-between">
-        <Tag colorScheme="teal">{t("budgets.title")}</Tag>
+        <Tag>
+          <TagLeftIcon fontSize={14}>
+            <IconBucket />
+          </TagLeftIcon>
+          <TagLabel>{t("budgets.title")}</TagLabel>
+        </Tag>
+
         <HStack>
           <Button
             size="sm"
