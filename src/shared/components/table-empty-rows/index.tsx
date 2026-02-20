@@ -10,7 +10,7 @@ export default function TableEmptyRows({ cols, height }: TableEmptyRowsProps) {
   const { t } = useTranslation();
 
   return (
-    <Tr>
+    <Tr sx={{ "& > td": { background: "transparent !important" } }}>
       <Td
         colSpan={cols}
         color="gray.500"
