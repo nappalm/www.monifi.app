@@ -8,8 +8,6 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Stack,
-  Text,
 } from "@chakra-ui/react";
 import { IconBucket, IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
@@ -21,17 +19,6 @@ type Props = {
   onEdit: (budget: Tables<"budgets">) => void;
   onNew: VoidFunction;
 };
-
-function getBudgetDescription(
-  budget: Tables<"budgets">,
-  t: (key: string) => string,
-) {
-  if (budget.recurrent) return t("budgets.selector.recurrent");
-  if (!budget.specific_year) return t("budgets.selector.repeatsYearly");
-  if (Number(budget.specific_year) < new Date().getFullYear())
-    return t("budgets.selector.expired");
-  return t("budgets.selector.custom");
-}
 
 export default function BudgetSelector({
   data,
@@ -62,27 +49,15 @@ export default function BudgetSelector({
           icon={<IconChevronDown size={16} />}
         />
         <MenuList>
-          {data.map((budget) => {
-            const description = getBudgetDescription(budget, t);
-            const isExpired = description === t("budgets.selector.expired");
-            return (
-              <MenuItem
-                key={budget.id}
-                icon={<IconBucket size={16} />}
-                opacity={isExpired ? 0.5 : 1}
-                onClick={() => onSelect(budget)}
-              >
-                <Stack gap={0}>
-                  <Text color={isExpired ? "gray.500" : undefined}>
-                    {budget.name}
-                  </Text>
-                  <Text color={isExpired ? "red.500" : "gray.500"}>
-                    {description}
-                  </Text>
-                </Stack>
-              </MenuItem>
-            );
-          })}
+          {data.map((budget) => (
+            <MenuItem
+              key={budget.id}
+              icon={<IconBucket size={16} />}
+              onClick={() => onSelect(budget)}
+            >
+              {budget.name}
+            </MenuItem>
+          ))}
           <MenuDivider />
           <MenuItem
             color="green.500"

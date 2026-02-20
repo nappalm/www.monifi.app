@@ -239,13 +239,6 @@ export default function BudgetsPage() {
     ? {
         name: selectedBudget.name,
         amount: selectedBudget.amount,
-        recurrent: selectedBudget.recurrent,
-        start_day: selectedBudget.start_day,
-        start_month: selectedBudget.start_month,
-        end_day: selectedBudget.end_day,
-        end_month: selectedBudget.end_month,
-        specific_year: selectedBudget.specific_year,
-        includeYear: !selectedBudget.specific_year,
       }
     : undefined;
 

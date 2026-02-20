@@ -320,11 +320,6 @@
       "name": "Nombre del presupuesto",
       "namePlaceholder": "Mi presupuesto personal",
       "amount": "Monto del presupuesto",
-      "recurrent": "Recurrente (se repetirá cada mes)",
-      "startDate": "Fecha inicio",
-      "endDate": "Fecha fin",
-      "repeatEveryYear": "Repetir cada año",
-      "year": "Año",
       "delete": "Eliminar",
       "cancel": "Cancelar",
       "save": "Guardar"
@@ -336,10 +331,6 @@
     },
     "selector": {
       "selectBudget": "Seleccionar presupuesto",
-      "recurrent": "Se repite cada mes",
-      "repeatsYearly": "Se repite cada año",
-      "expired": "Vencido",
-      "custom": "Personalizado",
       "addNew": "Agregar nuevo presupuesto"
     },
     "menu": {

@@ -320,11 +320,6 @@
       "name": "Budget name",
       "namePlaceholder": "My personal budget",
       "amount": "Budget amount",
-      "recurrent": "Recurring (repeats every month)",
-      "startDate": "Start date",
-      "endDate": "End date",
-      "repeatEveryYear": "Repeat every year",
-      "year": "Year",
       "delete": "Delete",
       "cancel": "Cancel",
       "save": "Save"
@@ -336,10 +331,6 @@
     },
     "selector": {
       "selectBudget": "Select budget",
-      "recurrent": "Repeats every month",
-      "repeatsYearly": "Repeats every year",
-      "expired": "Expired",
-      "custom": "Custom",
       "addNew": "Add new budget"
     },
     "menu": {
