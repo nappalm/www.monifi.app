@@ -1,4 +1,4 @@
-import { Column, InlineEditorGrid } from "@/shared";
+import { Column, formatCurrency, InlineEditorGrid } from "@/shared";
 import { useTranslation } from "react-i18next";
 import TableRowMenu from "./TableRowMenu";
 
@@ -20,6 +20,7 @@ type Props = {
   ) => void;
   onRemoveRow: (id: number) => void;
   height?: string;
+  spentByCategory?: Record<number, number>;
 };
 
 export default function BudgetsTable({
@@ -28,6 +29,7 @@ export default function BudgetsTable({
   onRowChange,
   onRemoveRow,
   height,
+  spentByCategory = {},
 }: Props) {
   const { t } = useTranslation();
 
@@ -55,6 +57,19 @@ export default function BudgetsTable({
         minW: "150px",
         fontFamily: "Geist Mono",
       },
+    },
+    {
+      header: t("budgets.table.currentSpent"),
+      accessor: "currentSpent",
+      isEditable: false,
+      isDraggable: false,
+      sx: {
+        w: "150px",
+        minW: "150px",
+        fontFamily: "Geist Mono",
+      },
+      render: (_, row) =>
+        formatCurrency(spentByCategory[row.category_id] ?? 0),
     },
     {
       header: t("budgets.table.description"),

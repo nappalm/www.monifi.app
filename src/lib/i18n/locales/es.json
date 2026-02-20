@@ -306,6 +306,7 @@
       "id": "ID",
       "category": "Categoría",
       "limitValue": "Valor Límite",
+      "currentSpent": "Gastado",
       "description": "Descripción",
       "addCategory": "Agregar nueva categoría",
       "removeCategory": {
@@ -342,7 +343,8 @@
       "spendingLimit": "Límite de gasto mensual",
       "spent": "Gastado",
       "remaining": "Restante",
-      "allocationTitle": "Porcentaje de acumulación"
+      "allocationTitle": "Porcentaje de acumulación",
+      "period": "Período"
     }
   },
   "settings": {

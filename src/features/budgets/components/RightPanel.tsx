@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import BottleChart from "./BottleChart";
 import CategoryProgress from "./CategoryProgress";
 import PeriodNavigation from "./PeriodNavigation";
+import { isEmpty } from "lodash";
 
 type CategoryRow = {
   category_name: string;
@@ -81,7 +82,11 @@ export default function RightPanel({
           onNext={onNextPeriod}
         />
       </HStack>
-      <BottleChart categories={categories} budgetAmount={budgetAmount} />
+      <BottleChart
+        spentAmount={spentAmount}
+        budgetAmount={budgetAmount}
+        allocatedAmount={allocatedAmount}
+      />
       <Card size="sm" mr={2} variant="solid">
         <CardBody>
           <Stack gap={1}>
@@ -110,19 +115,21 @@ export default function RightPanel({
         </CardBody>
       </Card>
 
-      <Stack gap={2} mt={4}>
-        <Text fontWeight="semibold" fontSize="lg">
-          {t("budgets.rightPanel.allocationTitle")}
-        </Text>
-        {top5.map((cat) => (
-          <CategoryProgress
-            key={cat.label}
-            label={cat.label}
-            progress={cat.progress}
-            value={cat.value}
-          />
-        ))}
-      </Stack>
+      {!isEmpty(top5) && (
+        <Stack gap={2} mt={4}>
+          <Text fontWeight="semibold" fontSize="lg">
+            {t("budgets.rightPanel.allocationTitle")}
+          </Text>
+          {top5.map((cat) => (
+            <CategoryProgress
+              key={cat.label}
+              label={cat.label}
+              progress={cat.progress}
+              value={cat.value}
+            />
+          ))}
+        </Stack>
+      )}
     </Stack>
   );
 }

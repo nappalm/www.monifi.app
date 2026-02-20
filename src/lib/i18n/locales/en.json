@@ -306,6 +306,7 @@
       "id": "ID",
       "category": "Category",
       "limitValue": "Limit Value",
+      "currentSpent": "Spent",
       "description": "Description",
       "addCategory": "Add new category",
       "removeCategory": {
@@ -342,7 +343,8 @@
       "spendingLimit": "Monthly spending limit",
       "spent": "Spent",
       "remaining": "Remaining",
-      "allocationTitle": "Allocation percentage"
+      "allocationTitle": "Allocation percentage",
+      "period": "Period"
     }
   },
   "settings": {

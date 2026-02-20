@@ -1,5 +1,6 @@
 import { HStack, IconButton, Stack, Text } from "@chakra-ui/react";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   period: { year: number; month: number };
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
+  const { t } = useTranslation();
   const label = new Date(period.year, period.month - 1).toLocaleString(
     "default",
     { month: "short", year: "numeric" },
@@ -16,7 +18,7 @@ export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
   return (
     <Stack gap={0}>
       <Text fontSize="sm" color="gray.500" textAlign="center" mb={-1}>
-        Period
+        {t("budgets.rightPanel.period")}
       </Text>
       <HStack>
         <IconButton

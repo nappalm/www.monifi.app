@@ -84,6 +84,16 @@ export default function BudgetsPage() {
     [transactions.data],
   );
 
+  const spentByCategory = useMemo(() => {
+    const map: Record<number, number> = {};
+    (transactions.data ?? [])
+      .filter((t) => t.type === "expense" && t.category_id != null)
+      .forEach((t) => {
+        map[t.category_id!] = (map[t.category_id!] ?? 0) + t.amount;
+      });
+    return map;
+  }, [transactions.data]);
+
   const handlePrevPeriod = () =>
     setPeriod((p) =>
       p.month === 1 ? { year: p.year - 1, month: 12 } : { ...p, month: p.month - 1 },
@@ -327,6 +337,7 @@ export default function BudgetsPage() {
             onRowChange={handleRowChange}
             onRemoveRow={handleRemoveCategory}
             height="calc(100vh - 55px)"
+            spentByCategory={spentByCategory}
           />
           <RightPanel
             categories={data}
