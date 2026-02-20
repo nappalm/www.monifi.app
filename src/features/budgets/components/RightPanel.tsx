@@ -1,24 +1,23 @@
+import { Tables } from "@/lib/supabase/database.types";
 import { formatCurrency, HatchBar } from "@/shared";
 import {
-  Button,
   Card,
   CardBody,
   HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Stack,
   Tag,
   Text,
 } from "@chakra-ui/react";
-import { IconChevronDown } from "@tabler/icons-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { SpendingByCategory } from "../hooks/useBudgetSpending";
+import { SelectedPeriod } from "../utils/period";
 import BottleChart from "./BottleChart";
 import CategoryProgress from "./CategoryProgress";
+import PeriodNavigator from "./PeriodNavigator";
 
 type CategoryRow = {
+  category_id: number;
   category_name: string;
   amount: number;
 };
@@ -26,28 +25,49 @@ type CategoryRow = {
 type Props = {
   categories: CategoryRow[];
   budgetAmount: number;
+  budget: Tables<"budgets">;
+  period: SelectedPeriod;
+  onPeriodChange: (period: SelectedPeriod) => void;
+  spentTotal: number;
+  spentByCategory: SpendingByCategory;
 };
 
-export default function RightPanel({ categories, budgetAmount }: Props) {
+export default function RightPanel({
+  categories,
+  budgetAmount,
+  budget,
+  period,
+  onPeriodChange,
+  spentTotal,
+  spentByCategory,
+}: Props) {
   const { t } = useTranslation();
-  const allocatedAmount = useMemo(
-    () => categories.reduce((sum, cat) => sum + cat.amount, 0),
-    [categories],
-  );
 
   const spentPct =
-    budgetAmount > 0 ? Math.round((allocatedAmount / budgetAmount) * 100) : 0;
-  const remainingAmount = budgetAmount - allocatedAmount;
+    budgetAmount > 0 ? Math.round((spentTotal / budgetAmount) * 100) : 0;
+  const remainingAmount = budgetAmount - spentTotal;
 
   const top5 = useMemo(() => {
     const sorted = [...categories].sort((a, b) => b.amount - a.amount);
     return sorted.slice(0, 5).map((cat) => ({
       label: cat.category_name,
-      value: cat.amount,
+      limit: cat.amount,
+      spent: spentByCategory[cat.category_id] ?? 0,
       progress:
-        budgetAmount > 0 ? Math.round((cat.amount / budgetAmount) * 100) : 0,
+        cat.amount > 0
+          ? Math.min(
+              100,
+              Math.round(((spentByCategory[cat.category_id] ?? 0) / cat.amount) * 100),
+            )
+          : 0,
     }));
-  }, [categories, budgetAmount]);
+  }, [categories, spentByCategory]);
+
+  // Para el BottleChart seguimos usando las categorías con sus límites (vista de plan)
+  const bottleCategories = useMemo(
+    () => categories.map((c) => ({ category_name: c.category_name, amount: c.amount })),
+    [categories],
+  );
 
   return (
     <Stack>
@@ -60,39 +80,30 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
             {t("budgets.rightPanel.allocatedAmount")}
           </Text>
           <Text fontFamily="Geist Mono" fontSize="lg" fontWeight="semibold">
-            {formatCurrency(allocatedAmount)}
+            {formatCurrency(spentTotal)}
           </Text>
         </Stack>
-        <Menu>
-          <MenuButton
-            size="xs"
-            as={Button}
-            rightIcon={<IconChevronDown size={16} />}
-            borderRadius="md"
-          >
-            July
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Ago</MenuItem>
-            <MenuItem>Sep</MenuItem>
-          </MenuList>
-        </Menu>
+        <PeriodNavigator
+          budget={budget}
+          period={period}
+          onChange={onPeriodChange}
+        />
       </HStack>
-      <BottleChart categories={categories} budgetAmount={budgetAmount} />
+      <BottleChart categories={bottleCategories} budgetAmount={budgetAmount} />
       <Card size="sm" mr={2} variant="solid">
         <CardBody>
           <Stack gap={1}>
             <Text fontSize="sm" color="gray.500">
               {t("budgets.rightPanel.spendingLimit")}
             </Text>
-            <HatchBar value={allocatedAmount} max={budgetAmount} />
+            <HatchBar value={spentTotal} max={budgetAmount} />
             <HStack justify="space-between">
               <Stack gap={0}>
                 <Text color="gray.500" fontSize="sm">
                   {t("budgets.rightPanel.spent")}
                 </Text>
                 <HStack>
-                  <Text>{formatCurrency(allocatedAmount)}</Text>
+                  <Text>{formatCurrency(spentTotal)}</Text>
                   <Tag size="sm">{spentPct}%</Tag>
                 </HStack>
               </Stack>
@@ -116,7 +127,7 @@ export default function RightPanel({ categories, budgetAmount }: Props) {
             key={cat.label}
             label={cat.label}
             progress={cat.progress}
-            value={cat.value}
+            value={cat.spent}
           />
         ))}
       </Stack>

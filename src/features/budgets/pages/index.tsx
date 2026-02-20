@@ -42,6 +42,8 @@ import {
   useDeleteBudget,
   useUpdateBudget,
 } from "../hooks/useBudgets";
+import { useBudgetSpending } from "../hooks/useBudgetSpending";
+import { getCurrentPeriod, SelectedPeriod } from "../utils/period";
 
 type BudgetCategoryRow = {
   id: number;
@@ -59,6 +61,7 @@ export default function BudgetsPage() {
   const [activeBudgetId, setActiveBudgetId] = useState<number | null>(null);
   const [selectedBudget, setSelectedBudget] =
     useState<Tables<"budgets"> | null>(null);
+  const [selectedPeriod, setSelectedPeriod] = useState<SelectedPeriod | null>(null);
 
   const categories = useCategories();
   const createCategory = useCreateCategory();
@@ -84,6 +87,16 @@ export default function BudgetsPage() {
 
   const activeBudget =
     budgets.data?.find((b) => b.id === activeBudgetId) ?? null;
+
+  // Cuando cambia el presupuesto activo, resetear al periodo actual
+  useEffect(() => {
+    if (activeBudget) {
+      setSelectedPeriod(getCurrentPeriod(activeBudget));
+    }
+  }, [activeBudgetId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const period = selectedPeriod ?? (activeBudget ? getCurrentPeriod(activeBudget) : null);
+  const spending = useBudgetSpending(activeBudget, period);
 
   const [data, setData] = useState<BudgetCategoryRow[]>([]);
 
@@ -301,10 +314,17 @@ export default function BudgetsPage() {
             onRemoveRow={handleRemoveCategory}
             height="calc(100vh - 55px)"
           />
-          <RightPanel
-            categories={data}
-            budgetAmount={activeBudget?.amount ?? 0}
-          />
+          {activeBudget && period && (
+            <RightPanel
+              categories={data}
+              budgetAmount={activeBudget.amount}
+              budget={activeBudget}
+              period={period}
+              onPeriodChange={setSelectedPeriod}
+              spentTotal={spending.total}
+              spentByCategory={spending.byCategory}
+            />
+          )}
         </Grid>
       )}
     </Stack>
