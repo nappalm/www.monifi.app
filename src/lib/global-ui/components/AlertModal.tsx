@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
 import { type AlertModalState } from "../context";
+import { IconCircleCheckFilled, IconCircleXFilled } from "@tabler/icons-react";
 
 type Props = AlertModalState & {
   isOpen: boolean;
@@ -58,14 +59,22 @@ export function AlertModal({
         )}
         <ModalFooter>
           <ButtonGroup>
-            <Button variant="ghost" onClick={handleCancel} isDisabled={loading}>
+            <Button
+              variant="ghost"
+              onClick={handleCancel}
+              isDisabled={loading}
+              leftIcon={<IconCircleXFilled size={16} />}
+              size="sm"
+            >
               {t("common.cancel")}
             </Button>
             <Button
+              leftIcon={<IconCircleCheckFilled size={16} />}
               colorScheme={colorScheme}
               onClick={handleOk}
               isLoading={loading}
               variant="solid"
+              size="sm"
             >
               {t("common.confirm")}
             </Button>
