@@ -4,6 +4,7 @@ import {
   cssVar,
   defineStyle,
 } from "@chakra-ui/styled-system";
+import { mode } from "@chakra-ui/theme-tools";
 import { badgeTheme, badgeVars } from "./badge";
 
 const { defineMultiStyleConfig, definePartsStyle } =
@@ -104,15 +105,36 @@ const sizes = {
   }),
 };
 
+const subtleShadow = (props: Record<string, unknown>) =>
+  mode(
+    "inset -1px 1px 0px rgba(255, 255, 255, 0.5), inset 1px -1px 0px rgba(0, 0, 0, 0.1)",
+    "inset -1px 1px 0px rgba(255, 255, 255, 0.1), inset 1px -1px 0px rgba(0, 0, 0, 0.1)",
+  )(props);
+
+const solidShadow = (props: Record<string, unknown>) =>
+  mode(
+    "inset -1px 1px 0px rgba(255, 255, 255, 0.5), inset 1px -1px 0px rgba(0, 0, 0, 0.1)",
+    "inset -1px 1px 0px rgba(255, 255, 255, 0.1), inset 1px -1px 0px rgba(0, 0, 0, 0.3)",
+  )(props);
+
 const variants = {
   subtle: definePartsStyle((props) => ({
-    container: badgeTheme.variants?.subtle(props),
+    container: {
+      ...badgeTheme.variants?.subtle(props),
+      boxShadow: subtleShadow(props),
+    },
   })),
   solid: definePartsStyle((props) => ({
-    container: badgeTheme.variants?.solid(props),
+    container: {
+      ...badgeTheme.variants?.solid(props),
+      boxShadow: solidShadow(props),
+    },
   })),
   outline: definePartsStyle((props) => ({
-    container: badgeTheme.variants?.outline(props),
+    container: {
+      ...badgeTheme.variants?.outline(props),
+      boxShadow: subtleShadow(props),
+    },
   })),
 };
 

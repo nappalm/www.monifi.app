@@ -65,6 +65,7 @@ export function AlertModal({
               isDisabled={loading}
               leftIcon={<IconCircleXFilled size={16} />}
               size="sm"
+              color="gray.500"
             >
               {t("common.cancel")}
             </Button>
