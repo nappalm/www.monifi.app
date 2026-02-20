@@ -20,10 +20,10 @@ const solidVariant = definePartsStyle((props) => ({
   container: {
     boxShadow: "none",
     transition: "all ease-in-out 300ms",
-    bg: mode(`gray.100`, `gray.900`)(props),
+    bg: mode(`gray.100`, `gray.800`)(props),
   },
   body: {
-    bg: mode(`gray.100`, `gray.900`)(props),
+    bg: mode(`gray.100`, `gray.800`)(props),
     borderRadius: "xl",
     border: "1px solid",
     borderColor: mode("gray.200", "gray.800")(props),
