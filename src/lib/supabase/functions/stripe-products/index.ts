@@ -52,7 +52,10 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error("Error fetching Stripe products:", error);
     return new Response(
-      JSON.stringify({ error: "Failed to retrieve products", details: error.message }),
+      JSON.stringify({
+        error: "Failed to retrieve products",
+        details: error.message,
+      }),
       {
         status: 500,
         headers: { "Content-Type": "application/json", ...corsHeaders },

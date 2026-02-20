@@ -26,13 +26,16 @@ Deno.serve(async (req) => {
 
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Missing authorization header" }), {
-        status: 401,
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
+      return new Response(
+        JSON.stringify({ error: "Missing authorization header" }),
+        {
+          status: 401,
+          headers: {
+            ...corsHeaders,
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
     }
 
     const token = authHeader.replace("Bearer ", "");
@@ -44,7 +47,10 @@ Deno.serve(async (req) => {
 
     if (jwtError || !user) {
       return new Response(
-        JSON.stringify({ error: "Authentication failed", details: jwtError?.message }),
+        JSON.stringify({
+          error: "Authentication failed",
+          details: jwtError?.message,
+        }),
         {
           status: 403,
           headers: {
@@ -56,10 +62,7 @@ Deno.serve(async (req) => {
     }
 
     // Delete user profile if it exists
-    await supabase
-      .from("profiles")
-      .delete()
-      .eq("id", user.id);
+    await supabase.from("profiles").delete().eq("id", user.id);
 
     // Delete user from auth.users
     const { error: authDeleteError } = await supabase.auth.admin.deleteUser(
@@ -69,7 +72,10 @@ Deno.serve(async (req) => {
     if (authDeleteError) {
       console.error("Error deleting user from auth:", authDeleteError);
       return new Response(
-        JSON.stringify({ error: "Failed to delete account", details: authDeleteError.message }),
+        JSON.stringify({
+          error: "Failed to delete account",
+          details: authDeleteError.message,
+        }),
         {
           status: 500,
           headers: {
@@ -95,12 +101,15 @@ Deno.serve(async (req) => {
     );
   } catch (err) {
     console.error("Unexpected error during account deletion:", err);
-    return new Response(JSON.stringify({ error: "Internal Server Error", details: err.message }), {
-      status: 500,
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "application/json",
+    return new Response(
+      JSON.stringify({ error: "Internal Server Error", details: err.message }),
+      {
+        status: 500,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
   }
 });

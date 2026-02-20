@@ -32,10 +32,13 @@ Deno.serve(async (req) => {
     // 1. Authenticate Supabase user
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Missing authorization header" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Missing authorization header" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const {
@@ -45,7 +48,10 @@ Deno.serve(async (req) => {
 
     if (authError || !user) {
       return new Response(
-        JSON.stringify({ error: "Authentication failed", details: authError?.message }),
+        JSON.stringify({
+          error: "Authentication failed",
+          details: authError?.message,
+        }),
         {
           status: 401,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -76,7 +82,9 @@ Deno.serve(async (req) => {
 
     if (existingSubscription) {
       return new Response(
-        JSON.stringify({ error: "User already has an active subscription for this plan." }),
+        JSON.stringify({
+          error: "User already has an active subscription for this plan.",
+        }),
         {
           status: 409,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -90,7 +98,7 @@ Deno.serve(async (req) => {
       .select("stripe_customer_id")
       .eq("user_id", user.id)
       .single();
-    
+
     let customerId = stripeData?.stripe_customer_id;
 
     if (!customerId) {
@@ -106,7 +114,9 @@ Deno.serve(async (req) => {
     }
 
     // 5. Attach PaymentMethod
-    await stripe.paymentMethods.attach(paymentMethodId, { customer: customerId });
+    await stripe.paymentMethods.attach(paymentMethodId, {
+      customer: customerId,
+    });
     await stripe.customers.update(customerId, {
       invoice_settings: { default_payment_method: paymentMethodId },
     });
@@ -131,8 +141,12 @@ Deno.serve(async (req) => {
       stripe_price_id: priceId,
       product_name: productName,
       status: subscription.status,
-      current_period_start: new Date(subscription.current_period_start * 1000).toISOString(),
-      current_period_end: new Date(subscription.current_period_end * 1000).toISOString(),
+      current_period_start: new Date(
+        subscription.current_period_start * 1000,
+      ).toISOString(),
+      current_period_end: new Date(
+        subscription.current_period_end * 1000,
+      ).toISOString(),
       canceled_at: subscription.canceled_at
         ? new Date(subscription.canceled_at * 1000).toISOString()
         : null,
@@ -142,13 +156,16 @@ Deno.serve(async (req) => {
     const latestInvoice = subscription.latest_invoice as Stripe.Invoice;
     const paymentIntent = latestInvoice.payment_intent as Stripe.PaymentIntent;
 
-    return new Response(JSON.stringify({
-      subscriptionId: subscription.id,
-      status: subscription.status,
-      clientSecret: paymentIntent.client_secret,
-    }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        subscriptionId: subscription.id,
+        status: subscription.status,
+        clientSecret: paymentIntent.client_secret,
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
     console.error("Subscription creation error:", error);
     return new Response(

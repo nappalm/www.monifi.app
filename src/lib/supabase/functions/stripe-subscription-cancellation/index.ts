@@ -32,10 +32,13 @@ Deno.serve(async (req) => {
     // 1. Authenticate Supabase user
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Missing authorization header" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: "Missing authorization header" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const {
@@ -44,7 +47,10 @@ Deno.serve(async (req) => {
     } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
     if (authError || !user) {
       return new Response(
-        JSON.stringify({ error: "Authentication failed", details: authError?.message }),
+        JSON.stringify({
+          error: "Authentication failed",
+          details: authError?.message,
+        }),
         {
           status: 401,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -63,7 +69,10 @@ Deno.serve(async (req) => {
 
     if (dbError || !subscriptionData) {
       return new Response(
-        JSON.stringify({ error: "No active subscription found for this user", details: dbError?.message }),
+        JSON.stringify({
+          error: "No active subscription found for this user",
+          details: dbError?.message,
+        }),
         {
           status: 404,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -89,16 +98,22 @@ Deno.serve(async (req) => {
       .eq("stripe_subscription_id", subscriptionId);
 
     // 5. Respond to the frontend with the result
-    return new Response(JSON.stringify({
-      message: "Subscription cancelled successfully",
-      status: deletedSubscription.status,
-    }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        message: "Subscription cancelled successfully",
+        status: deletedSubscription.status,
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
     console.error("Subscription cancellation error:", error);
     return new Response(
-      JSON.stringify({ error: "Failed to cancel subscription", details: error.message }),
+      JSON.stringify({
+        error: "Failed to cancel subscription",
+        details: error.message,
+      }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
