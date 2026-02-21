@@ -5,7 +5,7 @@ import {
   defineStyle,
 } from "@chakra-ui/styled-system";
 import { runIfFn } from "../utils/run-if-fn";
-import { mode } from "@chakra-ui/theme-tools";
+import { mode, transparentize } from "@chakra-ui/theme-tools";
 
 const { defineMultiStyleConfig, definePartsStyle } =
   createMultiStyleConfigHelpers(parts.keys);
@@ -13,11 +13,14 @@ const { defineMultiStyleConfig, definePartsStyle } =
 const $bg = cssVar("modal-bg");
 const $shadow = cssVar("modal-shadow");
 
-const baseStyleOverlay = defineStyle((props) => ({
-  bg: mode("whiteAlpha.500", "blackAlpha.500")(props),
-  zIndex: "modal",
-  backdropFilter: "blur(9px)",
-}));
+const baseStyleOverlay = defineStyle((props) => {
+  const bg = mode("gray.100", "gray.950")(props);
+  return {
+    bg: transparentize(bg, 0.7)(props),
+    zIndex: "modal",
+    // backdropFilter: "blur(9px)",
+  };
+});
 
 const baseStyleDialogContainer = defineStyle((props) => {
   const { isCentered, scrollBehavior } = props;
@@ -42,14 +45,18 @@ const baseStyleDialog = defineStyle((props) => {
     mx: isCentered ? "auto" : undefined,
     zIndex: "modal",
     maxH: scrollBehavior === "inside" ? "calc(100% - 7.5rem)" : undefined,
-    [$bg.variable]: "colors.white",
-    [$shadow.variable]: "shadows.lg",
+    [$bg.variable]: "colors.gray.100",
+    [$shadow.variable]: "shadows.sm",
+    outline: "5px solid",
+    outlineColor: mode("gray.200", "gray.800")(props),
+
+    outlineOffset: "0px",
     _dark: {
-      [$bg.variable]: "colors.gray.900",
-      [$shadow.variable]: "shadows.dark-lg",
+      [$bg.variable]: "colors.gray.950",
+      [$shadow.variable]: "0 4px 12px rgba(0, 0, 0, 0.5)",
     },
     bg: $bg.reference,
-    boxShadow: $shadow.reference,
+    // boxShadow: $shadow.reference,
   };
 });
 
@@ -78,7 +85,7 @@ const baseStyleBody = defineStyle((props) => {
 
 const baseStyleFooter = defineStyle({
   px: "6",
-  py: "4",
+  py: "6",
 });
 
 const baseStyle = definePartsStyle((props) => ({

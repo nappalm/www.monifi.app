@@ -24,16 +24,17 @@ export default {
     900: "#180828",
   },
   cyan: {
-    50: "#E6F8FA", // muy claro (fondos sutiles)
-    100: "#C0E9EE",
-    200: "#9BD9E2",
-    300: "#75C9D6",
-    400: "#48B9C9", // hover suave
-    500: "#309CA8", // base principal
-    600: "#1E6C95", // hover/active
-    700: "#125866", // strong accent
-    800: "#0A2E38", // background intenso
-    900: "#01080A", // negro azulado profundo
+    50: "#E6FCFD", // Cyan ultra-limpio (brillo de neón)
+    100: "#C2F6FA", // Fondos muy sutiles
+    200: "#85EAF2", // Color "Ice" para estados activos
+    300: "#49D9E7", // Texto de alto contraste sobre oscuro
+    400: "#1CBCCD", // El "Teal Brillante" que se ve moderno
+    500: "#0694A2", // BASE PRINCIPAL (Equilibrio entre verde y azul)
+    600: "#047481", // Hover (Más profundo, no más gris)
+    700: "#035A66", // Bordes definidos
+    800: "#02444D", // Superficies profundas
+    900: "#012B31", // ANCLA (Petróleo puro)
+    950: "#01191D", // Casi negro pero con "alma" Teal
   },
   red: {
     50: "#FEE7EF",
@@ -72,16 +73,17 @@ export default {
     900: "#15291A",
   },
   gray: {
-    50: "#FAFAFA",
-    100: "#F4F4F5",
-    200: "#E4E4E7",
-    300: "#D4D4D8",
-    400: "#A1A1AA",
-    500: "#71717A",
-    600: "#52525B",
-    700: "#3F3F46",
-    800: "#27272A",
-    900: "#18181B",
+    50: "#F8F9FB", // White Smoke (Limpieza visual máxima)
+    100: "#F0F1F5", // Fondo Light Mode / Texto sobre oscuro
+    200: "#E1E3EA", // Bordes sutiles en Light
+    300: "#C6C9D2", // Texto secundario / Desactivado
+    400: "#9FA3AF", // Iconografía / Placeholder
+    500: "#707584", // PUNTO MEDIO (Balance tonal)
+    600: "#515664", // Texto sobre fondo claro
+    700: "#383B46", // Elevación: Modales / Popovers
+    800: "#22242D", // Elevación: Cards / Sidebar sobre el 900
+    900: "#121318", // ANCLA TONAL (Tu nuevo Base)
+    950: "#0A0B0E", // Deep OLED Black (Sombras / Background base extremo)
   },
   nocturnal: {
     200: "#4A4B57",

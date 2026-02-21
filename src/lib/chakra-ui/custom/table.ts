@@ -39,47 +39,11 @@ const numericStyles = defineStyle({
   },
 });
 
-const variantSimple = definePartsStyle((props) => {
-  const { colorScheme: c } = props;
-
-  return {
-    th: {
-      color: mode("gray.600", "gray.400")(props),
-      borderBottom: "0px",
-      borderColor: mode(`${c}.200`, `${c}.800`)(props),
-      bg: mode("gray.200", "gray.900")(props),
-      "&:first-of-type": {
-        borderTopLeftRadius: "xl",
-        borderBottomLeftRadius: "xl",
-      },
-      "&:last-of-type": {
-        borderTopRightRadius: "xl",
-        borderBottomRightRadius: "xl",
-      },
-      ...numericStyles,
-    },
-    td: {
-      borderBottom: "1px",
-      borderColor: mode(`${c}.200`, `${c}.800`)(props),
-      ...numericStyles,
-    },
-    caption: {
-      color: mode("gray.600", "gray.100")(props),
-    },
-    tfoot: {
-      tr: {
-        "&:last-of-type": {
-          th: { borderBottomWidth: 0 },
-        },
-      },
-    },
-  };
-});
-
 const variantStripe = definePartsStyle((props) => {
   const { colorScheme: c, theme } = props;
   const stripedBgBase = mode(`${c}.100`, `${c}.800`)(props);
-  const stripedBg = transparentize(stripedBgBase, 0.6)(theme);
+  const stripedBg = transparentize(stripedBgBase, 0.2)(theme);
+  const afterBgBase = mode("teal.300", "teal.700")(props);
 
   return {
     th: {
@@ -108,7 +72,7 @@ const variantStripe = definePartsStyle((props) => {
     td: {
       borderWidth: "1px",
       borderLeftWidth: 0,
-      borderStyle: "solid",
+      borderStyle: "dashed",
       borderColor: mode(`${c}.200`, `${c}.800`)(props),
       "&:last-of-type": {
         borderRight: 0,
@@ -145,10 +109,10 @@ const variantStripe = definePartsStyle((props) => {
             content: '""',
             position: "absolute",
             inset: 0,
-            borderRadius: 0,
-            border: "1px solid",
+            borderRadius: "0px",
+            border: "1px dashed",
             borderColor: "cyan.500",
-            background: transparentize("cyan.500", 0.15),
+            background: transparentize(afterBgBase, 0.2),
             zIndex: 1,
             pointerEvents: "none",
 
@@ -185,7 +149,6 @@ const variantStripe = definePartsStyle((props) => {
 });
 
 const variants = {
-  simple: variantSimple,
   striped: variantStripe,
   unstyled: defineStyle({}),
 };
@@ -253,7 +216,7 @@ export default defineMultiStyleConfig({
   variants,
   sizes,
   defaultProps: {
-    variant: "simple",
+    variant: "striped",
     size: "md",
     colorScheme: "gray",
   },

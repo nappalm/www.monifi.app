@@ -8,7 +8,8 @@ import Components from "./custom";
 const styles = {
   global: (props: StyleFunctionProps) => ({
     body: {
-      bg: mode("#ffffff", "gray.900")(props),
+      bg: mode("gray.50", "gray.950")(props),
+      color: mode("#000", "#DBE3F3")(props),
       fontWeight: 400,
       fontSize: "14px",
     },

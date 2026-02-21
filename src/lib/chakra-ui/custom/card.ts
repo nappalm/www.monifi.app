@@ -26,7 +26,7 @@ const solidVariant = definePartsStyle((props) => ({
     bg: mode(`gray.100`, `gray.800`)(props),
     borderRadius: "xl",
     border: "1px solid",
-    borderColor: mode("gray.200", "gray.800")(props),
+    borderColor: mode("gray.100", "gray.800")(props),
   },
 }));
 

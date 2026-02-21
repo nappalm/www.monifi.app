@@ -105,7 +105,7 @@ const variantSolid = defineStyle((props) => {
       bg,
       color: mode(`gray.900`, `gray.100`)(props),
       border: "1px solid",
-      borderColor: mode("gray.300", "gray.800")(props),
+      borderColor: mode("gray.200", "gray.800")(props),
       // outline: "1px solid",
       // outlineColor: mode("gray.200", "gray.800")(props),
       // outlineOffset: "2px",

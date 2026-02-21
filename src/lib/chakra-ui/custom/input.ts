@@ -137,9 +137,9 @@ const variantFilled = definePartsStyle((props) => {
     field: {
       border: "1px solid",
       borderColor: mode("gray.200", "gray.800")(props),
-      bg: mode("gray.100", "gray.900")(props),
+      bg: mode("gray.200", "gray.800")(props),
       _hover: {
-        bg: mode("gray.100", "gray.900")(props),
+        bg: mode("gray.200", "gray.800")(props),
       },
       _readOnly: {
         boxShadow: "none !important",
@@ -149,8 +149,8 @@ const variantFilled = definePartsStyle((props) => {
         borderColor: getColor(theme, ec),
       },
       _focusVisible: {
-        borderColor: mode("gray.100", "gray.900")(props),
-        bg: mode("gray.100", "gray.900")(props),
+        borderColor: mode("gray.100", "gray.700")(props),
+        bg: mode("gray.200", "gray.800")(props),
         outline: "1px solid",
         outlineColor: mode("gray.200", "gray.800")(props),
         outlineOffset: "2px",

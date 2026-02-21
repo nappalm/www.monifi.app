@@ -45,7 +45,6 @@ export default function RHFInput({
 }: Props) {
   const { control } = useFormContext();
 
-  const bg = useColorModeValue("gray.200", "gray.900");
   const height = size === "sm" ? "40px" : "48px";
   const labelFontSize = size === "sm" ? "xs" : "sm";
 

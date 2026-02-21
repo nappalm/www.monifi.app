@@ -1,5 +1,4 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
-import { transparentize } from "@chakra-ui/theme-tools";
 import { memo } from "react";
 
 interface DragHandleProps {
@@ -13,10 +12,7 @@ export const DragHandle = memo(function DragHandle({
   onDragStart,
   isVisible,
 }: DragHandleProps) {
-  const handleBg = useColorModeValue(
-    "cyan.500",
-    transparentize("cyan.500", 0.5),
-  ) as string;
+  const handleBg = useColorModeValue("cyan.400", "cyan.700") as string;
   const handleBgHover = useColorModeValue("cyan.600", "cyan.300");
 
   const direction = position === "top" ? "up" : "down";

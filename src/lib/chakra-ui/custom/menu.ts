@@ -8,14 +8,17 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle((props) => ({
   list: {
     py: 0,
-    bg: mode("#ffffff", "gray.900")(props),
+    bg: mode("gray.100", "gray.800")(props),
+    p: 1,
     border: "1px solid",
     borderColor: mode("gray.200", "gray.800")(props),
-    p: 1,
-    boxShadow: "sm",
     borderRadius: "xl",
     overflow: "hidden",
     letterSpacing: "-0.5px",
+    boxShadow: mode(
+      "inset 1px 1px 0px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
+      "inset 1px 1px 0px rgba(255, 255, 255, 0.1), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
+    )(props),
   },
   item: {
     bg: "transparent",
@@ -26,7 +29,7 @@ const baseStyle = definePartsStyle((props) => ({
     py: 1,
     fontSize: "sm",
     _focus: {
-      bg: mode("gray.200", "gray.800")(props),
+      bg: mode("gray.200", "gray.700")(props),
     },
   },
   groupTitle: {
@@ -40,7 +43,7 @@ const baseStyle = definePartsStyle((props) => ({
   divider: {
     my: 1,
     borderBottom: "1px solid",
-    borderColor: mode("gray.200", "gray.800")(props),
+    borderColor: mode("gray.300", "gray.700")(props),
   },
   icon: {
     display: "inline-flex",
