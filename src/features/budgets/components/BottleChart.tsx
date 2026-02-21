@@ -20,13 +20,13 @@ export default function BottleChart({
 }: BottleChartProps) {
   const level = useMemo(() => {
     if (budgetAmount <= 0) return 0;
-    return Math.min(1, spentAmount / budgetAmount);
-  }, [spentAmount, budgetAmount]);
-
-  const allocatedLevel = useMemo(() => {
-    if (budgetAmount <= 0) return 0;
     return Math.min(1, Math.max(0, allocatedAmount / budgetAmount));
   }, [allocatedAmount, budgetAmount]);
+
+  const spentLevel = useMemo(() => {
+    if (budgetAmount <= 0) return 0;
+    return Math.min(1, Math.max(0, spentAmount / budgetAmount));
+  }, [spentAmount, budgetAmount]);
   const strokeColor = useColorModeValue(
     "var(--chakra-colors-gray-400)",
     "var(--chakra-colors-gray-600)",
@@ -43,8 +43,8 @@ export default function BottleChart({
 
   // The bottle spans from y≈1 (top) to y≈122 (bottom)
   // fillY is where the fill starts (from top), going down to 123
-  const fillY = 123 * (1 - Math.min(1, Math.max(0, level)));
-  const markerY = 123 * (1 - allocatedLevel);
+  const fillY = 123 * (1 - level);
+  const markerY = 123 * (1 - spentLevel);
 
   const dotColor = useColorModeValue("gray.300", "gray.700");
 
@@ -150,8 +150,8 @@ export default function BottleChart({
           <path stroke={strokeColor} strokeWidth={2} d={BOTTOM_PATH} />
           <path stroke={strokeColor} strokeWidth={2} d={TOP_PATH} />
 
-          {/* Allocated amount marker — drawn on top, clipped to bottle */}
-          {allocatedAmount > 0 && (
+          {/* Spent amount marker — drawn on top, clipped to bottle */}
+          {spentAmount > 0 && (
             <line
               x1={0}
               y1={markerY}

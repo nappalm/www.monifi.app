@@ -1,24 +1,11 @@
 import { formatCurrency, HatchBar } from "@/shared";
-import {
-  Button,
-  Card,
-  CardBody,
-  HStack,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Stack,
-  Tag,
-  Text,
-} from "@chakra-ui/react";
-import { IconChevronDown } from "@tabler/icons-react";
+import { Card, CardBody, HStack, Stack, Tag, Text } from "@chakra-ui/react";
+import { isEmpty } from "lodash";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import BottleChart from "./BottleChart";
 import CategoryProgress from "./CategoryProgress";
 import PeriodNavigation from "./PeriodNavigation";
-import { isEmpty } from "lodash";
 
 type CategoryRow = {
   category_name: string;
@@ -100,15 +87,27 @@ export default function RightPanel({
                   {t("budgets.rightPanel.spent")}
                 </Text>
                 <HStack>
-                  <Text>{formatCurrency(spentAmount)}</Text>
-                  <Tag size="sm">{spentPct}%</Tag>
+                  <Text fontFamily="Geist Mono">
+                    {formatCurrency(spentAmount)}
+                  </Text>
+                  <Tag
+                    size="sm"
+                    colorScheme={remainingAmount < 0 ? "red" : "green"}
+                  >
+                    {spentPct}%
+                  </Tag>
                 </HStack>
               </Stack>
               <Stack gap={0} align="end">
                 <Text color="gray.500" fontSize="sm">
                   {t("budgets.rightPanel.remaining")}
                 </Text>
-                <Text>{formatCurrency(remainingAmount)}</Text>
+                <Text
+                  color={remainingAmount < 0 ? "red.500" : undefined}
+                  fontFamily="Geist Mono"
+                >
+                  {formatCurrency(remainingAmount)}
+                </Text>
               </Stack>
             </HStack>
           </Stack>

@@ -36,6 +36,18 @@ export const formatCurrency = (
   return formatter.format(formattedValue);
 };
 
+export const kValue = (value: number, currency = "USD", locale?: string) => {
+  const usedLocale = locale || currencyLocaleMap[currency] || "en-US";
+  const formatter = new Intl.NumberFormat(usedLocale, {
+    style: "currency",
+    currency,
+    currencyDisplay: "narrowSymbol",
+    notation: "compact",
+    maximumFractionDigits: 1,
+  });
+  return formatter.format(value);
+};
+
 export const formatDate = (date?: Date | string | number) => {
   if (!date) return "0000 0, 0000";
   return format(new Date(date), "MMM d, yyyy", {

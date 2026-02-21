@@ -96,12 +96,16 @@ export default function BudgetsPage() {
 
   const handlePrevPeriod = () =>
     setPeriod((p) =>
-      p.month === 1 ? { year: p.year - 1, month: 12 } : { ...p, month: p.month - 1 },
+      p.month === 1
+        ? { year: p.year - 1, month: 12 }
+        : { ...p, month: p.month - 1 },
     );
 
   const handleNextPeriod = () =>
     setPeriod((p) =>
-      p.month === 12 ? { year: p.year + 1, month: 1 } : { ...p, month: p.month + 1 },
+      p.month === 12
+        ? { year: p.year + 1, month: 1 }
+        : { ...p, month: p.month + 1 },
     );
 
   const categories = useCategories();
@@ -299,14 +303,16 @@ export default function BudgetsPage() {
         onDelete={handleDelete}
       />
       <HStack p={2} pb={0} justify="space-between">
-        <Tag>
-          <TagLeftIcon fontSize={14}>
-            <IconBucket />
-          </TagLeftIcon>
-          <TagLabel>{t("budgets.title")}</TagLabel>
-        </Tag>
-
         <HStack>
+          {!isEmpty(budgets?.data) && (
+            <BudgetSelector
+              data={budgets.data ?? []}
+              selected={activeBudget}
+              onSelect={(b) => setActiveBudgetId(b.id)}
+              onEdit={handleOpenEdit}
+              onNew={newBudgetModal.onOpen}
+            />
+          )}
           <Button
             size="sm"
             leftIcon={<IconPlus size={16} />}
@@ -317,15 +323,6 @@ export default function BudgetsPage() {
           >
             {t("budgets.table.addCategory")}
           </Button>
-          {!isEmpty(budgets?.data) && (
-            <BudgetSelector
-              data={budgets.data ?? []}
-              selected={activeBudget}
-              onSelect={(b) => setActiveBudgetId(b.id)}
-              onEdit={handleOpenEdit}
-              onNew={newBudgetModal.onOpen}
-            />
-          )}
         </HStack>
       </HStack>
       {isEmpty(budgets?.data) && <EmptyBudgets onNew={newBudgetModal.onOpen} />}
