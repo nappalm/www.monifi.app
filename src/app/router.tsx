@@ -1,5 +1,6 @@
 import { AUTH_PATHS, authRoutes, ProtectedRoute } from "@/features/auth";
 import { BUDGETS_PATHS, budgetsRoutes } from "@/features/budgets";
+import { GOALS_PATHS, goalsRoutes } from "@/features/goals";
 import { ONBOARDING_PATHS, onboardingRoutes } from "@/features/onboarding";
 import { SETTINGS_PATHS, settingsRoutes } from "@/features/settings";
 import { STATISTICS_PATHS, statisticsRoutes } from "@/features/statistics";
@@ -9,6 +10,7 @@ import {
 } from "@/features/transactions";
 
 import { BaseLayout, SettingsLayout, SimpleLayout } from "@/shared";
+import { Children } from "react";
 import {
   createBrowserRouter,
   Navigate,
@@ -31,6 +33,10 @@ const protectedRoutes = [
       {
         path: BUDGETS_PATHS.base,
         children: budgetsRoutes,
+      },
+      {
+        path: GOALS_PATHS.base,
+        children: goalsRoutes,
       },
       {
         path: STATISTICS_PATHS.base,

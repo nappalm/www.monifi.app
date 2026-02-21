@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {
   IconBucket,
+  IconMountain,
   IconSunFilled,
   IconTransactionDollar,
   IconUserFilled,
@@ -83,6 +84,13 @@ export default function BottomBar() {
             onClick={() => handleNavigate("/budgets")}
           >
             Budget
+          </Button>
+          <Button
+            leftIcon={<IconMountain size={16} />}
+            variant={isPathActive("/goals") ? "solid" : "ghost"}
+            onClick={() => handleNavigate("/goals")}
+          >
+            Goals
           </Button>
           <Button
             onClick={() => handleNavigate("/statistics")}
