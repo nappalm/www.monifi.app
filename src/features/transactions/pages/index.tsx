@@ -272,7 +272,7 @@ export default function TransactionsPage() {
             transition="margin-right 0.3s ease-in-out"
             overflow="hidden"
           >
-            <RightPanel />
+            <RightPanel transactions={filteredTransactions} />
           </Stack>
         )}
       </HStack>
