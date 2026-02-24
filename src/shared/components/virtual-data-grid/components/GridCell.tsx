@@ -101,7 +101,7 @@ function GridCellComponent<T extends DataRow>({
       outline="none"
       cursor="cell"
       position="relative"
-      overflow="hidden"
+      overflow={isCellActive ? "visible" : "hidden"}
       textAlign={align}
       justifyContent={
         align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start"
