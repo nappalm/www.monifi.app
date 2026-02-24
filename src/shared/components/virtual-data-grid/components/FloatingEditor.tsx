@@ -83,8 +83,8 @@ export const FloatingEditor = memo(function FloatingEditor({
         boxSizing: "border-box",
         border: "1px solid",
         borderColor: "cyan.500",
-        background: inputBg,
-        borderRadius: "md",
+        background: "rgba(0, 188, 212, 0.15)",
+        borderRadius: 0,
         color: "cyan.500",
         _focus: { outline: "none" },
       }}
