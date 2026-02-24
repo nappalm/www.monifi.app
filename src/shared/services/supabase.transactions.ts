@@ -67,3 +67,14 @@ export const deleteTransaction = async (id: number) => {
   if (error) throw new Error(error.message);
   return data;
 };
+
+export const createBulkTransactions = async (
+  transactions: Omit<TablesInsert<"transactions">, "user_id">[],
+) => {
+  const { data, error } = await supabaseClient
+    .from("transactions")
+    .insert(transactions as TablesInsert<"transactions">[])
+    .select();
+  if (error) throw new Error(error.message);
+  return data;
+};

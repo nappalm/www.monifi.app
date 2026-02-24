@@ -5,6 +5,7 @@ import {
 } from "@/lib/supabase/database.types";
 import { useOptimisticMutation } from "@/shared";
 import {
+  createBulkTransactions,
   createTransaction,
   deleteTransaction,
   getTransactions,
@@ -57,4 +58,22 @@ export const useDeleteTransaction = () =>
     [CACHE_KEY],
     deleteTransaction,
     (previous, id) => previous?.filter((t) => t.id !== id),
+  );
+
+export const useCreateBulkTransactions = () =>
+  useOptimisticMutation<
+    Partial<Tables<"transactions">>,
+    Omit<TablesInsert<"transactions">, "user_id">[],
+    Tables<"transactions">[]
+  >(
+    [CACHE_KEY],
+    createBulkTransactions,
+    (previous, newTransactions) => {
+      return [...(previous || []), ...newTransactions];
+    },
+    (previous, serverResponse) => {
+      const withoutOptimistic =
+        previous?.slice(0, -serverResponse.length) || [];
+      return [...withoutOptimistic, ...serverResponse];
+    },
   );
