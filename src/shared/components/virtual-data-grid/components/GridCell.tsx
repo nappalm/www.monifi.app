@@ -103,7 +103,7 @@ function GridCellComponent<T extends DataRow>({
       outline="none"
       cursor="cell"
       position="relative"
-      overflow={isCellActive ? "visible" : "hidden"}
+      overflow={isCellActive || isDraggable ? "visible" : "hidden"}
       textAlign={align}
       justifyContent={
         align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start"
@@ -133,9 +133,6 @@ function GridCellComponent<T extends DataRow>({
           transform: "scale(1)",
           boxShadow: "none",
         },
-        "&:hover::after": {
-          boxShadow: "0 0 15px 3px rgba(0, 188, 212, 0.3)",
-        },
         "&[data-active='true']": {
           color: "cyan.500",
         },
@@ -147,15 +144,29 @@ function GridCellComponent<T extends DataRow>({
       <Box position="relative" zIndex={2} width="100%">
         {content}
       </Box>
-      {isCellActive && !isEditing && isDraggable && (
-        <>
+      {!isEditing && isDraggable && (
+        <Box
+          data-drag-handles
+          position="absolute"
+          inset={0}
+          pointerEvents="none"
+          opacity={0}
+          transition="opacity 0.15s ease"
+          zIndex={3}
+          sx={{
+            "[data-active='true'] > &, [data-col]:hover > &": {
+              opacity: 1,
+              pointerEvents: "auto",
+            },
+          }}
+        >
           {rowIndex > 0 && (
             <DragHandle position="top" onDragStart={handleDragStart} />
           )}
           {rowIndex < totalRows - 1 && (
             <DragHandle position="bottom" onDragStart={handleDragStart} />
           )}
-        </>
+        </Box>
       )}
     </Box>
   );
