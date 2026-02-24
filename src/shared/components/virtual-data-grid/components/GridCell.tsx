@@ -23,6 +23,7 @@ interface GridCellProps<T extends DataRow> {
     colIndex: number,
   ) => void;
   currency: string;
+  totalRows: number;
 }
 
 function GridCellComponent<T extends DataRow>({
@@ -39,6 +40,7 @@ function GridCellComponent<T extends DataRow>({
   onDoubleClick,
   onDragHandleStart,
   currency,
+  totalRows,
 }: GridCellProps<T>) {
   const cellValue = row[column.accessor as keyof T];
   const isDraggable = column.isDraggable !== false;
@@ -147,8 +149,12 @@ function GridCellComponent<T extends DataRow>({
       </Box>
       {isCellActive && !isEditing && isDraggable && (
         <>
-          <DragHandle position="top" onDragStart={handleDragStart} />
-          <DragHandle position="bottom" onDragStart={handleDragStart} />
+          {rowIndex > 0 && (
+            <DragHandle position="top" onDragStart={handleDragStart} />
+          )}
+          {rowIndex < totalRows - 1 && (
+            <DragHandle position="bottom" onDragStart={handleDragStart} />
+          )}
         </>
       )}
     </Box>

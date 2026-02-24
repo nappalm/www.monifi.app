@@ -80,6 +80,7 @@ export function GridBody({ virtualItems, totalSize }: GridBodyProps) {
             rowNumberWidth={rowNumberWidth}
             totalWidth={totalWidth}
             currency={currency}
+            totalRows={data.length}
           />
         );
       })}

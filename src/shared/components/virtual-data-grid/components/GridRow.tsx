@@ -26,6 +26,7 @@ interface GridRowProps<T extends DataRow> {
   rowNumberWidth: number;
   totalWidth: number;
   currency: string;
+  totalRows: number;
 }
 
 function GridRowComponent<T extends DataRow>({
@@ -46,8 +47,8 @@ function GridRowComponent<T extends DataRow>({
   rowNumberWidth,
   totalWidth,
   currency,
+  totalRows,
 }: GridRowProps<T>) {
-  const isRowActive = activeCell?.row === rowIndex;
   const isOdd = rowIndex % 2 === 0;
 
   const stripeBg = useColorModeValue(
@@ -123,6 +124,7 @@ function GridRowComponent<T extends DataRow>({
             onDoubleClick={onDoubleClick}
             onDragHandleStart={onDragHandleStart}
             currency={currency}
+            totalRows={totalRows}
           />
         );
       })}
