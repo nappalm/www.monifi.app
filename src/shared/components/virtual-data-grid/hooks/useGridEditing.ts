@@ -27,7 +27,7 @@ export function useGridEditing<T extends DataRow>({
   const startEditing = useCallback(
     (row: number, col: number) => {
       const column = columns[col];
-      if (!column) return;
+      if (!column || column.isEditable === false) return;
       const accessor = column.accessor as keyof T;
       const rawValue = data[row]?.[accessor];
       const initial = rawValue != null ? String(rawValue) : "";

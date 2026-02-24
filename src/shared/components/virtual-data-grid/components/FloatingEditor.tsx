@@ -11,8 +11,6 @@ interface FloatingEditorProps {
   columns: ComputedColumn<DataRow>[];
   rowHeight: number;
   headerHeight: number;
-  scrollTop: number;
-  containerHeight: number;
   showRowNumber: boolean;
 }
 
@@ -24,8 +22,6 @@ export const FloatingEditor = memo(function FloatingEditor({
   columns,
   rowHeight,
   headerHeight,
-  scrollTop,
-  containerHeight,
   showRowNumber,
 }: FloatingEditorProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,7 +29,7 @@ export const FloatingEditor = memo(function FloatingEditor({
 
   useEffect(() => {
     if (editState.status === "editing" && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus({ preventScroll: true });
       inputRef.current.select();
     }
   }, [editState.status]);
@@ -50,12 +46,6 @@ export const FloatingEditor = memo(function FloatingEditor({
   const cellLeft = column.offsetLeft + (showRowNumber ? ROW_NUMBER_WIDTH : 0);
   const cellWidth = column.computedWidth;
   const cellHeight = rowHeight;
-
-  // Visibility check in VIEWPORT coordinates
-  const viewportTop = cellTop - scrollTop;
-  if (viewportTop + cellHeight < headerHeight || viewportTop > containerHeight) {
-    return null;
-  }
 
   const inputType = column.isAmount ? "number" : "text";
 

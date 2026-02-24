@@ -36,7 +36,6 @@ export function VirtualDataGrid<T extends DataRow>(
 
   const [scrollTop, setScrollTop] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [containerHeight, setContainerHeight] = useState(0);
 
   const borderColor = useColorModeValue("gray.200", "gray.800");
 
@@ -45,7 +44,6 @@ export function VirtualDataGrid<T extends DataRow>(
       const target = e.currentTarget;
       setScrollTop(target.scrollTop);
       setScrollLeft(target.scrollLeft);
-      setContainerHeight(target.clientHeight);
     },
     [],
   );
@@ -116,8 +114,6 @@ export function VirtualDataGrid<T extends DataRow>(
           columns={columns}
           rowHeight={rowHeight}
           headerHeight={DEFAULT_HEADER_HEIGHT}
-          scrollTop={scrollTop}
-          containerHeight={containerHeight}
           showRowNumber={contextValue.showRowNumber}
         />
 

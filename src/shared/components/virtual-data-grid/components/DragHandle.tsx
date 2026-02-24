@@ -21,6 +21,7 @@ export const DragHandle = memo(function DragHandle({
       position="absolute"
       left="50%"
       transform="translateX(-50%)"
+      pointerEvents="auto"
       {...(position === "top" ? { top: "-2px" } : { bottom: "-2px" })}
       width="50px"
       height="5px"

@@ -103,7 +103,7 @@ function GridCellComponent<T extends DataRow>({
       outline="none"
       cursor="cell"
       position="relative"
-      overflow={isCellActive || isDraggable ? "visible" : "hidden"}
+      overflow={isCellActive ? "visible" : "hidden"}
       textAlign={align}
       justifyContent={
         align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start"
@@ -114,59 +114,32 @@ function GridCellComponent<T extends DataRow>({
             boxShadow: "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
             background: `${dragRangeBg} !important`,
           }),
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          border: "1px solid",
-          borderColor: "cyan.500",
-          background: "rgba(0, 188, 212, 0.15)",
-          zIndex: 1,
-          pointerEvents: "none",
-          opacity: 0,
-          transform: "scale(0.95)",
-          transition:
-            "opacity 0.25s ease, transform 0.25s ease, box-shadow 0.4s ease",
-        },
-        "&:hover::after, &[data-active='true']::after": {
-          opacity: 1,
-          transform: "scale(1)",
-          boxShadow: "none",
-        },
         "&[data-active='true']": {
           color: "cyan.500",
+          boxShadow: "inset 0 0 0 1px var(--chakra-colors-cyan-500)",
+          background: "rgba(0, 188, 212, 0.15)",
         },
         ...column.cellStyle,
         ...column.sx,
       }}
-      visibility={shouldHideContent ? "hidden" : "visible"}
     >
-      <Box position="relative" zIndex={2} width="100%">
+      <Box
+        position="relative"
+        zIndex={2}
+        width="100%"
+        visibility={shouldHideContent ? "hidden" : "visible"}
+      >
         {content}
       </Box>
-      {!isEditing && isDraggable && (
-        <Box
-          data-drag-handles
-          position="absolute"
-          inset={0}
-          pointerEvents="none"
-          opacity={0}
-          transition="opacity 0.15s ease"
-          zIndex={3}
-          sx={{
-            "[data-active='true'] > &, [data-col]:hover > &": {
-              opacity: 1,
-              pointerEvents: "auto",
-            },
-          }}
-        >
+      {isCellActive && !isEditing && isDraggable && (
+        <>
           {rowIndex > 0 && (
             <DragHandle position="top" onDragStart={handleDragStart} />
           )}
           {rowIndex < totalRows - 1 && (
             <DragHandle position="bottom" onDragStart={handleDragStart} />
           )}
-        </Box>
+        </>
       )}
     </Box>
   );
