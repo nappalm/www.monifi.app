@@ -73,11 +73,6 @@ function GridRowComponent<T extends DataRow>({
       borderColor={borderColor}
       bg={isOdd ? stripeBg : "transparent"}
       sx={{
-        ...(isRowActive && {
-          "& > [data-col]": {
-            boxShadow: "inset 0 0 0 1px var(--chakra-colors-red-300)",
-          },
-        }),
         ...(row.enabled === false && { opacity: 0.5 }),
       }}
     >
