@@ -27,18 +27,13 @@ export const useBudgetCategories = (budgetId?: number) => {
 export const useCreateBudgetCategory = () =>
   useOptimisticMutation<
     Partial<Tables<"budget_categories">>,
-    TablesInsert<"budget_categories">,
-    Tables<"budget_categories">
+    { budgetId: number; userId: string },
+    Partial<Tables<"budget_categories">>
   >(
     [CACHE_KEY],
     createBudgetCategory,
-    (previous, newCategory) => {
-      return [...(previous || []), newCategory];
-    },
-    (previous, serverResponse) => {
-      const withoutOptimistic = previous?.slice(0, -1) || [];
-      return [...withoutOptimistic, serverResponse];
-    },
+    (previous) => previous,
+    (previous, serverResponse) => [...(previous || []), serverResponse],
   );
 
 export const useUpdateBudgetCategory = () =>

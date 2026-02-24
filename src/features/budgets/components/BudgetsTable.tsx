@@ -129,7 +129,7 @@ export default function BudgetsTable({
         p: 0,
       },
       render: (_, row) => (
-        <TableRowMenu onDelete={() => onRemoveRow(row.category_id)} />
+        <TableRowMenu onDelete={() => onRemoveRow(row.id)} />
       ),
     },
   ];

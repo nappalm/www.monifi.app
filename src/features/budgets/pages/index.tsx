@@ -6,9 +6,6 @@ import {
 } from "@/lib/supabase/database.types";
 import {
   useAuthenticatedUser,
-  useCategories,
-  useCreateCategory,
-  useDeleteCategory,
   useUpdateCategory,
 } from "@/shared";
 import {
@@ -23,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { IconBucket, IconPlus } from "@tabler/icons-react";
 import { isEmpty } from "lodash";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import BudgetSelector from "../components/BudgetSelector";
@@ -34,6 +32,7 @@ import {
   useBudgetCategories,
   useBulkUpsertBudgetCategories,
   useCreateBudgetCategory,
+  useDeleteBudgetCategory,
   useUpdateBudgetCategory,
 } from "../hooks/useBudgetCategories";
 import {
@@ -43,6 +42,7 @@ import {
   useUpdateBudget,
 } from "../hooks/useBudgets";
 import { useTransactions } from "../../transactions/hooks/useTransactions";
+import PageLoading from "../components/PageLoading";
 
 type BudgetCategoryRow = {
   id: number;
@@ -108,15 +108,14 @@ export default function BudgetsPage() {
         : { ...p, month: p.month + 1 },
     );
 
-  const categories = useCategories();
-  const createCategory = useCreateCategory();
+  const queryClient = useQueryClient();
   const budgets = useBudgets();
   const bcat = useBudgetCategories(activeBudgetId ?? undefined);
   const bulkUpsertCategories = useBulkUpsertBudgetCategories();
   const createBudgetCategory = useCreateBudgetCategory();
   const updateBudgetCategory = useUpdateBudgetCategory();
   const updateCategory = useUpdateCategory();
-  const removeCategory = useDeleteCategory();
+  const deleteBudgetCategory = useDeleteBudgetCategory();
   const createBudget = useCreateBudget();
   const updateBudget = useUpdateBudget();
   const deleteBudget = useDeleteBudget();
@@ -139,63 +138,32 @@ export default function BudgetsPage() {
     if (bcat.data && bcat.data.length > 0) {
       setData(
         bcat.data
-          .filter((bc) => categories.data?.some((c) => c.id === bc.category_id))
+          .filter((bc) => bc.categories != null)
           .map((bc) => ({
             id: bc.id,
-            category_id: bc.category_id,
-            category_name:
-              categories.data?.find((c) => c.id === bc.category_id)?.name ?? "",
+            category_id: bc.categories!.id,
+            category_name: bc.categories!.name,
             amount: bc.amount,
             description: bc.description ?? undefined,
           })),
       );
-    } else if (categories.data && categories.data.length > 0) {
-      setData(
-        categories.data.map((category, index) => ({
-          id: index + 1,
-          category_id: category.id,
-          category_name: category.name,
-          amount: 0,
-        })),
-      );
     }
-  }, [bcat.data, categories.data, activeBudgetId]);
+  }, [bcat.data, activeBudgetId]);
 
   const handleAddCategory = () => {
-    if (!user || !activeBudgetId) return;
-    createCategory.mutate(
-      { name: "My category", user_id: user.id },
-      {
-        onSuccess: (newCategory) => {
-          createBudgetCategory.mutate({
-            budget_id: activeBudgetId,
-            category_id: newCategory.id,
-            amount: 0,
-            user_id: user.id,
-          });
-          setData((prev) => [
-            ...prev,
-            {
-              id: newCategory.id,
-              category_id: newCategory.id,
-              category_name: newCategory.name,
-              amount: 0,
-            },
-          ]);
-        },
-      },
-    );
+    if (!activeBudgetId || !user) return;
+    createBudgetCategory.mutate({ budgetId: activeBudgetId, userId: user.id });
   };
 
   const handleRemoveCategory = (id: number) => {
     alert.onOpen({
       title: t("budgets.table.removeCategory.title"),
       description: t("budgets.table.removeCategory.description"),
-      isLoading: () => removeCategory.isPending,
+      isLoading: () => deleteBudgetCategory.isPending,
       onOk: () => {
-        removeCategory.mutate(id, {
+        deleteBudgetCategory.mutate(id, {
           onSuccess: () =>
-            setData((prev) => prev.filter((r) => r.category_id !== id)),
+            setData((prev) => prev.filter((r) => r.id !== id)),
         });
       },
     });
@@ -215,6 +183,15 @@ export default function BudgetsPage() {
         id: updatedData.category_id,
         category: { name: updatedData.category_name },
       });
+      queryClient.setQueryData(
+        ["budget_categories", activeBudgetId],
+        (old: typeof bcat.data) =>
+          old?.map((bc) =>
+            bc.categories?.id === updatedData.category_id
+              ? { ...bc, categories: { ...bc.categories, name: updatedData.category_name } }
+              : bc,
+          ),
+      );
       return;
     }
 
@@ -290,6 +267,7 @@ export default function BudgetsPage() {
       }
     : undefined;
 
+  if (budgets.isPending || bcat.isPending) return <PageLoading />;
   return (
     <Stack h="100%" spacing={3}>
       <NewBudgetModal
@@ -318,7 +296,7 @@ export default function BudgetsPage() {
             leftIcon={<IconPlus size={16} />}
             variant="ghost"
             isDisabled={!activeBudgetId}
-            isLoading={createCategory.isPending}
+            isLoading={createBudgetCategory.isPending}
             onClick={handleAddCategory}
           >
             {t("budgets.table.addCategory")}
@@ -330,7 +308,7 @@ export default function BudgetsPage() {
         <Grid templateColumns="1fr 300px" gap={5}>
           <BudgetsTable
             data={data}
-            isLoading={categories.isLoading || bcat.isLoading}
+            isLoading={bcat.isLoading}
             onRowChange={handleRowChange}
             onRemoveRow={handleRemoveCategory}
             height="calc(100vh - 55px)"
