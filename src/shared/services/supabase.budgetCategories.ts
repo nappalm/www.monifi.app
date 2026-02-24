@@ -4,7 +4,7 @@ import { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 export const getBudgetCategories = async (budgetId: number) => {
   const { data, error } = await supabaseClient
     .from("budget_categories")
-    .select("*")
+    .select("id, amount, description, categories(id, name)")
     .eq("budget_id", budgetId);
   if (error) throw new Error(error.message);
   return data;
@@ -20,14 +20,17 @@ export const getBudgetCategoryById = async (id: number) => {
   return data;
 };
 
-export const createBudgetCategory = async (
-  budgetCategory: TablesInsert<"budget_categories">,
-) => {
-  const { data, error } = await supabaseClient
-    .from("budget_categories")
-    .insert(budgetCategory)
-    .select()
-    .single();
+export const createBudgetCategory = async ({
+  budgetId,
+  userId,
+}: {
+  budgetId: number;
+  userId: string;
+}) => {
+  const { data, error } = await supabaseClient.functions.invoke(
+    "create-budget-category",
+    { body: { budgetId, userId } },
+  );
   if (error) throw new Error(error.message);
   return data;
 };
