@@ -10,10 +10,9 @@ type Props = {
 
 export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
   const { t } = useTranslation();
-  const label = new Date(period.year, period.month - 1).toLocaleString(
-    "default",
-    { month: "short", year: "numeric" },
-  );
+  const label = new Date(period.year, period.month - 1)
+    .toLocaleString("default", { month: "short", year: "numeric" })
+    .toUpperCase();
 
   return (
     <Stack gap={0}>
