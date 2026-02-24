@@ -8,3 +8,4 @@ export * from "./supabase.accounts";
 export * from "./supabase.categories";
 export * from "./supabase.budgets";
 export * from "./supabase.budgetCategories";
+export * from "./supabase.monthlySummaries";

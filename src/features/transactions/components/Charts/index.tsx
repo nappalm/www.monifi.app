@@ -11,7 +11,7 @@ interface ChartsProps {
 }
 
 export default function Charts({ transactions }: ChartsProps) {
-  return <MonthlyBarChart transactions={transactions} />;
+  return <MonthlyBarChart />;
 
   return (
     <SimpleGrid columns={[1, 1, 2, 3, 4, 5]} gap={2} p={2}>

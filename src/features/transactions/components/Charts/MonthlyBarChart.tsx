@@ -1,5 +1,4 @@
 import _colors from "@/lib/chakra-ui/_colors";
-import { Tables } from "@/lib/supabase/database.types";
 import { Box, HStack, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { useMemo } from "react";
 import {
@@ -12,14 +11,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useMonthlySummaries } from "../../hooks/useMonthlySummary";
 
 // commons[200] → expenses, commons[100] → incomes
 const EXP = _colors.commons[200]; // "#2C6C94"
 const INC = _colors.commons[100]; // "#3A418A"
-
-interface MonthlyBarChartProps {
-  transactions: Tables<"transactions">[];
-}
 
 function generateMonthRange(
   centerDate: Date,
@@ -85,39 +81,29 @@ function CustomTooltip({
   return null;
 }
 
-export default function MonthlyBarChart({
-  transactions,
-}: MonthlyBarChartProps) {
+export default function MonthlyBarChart() {
+  const { data: summaries } = useMonthlySummaries();
+
   const now = new Date();
   const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   const monthRange = generateMonthRange(now, 5, 3);
 
   const chartData = useMemo(() => {
-    const byMonth: Record<string, { expenses: number; incomes: number }> = {};
-    monthRange.forEach((key) => {
-      byMonth[key] = { expenses: 0, incomes: 0 };
-    });
-
-    transactions
-      .filter((t) => t.enabled)
-      .forEach((t) => {
-        const date = new Date(t.occurred_at);
-        const key = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
-        if (byMonth[key] !== undefined) {
-          if (t.type === "expense") {
-            byMonth[key].expenses += t.amount || 0;
-          } else if (t.type === "income") {
-            byMonth[key].incomes += t.amount || 0;
-          }
-        }
-      });
+    const summaryMap = (summaries ?? []).reduce(
+      (acc, s) => {
+        const key = `${s.year}-${String(s.month).padStart(2, "0")}`;
+        acc[key] = s;
+        return acc;
+      },
+      {} as Record<string, (typeof summaries)[number]>,
+    );
 
     return monthRange.map((key) => ({
       month: key,
-      expenses: Math.round(byMonth[key].expenses),
-      incomes: Math.round(byMonth[key].incomes),
+      expenses: Math.round(summaryMap[key]?.expense_total ?? 0),
+      incomes: Math.round(summaryMap[key]?.income_total ?? 0),
     }));
-  }, [transactions, monthRange]);
+  }, [summaries, monthRange]);
 
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");

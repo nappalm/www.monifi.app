@@ -113,6 +113,26 @@ export type Database = {
         };
         Relationships: [];
       };
+      monthly_summaries: {
+        Row: {
+          user_id: string;
+          year: number;
+          month: number;
+          income_total: number | null;
+          expense_total: number | null;
+        };
+        Insert: never;
+        Update: never;
+        Relationships: [
+          {
+            foreignKeyName: "monthly_summaries_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       categories: {
         Row: {
           color: string;
