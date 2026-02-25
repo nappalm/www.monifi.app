@@ -33,8 +33,10 @@ export function useVirtualGrid<T extends DataRow>(
   const [activeCell, setActiveCell] = useState<CellCoord | null>({ row: 0, col: 0 });
   const [containerWidth, setContainerWidth] = useState(0);
 
-  // Observe container width for fullWidth columns
+  // Observe container width only when there are fullWidth columns
+  const hasFluidColumns = rawColumns.some((c) => c.fullWidth);
   useEffect(() => {
+    if (!hasFluidColumns) return;
     const el = containerRef.current;
     if (!el) return;
     const ro = new ResizeObserver((entries) => {
@@ -42,7 +44,7 @@ export function useVirtualGrid<T extends DataRow>(
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, []);
+  }, [hasFluidColumns]);
 
   // Column resize
   const { columnWidths, onColumnResize, startResize, isResizing } = useColumnResize(enableColumnResize);
