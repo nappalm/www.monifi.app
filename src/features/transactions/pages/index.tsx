@@ -255,7 +255,7 @@ export default function TransactionsPage() {
             onDisabledRow={handleDisabledRow}
             onAdminCategories={adminCategories.onToggle}
             onAdminAccounts={adminAccounts.onToggle}
-            height="calc(100vh - 175px)"
+            height="calc(100vh - 235px)"
           />
 
           <DetailsDrawer
