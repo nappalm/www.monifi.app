@@ -80,6 +80,7 @@ export function VirtualDataGrid<T extends DataRow>(
         onFocus={handleContainerFocus}
         onScroll={handleScroll}
         willChange="transform"
+        userSelect="none"
         {...(height && { h: height })}
         sx={{
           "&:focus": { outline: "none" },
