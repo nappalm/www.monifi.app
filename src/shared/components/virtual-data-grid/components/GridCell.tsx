@@ -48,6 +48,10 @@ function GridCellComponent<T extends DataRow>({
     isEditing && isCellActive && column.isEditable !== false;
 
   const dragRangeBg = useColorModeValue("cyan.200", "cyan.800");
+  const activeCellShadow = useColorModeValue(
+    "inset 0 0 0 1px var(--chakra-colors-cyan-500), inset 0 0 0 2px var(--chakra-colors-cyan-100)",
+    "inset 0 0 0 1px var(--chakra-colors-cyan-500), inset 0 0 0 2px var(--chakra-colors-cyan-900)",
+  );
 
   const handleFocus = useCallback(() => {
     onFocus(rowIndex, colIndex);
@@ -122,8 +126,9 @@ function GridCellComponent<T extends DataRow>({
           }),
         "&[data-active='true']": {
           color: "cyan.500",
-          boxShadow: "inset 0 0 0 1px var(--chakra-colors-cyan-500)",
+          boxShadow: activeCellShadow,
           background: "rgba(0, 188, 212, 0.15)",
+          borderRadius: "7px",
         },
         ...column.cellStyle,
         ...column.sx,
