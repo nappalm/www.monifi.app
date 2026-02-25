@@ -105,10 +105,10 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
 
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.800");
+  const borderColor = useColorModeValue("gray.200", "gray.700");
   const hatchBg = useColorModeValue(
     "var(--chakra-colors-gray-100)",
-    "var(--chakra-colors-gray-900)",
+    "var(--chakra-colors-gray-800)",
   );
   const hatchStroke = useColorModeValue(
     "var(--chakra-colors-gray-300)",
@@ -121,7 +121,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
   const cursorStroke = useColorModeValue("gray", "white");
 
   return (
-    <Card size="sm">
+    <Card size="sm" variant="solid">
       <CardBody p={1}>
         <Grid templateColumns="150px 1fr">
           <Stack justify="center" align="center">
@@ -151,7 +151,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
           <Box
             flex={1}
             h="100px"
-            border="1px solid"
+            border="2px solid"
             borderColor={borderColor}
             borderRadius="md"
           >

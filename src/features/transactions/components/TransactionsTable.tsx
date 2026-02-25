@@ -124,8 +124,8 @@ export default function TransactionsTable({
         header: t("transactions.table.amount"),
         accessor: "amount",
         isAmount: true,
-        width: 250,
-        minWidth: 250,
+        width: 150,
+        minWidth: 150,
         cellStyle: { fontFamily: "'Geist Mono', monospace" },
       },
       {

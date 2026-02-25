@@ -203,8 +203,7 @@ export default function TransactionsPage() {
         px={2}
       >
         <HStack gap={0} justify="space-between" w="full">
-          <HStack>
-            <Tag colorScheme="teal">Transactions</Tag>
+          <HStack gap={0}>
             <FilterButtonMenu
               filterGroups={filterGroups}
               appliedFilters={filters}
@@ -263,7 +262,7 @@ export default function TransactionsPage() {
           </HStack>
         </HStack>
       </HStack>
-      <HStack align="stretch" overflow="hidden" gap={0}>
+      <HStack align="stretch" overflow="hidden" gap={0} h="calc(100vh - 49px)">
         <Stack gap={0} flex={1} minW={0}>
           <Charts transactions={filteredTransactions} />
           <TransactionsTable
@@ -286,9 +285,10 @@ export default function TransactionsPage() {
         </Stack>
         {!isSmallScreen && (
           <Stack
-            w="296px"
-            minW="296px"
-            mr={isRightPanelOpen ? "0px" : "-296px"}
+            w="400px"
+            minW="400px"
+            h="full"
+            mr={isRightPanelOpen ? "0px" : "-400px"}
             transition="margin-right 0.3s ease-in-out"
             overflow="hidden"
           >
