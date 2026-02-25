@@ -21,6 +21,7 @@ export interface GridColumn<T extends DataRow> {
   align?: "left" | "right" | "center";
   cellStyle?: CSSProperties;
   isResizable?: boolean;
+  fullWidth?: boolean;
   pin?: "left" | "right";
   /** @deprecated Use cellStyle instead */
   sx?: any;

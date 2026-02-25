@@ -127,6 +127,9 @@ function GridCellComponent<T extends DataRow>({
         position="relative"
         zIndex={2}
         width="100%"
+        overflow="hidden"
+        whiteSpace="nowrap"
+        textOverflow="ellipsis"
         visibility={shouldHideContent ? "hidden" : "visible"}
       >
         {content}

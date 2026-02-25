@@ -118,8 +118,7 @@ export default function TransactionsTable({
       {
         header: t("transactions.table.description"),
         accessor: "description",
-        minWidth: 300,
-        maxWidth: 300,
+        fullWidth: true,
       },
       {
         header: t("transactions.table.amount"),

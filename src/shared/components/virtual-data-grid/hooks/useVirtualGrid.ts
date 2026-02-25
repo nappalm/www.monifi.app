@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useCallback } from "react";
+import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import type { CellCoord, DataRow, GridContextValue, MenuState, VirtualDataGridProps } from "../types";
 import { DEFAULT_ROW_HEIGHT, DEFAULT_HEADER_HEIGHT, DEFAULT_OVERSCAN, ROW_NUMBER_WIDTH } from "../constants";
@@ -31,12 +31,25 @@ export function useVirtualGrid<T extends DataRow>(
 
   const containerRef = useRef<HTMLDivElement>(null!);
   const [activeCell, setActiveCell] = useState<CellCoord | null>({ row: 0, col: 0 });
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  // Observe container width for fullWidth columns
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      setContainerWidth(entries[0]?.contentRect.width ?? 0);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Column resize
   const { columnWidths, onColumnResize, startResize, isResizing } = useColumnResize(enableColumnResize);
 
   // Stable columns
-  const { columns, totalWidth } = useStableColumns(rawColumns, columnWidths);
+  const rowNumberWidth = ROW_NUMBER_WIDTH;
+  const { columns, totalWidth } = useStableColumns(rawColumns, columnWidths, containerWidth, showRowNumber, rowNumberWidth);
 
   // Filter
   const { filterValue, handleFilterChange, filteredData } = useDebouncedFilter(rawData, enableFilter, filterFn);
@@ -106,7 +119,6 @@ export function useVirtualGrid<T extends DataRow>(
   });
 
   const headerHeight = DEFAULT_HEADER_HEIGHT;
-  const rowNumberWidth = ROW_NUMBER_WIDTH;
 
   const contextValue = useMemo<GridContextValue<T>>(
     () => ({
