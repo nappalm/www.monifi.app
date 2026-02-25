@@ -51,11 +51,8 @@ function GridRowComponent<T extends DataRow>({
 }: GridRowProps<T>) {
   const isOdd = rowIndex % 2 === 0;
 
-  const stripeBg = useColorModeValue(
-    "rgba(113, 128, 150, 0.1)",
-    "rgba(113, 128, 150, 0.08)",
-  );
-  const borderColor = useColorModeValue("gray.200", "gray.800");
+  const stripeBg = useColorModeValue("gray.100", "gray.900");
+  const borderColor = useColorModeValue("gray.100", "gray.800");
 
   const fullWidth = totalWidth + (showRowNumber ? rowNumberWidth : 0);
 
@@ -70,7 +67,7 @@ function GridRowComponent<T extends DataRow>({
       style={{ transform: style.transform }}
       display="flex"
       alignItems="stretch"
-      borderBottom="1px solid"
+      borderBottom="1px dashed"
       borderColor={borderColor}
       bg={isOdd ? stripeBg : "transparent"}
       sx={{
@@ -150,4 +147,7 @@ function rowPropsAreEqual(prev: any, next: any) {
   );
 }
 
-export const GridRow = memo(GridRowComponent, rowPropsAreEqual) as typeof GridRowComponent;
+export const GridRow = memo(
+  GridRowComponent,
+  rowPropsAreEqual,
+) as typeof GridRowComponent;
