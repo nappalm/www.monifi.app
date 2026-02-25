@@ -160,12 +160,13 @@ export default function TransactionsTable({
     <VirtualDataGrid<Tables<"transactions">>
       columns={columns}
       data={internalData}
+      enableColumnResize
       onDataChange={setInternalData}
       onRowChange={onRowChange}
       isLoading={isLoading}
       showRowNumber
       height={height}
-      rowHeight={36}
+      rowHeight={30}
       overscan={5}
       currency="MXN"
     />

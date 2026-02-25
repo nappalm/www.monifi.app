@@ -23,11 +23,13 @@ import {
   Stack,
   Tag,
   Text,
+  Tooltip,
   useBreakpointValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
+  IconFileFilled,
   IconLayoutSidebarRightFilled,
   IconLineHeight,
   IconReceiptDollarFilled,
@@ -42,6 +44,8 @@ import TransactionsTable from "../components/TransactionsTable";
 import { useTransactionHistory } from "../hooks/useTransactionHistory";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
+import { Link } from "react-router-dom";
+import { TRANSACTIONS_PATHS } from "../router";
 
 export default function TransactionsPage() {
   const { t } = useTranslation();
@@ -217,21 +221,37 @@ export default function TransactionsPage() {
               canUndo={canUndo}
               canRedo={canRedo}
             />
-            <Button
-              colorScheme="cyan"
-              w={["full", "full", "fit-content"]}
-              size="sm"
-              leftIcon={<IconArrowBarToDownDashed size={16} />}
-              onClick={handleNewRow}
-              isLoading={createTransaction.isPending}
-              rightIcon={
-                <Text fontSize="xs" opacity={0.5}>
-                  Ctrl + I
-                </Text>
-              }
-            >
-              {t("transactions.newRow")}
-            </Button>
+            <HStack gap={0}>
+              <Button
+                colorScheme="cyan"
+                w={["full", "full", "fit-content"]}
+                size="sm"
+                leftIcon={<IconArrowBarToDownDashed size={16} />}
+                onClick={handleNewRow}
+                isLoading={createTransaction.isPending}
+                borderRightRadius={0}
+                rightIcon={
+                  <Text fontSize="xs" opacity={0.5}>
+                    Ctrl + I
+                  </Text>
+                }
+              >
+                {t("transactions.newRow")}
+              </Button>
+              <Link to={TRANSACTIONS_PATHS.extract}>
+                <Tooltip label="Upload transactions">
+                  <IconButton
+                    aria-label="Load file from PC"
+                    ml="-1px"
+                    colorScheme="cyan"
+                    size="sm"
+                    borderLeftRadius={0}
+                    icon={<IconFileFilled size={16} />}
+                  />
+                </Tooltip>
+              </Link>
+            </HStack>
+
             <IconButton
               size="sm"
               variant="ghost"
