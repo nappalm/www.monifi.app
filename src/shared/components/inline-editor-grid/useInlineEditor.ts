@@ -40,7 +40,7 @@ export function useInlineEditor<T extends DataRow>({
       setIsEditing(true);
       const accessor = columns[col].accessor as keyof T;
       const rawValue = data[row][accessor];
-    setInputValue(rawValue != null ? String(rawValue) : "");
+      setInputValue(rawValue != null ? String(rawValue) : "");
     },
     [data, columns],
   );

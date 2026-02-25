@@ -26,12 +26,7 @@ export const SkeletonRows = memo(function SkeletonRows({
           px={4}
         >
           {Array.from({ length: cols }).map((_, colIdx) => (
-            <Skeleton
-              key={colIdx}
-              height="16px"
-              flex={1}
-              borderRadius="sm"
-            />
+            <Skeleton key={colIdx} height="16px" flex={1} borderRadius="sm" />
           ))}
         </Box>
       ))}

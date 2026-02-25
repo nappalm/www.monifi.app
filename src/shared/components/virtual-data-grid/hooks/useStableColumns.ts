@@ -65,7 +65,8 @@ export function useStableColumns<T extends DataRow>(
         fluidCount++;
         return -1; // placeholder
       }
-      const baseWidth = resizedWidth ?? (col.width as number) ?? DEFAULT_COLUMN_WIDTH;
+      const baseWidth =
+        resizedWidth ?? (col.width as number) ?? DEFAULT_COLUMN_WIDTH;
       const min = col.minWidth ?? DEFAULT_MIN_COLUMN_WIDTH;
       const max = col.maxWidth ?? DEFAULT_MAX_COLUMN_WIDTH;
       const w = Math.max(min, Math.min(max, baseWidth));
@@ -85,7 +86,10 @@ export function useStableColumns<T extends DataRow>(
       const resizedWidth = columnWidths.get(accessor);
       let computedWidth: number;
       if (col.fullWidth && !resizedWidth) {
-        computedWidth = Math.max(col.minWidth ?? DEFAULT_MIN_COLUMN_WIDTH, fluidWidth);
+        computedWidth = Math.max(
+          col.minWidth ?? DEFAULT_MIN_COLUMN_WIDTH,
+          fluidWidth,
+        );
       } else {
         computedWidth = fixedWidths[index];
       }

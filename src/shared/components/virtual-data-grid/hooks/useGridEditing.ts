@@ -1,10 +1,5 @@
 import { useCallback, useState } from "react";
-import type {
-  CellChange,
-  ComputedColumn,
-  DataRow,
-  EditState,
-} from "../types";
+import type { CellChange, ComputedColumn, DataRow, EditState } from "../types";
 
 interface UseGridEditingProps<T extends DataRow> {
   columns: ComputedColumn<T>[];
@@ -32,7 +27,11 @@ export function useGridEditing<T extends DataRow>({
       const rawValue = data[row]?.[accessor];
       const initial = rawValue != null ? String(rawValue) : "";
       setInputValue(initial);
-      setEditState({ status: "editing", coord: { row, col }, initialValue: initial });
+      setEditState({
+        status: "editing",
+        coord: { row, col },
+        initialValue: initial,
+      });
     },
     [data, columns],
   );
@@ -57,9 +56,7 @@ export function useGridEditing<T extends DataRow>({
 
         let processedValue: any = inputValue;
         if (column.isAmount) {
-          const numericValue = parseFloat(
-            inputValue.replace(/[^0-9.-]+/g, ""),
-          );
+          const numericValue = parseFloat(inputValue.replace(/[^0-9.-]+/g, ""));
           processedValue = Number.isNaN(numericValue)
             ? previousValue
             : numericValue;
@@ -87,7 +84,15 @@ export function useGridEditing<T extends DataRow>({
 
       setEditState({ status: "idle" });
     },
-    [editState, inputValue, data, columns, onDataChange, onCellChange, onRowChange],
+    [
+      editState,
+      inputValue,
+      data,
+      columns,
+      onDataChange,
+      onCellChange,
+      onRowChange,
+    ],
   );
 
   const updateCell = useCallback(

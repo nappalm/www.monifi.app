@@ -3,5 +3,5 @@ export default function GoalsForm() {
     <div>
       <p>Goals</p>
     </div>
-  )
+  );
 }

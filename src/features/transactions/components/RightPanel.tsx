@@ -1,7 +1,14 @@
 import { Tables } from "@/lib";
 import { useCategories } from "@/shared";
 import { HatchBar } from "@/shared/components/hatch-bar";
-import { Divider, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Divider,
+  SimpleGrid,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useMemo } from "react";
 import ExpensesChart from "./Charts/ExpensesChart";
 import ExpensesVsIncomes from "./Charts/ExpensesVsIncomes";
@@ -85,21 +92,23 @@ export default function RightPanel({ transactions = [] }: Props) {
             </Text>
           ) : (
             categoryTotals.map((cat) => (
-              <Stack
-                key={cat.name}
-                gap={1}
-                bg="gray.800"
-                borderRadius="md"
-                p={3}
-              >
-                <Text fontSize="xs" color="gray.400" noOfLines={1}>
-                  {cat.name}
-                </Text>
-                <Text fontSize="md" color="gray.100" fontFamily="Geist Mono">
-                  {fmt(cat.amount)}
-                </Text>
-                <HatchBar value={cat.amount} max={maxAmount} height="10px" />
-              </Stack>
+              <Card size="sm" variant="solid">
+                <CardBody>
+                  <Stack key={cat.name} gap={1}>
+                    <Text fontSize="xs" noOfLines={1}>
+                      {cat.name}
+                    </Text>
+                    <Text fontSize="md" fontFamily="Geist Mono">
+                      {fmt(cat.amount)}
+                    </Text>
+                    <HatchBar
+                      value={cat.amount}
+                      max={maxAmount}
+                      height="10px"
+                    />
+                  </Stack>
+                </CardBody>
+              </Card>
             ))
           )}
         </SimpleGrid>

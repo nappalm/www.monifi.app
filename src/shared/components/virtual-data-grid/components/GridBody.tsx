@@ -47,11 +47,7 @@ export function GridBody({ virtualItems, totalSize }: GridBodyProps) {
   );
 
   return (
-    <Box
-      position="relative"
-      width="100%"
-      height={`${totalSize}px`}
-    >
+    <Box position="relative" width="100%" height={`${totalSize}px`}>
       {virtualItems.map((virtualRow) => {
         const rowIndex = virtualRow.index;
         const row = data[rowIndex];

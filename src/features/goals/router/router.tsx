@@ -1,4 +1,4 @@
-import Base from '../pages';
+import Base from "../pages";
 
 export const goalsRoutes = [
   {

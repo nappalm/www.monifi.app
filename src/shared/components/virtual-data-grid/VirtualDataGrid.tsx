@@ -39,14 +39,11 @@ export function VirtualDataGrid<T extends DataRow>(
 
   const borderColor = useColorModeValue("gray.200", "gray.800");
 
-  const handleScroll = useCallback(
-    (e: React.UIEvent<HTMLDivElement>) => {
-      const target = e.currentTarget;
-      setScrollTop(target.scrollTop);
-      setScrollLeft(target.scrollLeft);
-    },
-    [],
-  );
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    setScrollTop(target.scrollTop);
+    setScrollLeft(target.scrollLeft);
+  }, []);
 
   const handleContainerFocus = useCallback(
     (e: React.FocusEvent<HTMLDivElement>) => {

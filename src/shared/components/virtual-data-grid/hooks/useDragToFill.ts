@@ -56,13 +56,23 @@ export function useDragToFill<T extends DataRow>({
       const scrollLeft = containerRef.current.scrollLeft;
 
       const y = event.clientY - rect.top + scrollTop - headerHeight;
-      const x = event.clientX - rect.left + scrollLeft - (showRowNumber ? ROW_NUMBER_WIDTH : 0);
+      const x =
+        event.clientX -
+        rect.left +
+        scrollLeft -
+        (showRowNumber ? ROW_NUMBER_WIDTH : 0);
 
-      const row = Math.max(0, Math.min(data.length - 1, Math.floor(y / rowHeight)));
+      const row = Math.max(
+        0,
+        Math.min(data.length - 1, Math.floor(y / rowHeight)),
+      );
 
       let col = 0;
       for (let i = 0; i < columns.length; i++) {
-        if (x >= columns[i].offsetLeft && x < columns[i].offsetLeft + columns[i].computedWidth) {
+        if (
+          x >= columns[i].offsetLeft &&
+          x < columns[i].offsetLeft + columns[i].computedWidth
+        ) {
           col = i;
           break;
         }
@@ -80,7 +90,17 @@ export function useDragToFill<T extends DataRow>({
         setDragEndCell({ row, col });
       }
     },
-    [isDragging, dragStartCell, dragDirection, containerRef, data.length, columns, rowHeight, headerHeight, showRowNumber],
+    [
+      isDragging,
+      dragStartCell,
+      dragDirection,
+      containerRef,
+      data.length,
+      columns,
+      rowHeight,
+      headerHeight,
+      showRowNumber,
+    ],
   );
 
   const handleDragEnd = useCallback(() => {
@@ -120,7 +140,15 @@ export function useDragToFill<T extends DataRow>({
       setDragEndCell(null);
       setDragDirection(null);
     }
-  }, [isDragging, dragStartCell, dragEndCell, data, columns, onDataChange, onRowChange]);
+  }, [
+    isDragging,
+    dragStartCell,
+    dragEndCell,
+    data,
+    columns,
+    onDataChange,
+    onRowChange,
+  ]);
 
   useEffect(() => {
     if (isDragging) {

@@ -66,9 +66,21 @@ const MOCK_ACCOUNTS = [
 ];
 
 const DESCRIPTIONS = [
-  "Supermercado", "Uber", "Netflix", "Farmacia", "Curso online",
-  "Luz", "Zapatos", "Gasolina", "Cine", "Consulta médica",
-  "Spotify", "Agua", "Libros", "Internet", "Restaurante",
+  "Supermercado",
+  "Uber",
+  "Netflix",
+  "Farmacia",
+  "Curso online",
+  "Luz",
+  "Zapatos",
+  "Gasolina",
+  "Cine",
+  "Consulta médica",
+  "Spotify",
+  "Agua",
+  "Libros",
+  "Internet",
+  "Restaurante",
   "Seguro auto",
 ];
 
@@ -270,8 +282,16 @@ const MockTypeSelect = memo(function MockTypeSelect({
   }, [defaultValue]);
 
   const types = [
-    { value: "income" as const, label: "Ingreso", icon: <IconChevronsUp size={13} color="#48BB78" /> },
-    { value: "expense" as const, label: "Gasto", icon: <IconChevronsDown size={13} color="#FC8181" /> },
+    {
+      value: "income" as const,
+      label: "Ingreso",
+      icon: <IconChevronsUp size={13} color="#48BB78" />,
+    },
+    {
+      value: "expense" as const,
+      label: "Gasto",
+      icon: <IconChevronsDown size={13} color="#FC8181" />,
+    },
   ];
 
   const selected = types.find((t) => t.value === type);
@@ -435,10 +455,7 @@ function getColumns(): GridColumn<MockTransaction>[] {
       width: 40,
       cellStyle: { padding: 0, opacity: 0.5 },
       render: (_value, row, _onChange, rowIndex) => (
-        <RowMenuTrigger
-          row={row as MockTransaction}
-          rowIndex={rowIndex}
-        />
+        <RowMenuTrigger row={row as MockTransaction} rowIndex={rowIndex} />
       ),
     },
   ];
@@ -483,9 +500,7 @@ export default function Goals() {
 
   const handleToggle = useCallback((row: MockTransaction) => {
     setData((prev) =>
-      prev.map((r) =>
-        r.id === row.id ? { ...r, enabled: !r.enabled } : r,
-      ),
+      prev.map((r) => (r.id === row.id ? { ...r, enabled: !r.enabled } : r)),
     );
   }, []);
 

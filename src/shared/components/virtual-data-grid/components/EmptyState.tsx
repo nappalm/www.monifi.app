@@ -5,7 +5,9 @@ interface EmptyStateProps {
   height?: string;
 }
 
-export const EmptyState = memo(function EmptyState({ height }: EmptyStateProps) {
+export const EmptyState = memo(function EmptyState({
+  height,
+}: EmptyStateProps) {
   const color = useColorModeValue("gray.500", "gray.400");
 
   return (

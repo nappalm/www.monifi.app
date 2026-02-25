@@ -120,6 +120,10 @@ export interface GridContextValue<T extends DataRow> {
 
   // Shared menu
   menuState: MenuState<T> | null;
-  openMenu: (row: T, rowIndex: number, anchorRect: { top: number; left: number }) => void;
+  openMenu: (
+    row: T,
+    rowIndex: number,
+    anchorRect: { top: number; left: number },
+  ) => void;
   closeMenu: () => void;
 }

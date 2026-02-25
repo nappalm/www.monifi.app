@@ -1,7 +1,18 @@
 import { useRef, useState, useMemo, useCallback, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import type { CellCoord, DataRow, GridContextValue, MenuState, VirtualDataGridProps } from "../types";
-import { DEFAULT_ROW_HEIGHT, DEFAULT_HEADER_HEIGHT, DEFAULT_OVERSCAN, ROW_NUMBER_WIDTH } from "../constants";
+import type {
+  CellCoord,
+  DataRow,
+  GridContextValue,
+  MenuState,
+  VirtualDataGridProps,
+} from "../types";
+import {
+  DEFAULT_ROW_HEIGHT,
+  DEFAULT_HEADER_HEIGHT,
+  DEFAULT_OVERSCAN,
+  ROW_NUMBER_WIDTH,
+} from "../constants";
 import { useStableColumns } from "./useStableColumns";
 import { useGridEditing } from "./useGridEditing";
 import { useGridNavigation } from "./useGridNavigation";
@@ -30,7 +41,10 @@ export function useVirtualGrid<T extends DataRow>(
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null!);
-  const [activeCell, setActiveCell] = useState<CellCoord | null>({ row: 0, col: 0 });
+  const [activeCell, setActiveCell] = useState<CellCoord | null>({
+    row: 0,
+    col: 0,
+  });
   const [containerWidth, setContainerWidth] = useState(0);
 
   // Observe container width only when there are fullWidth columns
@@ -47,14 +61,25 @@ export function useVirtualGrid<T extends DataRow>(
   }, [hasFluidColumns]);
 
   // Column resize
-  const { columnWidths, onColumnResize, startResize, isResizing } = useColumnResize(enableColumnResize);
+  const { columnWidths, onColumnResize, startResize, isResizing } =
+    useColumnResize(enableColumnResize);
 
   // Stable columns
   const rowNumberWidth = ROW_NUMBER_WIDTH;
-  const { columns, totalWidth } = useStableColumns(rawColumns, columnWidths, containerWidth, showRowNumber, rowNumberWidth);
+  const { columns, totalWidth } = useStableColumns(
+    rawColumns,
+    columnWidths,
+    containerWidth,
+    showRowNumber,
+    rowNumberWidth,
+  );
 
   // Filter
-  const { filterValue, handleFilterChange, filteredData } = useDebouncedFilter(rawData, enableFilter, filterFn);
+  const { filterValue, handleFilterChange, filteredData } = useDebouncedFilter(
+    rawData,
+    enableFilter,
+    filterFn,
+  );
 
   const data = filteredData;
 
@@ -88,16 +113,17 @@ export function useVirtualGrid<T extends DataRow>(
   });
 
   // Drag to fill
-  const { isDragging, dragStartCell, dragEndCell, handleDragHandleStart } = useDragToFill({
-    containerRef,
-    columns,
-    data,
-    rowHeight,
-    headerHeight: DEFAULT_HEADER_HEIGHT,
-    showRowNumber,
-    onDataChange,
-    onRowChange,
-  });
+  const { isDragging, dragStartCell, dragEndCell, handleDragHandleStart } =
+    useDragToFill({
+      containerRef,
+      columns,
+      data,
+      rowHeight,
+      headerHeight: DEFAULT_HEADER_HEIGHT,
+      showRowNumber,
+      onDataChange,
+      onRowChange,
+    });
 
   // Selection
   const { selectionRange } = useGridSelection(enableSelection);

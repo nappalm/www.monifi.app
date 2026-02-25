@@ -90,9 +90,10 @@ export function useGridNavigation({
             setActiveCell({ row: nextRow, col });
             focusCell(nextRow, col);
           } else {
-            const cellElement = containerRef.current?.querySelector<HTMLElement>(
-              `[data-row="${row}"][data-col="${col}"]`,
-            );
+            const cellElement =
+              containerRef.current?.querySelector<HTMLElement>(
+                `[data-row="${row}"][data-col="${col}"]`,
+              );
             const interactiveElement = cellElement?.querySelector("button");
             if (interactiveElement) {
               interactiveElement.click();

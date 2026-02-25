@@ -44,7 +44,8 @@ function GridCellComponent<T extends DataRow>({
 }: GridCellProps<T>) {
   const cellValue = row[column.accessor as keyof T];
   const isDraggable = column.isDraggable !== false;
-  const shouldHideContent = isEditing && isCellActive && column.isEditable !== false;
+  const shouldHideContent =
+    isEditing && isCellActive && column.isEditable !== false;
 
   const dragRangeBg = useColorModeValue("cyan.200", "cyan.800");
 
@@ -106,12 +107,17 @@ function GridCellComponent<T extends DataRow>({
       overflow={isCellActive ? "visible" : "hidden"}
       textAlign={align}
       justifyContent={
-        align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start"
+        align === "right"
+          ? "flex-end"
+          : align === "center"
+            ? "center"
+            : "flex-start"
       }
       sx={{
         ...(isInDragRange &&
           isDragging && {
-            boxShadow: "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
+            boxShadow:
+              "inset 0 0 0 1px var(--chakra-colors-cyan-500) !important",
             background: `${dragRangeBg} !important`,
           }),
         "&[data-active='true']": {

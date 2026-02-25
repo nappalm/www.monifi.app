@@ -21,10 +21,10 @@ import {
   HStack,
   IconButton,
   Stack,
-  Tag,
   Text,
   Tooltip,
   useBreakpointValue,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
@@ -37,15 +37,15 @@ import {
 } from "@tabler/icons-react";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import Charts from "../components/Charts";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import RightPanel from "../components/RightPanel";
 import TransactionsTable from "../components/TransactionsTable";
 import { useTransactionHistory } from "../hooks/useTransactionHistory";
+import { TRANSACTIONS_PATHS } from "../router";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
-import { Link } from "react-router-dom";
-import { TRANSACTIONS_PATHS } from "../router";
 
 export default function TransactionsPage() {
   const { t } = useTranslation();
@@ -190,16 +190,17 @@ export default function TransactionsPage() {
   const isSmallScreen =
     useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
+  const borderBottomColor = useColorModeValue("gray.100", "gray.800");
+
   return (
     <Stack pt="49px">
       <HStack
         position="fixed"
         top={0}
         height="50px"
-        bg="gray.900"
         w="full"
         borderBottom="1px solid"
-        borderColor="gray.800"
+        borderColor={borderBottomColor}
         px={2}
       >
         <HStack gap={0} justify="space-between" w="full">

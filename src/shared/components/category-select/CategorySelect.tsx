@@ -77,9 +77,9 @@ export default function CategorySelect({
         variant="unstyled"
         as={Button}
         leftIcon={
-          !selectedCategory || !/^\p{Emoji}/u.test(selectedCategory.name)
-            ? <IconTag size={13} />
-            : undefined
+          !selectedCategory || !/^\p{Emoji}/u.test(selectedCategory.name) ? (
+            <IconTag size={13} />
+          ) : undefined
         }
         cursor="default"
         w="full"

@@ -12,13 +12,8 @@ export const GridHeader = memo(function GridHeader({
   startResize,
   enableColumnResize,
 }: GridHeaderProps) {
-  const {
-    columns,
-    totalWidth,
-    headerHeight,
-    showRowNumber,
-    rowNumberWidth,
-  } = useGridContext();
+  const { columns, totalWidth, headerHeight, showRowNumber, rowNumberWidth } =
+    useGridContext();
 
   const headerBg = useColorModeValue("gray.200", "gray.900");
   const headerColor = useColorModeValue("gray.600", "gray.400");
@@ -120,7 +115,11 @@ const HeaderCell = memo(function HeaderCell({
       position="relative"
       textAlign={align}
       justifyContent={
-        align === "right" ? "flex-end" : align === "center" ? "center" : "flex-start"
+        align === "right"
+          ? "flex-end"
+          : align === "center"
+            ? "center"
+            : "flex-start"
       }
       {...(isFirst && {
         borderTopLeftRadius: "xl",
