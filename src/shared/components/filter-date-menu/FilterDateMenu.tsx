@@ -1,9 +1,6 @@
 import { DateRange, formatDate } from "@/shared";
 import { Button, Menu, MenuButton, MenuList, Portal } from "@chakra-ui/react";
-import {
-  IconCalendarEventFilled,
-  IconCalendarFilled,
-} from "@tabler/icons-react";
+import { IconCalendarEventFilled } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -53,11 +50,9 @@ export default function FilterDateMenu({ onChange }: Props) {
       <MenuButton
         as={Button}
         leftIcon={<IconCalendarEventFilled size={18} />}
-        size="md"
+        size="sm"
         borderLeftRadius={0}
-        variant="ghost"
-        border="1px dashed"
-        borderColor="gray.700"
+        variant="solid"
       >
         {formattedDate}
       </MenuButton>
