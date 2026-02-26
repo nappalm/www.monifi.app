@@ -1,10 +1,11 @@
 import { Tables } from "@/lib/supabase/database.types";
+import { useGlobalUI } from "@/lib/global-ui";
 import { AccountSelect, CategorySelect } from "@/shared";
 import {
   VirtualDataGrid,
   type GridColumn,
 } from "@/shared/components/virtual-data-grid";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
@@ -36,6 +37,7 @@ export default function TransactionsTable({
   focusRowIndex,
 }: Props) {
   const { t } = useTranslation();
+  const { alert: globalAlert } = useGlobalUI();
 
   // Internal data state — syncs with prop (React Query) and allows
   // immediate UI updates before the backend round-trip completes.
@@ -43,6 +45,59 @@ export default function TransactionsTable({
   useEffect(() => {
     setInternalData(data);
   }, [data]);
+
+  // Ref so cascade handler always reads latest data without being a dep of columns useMemo.
+  const internalDataRef = useRef(internalData);
+  useEffect(() => {
+    internalDataRef.current = internalData;
+  }, [internalData]);
+
+  // When a category is assigned, update the current row and — if other rows share
+  // the same description without a category — ask the user whether to apply it there too.
+  const handleCategoryChangeCascade = useCallback(
+    (
+      changedRow: Tables<"transactions">,
+      categoryId: number,
+      updateCell: (value: number) => void,
+    ) => {
+      updateCell(categoryId);
+
+      const description = changedRow.description;
+      if (!description) return;
+
+      const currentData = internalDataRef.current;
+      const cascadeRows = currentData.filter(
+        (r) =>
+          r.id !== changedRow.id &&
+          r.description === description &&
+          r.category_id === null,
+      );
+
+      if (cascadeRows.length === 0) return;
+
+      globalAlert.onOpen({
+        title: t("transactions.table.cascadeCategory.title"),
+        description: t("transactions.table.cascadeCategory.description", {
+          count: cascadeRows.length,
+          description,
+        }),
+        colorScheme: "cyan",
+        onOk: () => {
+          const cascadeIds = new Set(cascadeRows.map((r) => r.id));
+          setInternalData((prev) =>
+            prev.map((r) =>
+              cascadeIds.has(r.id) ? { ...r, category_id: categoryId } : r,
+            ),
+          );
+          cascadeRows.forEach((r) => {
+            const rowIndex = currentData.findIndex((d) => d.id === r.id);
+            onRowChange({ ...r, category_id: categoryId }, rowIndex);
+          });
+        },
+      });
+    },
+    [globalAlert, t, setInternalData, onRowChange],
+  );
 
   const columns = useMemo<GridColumn<Tables<"transactions">>[]>(
     () => [
@@ -74,12 +129,13 @@ export default function TransactionsTable({
         width: 250,
         minWidth: 250,
         cellStyle: { padding: 0 },
-        render: (value, _, updateCell) => (
+        render: (value, row, updateCell) => (
           <CategorySelect
             defaultValue={value as number | null}
             onAdmin={onAdminCategories}
             onChange={(category) => {
-              if (category) updateCell(category.id);
+              if (category)
+                handleCategoryChangeCascade(row, category.id, updateCell);
             }}
           />
         ),
@@ -155,6 +211,7 @@ export default function TransactionsTable({
       onRemoveRow,
       onSeeDetailsRow,
       onDisabledRow,
+      handleCategoryChangeCascade,
     ],
   );
 
