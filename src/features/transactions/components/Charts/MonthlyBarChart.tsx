@@ -108,6 +108,7 @@ export default function MonthlyBarChart() {
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");
   const cursorStroke = useColorModeValue("gray", "white");
+  const cursorFill = useColorModeValue("rgba(0,0,0,0.04)", "rgba(255,255,255,0.06)");
   const refLineColor = useColorModeValue(_colors.gray[400], _colors.gray[600]);
 
   // Hatch — expenses  (commons[100] = #3A418A)
@@ -170,13 +171,14 @@ export default function MonthlyBarChart() {
         </HStack>
       </HStack>
 
-      <Box h="100px">
+      <Box h="100px" sx={{ "& *:focus": { outline: "none" } }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
             margin={{ top: 8, right: 6, left: -20, bottom: 0 }}
             barCategoryGap="20%"
             barGap={1}
+            style={{ outline: "none" }}
           >
             <defs>
               {/* Expenses — meses normales */}
@@ -270,7 +272,10 @@ export default function MonthlyBarChart() {
                   currentMonth={currentMonthKey}
                 />
               }
+              position={{ y: 55 }}
+              wrapperStyle={{ zIndex: 1000 }}
               cursor={{
+                fill: cursorFill,
                 stroke: cursorStroke,
                 strokeWidth: 1,
                 strokeDasharray: "3 3",
