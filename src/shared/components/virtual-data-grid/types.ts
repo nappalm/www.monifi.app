@@ -69,6 +69,7 @@ export interface VirtualDataGridProps<T extends DataRow> {
   rowKey?: keyof T;
   currency?: string;
   renderMenu?: (row: T, rowIndex: number, closeMenu: () => void) => ReactNode;
+  focusRowIndex?: number | null;
 }
 
 export interface MenuState<T extends DataRow> {

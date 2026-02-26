@@ -38,6 +38,7 @@ export function useVirtualGrid<T extends DataRow>(
     filterFn,
     showRowNumber = false,
     currency = "USD",
+    focusRowIndex,
   } = props;
 
   const containerRef = useRef<HTMLDivElement>(null!);
@@ -145,6 +146,28 @@ export function useVirtualGrid<T extends DataRow>(
     estimateSize: () => rowHeight,
     overscan,
   });
+
+  // Keep a stable ref to the virtualizer so we don't need it in effect deps
+  const virtualizerRef = useRef(virtualizer);
+  useEffect(() => {
+    virtualizerRef.current = virtualizer;
+  });
+
+  // When focusRowIndex changes to a non-null value, scroll to that row and focus its first cell
+  useEffect(() => {
+    if (focusRowIndex == null) return;
+    const idx = focusRowIndex;
+    virtualizerRef.current.scrollToIndex(idx, { align: "end" });
+    // Double rAF: first lets the scroll settle, second lets the virtualizer re-render the row
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        containerRef.current
+          ?.querySelector<HTMLElement>(`[data-row="${idx}"][data-col="0"]`)
+          ?.focus();
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [focusRowIndex, containerRef]);
 
   const headerHeight = DEFAULT_HEADER_HEIGHT;
 

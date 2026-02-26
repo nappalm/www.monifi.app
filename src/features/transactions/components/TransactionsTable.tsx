@@ -20,6 +20,7 @@ type Props = {
   onSeeDetailsRow: (id: number) => void;
   onDisabledRow: (id: number, previous: boolean) => void;
   height?: string;
+  focusRowIndex?: number | null;
 };
 
 export default function TransactionsTable({
@@ -32,6 +33,7 @@ export default function TransactionsTable({
   onAdminCategories,
   onAdminAccounts,
   height,
+  focusRowIndex,
 }: Props) {
   const { t } = useTranslation();
 
@@ -169,6 +171,7 @@ export default function TransactionsTable({
       rowHeight={30}
       overscan={5}
       currency="MXN"
+      focusRowIndex={focusRowIndex}
     />
   );
 }

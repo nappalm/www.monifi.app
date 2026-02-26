@@ -35,7 +35,7 @@ import {
   IconReceiptDollarFilled,
   IconTagFilled,
 } from "@tabler/icons-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Charts from "../components/Charts";
@@ -130,9 +130,33 @@ export default function TransactionsPage() {
     return filteredTransactions.filter((t) => t.enabled);
   }, [filteredTransactions]);
 
+  const [focusPending, setFocusPending] = useState(false);
+  const [focusRowIndex, setFocusRowIndex] = useState<number | null>(null);
+
   const handleNewRow = () => {
     createTransaction.mutate(getNewTransaction());
+    setFocusPending(true);
   };
+
+  // Once the optimistic row appears in filteredTransactions (it has no id yet), focus it
+  useEffect(() => {
+    if (!focusPending) return;
+    for (let i = filteredTransactions.length - 1; i >= 0; i--) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (!(filteredTransactions[i] as any).id) {
+        setFocusRowIndex(i);
+        setFocusPending(false);
+        break;
+      }
+    }
+  }, [focusPending, filteredTransactions]);
+
+  // Reset focusRowIndex after the grid has had time to process the focus
+  useEffect(() => {
+    if (focusRowIndex == null) return;
+    const timeout = setTimeout(() => setFocusRowIndex(null), 500);
+    return () => clearTimeout(timeout);
+  }, [focusRowIndex]);
 
   useKeyPress("i", handleNewRow, "ctrlKey");
 
@@ -276,6 +300,7 @@ export default function TransactionsPage() {
             onAdminCategories={adminCategories.onToggle}
             onAdminAccounts={adminAccounts.onToggle}
             height="calc(100vh - 235px)"
+            focusRowIndex={focusRowIndex}
           />
 
           <DetailsDrawer
