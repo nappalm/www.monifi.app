@@ -171,6 +171,26 @@ const variantLink = defineStyle((props) => {
   };
 });
 
+const variantSidebar = defineStyle((props) => {
+  return {
+    borderRadius: "sm",
+    justifyContent: "flex-start",
+    bg: "transparent",
+    fontFamily: "Geist Mono, monospace",
+    textTransform: "uppercase",
+    color: mode(`gray.700`, `whiteAlpha.700`)(props),
+    _hover: {
+      bg: mode(`gray.100`, `gray.700`)(props),
+      color: mode(`gray.900`, `whiteAlpha.900`)(props),
+    },
+    _active: {
+      bg: mode(`teal.50`, `teal.900`)(props),
+      color: mode(`teal.600`, `teal.200`)(props),
+      fontWeight: 600,
+    },
+  };
+});
+
 const variantUnstyled = defineStyle({
   bg: "none",
   color: "inherit",
@@ -186,6 +206,7 @@ const variants = {
   solid: variantSolid,
   link: variantLink,
   unstyled: variantUnstyled,
+  sidebar: variantSidebar,
 };
 
 const sizes = {

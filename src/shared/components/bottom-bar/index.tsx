@@ -47,59 +47,37 @@ export default function BottomBar() {
       bg={bg}
       w="full"
       px={2}
+      justify="space-between"
     >
-      <HStack gap={3}>
-        <Link to={SETTINGS_PATHS.base}>
-          <HStack
-            bg={isFree ? "transparent" : border}
-            p="2px"
-            borderRadius="full"
-            gap="1px"
-          >
-            <Avatar
-              src={user?.user_metadata?.avatar_url}
-              size="xs"
-              name={userName}
-              icon={<IconUserFilled size={18} />}
-              bg="transparent"
-            />
-            {!isFree && (
-              <Badge mx={1} borderRadius="full">
-                PRO
-              </Badge>
-            )}
-          </HStack>
-        </Link>
-        <ButtonGroup size="sm" variant="ghost">
-          <Button
-            variant={isPathActive("/transactions") ? "solid" : "ghost"}
-            leftIcon={<IconTransactionDollar size={16} />}
-            onClick={() => handleNavigate("/transactions")}
-          >
-            {t("components.topnavbar.transactions")}
-          </Button>
-          <Button
-            leftIcon={<IconBucket size={16} />}
-            variant={isPathActive("/budgets") ? "solid" : "ghost"}
-            onClick={() => handleNavigate("/budgets")}
-          >
-            Budget
-          </Button>
-          <Button
-            leftIcon={<IconMountain size={16} />}
-            variant={isPathActive("/goals") ? "solid" : "ghost"}
-            onClick={() => handleNavigate("/goals")}
-          >
-            Goals
-          </Button>
-          <Button
-            onClick={() => handleNavigate("/statistics")}
-            leftIcon={<IconVectorSpline size={16} />}
-            variant={isPathActive("/statistics") ? "solid" : "ghost"}
-          >
-            {t("components.topnavbar.statistics")}
-          </Button>
-        </ButtonGroup>
+      <ButtonGroup size="sm" variant="sidebar">
+        <Button
+          isActive={isPathActive("/transactions")}
+          leftIcon={<IconTransactionDollar size={16} />}
+          onClick={() => handleNavigate("/transactions")}
+        >
+          {t("components.topnavbar.transactions")}
+        </Button>
+        <Button
+          leftIcon={<IconBucket size={16} />}
+          isActive={isPathActive("/budgets")}
+          onClick={() => handleNavigate("/budgets")}
+        >
+          Budget
+        </Button>
+        <Button
+          leftIcon={<IconMountain size={16} />}
+          isActive={isPathActive("/goals")}
+          onClick={() => handleNavigate("/goals")}
+        >
+          Goals
+        </Button>
+        <Button
+          onClick={() => handleNavigate("/statistics")}
+          leftIcon={<IconVectorSpline size={16} />}
+          isActive={isPathActive("/statistics")}
+        >
+          {t("components.topnavbar.statistics")}
+        </Button>
         <IconButton
           aria-label="Theme toggle"
           size="sm"
@@ -107,7 +85,28 @@ export default function BottomBar() {
           icon={<IconSunFilled size={16} />}
           onClick={colorMode.toggleColorMode}
         />
-      </HStack>
+      </ButtonGroup>
+      <Link to={SETTINGS_PATHS.base}>
+        <HStack
+          bg={isFree ? "transparent" : border}
+          p="2px"
+          borderRadius="full"
+          gap="1px"
+        >
+          {!isFree && (
+            <Badge mx={1} borderRadius="full">
+              PRO
+            </Badge>
+          )}
+          <Avatar
+            src={user?.user_metadata?.avatar_url}
+            size="xs"
+            name={userName}
+            icon={<IconUserFilled size={18} />}
+            bg="transparent"
+          />
+        </HStack>
+      </Link>
     </HStack>
   );
 }
