@@ -7,11 +7,14 @@ import {
   ButtonGroup,
   HStack,
   IconButton,
+  Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
+  IconArrowRight,
   IconBucket,
+  IconChevronRight,
   IconMountain,
   IconSunFilled,
   IconTransactionDollar,
@@ -49,43 +52,49 @@ export default function BottomBar() {
       px={2}
       justify="space-between"
     >
-      <ButtonGroup size="sm" variant="sidebar">
-        <Button
-          isActive={isPathActive("/transactions")}
-          leftIcon={<IconTransactionDollar size={16} />}
-          onClick={() => handleNavigate("/transactions")}
-        >
-          {t("components.topnavbar.transactions")}
-        </Button>
-        <Button
-          leftIcon={<IconBucket size={16} />}
-          isActive={isPathActive("/budgets")}
-          onClick={() => handleNavigate("/budgets")}
-        >
-          Budget
-        </Button>
-        <Button
-          leftIcon={<IconMountain size={16} />}
-          isActive={isPathActive("/goals")}
-          onClick={() => handleNavigate("/goals")}
-        >
-          Goals
-        </Button>
-        <Button
-          onClick={() => handleNavigate("/statistics")}
-          leftIcon={<IconVectorSpline size={16} />}
-          isActive={isPathActive("/statistics")}
-        >
-          {t("components.topnavbar.statistics")}
-        </Button>
-        <IconButton
-          aria-label="Theme toggle"
-          size="sm"
-          variant="ghost"
-          icon={<IconSunFilled size={16} />}
-          onClick={colorMode.toggleColorMode}
-        />
-      </ButtonGroup>
+      <HStack>
+        <Text fontFamily="Geist Mono" pl={2} color="gray.500">
+          PAGES
+        </Text>
+        <IconChevronRight size={16} opacity={0.3} />
+        <ButtonGroup size="sm" variant="sidebar">
+          <Button
+            isActive={isPathActive("/transactions")}
+            leftIcon={<IconTransactionDollar size={16} />}
+            onClick={() => handleNavigate("/transactions")}
+          >
+            {t("components.topnavbar.transactions")}
+          </Button>
+          <Button
+            leftIcon={<IconBucket size={16} />}
+            isActive={isPathActive("/budgets")}
+            onClick={() => handleNavigate("/budgets")}
+          >
+            Budget
+          </Button>
+          <Button
+            leftIcon={<IconMountain size={16} />}
+            isActive={isPathActive("/goals")}
+            onClick={() => handleNavigate("/goals")}
+          >
+            Goals
+          </Button>
+          <Button
+            onClick={() => handleNavigate("/statistics")}
+            leftIcon={<IconVectorSpline size={16} />}
+            isActive={isPathActive("/statistics")}
+          >
+            {t("components.topnavbar.statistics")}
+          </Button>
+          <IconButton
+            aria-label="Theme toggle"
+            size="sm"
+            variant="ghost"
+            icon={<IconSunFilled size={16} />}
+            onClick={colorMode.toggleColorMode}
+          />
+        </ButtonGroup>
+      </HStack>
       <Link to={SETTINGS_PATHS.base}>
         <HStack
           bg={isFree ? "transparent" : border}
