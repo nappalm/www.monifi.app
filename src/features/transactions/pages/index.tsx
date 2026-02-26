@@ -289,7 +289,7 @@ export default function TransactionsPage() {
       </HStack>
       <HStack align="stretch" overflow="hidden" gap={0} h="calc(100vh - 49px)">
         <Stack gap={0} flex={1} minW={0}>
-          <Charts transactions={filteredTransactions} />
+          <Charts transactions={filteredTransactions} dateRange={dateRange} />
           <TransactionsTable
             data={filteredTransactions || []}
             isLoading={isLoading}

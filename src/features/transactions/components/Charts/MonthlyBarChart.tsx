@@ -5,11 +5,14 @@ import {
   Bar,
   BarChart,
   Cell,
+  Customized,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
+  useOffset,
+  usePlotArea,
 } from "recharts";
 import { useMonthlySummaries } from "../../hooks/useMonthlySummary";
 
@@ -81,7 +84,67 @@ function CustomTooltip({
   return null;
 }
 
-export default function MonthlyBarChart() {
+
+// Rendered inside the recharts SVG context via <Customized component={TimelineSVG} />
+// so useOffset / usePlotArea hooks have access to the chart's Redux store.
+function TimelineSVG({
+  monthRange,
+  currentMonthKey,
+  filterStart,
+  filterEnd,
+  tlActive,
+  tlInactive,
+  tlCurrent,
+}: {
+  monthRange: string[];
+  currentMonthKey: string;
+  filterStart: string;
+  filterEnd: string;
+  tlActive: string;
+  tlInactive: string;
+  tlCurrent: string;
+}) {
+  const plotArea = usePlotArea();
+  const offset = useOffset();
+
+  if (!plotArea || !offset) return null;
+
+  const N = monthRange.length;
+  const bw = plotArea.width / N;
+  // SVGHeight = plotArea.y + plotArea.height + offset.bottom
+  // Timeline center sits 5px above the SVG bottom edge (middle of the 10px margin)
+  const cy = plotArea.y + plotArea.height + offset.bottom - 5;
+
+  return (
+    <g>
+      {monthRange.map((month, i) => {
+        const x = plotArea.x + i * bw;
+        const inRange = month >= filterStart && month <= filterEnd;
+        const isCurrent = month === currentMonthKey;
+        const h = inRange ? 3 : 2;
+        const fill = inRange ? tlActive : isCurrent ? tlCurrent : tlInactive;
+        return (
+          <rect
+            key={month}
+            x={x + 2}
+            y={cy - h / 2}
+            width={Math.max(0, bw - 4)}
+            height={h}
+            rx={2}
+            ry={2}
+            fill={fill}
+          />
+        );
+      })}
+    </g>
+  );
+}
+
+export default function MonthlyBarChart({
+  dateRange,
+}: {
+  dateRange?: [string, string] | null;
+}) {
   const { data: summaries } = useMonthlySummaries();
 
   const now = new Date();
@@ -131,6 +194,11 @@ export default function MonthlyBarChart() {
   const incCurrHatchStroke = `${INC}CC`;
   const incCurrBarStroke = INC;
 
+  // Timeline de filtro
+  const tlActive = useColorModeValue("#22D3EE", "#06B6D4"); // cyan.400 / cyan.500
+  const tlInactive = useColorModeValue("#E2E8F0", "#2D3748"); // gray.200 / gray.700
+  const tlCurrent = useColorModeValue("#9CA3AF", "#6B7280"); // gray.400 / gray.500
+
   return (
     <Stack p={1}>
       <HStack justify="space-between" px={2} pt={1} pb={0} align="center">
@@ -171,11 +239,11 @@ export default function MonthlyBarChart() {
         </HStack>
       </HStack>
 
-      <Box h="100px" sx={{ "& *:focus": { outline: "none" } }}>
+      <Box h={dateRange ? "110px" : "100px"} sx={{ "& *:focus": { outline: "none" } }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
-            margin={{ top: 8, right: 6, left: -20, bottom: 0 }}
+            margin={{ top: 8, right: 6, left: -20, bottom: dateRange ? 10 : 0 }}
             barCategoryGap="20%"
             barGap={1}
             style={{ outline: "none" }}
@@ -339,6 +407,18 @@ export default function MonthlyBarChart() {
                 ),
               )}
             </Bar>
+            {dateRange && (
+              <Customized
+                component={TimelineSVG}
+                monthRange={monthRange}
+                currentMonthKey={currentMonthKey}
+                filterStart={dateRange[0].substring(0, 7)}
+                filterEnd={dateRange[1].substring(0, 7)}
+                tlActive={tlActive}
+                tlInactive={tlInactive}
+                tlCurrent={tlCurrent}
+              />
+            )}
           </BarChart>
         </ResponsiveContainer>
       </Box>
