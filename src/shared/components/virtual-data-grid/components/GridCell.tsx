@@ -13,6 +13,8 @@ interface GridCellProps<T extends DataRow> {
   isEditing: boolean;
   isDragging: boolean;
   isInDragRange: boolean;
+  isLastColumn: boolean;
+  borderColor: string;
   updateCell: (rowIndex: number, colIndex: number, value: any) => void;
   onFocus: (row: number, col: number) => void;
   onDoubleClick: (row: number, col: number) => void;
@@ -35,6 +37,8 @@ function GridCellComponent<T extends DataRow>({
   isEditing,
   isDragging,
   isInDragRange,
+  isLastColumn,
+  borderColor,
   updateCell,
   onFocus,
   onDoubleClick,
@@ -83,6 +87,7 @@ function GridCellComponent<T extends DataRow>({
       return formatCurrency(cellValue || 0, currency);
     }
     return cellValue;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [column, cellValue, row, handleChange, currency]);
 
   const align = column.align || (column.isAmount ? "right" : "left");
@@ -108,6 +113,8 @@ function GridCellComponent<T extends DataRow>({
       outline="none"
       cursor="cell"
       position="relative"
+      borderRight={isLastColumn ? undefined : "1px dashed"}
+      borderColor={isLastColumn ? undefined : borderColor}
       overflow={isCellActive ? "visible" : "hidden"}
       textAlign={align}
       justifyContent={

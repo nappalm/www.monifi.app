@@ -120,6 +120,7 @@ const HeaderCell = memo(function HeaderCell({
   const resizeHandleBg = useColorModeValue("gray.400", "gray.600");
   const sortIconColor = useColorModeValue("gray.500", "gray.500");
   const sortIconActiveColor = useColorModeValue("gray.700", "gray.200");
+  const borderColor = useColorModeValue("gray.300", "gray.700");
 
   const handleResizeMouseDown = useCallback(
     (e: React.MouseEvent) => {
@@ -161,6 +162,8 @@ const HeaderCell = memo(function HeaderCell({
       cursor={isSortable ? "pointer" : "default"}
       onClick={handleSortClick}
       gap={1}
+      borderRight={isLast ? undefined : "1px dashed"}
+      borderColor={isLast ? undefined : borderColor}
       {...(isFirst && {
         borderTopLeftRadius: "xl",
         borderBottomLeftRadius: "xl",

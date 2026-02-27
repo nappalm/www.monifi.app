@@ -52,7 +52,7 @@ function GridRowComponent<T extends DataRow>({
   const isOdd = rowIndex % 2 === 0;
 
   const stripeBg = useColorModeValue("gray.100", "gray.900");
-  const borderColor = useColorModeValue("gray.100", "gray.800");
+  const borderColor = useColorModeValue("gray.300", "gray.700");
 
   const fullWidth = totalWidth + (showRowNumber ? rowNumberWidth : 0);
 
@@ -67,8 +67,6 @@ function GridRowComponent<T extends DataRow>({
       style={{ transform: style.transform }}
       display="flex"
       alignItems="stretch"
-      borderBottom="1px dashed"
-      borderColor={borderColor}
       bg={isOdd ? stripeBg : "transparent"}
       sx={{
         ...(row.enabled === false && { opacity: 0.5 }),
@@ -85,6 +83,8 @@ function GridRowComponent<T extends DataRow>({
           fontSize="xs"
           color="gray.500"
           userSelect="none"
+          borderRight="1px dashed"
+          borderColor={borderColor}
         >
           {rowIndex + 1}
         </Box>
@@ -116,12 +116,14 @@ function GridRowComponent<T extends DataRow>({
             isEditing={isEditing}
             isDragging={isDragging}
             isInDragRange={isInDragRange}
+            isLastColumn={colIndex === columns.length - 1}
             updateCell={updateCell}
             onFocus={onFocus}
             onDoubleClick={onDoubleClick}
             onDragHandleStart={onDragHandleStart}
             currency={currency}
             totalRows={totalRows}
+            borderColor={borderColor}
           />
         );
       })}
