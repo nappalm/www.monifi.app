@@ -12,6 +12,7 @@ import {
   DEFAULT_HEADER_HEIGHT,
   DEFAULT_OVERSCAN,
   ROW_NUMBER_WIDTH,
+  DEFAULT_SCROLL_PADDING_END,
 } from "../constants";
 import { useStableColumns } from "./useStableColumns";
 import { useGridEditing } from "./useGridEditing";
@@ -150,6 +151,7 @@ export function useVirtualGrid<T extends DataRow>(
     getScrollElement: () => containerRef.current,
     estimateSize: () => rowHeight,
     overscan,
+    paddingEnd: DEFAULT_SCROLL_PADDING_END,
   });
 
   // Keep a stable ref to the virtualizer so we don't need it in effect deps

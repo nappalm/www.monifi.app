@@ -6,3 +6,4 @@ export const DEFAULT_MIN_COLUMN_WIDTH = 50;
 export const DEFAULT_MAX_COLUMN_WIDTH = 600;
 export const ROW_NUMBER_WIDTH = 48;
 export const RESIZE_HANDLE_WIDTH = 4;
+export const DEFAULT_SCROLL_PADDING_END = 120;

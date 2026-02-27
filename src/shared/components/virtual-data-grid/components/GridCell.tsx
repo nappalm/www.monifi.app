@@ -128,7 +128,7 @@ function GridCellComponent<T extends DataRow>({
           color: "cyan.500",
           boxShadow: activeCellShadow,
           background: "rgba(0, 188, 212, 0.15)",
-          borderRadius: "7px",
+          borderRadius: "sm",
         },
         ...column.cellStyle,
         ...column.sx,
