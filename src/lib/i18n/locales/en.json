@@ -39,10 +39,13 @@
       "deleteCategory": "Delete category",
       "manageCategories": "Manage categories"
     },
-    "topnavbar": {
+    "bottombar": {
+      "pages": "PAGES",
       "transactions": "Transactions",
+      "budgets": "Budgets",
+      "goals": "Goals",
       "statistics": "Statistics",
-      "sidebarMenu": "Sidebar menu"
+      "themeToggle": "Toggle theme"
     },
     "userMenu": {
       "profileSettings": "Profile settings",
@@ -287,6 +290,14 @@
       "totalExpenses": "Total Expenses",
       "top5Expenses": "Top 5 Expenses",
       "uncategorized": "Uncategorized"
+    },
+    "charts": {
+      "noData": "No data",
+      "topExpenses": "Top expenses",
+      "thisMonth": "this month",
+      "currentMonth": "(current)",
+      "expensesVsIncomesByMonth": "Expenses and income by month",
+      "distribution": "Distribution"
     }
   },
   "statistics": {
