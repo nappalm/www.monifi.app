@@ -135,6 +135,9 @@ export function useVirtualGrid<T extends DataRow>(
   // Selection
   const { selectionRange } = useGridSelection(enableSelection);
 
+  // Row highlight
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
+
   // Shared menu
   const [menuState, setMenuState] = useState<MenuState<T> | null>(null);
   const openMenu = useCallback(
@@ -206,6 +209,8 @@ export function useVirtualGrid<T extends DataRow>(
       sortColumn,
       sortDirection,
       onSort,
+      selectedRow,
+      setSelectedRow,
       menuState,
       openMenu,
       closeMenu,
@@ -237,6 +242,8 @@ export function useVirtualGrid<T extends DataRow>(
       sortColumn,
       sortDirection,
       onSort,
+      selectedRow,
+      setSelectedRow,
       menuState,
       openMenu,
       closeMenu,

@@ -1,5 +1,5 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import type { CellCoord, ComputedColumn, DataRow } from "../types";
 import { GridCell } from "./GridCell";
 
@@ -27,6 +27,8 @@ interface GridRowProps<T extends DataRow> {
   totalWidth: number;
   currency: string;
   totalRows: number;
+  selectedRow: number | null;
+  setSelectedRow: (row: number | null) => void;
 }
 
 function GridRowComponent<T extends DataRow>({
@@ -48,11 +50,19 @@ function GridRowComponent<T extends DataRow>({
   totalWidth,
   currency,
   totalRows,
+  selectedRow,
+  setSelectedRow,
 }: GridRowProps<T>) {
   const isOdd = rowIndex % 2 === 0;
+  const isRowSelected = selectedRow === rowIndex;
 
   const stripeBg = useColorModeValue("gray.100", "gray.900");
+  const selectedBg = useColorModeValue("gray.200", "gray.800");
   const borderColor = useColorModeValue("gray.300", "gray.700");
+
+  const handleRowNumberClick = useCallback(() => {
+    setSelectedRow(isRowSelected ? null : rowIndex);
+  }, [setSelectedRow, isRowSelected, rowIndex]);
 
   const fullWidth = totalWidth + (showRowNumber ? rowNumberWidth : 0);
 
@@ -67,7 +77,7 @@ function GridRowComponent<T extends DataRow>({
       style={{ transform: style.transform }}
       display="flex"
       alignItems="stretch"
-      bg={isOdd ? stripeBg : "transparent"}
+      bg={isRowSelected ? selectedBg : isOdd ? stripeBg : "transparent"}
       sx={{
         ...(row.enabled === false && { opacity: 0.5 }),
       }}
@@ -81,10 +91,14 @@ function GridRowComponent<T extends DataRow>({
           justifyContent="flex-end"
           px={2}
           fontSize="xs"
-          color="gray.500"
+          color={isRowSelected ? "gray.700" : "gray.500"}
           userSelect="none"
+          cursor="pointer"
           borderRight="1px dashed"
           borderColor={borderColor}
+          onClick={handleRowNumberClick}
+          title={isRowSelected ? "Deseleccionar fila" : "Seleccionar fila"}
+          _hover={{ color: "gray.700" }}
         >
           {rowIndex + 1}
         </Box>
@@ -145,7 +159,8 @@ function rowPropsAreEqual(prev: any, next: any) {
     prev.dragEndCell === next.dragEndCell &&
     prev.columns === next.columns &&
     prev.totalWidth === next.totalWidth &&
-    prev.currency === next.currency
+    prev.currency === next.currency &&
+    prev.selectedRow === next.selectedRow
   );
 }
 

@@ -125,6 +125,10 @@ export interface GridContextValue<T extends DataRow> {
   sortDirection: "asc" | "desc" | null;
   onSort: (accessor: string) => void;
 
+  // Row highlight
+  selectedRow: number | null;
+  setSelectedRow: (row: number | null) => void;
+
   // Shared menu
   menuState: MenuState<T> | null;
   openMenu: (

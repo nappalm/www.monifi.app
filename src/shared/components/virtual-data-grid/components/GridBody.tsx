@@ -28,6 +28,8 @@ export function GridBody({ virtualItems, totalSize }: GridBodyProps) {
     showRowNumber,
     rowNumberWidth,
     currency,
+    selectedRow,
+    setSelectedRow,
   } = ctx;
 
   const isEditing = editState.status === "editing";
@@ -77,6 +79,8 @@ export function GridBody({ virtualItems, totalSize }: GridBodyProps) {
             totalWidth={totalWidth}
             currency={currency}
             totalRows={data.length}
+            selectedRow={selectedRow}
+            setSelectedRow={setSelectedRow}
           />
         );
       })}
