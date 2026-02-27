@@ -21,7 +21,7 @@ export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
       </Text>
       <HStack>
         <IconButton
-          aria-label="Prev period"
+          aria-label={t("components.dateRange.previousMonth")}
           size="xs"
           variant="ghost"
           icon={<IconChevronLeft size={15} />}
@@ -29,7 +29,7 @@ export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
         />
         <Text>{label}</Text>
         <IconButton
-          aria-label="Next period"
+          aria-label={t("components.dateRange.nextMonth")}
           size="xs"
           variant="ghost"
           icon={<IconChevronRight size={15} />}
