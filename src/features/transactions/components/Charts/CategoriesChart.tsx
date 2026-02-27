@@ -19,6 +19,7 @@ import {
 import { Tables } from "@/lib/supabase/database.types";
 import { useMemo } from "react";
 import { useCategories } from "@/shared";
+import { useTranslation } from "react-i18next";
 
 interface CategoriesChartProps {
   transactions: Tables<"transactions">[];
@@ -51,6 +52,7 @@ function CustomTooltip({ active, payload, tooltipBg, tooltipColor }: any) {
 export default function CategoriesChart({
   transactions,
 }: CategoriesChartProps) {
+  const { t } = useTranslation();
   const { data: categories } = useCategories();
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");
@@ -77,7 +79,7 @@ export default function CategoriesChart({
     // Si no hay transacciones, retornar valores por defecto
     if (enabledTransactions.length === 0) {
       return {
-        topCategory: "Sin datos",
+        topCategory: t("transactions.charts.noData"),
         chartData: [],
         percentageChange: 0,
       };
@@ -105,15 +107,15 @@ export default function CategoriesChart({
     const topCategoryName =
       topCategoryId && categories
         ? categories.find((c) => c.id === topCategoryId)?.name ||
-          "Sin categoría"
-        : "Sin categoría";
+          t("transactions.summary.uncategorized")
+        : t("transactions.summary.uncategorized");
 
     // Generar datos para el gráfico - una barra por categoría
     const chartData = Object.entries(categoryTotals)
       .map(([catId, amount]) => {
         const categoryName =
           categories?.find((c) => c.id === Number(catId))?.name ||
-          "Sin categoría";
+          t("transactions.summary.uncategorized");
         return {
           name: categoryName,
           categoryId: Number(catId),
@@ -131,14 +133,14 @@ export default function CategoriesChart({
       chartData,
       percentageChange: change,
     };
-  }, [transactions, categories]);
+  }, [transactions, categories, t]);
   return (
     <Card size="sm">
       <CardBody p={1}>
         <Grid templateColumns="150px 1fr">
           <Stack justify="center" align="center">
             <Text fontSize="xs" color="gray.500">
-              Top expenses
+              {t("transactions.charts.topExpenses")}
             </Text>
             <HStack>
               <Text fontWeight="semibold" fontSize="xl">
@@ -155,7 +157,7 @@ export default function CategoriesChart({
                 {percentageChange.toFixed(1)}%
               </Text>
               <Text fontSize="xs" color="gray.500">
-                este mes
+                {t("transactions.charts.thisMonth")}
               </Text>
             </HStack>
           </Stack>

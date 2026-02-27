@@ -1,6 +1,7 @@
 import _colors from "@/lib/chakra-ui/_colors";
 import { Box, HStack, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Bar,
   BarChart,
@@ -52,6 +53,7 @@ function CustomTooltip({
   tooltipColor,
   currentMonth,
 }: any) {
+  const { t } = useTranslation();
   if (active && payload && payload.length) {
     const isCurrentMonth = label === currentMonth;
     return (
@@ -68,13 +70,17 @@ function CustomTooltip({
           {formatMonthLabel(label)}
           {isCurrentMonth && (
             <Text as="span" ml={1} opacity={0.6}>
-              (actual)
+              {t("transactions.charts.currentMonth")}
             </Text>
           )}
         </Text>
         {payload.map((entry: { name: string; value: number }) => (
           <HStack key={entry.name} justify="space-between" gap={4}>
-            <Text>{entry.name === "expenses" ? "Gastos" : "Ingresos"}</Text>
+            <Text>
+              {entry.name === "expenses"
+                ? t("statistics.labels.expenses")
+                : t("statistics.labels.income")}
+            </Text>
             <Text fontFamily="Geist Mono">${entry.value.toLocaleString()}</Text>
           </HStack>
         ))}
@@ -145,6 +151,7 @@ export default function MonthlyBarChart({
 }: {
   dateRange?: [string, string] | null;
 }) {
+  const { t } = useTranslation();
   const { data: summaries } = useMonthlySummaries();
 
   const now = new Date();
@@ -203,7 +210,7 @@ export default function MonthlyBarChart({
     <Stack p={1}>
       <HStack justify="space-between" px={2} pt={1} pb={0} align="center">
         <Text fontSize="xs" color="gray.500" fontWeight="medium">
-          Gastos e ingresos por mes
+          {t("transactions.charts.expensesVsIncomesByMonth")}
         </Text>
         <HStack gap={3}>
           <HStack gap={1}>
@@ -218,7 +225,7 @@ export default function MonthlyBarChart({
               />
             </svg>
             <Text fontSize="xs" color="gray.500">
-              Gastos
+              {t("statistics.labels.expenses")}
             </Text>
           </HStack>
           <HStack gap={1}>
@@ -233,7 +240,7 @@ export default function MonthlyBarChart({
               />
             </svg>
             <Text fontSize="xs" color="gray.500">
-              Ingresos
+              {t("statistics.labels.income")}
             </Text>
           </HStack>
         </HStack>

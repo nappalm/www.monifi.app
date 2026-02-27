@@ -236,8 +236,8 @@ export default function TransactionsPage() {
               onClearFilters={clearFilters}
               areFiltersActive={areFiltersActive}
             />
-            <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
           </HStack>
+          <FilterDateMenu onChange={(i, e) => setDateRange([i, e])} />
           <HStack gap={2}>
             <UndoRedoButtons
               onUndo={handleUndo}

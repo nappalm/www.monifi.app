@@ -1,5 +1,6 @@
 import { Tables } from "@/lib";
 import { useCategories } from "@/shared";
+import { useTranslation } from "react-i18next";
 import { HatchBar } from "@/shared/components/hatch-bar";
 import {
   Card,
@@ -39,27 +40,28 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 export default function RightPanel({ transactions = [] }: Props) {
+  const { t } = useTranslation();
   const { data: categories } = useCategories();
 
   const categoryTotals = useMemo(() => {
     const enabled = transactions.filter(
-      (t) => t.enabled && t.type === "expense",
+      (tx) => tx.enabled && tx.type === "expense",
     );
 
     const totals: Record<number | "uncategorized", number> = {};
-    for (const t of enabled) {
-      const key = t.category_id ?? "uncategorized";
-      totals[key] = (totals[key] || 0) + (t.amount || 0);
+    for (const tx of enabled) {
+      const key = tx.category_id ?? "uncategorized";
+      totals[key] = (totals[key] || 0) + (tx.amount || 0);
     }
 
     return Object.entries(totals)
       .map(([id, amount]) => {
-        if (id === "uncategorized") return { name: "Sin categorizar", amount };
+        if (id === "uncategorized") return { name: t("transactions.summary.uncategorized"), amount };
         const cat = categories?.find((c) => c.id === Number(id));
-        return { name: cat?.name ?? "Sin categorizar", amount };
+        return { name: cat?.name ?? t("transactions.summary.uncategorized"), amount };
       })
       .sort((a, b) => b.amount - a.amount);
-  }, [transactions, categories]);
+  }, [transactions, categories, t]);
 
   const maxAmount = categoryTotals[0]?.amount || 1;
 
@@ -73,7 +75,7 @@ export default function RightPanel({ transactions = [] }: Props) {
     >
       {/* Balance chart — fijo arriba */}
       <Stack p={4} flexShrink={0}>
-        <SectionLabel>Balance</SectionLabel>
+        <SectionLabel>{t("transactions.summary.balance")}</SectionLabel>
         <ExpensesChart transactions={transactions} />
       </Stack>
 
@@ -82,13 +84,13 @@ export default function RightPanel({ transactions = [] }: Props) {
       {/* Top categorías — scroll interno */}
       <Stack gap={0} flex={1} overflow="hidden">
         <Stack px={4} pt={4} pb={2} flexShrink={0}>
-          <SectionLabel>Gastos por categoría</SectionLabel>
+          <SectionLabel>{t("statistics.charts.spendingByCategory")}</SectionLabel>
         </Stack>
 
         <SimpleGrid columns={2} gap={2} px={4} pb={4} overflowY="auto">
           {categoryTotals.length === 0 ? (
             <Text fontSize="sm" color="gray.600" gridColumn="span 2">
-              Sin datos
+              {t("transactions.charts.noData")}
             </Text>
           ) : (
             categoryTotals.map((cat) => (
@@ -118,7 +120,7 @@ export default function RightPanel({ transactions = [] }: Props) {
 
       {/* Gráfica ingresos vs gastos — fijo abajo */}
       <Stack p={4} flexShrink={0} pb="60px">
-        <SectionLabel>Distribución</SectionLabel>
+        <SectionLabel>{t("transactions.charts.distribution")}</SectionLabel>
         <ExpensesVsIncomes transactions={transactions} />
       </Stack>
     </Stack>
