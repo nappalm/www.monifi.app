@@ -90,7 +90,6 @@ function CustomTooltip({
   return null;
 }
 
-
 // Rendered inside the recharts SVG context via <Customized component={TimelineSVG} />
 // so useOffset / usePlotArea hooks have access to the chart's Redux store.
 function TimelineSVG({
@@ -127,18 +126,19 @@ function TimelineSVG({
         const x = plotArea.x + i * bw;
         const inRange = month >= filterStart && month <= filterEnd;
         const isCurrent = month === currentMonthKey;
-        const h = inRange ? 3 : 2;
-        const fill = inRange ? tlActive : isCurrent ? tlCurrent : tlInactive;
+        const color = inRange ? tlActive : isCurrent ? tlCurrent : tlInactive;
+        const x1 = x + 2;
+        const x2 = x + Math.max(0, bw - 2);
         return (
-          <rect
+          <line
             key={month}
-            x={x + 2}
-            y={cy - h / 2}
-            width={Math.max(0, bw - 4)}
-            height={h}
-            rx={2}
-            ry={2}
-            fill={fill}
+            x1={x1}
+            y1={cy}
+            x2={x2}
+            y2={cy}
+            stroke={color}
+            strokeWidth={inRange ? 2.5 : 1.5}
+            strokeDasharray={inRange ? undefined : "2 3"}
           />
         );
       })}
@@ -178,7 +178,10 @@ export default function MonthlyBarChart({
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");
   const cursorStroke = useColorModeValue("gray", "white");
-  const cursorFill = useColorModeValue("rgba(0,0,0,0.04)", "rgba(255,255,255,0.06)");
+  const cursorFill = useColorModeValue(
+    "rgba(0,0,0,0.04)",
+    "rgba(255,255,255,0.06)",
+  );
   const refLineColor = useColorModeValue(_colors.gray[400], _colors.gray[600]);
 
   // Hatch — expenses  (commons[100] = #3A418A)
@@ -246,7 +249,10 @@ export default function MonthlyBarChart({
         </HStack>
       </HStack>
 
-      <Box h={dateRange ? "110px" : "100px"} sx={{ "& *:focus": { outline: "none" } }}>
+      <Box
+        h={dateRange ? "110px" : "100px"}
+        sx={{ "& *:focus": { outline: "none" } }}
+      >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
