@@ -168,6 +168,7 @@ export function useVirtualGrid<T extends DataRow>(
     if (focusRowIndex == null) return;
     const idx = focusRowIndex;
     virtualizerRef.current.scrollToIndex(idx, { align: "end" });
+    setSelectedRow(idx);
     // Double rAF: first lets the scroll settle, second lets the virtualizer re-render the row
     const raf = requestAnimationFrame(() => {
       requestAnimationFrame(() => {
