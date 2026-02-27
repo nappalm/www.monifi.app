@@ -20,6 +20,7 @@ import { useDragToFill } from "./useDragToFill";
 import { useGridSelection } from "./useGridSelection";
 import { useColumnResize } from "./useColumnResize";
 import { useDebouncedFilter } from "./useDebouncedFilter";
+import { useGridSort } from "./useGridSort";
 
 export function useVirtualGrid<T extends DataRow>(
   props: VirtualDataGridProps<T>,
@@ -82,7 +83,11 @@ export function useVirtualGrid<T extends DataRow>(
     filterFn,
   );
 
-  const data = filteredData;
+  // Sort (client-side only, does not mutate original data)
+  const { sortedData, sortColumn, sortDirection, onSort } =
+    useGridSort(filteredData);
+
+  const data = sortedData;
 
   // Editing
   const {
@@ -196,6 +201,9 @@ export function useVirtualGrid<T extends DataRow>(
       currency,
       columnWidths,
       onColumnResize,
+      sortColumn,
+      sortDirection,
+      onSort,
       menuState,
       openMenu,
       closeMenu,
@@ -224,6 +232,9 @@ export function useVirtualGrid<T extends DataRow>(
       currency,
       columnWidths,
       onColumnResize,
+      sortColumn,
+      sortDirection,
+      onSort,
       menuState,
       openMenu,
       closeMenu,

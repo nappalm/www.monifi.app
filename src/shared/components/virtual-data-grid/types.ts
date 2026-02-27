@@ -23,6 +23,7 @@ export interface GridColumn<T extends DataRow> {
   isResizable?: boolean;
   fullWidth?: boolean;
   pin?: "left" | "right";
+  sortable?: boolean;
   /** @deprecated Use cellStyle instead */
   sx?: any;
 }
@@ -118,6 +119,11 @@ export interface GridContextValue<T extends DataRow> {
   // Column resize
   columnWidths: Map<string, number>;
   onColumnResize: (accessor: string, width: number) => void;
+
+  // Sort
+  sortColumn: string | null;
+  sortDirection: "asc" | "desc" | null;
+  onSort: (accessor: string) => void;
 
   // Shared menu
   menuState: MenuState<T> | null;

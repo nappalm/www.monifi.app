@@ -1,5 +1,10 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { memo, useCallback } from "react";
+import {
+  IconCaretUpFilled,
+  IconCaretDownFilled,
+  IconSelector,
+} from "@tabler/icons-react";
 import { useGridContext } from "../GridContext";
 import { RESIZE_HANDLE_WIDTH } from "../constants";
 
@@ -12,8 +17,16 @@ export const GridHeader = memo(function GridHeader({
   startResize,
   enableColumnResize,
 }: GridHeaderProps) {
-  const { columns, totalWidth, headerHeight, showRowNumber, rowNumberWidth } =
-    useGridContext();
+  const {
+    columns,
+    totalWidth,
+    headerHeight,
+    showRowNumber,
+    rowNumberWidth,
+    sortColumn,
+    sortDirection,
+    onSort,
+  } = useGridContext();
 
   const headerBg = useColorModeValue("gray.200", "gray.900");
   const headerColor = useColorModeValue("gray.600", "gray.400");
@@ -65,6 +78,11 @@ export const GridHeader = memo(function GridHeader({
           isLast={i === columns.length - 1}
           isResizable={enableColumnResize && col.isResizable !== false}
           startResize={startResize}
+          isSortable={col.sortable === true}
+          activeSortDirection={
+            sortColumn === (col.accessor as string) ? sortDirection : null
+          }
+          onSort={onSort}
         />
       ))}
     </Box>
@@ -81,6 +99,9 @@ interface HeaderCellProps {
   isLast: boolean;
   isResizable: boolean;
   startResize: (accessor: string, startX: number, currentWidth: number) => void;
+  isSortable: boolean;
+  activeSortDirection: "asc" | "desc" | null;
+  onSort: (accessor: string) => void;
 }
 
 const HeaderCell = memo(function HeaderCell({
@@ -92,8 +113,13 @@ const HeaderCell = memo(function HeaderCell({
   isLast,
   isResizable,
   startResize,
+  isSortable,
+  activeSortDirection,
+  onSort,
 }: HeaderCellProps) {
   const resizeHandleBg = useColorModeValue("gray.400", "gray.600");
+  const sortIconColor = useColorModeValue("gray.500", "gray.500");
+  const sortIconActiveColor = useColorModeValue("gray.700", "gray.200");
 
   const handleResizeMouseDown = useCallback(
     (e: React.MouseEvent) => {
@@ -103,6 +129,17 @@ const HeaderCell = memo(function HeaderCell({
     },
     [accessor, width, startResize],
   );
+
+  const handleSortClick = useCallback(() => {
+    if (isSortable) onSort(accessor);
+  }, [isSortable, accessor, onSort]);
+
+  function getSortIcon() {
+    if (activeSortDirection === "asc") return IconCaretUpFilled;
+    if (activeSortDirection === "desc") return IconCaretDownFilled;
+    return IconSelector;
+  }
+  const SortIcon = getSortIcon();
 
   return (
     <Box
@@ -121,6 +158,9 @@ const HeaderCell = memo(function HeaderCell({
             ? "center"
             : "flex-start"
       }
+      cursor={isSortable ? "pointer" : "default"}
+      onClick={handleSortClick}
+      gap={1}
       {...(isFirst && {
         borderTopLeftRadius: "xl",
         borderBottomLeftRadius: "xl",
@@ -131,6 +171,14 @@ const HeaderCell = memo(function HeaderCell({
       })}
     >
       {header}
+      {isSortable && (
+        <Box
+          as={SortIcon}
+          size={12}
+          color={activeSortDirection ? sortIconActiveColor : sortIconColor}
+          flexShrink={0}
+        />
+      )}
       {isResizable && (
         <Box
           position="absolute"
