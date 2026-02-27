@@ -92,9 +92,7 @@ export default function CategorySelect({
           boxShadow: "none",
         }}
       >
-        {selectedCategory
-          ? selectedCategory.name
-          : t("components.categorySelect.placeholder")}
+        {selectedCategory ? selectedCategory.name : "-"}
       </MenuButton>
       <Portal>
         <MenuList>
