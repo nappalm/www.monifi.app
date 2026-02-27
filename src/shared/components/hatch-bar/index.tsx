@@ -14,6 +14,14 @@ export function HatchBar({ value, max, height = "14px" }: Props) {
     "var(--chakra-colors-gray-400)",
     "var(--chakra-colors-gray-500)",
   );
+  const trackFill = useColorModeValue(
+    "var(--chakra-colors-gray-200)",
+    "transparent",
+  );
+  const hatchColor = useColorModeValue(
+    "rgba(0,0,0,0.08)",
+    "rgba(255,255,255,0.18)",
+  );
   const percentage = max > 0 ? Math.min((value / max) * 100, 100) : 0;
 
   return (
@@ -26,21 +34,9 @@ export function HatchBar({ value, max, height = "14px" }: Props) {
             width="4"
             height="4"
           >
-            <rect width="4" height="4" fill="transparent" />
-            <rect
-              x="0"
-              y="0"
-              width="2"
-              height="2"
-              fill="rgba(255,255,255,0.18)"
-            />
-            <rect
-              x="2"
-              y="2"
-              width="2"
-              height="2"
-              fill="rgba(255,255,255,0.18)"
-            />
+            <rect width="4" height="4" fill={trackFill} />
+            <rect x="0" y="0" width="2" height="2" fill={hatchColor} />
+            <rect x="2" y="2" width="2" height="2" fill={hatchColor} />
           </pattern>
         </defs>
         <rect width="100%" height={height} fill={`url(#${patternId})`} />

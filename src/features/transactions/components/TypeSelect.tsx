@@ -7,7 +7,7 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
+import { IconCircleDashed, IconCircleHalf2 } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -26,12 +26,12 @@ export default function TypeSelect({ defaultValue, value, onChange }: Props) {
       {
         value: "income",
         label: t("transactions.types.income"),
-        icon: <IconChevronsUp size={13} color={_colors.commons[100]} />,
+        icon: <IconCircleHalf2 size={13} color={_colors.commons[100]} />,
       },
       {
         value: "expense",
         label: t("transactions.types.expense"),
-        icon: <IconChevronsDown size={13} color={_colors.commons[200]} />,
+        icon: <IconCircleDashed size={13} color={_colors.commons[200]} />,
       },
     ],
     [t],

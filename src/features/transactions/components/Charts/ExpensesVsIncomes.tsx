@@ -53,7 +53,7 @@ export default function ExpensesVsIncomes({
   const dividerBg = useColorModeValue("gray.300", "gray.700");
 
   return (
-    <Card size="sm">
+    <Card size="sm" variant="solid">
       <CardBody display="flex" alignItems="center" h="100px" gap="6px">
         <svg width="0" height="0">
           <defs>

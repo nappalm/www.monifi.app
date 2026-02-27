@@ -8,10 +8,11 @@ import BottleChart from "./BottleChart";
 
 interface ChartsProps {
   transactions: Tables<"transactions">[];
+  dateRange?: [string, string] | null;
 }
 
-export default function Charts({ transactions }: ChartsProps) {
-  return <MonthlyBarChart />;
+export default function Charts({ transactions, dateRange }: ChartsProps) {
+  return <MonthlyBarChart dateRange={dateRange} />;
 
   return (
     <SimpleGrid columns={[1, 1, 2, 3, 4, 5]} gap={2} p={2}>

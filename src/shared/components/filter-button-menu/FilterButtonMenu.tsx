@@ -164,12 +164,10 @@ export default function FilterButtonMenu({
           as={Button}
           aria-label={t("components.filterButtonMenu.filter")}
           leftIcon={<IconFilterFilled size={16} />}
-          size="md"
+          size="sm"
           borderRightRadius={0}
           color={areFiltersActive ? "red.500" : undefined}
-          variant="ghost"
-          border="1px dashed"
-          borderColor="gray.700"
+          variant="solid"
         >
           Filter data
         </MenuButton>

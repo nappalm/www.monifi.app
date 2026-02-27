@@ -76,7 +76,11 @@ export default function CategorySelect({
         size="xs"
         variant="unstyled"
         as={Button}
-        leftIcon={<IconTag size={13} />}
+        leftIcon={
+          !selectedCategory || !/^\p{Emoji}/u.test(selectedCategory.name) ? (
+            <IconTag size={13} />
+          ) : undefined
+        }
         cursor="default"
         w="full"
         textAlign="left"

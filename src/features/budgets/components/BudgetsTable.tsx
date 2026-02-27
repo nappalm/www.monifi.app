@@ -1,4 +1,8 @@
-import { Column, formatCurrency, InlineEditorGrid } from "@/shared";
+import { formatCurrency } from "@/shared";
+import {
+  VirtualDataGrid,
+  type GridColumn,
+} from "@/shared/components/virtual-data-grid";
 import {
   IconAntennaBars1,
   IconAntennaBars2,
@@ -6,6 +10,7 @@ import {
   IconAntennaBars4,
   IconAntennaBars5,
 } from "@tabler/icons-react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import TableRowMenu from "./TableRowMenu";
 import _colors from "@/lib/chakra-ui/_colors";
@@ -62,86 +67,78 @@ export default function BudgetsTable({
     );
   };
 
-  const columns: Column<BudgetCategoryRow>[] = [
-    {
-      accessor: "id",
-      header: t("budgets.table.id"),
-      isVisible: false,
-    },
-    {
-      header: t("budgets.table.category"),
-      accessor: "category_name",
-      isDraggable: false,
-      sx: {
-        w: "200px",
-        minW: "200px",
+  const columns = useMemo<GridColumn<BudgetCategoryRow>[]>(
+    () => [
+      {
+        accessor: "id",
+        header: t("budgets.table.id"),
+        isVisible: false,
       },
-    },
-    {
-      header: t("budgets.table.limitValue"),
-      accessor: "amount",
-      isAmount: true,
-      sx: {
-        w: "150px",
-        minW: "150px",
-        fontFamily: "Geist Mono",
+      {
+        header: t("budgets.table.category"),
+        accessor: "category_name",
+        isDraggable: false,
+        width: 200,
+        minWidth: 200,
       },
-    },
-    {
-      header: t("budgets.table.currentSpent"),
-      accessor: "currentSpent",
-      isEditable: false,
-      isDraggable: false,
-      sx: {
-        w: "150px",
-        minW: "150px",
-        fontFamily: "Geist Mono",
-        opacity: 0.7,
+      {
+        header: t("budgets.table.limitValue"),
+        accessor: "amount",
+        isAmount: true,
+        width: 150,
+        minWidth: 150,
+        cellStyle: { fontFamily: "Geist Mono" },
       },
-      render: (_, row) => {
-        const spent = spentByCategory[row.category_id] ?? 0;
-        return (
-          <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            {getAntennaIcon(spent, row.amount)}
-            {formatCurrency(spent)}
-          </span>
-        );
+      {
+        header: t("budgets.table.currentSpent"),
+        accessor: "currentSpent" as keyof BudgetCategoryRow,
+        isEditable: false,
+        isDraggable: false,
+        width: 150,
+        minWidth: 150,
+        cellStyle: { fontFamily: "Geist Mono", opacity: 0.7 },
+        render: (_, row) => {
+          const spent = spentByCategory[row.category_id] ?? 0;
+          return (
+            <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              {getAntennaIcon(spent, row.amount)}
+              {formatCurrency(spent)}
+            </span>
+          );
+        },
       },
-    },
-    {
-      header: t("budgets.table.description"),
-      accessor: "description",
-      sx: {
-        w: "full",
-        minW: "full",
+      {
+        header: t("budgets.table.description"),
+        accessor: "description",
+        fullWidth: true,
       },
-    },
-    {
-      header: "",
-      accessor: "options",
-      isEditable: false,
-      isDraggable: false,
-      sx: {
-        w: "25px",
-        maxW: "25px",
-        minW: "25px",
-        opacity: 0.5,
-        p: 0,
+      {
+        header: "",
+        accessor: "options" as keyof BudgetCategoryRow,
+        isEditable: false,
+        isDraggable: false,
+        width: 32,
+        minWidth: 32,
+        cellStyle: { padding: 0, opacity: 0.5 },
+        render: (_, row) => (
+          <TableRowMenu onDelete={() => onRemoveRow(row.id)} />
+        ),
       },
-      render: (_, row) => (
-        <TableRowMenu onDelete={() => onRemoveRow(row.id)} />
-      ),
-    },
-  ];
+    ],
+    [t, onRemoveRow, spentByCategory],
+  );
 
   return (
-    <InlineEditorGrid<BudgetCategoryRow>
+    <VirtualDataGrid<BudgetCategoryRow>
       columns={columns}
       data={data}
       isLoading={isLoading}
       onRowChange={onRowChange}
       showRowNumber
       height={height}
+      rowHeight={30}
+      overscan={5}
+      currency="MXN"
     />
   );
 }

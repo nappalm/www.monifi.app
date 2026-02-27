@@ -21,25 +21,29 @@ import {
   HStack,
   IconButton,
   Stack,
-  Tag,
   Text,
+  Tooltip,
   useBreakpointValue,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
   IconArrowBarToDownDashed,
+  IconFileFilled,
   IconLayoutSidebarRightFilled,
   IconLineHeight,
   IconReceiptDollarFilled,
   IconTagFilled,
 } from "@tabler/icons-react";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import Charts from "../components/Charts";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import RightPanel from "../components/RightPanel";
 import TransactionsTable from "../components/TransactionsTable";
 import { useTransactionHistory } from "../hooks/useTransactionHistory";
+import { TRANSACTIONS_PATHS } from "../router";
 import { filterTransactions } from "../utils/filtered";
 import { getNewTransaction } from "../utils/helpers";
 
@@ -126,9 +130,33 @@ export default function TransactionsPage() {
     return filteredTransactions.filter((t) => t.enabled);
   }, [filteredTransactions]);
 
+  const [focusPending, setFocusPending] = useState(false);
+  const [focusRowIndex, setFocusRowIndex] = useState<number | null>(null);
+
   const handleNewRow = () => {
     createTransaction.mutate(getNewTransaction());
+    setFocusPending(true);
   };
+
+  // Once the optimistic row appears in filteredTransactions (it has no id yet), focus it
+  useEffect(() => {
+    if (!focusPending) return;
+    for (let i = filteredTransactions.length - 1; i >= 0; i--) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (!(filteredTransactions[i] as any).id) {
+        setFocusRowIndex(i);
+        setFocusPending(false);
+        break;
+      }
+    }
+  }, [focusPending, filteredTransactions]);
+
+  // Reset focusRowIndex after the grid has had time to process the focus
+  useEffect(() => {
+    if (focusRowIndex == null) return;
+    const timeout = setTimeout(() => setFocusRowIndex(null), 500);
+    return () => clearTimeout(timeout);
+  }, [focusRowIndex]);
 
   useKeyPress("i", handleNewRow, "ctrlKey");
 
@@ -186,21 +214,21 @@ export default function TransactionsPage() {
   const isSmallScreen =
     useBreakpointValue({ base: true, lg: false }, { ssr: false }) ?? false;
 
+  const borderBottomColor = useColorModeValue("gray.100", "gray.800");
+
   return (
     <Stack pt="49px">
       <HStack
         position="fixed"
         top={0}
         height="50px"
-        bg="gray.900"
         w="full"
         borderBottom="1px solid"
-        borderColor="gray.800"
+        borderColor={borderBottomColor}
         px={2}
       >
         <HStack gap={0} justify="space-between" w="full">
-          <HStack>
-            <Tag colorScheme="teal">Transactions</Tag>
+          <HStack gap={0}>
             <FilterButtonMenu
               filterGroups={filterGroups}
               appliedFilters={filters}
@@ -217,21 +245,37 @@ export default function TransactionsPage() {
               canUndo={canUndo}
               canRedo={canRedo}
             />
-            <Button
-              colorScheme="cyan"
-              w={["full", "full", "fit-content"]}
-              size="sm"
-              leftIcon={<IconArrowBarToDownDashed size={16} />}
-              onClick={handleNewRow}
-              isLoading={createTransaction.isPending}
-              rightIcon={
-                <Text fontSize="xs" opacity={0.5}>
-                  Ctrl + I
-                </Text>
-              }
-            >
-              {t("transactions.newRow")}
-            </Button>
+            <HStack gap={0}>
+              <Button
+                colorScheme="cyan"
+                w={["full", "full", "fit-content"]}
+                size="sm"
+                leftIcon={<IconArrowBarToDownDashed size={16} />}
+                onClick={handleNewRow}
+                isLoading={createTransaction.isPending}
+                borderRightRadius={0}
+                rightIcon={
+                  <Text fontSize="xs" opacity={0.5}>
+                    Ctrl + I
+                  </Text>
+                }
+              >
+                {t("transactions.newRow")}
+              </Button>
+              <Link to={TRANSACTIONS_PATHS.extract}>
+                <Tooltip label="Upload transactions">
+                  <IconButton
+                    aria-label="Load file from PC"
+                    ml="-1px"
+                    colorScheme="cyan"
+                    size="sm"
+                    borderLeftRadius={0}
+                    icon={<IconFileFilled size={16} />}
+                  />
+                </Tooltip>
+              </Link>
+            </HStack>
+
             <IconButton
               size="sm"
               variant="ghost"
@@ -243,9 +287,9 @@ export default function TransactionsPage() {
           </HStack>
         </HStack>
       </HStack>
-      <HStack align="stretch" overflow="hidden" gap={0}>
+      <HStack align="stretch" overflow="hidden" gap={0} h="calc(100vh - 49px)">
         <Stack gap={0} flex={1} minW={0}>
-          <Charts transactions={filteredTransactions} />
+          <Charts transactions={filteredTransactions} dateRange={dateRange} />
           <TransactionsTable
             data={filteredTransactions || []}
             isLoading={isLoading}
@@ -255,7 +299,8 @@ export default function TransactionsPage() {
             onDisabledRow={handleDisabledRow}
             onAdminCategories={adminCategories.onToggle}
             onAdminAccounts={adminAccounts.onToggle}
-            height="calc(100vh - 175px)"
+            height="calc(100vh - 235px)"
+            focusRowIndex={focusRowIndex}
           />
 
           <DetailsDrawer
@@ -266,9 +311,10 @@ export default function TransactionsPage() {
         </Stack>
         {!isSmallScreen && (
           <Stack
-            w="296px"
-            minW="296px"
-            mr={isRightPanelOpen ? "0px" : "-296px"}
+            w="400px"
+            minW="400px"
+            h="full"
+            mr={isRightPanelOpen ? "0px" : "-400px"}
             transition="margin-right 0.3s ease-in-out"
             overflow="hidden"
           >

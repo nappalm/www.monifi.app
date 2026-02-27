@@ -4,29 +4,19 @@ import {
   TablesInsert,
   TablesUpdate,
 } from "@/lib/supabase/database.types";
-import {
-  useAuthenticatedUser,
-  useUpdateCategory,
-} from "@/shared";
-import {
-  Button,
-  Grid,
-  HStack,
-  Stack,
-  Tag,
-  TagLabel,
-  TagLeftIcon,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { IconBucket, IconPlus } from "@tabler/icons-react";
-import { isEmpty } from "lodash";
+import { useAuthenticatedUser, useUpdateCategory } from "@/shared";
+import { Button, Grid, HStack, Stack, useDisclosure } from "@chakra-ui/react";
+import { IconPlus } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useTransactions } from "../../transactions/hooks/useTransactions";
 import BudgetSelector from "../components/BudgetSelector";
 import BudgetsTable from "../components/BudgetsTable";
 import EmptyBudgets from "../components/EmptyBudgets";
 import NewBudgetModal from "../components/NewBudgetModal";
+import PageLoading from "../components/PageLoading";
 import RightPanel from "../components/RightPanel";
 import {
   useBudgetCategories,
@@ -41,8 +31,6 @@ import {
   useDeleteBudget,
   useUpdateBudget,
 } from "../hooks/useBudgets";
-import { useTransactions } from "../../transactions/hooks/useTransactions";
-import PageLoading from "../components/PageLoading";
 
 type BudgetCategoryRow = {
   id: number;
@@ -162,8 +150,7 @@ export default function BudgetsPage() {
       isLoading: () => deleteBudgetCategory.isPending,
       onOk: () => {
         deleteBudgetCategory.mutate(id, {
-          onSuccess: () =>
-            setData((prev) => prev.filter((r) => r.id !== id)),
+          onSuccess: () => setData((prev) => prev.filter((r) => r.id !== id)),
         });
       },
     });
@@ -188,7 +175,13 @@ export default function BudgetsPage() {
         (old: typeof bcat.data) =>
           old?.map((bc) =>
             bc.categories?.id === updatedData.category_id
-              ? { ...bc, categories: { ...bc.categories, name: updatedData.category_name } }
+              ? {
+                  ...bc,
+                  categories: {
+                    ...bc.categories,
+                    name: updatedData.category_name,
+                  },
+                }
               : bc,
           ),
       );

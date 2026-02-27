@@ -259,7 +259,11 @@
       "account": "Account",
       "type": "Type",
       "description": "Description",
-      "amount": "Amount"
+      "amount": "Amount",
+      "cascadeCategory": {
+        "title": "Apply category to similar rows",
+        "description": "Found {{count}} row(s) with description \"{{description}}\" without a category. Apply the same category?"
+      }
     },
     "menu": {
       "seeDetails": "See details",

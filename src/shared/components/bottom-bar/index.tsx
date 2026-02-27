@@ -7,11 +7,14 @@ import {
   ButtonGroup,
   HStack,
   IconButton,
+  Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
+  IconArrowRight,
   IconBucket,
+  IconChevronRight,
   IconMountain,
   IconSunFilled,
   IconTransactionDollar,
@@ -47,32 +50,16 @@ export default function BottomBar() {
       bg={bg}
       w="full"
       px={2}
+      justify="space-between"
     >
-      <HStack gap={3}>
-        <Link to={SETTINGS_PATHS.base}>
-          <HStack
-            bg={isFree ? "transparent" : border}
-            p="2px"
-            borderRadius="full"
-            gap="1px"
-          >
-            <Avatar
-              src={user?.user_metadata?.avatar_url}
-              size="xs"
-              name={userName}
-              icon={<IconUserFilled size={18} />}
-              bg="transparent"
-            />
-            {!isFree && (
-              <Badge mx={1} borderRadius="full">
-                PRO
-              </Badge>
-            )}
-          </HStack>
-        </Link>
-        <ButtonGroup size="sm" variant="ghost">
+      <HStack>
+        <Text fontFamily="Geist Mono" pl={2} color="gray.500">
+          PAGES
+        </Text>
+        <IconChevronRight size={16} opacity={0.3} />
+        <ButtonGroup size="sm" variant="sidebar">
           <Button
-            variant={isPathActive("/transactions") ? "solid" : "ghost"}
+            isActive={isPathActive("/transactions")}
             leftIcon={<IconTransactionDollar size={16} />}
             onClick={() => handleNavigate("/transactions")}
           >
@@ -80,14 +67,14 @@ export default function BottomBar() {
           </Button>
           <Button
             leftIcon={<IconBucket size={16} />}
-            variant={isPathActive("/budgets") ? "solid" : "ghost"}
+            isActive={isPathActive("/budgets")}
             onClick={() => handleNavigate("/budgets")}
           >
             Budget
           </Button>
           <Button
             leftIcon={<IconMountain size={16} />}
-            variant={isPathActive("/goals") ? "solid" : "ghost"}
+            isActive={isPathActive("/goals")}
             onClick={() => handleNavigate("/goals")}
           >
             Goals
@@ -95,19 +82,40 @@ export default function BottomBar() {
           <Button
             onClick={() => handleNavigate("/statistics")}
             leftIcon={<IconVectorSpline size={16} />}
-            variant={isPathActive("/statistics") ? "solid" : "ghost"}
+            isActive={isPathActive("/statistics")}
           >
             {t("components.topnavbar.statistics")}
           </Button>
+          <IconButton
+            aria-label="Theme toggle"
+            size="sm"
+            variant="ghost"
+            icon={<IconSunFilled size={16} />}
+            onClick={colorMode.toggleColorMode}
+          />
         </ButtonGroup>
-        <IconButton
-          aria-label="Theme toggle"
-          size="sm"
-          variant="ghost"
-          icon={<IconSunFilled size={16} />}
-          onClick={colorMode.toggleColorMode}
-        />
       </HStack>
+      <Link to={SETTINGS_PATHS.base}>
+        <HStack
+          bg={isFree ? "transparent" : border}
+          p="2px"
+          borderRadius="full"
+          gap="1px"
+        >
+          {!isFree && (
+            <Badge mx={1} borderRadius="full">
+              PRO
+            </Badge>
+          )}
+          <Avatar
+            src={user?.user_metadata?.avatar_url}
+            size="xs"
+            name={userName}
+            icon={<IconUserFilled size={18} />}
+            bg="transparent"
+          />
+        </HStack>
+      </Link>
     </HStack>
   );
 }

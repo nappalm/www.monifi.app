@@ -259,7 +259,11 @@
       "account": "Cuenta",
       "type": "Tipo",
       "description": "Descripción",
-      "amount": "Monto"
+      "amount": "Monto",
+      "cascadeCategory": {
+        "title": "Aplicar categoría a filas similares",
+        "description": "Se encontraron {{count}} fila(s) con la descripción «{{description}}» sin categoría asignada. ¿Deseas aplicar la misma categoría?"
+      }
     },
     "menu": {
       "seeDetails": "Ver detalles",
