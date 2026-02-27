@@ -12,7 +12,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
-  IconArrowRight,
   IconBucket,
   IconChevronRight,
   IconMountain,
@@ -54,7 +53,7 @@ export default function BottomBar() {
     >
       <HStack>
         <Text fontFamily="Geist Mono" pl={2} color="gray.500">
-          PAGES
+          {t("components.bottombar.pages")}
         </Text>
         <IconChevronRight size={16} opacity={0.3} />
         <ButtonGroup size="sm" variant="sidebar">
@@ -63,31 +62,31 @@ export default function BottomBar() {
             leftIcon={<IconTransactionDollar size={16} />}
             onClick={() => handleNavigate("/transactions")}
           >
-            {t("components.topnavbar.transactions")}
+            {t("components.bottombar.transactions")}
           </Button>
           <Button
             leftIcon={<IconBucket size={16} />}
             isActive={isPathActive("/budgets")}
             onClick={() => handleNavigate("/budgets")}
           >
-            Budget
+            {t("components.bottombar.budgets")}
           </Button>
           <Button
             leftIcon={<IconMountain size={16} />}
             isActive={isPathActive("/goals")}
             onClick={() => handleNavigate("/goals")}
           >
-            Goals
+            {t("components.bottombar.goals")}
           </Button>
           <Button
             onClick={() => handleNavigate("/statistics")}
             leftIcon={<IconVectorSpline size={16} />}
             isActive={isPathActive("/statistics")}
           >
-            {t("components.topnavbar.statistics")}
+            {t("components.bottombar.statistics")}
           </Button>
           <IconButton
-            aria-label="Theme toggle"
+            aria-label={t("components.bottombar.themeToggle")}
             size="sm"
             variant="ghost"
             icon={<IconSunFilled size={16} />}

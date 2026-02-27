@@ -94,6 +94,7 @@ export default function FilterDateMenu({ onChange }: Props) {
         isDisabled={!hasRange}
         variant="solid"
         borderLeftRadius={0}
+        color="gray.500"
         px={2}
       >
         <IconChevronLeft size={16} />
@@ -118,6 +119,7 @@ export default function FilterDateMenu({ onChange }: Props) {
         onClick={() => shiftRange(1)}
         isDisabled={!hasRange}
         variant="solid"
+        color="gray.500"
         px={2}
       >
         <IconChevronRight size={16} />
