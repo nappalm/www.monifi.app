@@ -31,7 +31,6 @@
       "manageAccounts": "Administrar cuentas"
     },
     "categorySelect": {
-      "placeholder": "Categoría",
       "searchOrCreate": "Buscar o crear",
       "loading": "Cargando...",
       "categories": "Categorías",
