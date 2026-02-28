@@ -26,12 +26,12 @@ export default function TypeSelect({ defaultValue, value, onChange }: Props) {
       {
         value: "income",
         label: t("transactions.types.income"),
-        icon: <IconCircleHalf2 size={13} color={_colors.commons[100]} />,
+        icon: <IconCircleHalf2 size={15} color={_colors.commons[100]} />,
       },
       {
         value: "expense",
         label: t("transactions.types.expense"),
-        icon: <IconCircleDashed size={13} color={_colors.commons[200]} />,
+        icon: <IconCircleDashed size={15} color={_colors.commons[200]} />,
       },
     ],
     [t],

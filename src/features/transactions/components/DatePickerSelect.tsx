@@ -44,6 +44,7 @@ export default function DatePickerSelect({
         borderRadius="inherit"
         textAlign="left"
         textTransform="uppercase"
+        fontFamily="Geist Mono"
         pl={2}
         _focus={{
           outline: "none",
