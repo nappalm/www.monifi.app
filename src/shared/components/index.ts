@@ -18,3 +18,4 @@ export * from "./carousel";
 export * from "./button-spinner";
 export * from "./hatch-bar";
 export * from "./virtual-data-grid";
+export * from "./page-loading";
