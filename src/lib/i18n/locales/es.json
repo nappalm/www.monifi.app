@@ -267,6 +267,10 @@
         "description": "Se encontraron {{count}} fila(s) con la descripción «{{description}}» sin categoría asignada. ¿Deseas aplicar la misma categoría?"
       }
     },
+    "emptyState": {
+      "noTransactions": "No se encontraron transacciones",
+      "addFirst": "Agregar mi primera transacción"
+    },
     "menu": {
       "seeDetails": "Ver detalles",
       "enable": "Habilitar",
