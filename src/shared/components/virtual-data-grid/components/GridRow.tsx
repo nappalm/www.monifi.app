@@ -54,6 +54,7 @@ function GridRowComponent<T extends DataRow>({
   setSelectedRow,
 }: GridRowProps<T>) {
   const isOdd = rowIndex % 2 === 0;
+  const isLastRow = rowIndex === totalRows - 1;
   const isRowSelected = selectedRow === rowIndex;
 
   const stripeBg = useColorModeValue("gray.100", "gray.900");
@@ -78,6 +79,10 @@ function GridRowComponent<T extends DataRow>({
       display="flex"
       alignItems="stretch"
       bg={isRowSelected ? selectedBg : isOdd ? stripeBg : "transparent"}
+      {...(isLastRow && {
+        borderBottom: "1px dashed",
+        borderColor: borderColor,
+      })}
       sx={{
         ...(row.enabled === false && { opacity: 0.5 }),
       }}
