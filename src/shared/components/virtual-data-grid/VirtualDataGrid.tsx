@@ -23,6 +23,7 @@ export function VirtualDataGrid<T extends DataRow>(
     enableFilter = false,
     enableSelection = false,
     renderMenu,
+    emptyState,
   } = props;
 
   const {
@@ -96,7 +97,7 @@ export function VirtualDataGrid<T extends DataRow>(
             totalWidth={totalWidth}
           />
         ) : data.length === 0 ? (
-          <EmptyState height={height} />
+          <EmptyState height={height} emptyState={emptyState} />
         ) : (
           <GridBody
             virtualItems={virtualizer.getVirtualItems()}

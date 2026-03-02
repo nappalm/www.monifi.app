@@ -30,6 +30,7 @@ export const GridHeader = memo(function GridHeader({
 
   const headerBg = useColorModeValue("gray.200", "gray.900");
   const headerColor = useColorModeValue("gray.600", "gray.400");
+  const headerBorderColor = useColorModeValue("gray.300", "gray.700");
 
   const fullWidth = totalWidth + (showRowNumber ? rowNumberWidth : 0);
 
@@ -44,6 +45,8 @@ export const GridHeader = memo(function GridHeader({
       display="flex"
       bg={headerBg}
       color={headerColor}
+      borderBottom="1px dashed"
+      borderBottomColor={headerBorderColor}
       fontFamily="'Geist Mono', monospace"
       fontWeight={400}
       textTransform="uppercase"
