@@ -4,7 +4,7 @@ import { runIfFn } from "../utils/run-if-fn";
 
 const baseStyle = defineStyle({
   lineHeight: "1.2",
-  borderRadius: "xl",
+  borderRadius: "sm",
   fontWeight: 500,
   transitionProperty: "common",
   transitionDuration: "normal",
@@ -103,16 +103,16 @@ const variantSolid = defineStyle((props) => {
 
     return {
       bg,
-      color: mode(`gray.900`, `gray.100`)(props),
+      color: mode(`gray.600`, `gray.300`)(props),
       border: "1px solid",
       borderColor: mode("gray.300", "gray.800")(props),
       // outline: "1px solid",
       // outlineColor: mode("gray.200", "gray.800")(props),
       // outlineOffset: "2px",
-      boxShadow: mode(
-        "inset 1px 1px 0px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
-        "inset 1px 1px 0px rgba(255, 255, 255, 0.1), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
-      )(props),
+      // boxShadow: mode(
+      //   "inset 1px 1px 0px rgba(255, 255, 255, 0.5), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
+      //   "inset 1px 1px 0px rgba(255, 255, 255, 0.1), inset -1px -1px 0px rgba(0, 0, 0, 0.1)",
+      // )(props),
       _hover: {
         bg: mode(`gray.200`, `gray.800`)(props),
         _disabled: {
