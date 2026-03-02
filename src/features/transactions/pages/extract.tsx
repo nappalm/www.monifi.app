@@ -1,16 +1,25 @@
 import { Tables } from "@/lib/supabase/database.types";
-import { AccountsDrawer, ButtonSpinner, CategoriesDrawer } from "@/shared";
 import {
+  AccountsDrawer,
+  ButtonSpinner,
+  CategoriesDrawer,
+  HatchBar,
+} from "@/shared";
+import {
+  Badge,
   Button,
+  Card,
+  CardBody,
   Container,
-  Heading,
   HStack,
   IconButton,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IconX } from "@tabler/icons-react";
+import { IconCube, IconX } from "@tabler/icons-react";
+import { useGlobalUI } from "@/lib/global-ui";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import LoadFilePC from "../components/LoadFilePC";
@@ -34,6 +43,7 @@ export default function ExtractPage() {
   const transactionExtract = useTransactionExtract();
   const createBulkTransactions = useCreateBulkTransactions();
 
+  const { alert } = useGlobalUI();
   const adminCategories = useDisclosure();
   const adminAccounts = useDisclosure();
 
@@ -42,6 +52,7 @@ export default function ExtractPage() {
     null,
   );
   const [duplicateKeys, setDuplicateKeys] = useState<Set<string>>(new Set());
+  const [isPanelReady, setIsPanelReady] = useState(false);
 
   const extractDateRange = useMemo<[string, string] | null>(() => {
     if (!transactionExtract.isSuccess || !transactionExtract.data.data.length)
@@ -63,6 +74,7 @@ export default function ExtractPage() {
   useEffect(() => {
     if (!transactionExtract.isSuccess) return;
 
+    setIsPanelReady(false);
     setTableData(
       transactionExtract.data.data.map(({ date, ...item }, index) => ({
         id: index + 1,
@@ -75,6 +87,10 @@ export default function ExtractPage() {
     );
     setDuplicateKeys(new Set());
   }, [transactionExtract.data, transactionExtract.isSuccess]);
+
+  useEffect(() => {
+    if (tableData.length > 0) setIsPanelReady(true);
+  }, [tableData.length]);
 
   // Detect duplicates when existing transactions are available
   useEffect(() => {
@@ -103,9 +119,30 @@ export default function ExtractPage() {
     transactionExtract.mutate({ file });
   };
 
-  const handleSave = () => {
+  const doSave = () => {
     const request = tableData.map(({ id, ...rest }) => rest);
     createBulkTransactions.mutate(request);
+  };
+
+  const handleSave = () => {
+    const warnings: string[] = [];
+    if (duplicateCount > 0)
+      warnings.push(`${duplicateCount} fila(s) podrían estar duplicadas`);
+    if (uncategorizedCount > 0)
+      warnings.push(`${uncategorizedCount} fila(s) sin categoría`);
+    if (noAccountCount > 0)
+      warnings.push(`${noAccountCount} fila(s) sin cuenta`);
+
+    if (warnings.length > 0) {
+      alert.onOpen({
+        title: "¿Estás seguro de guardar?",
+        description: warnings.join(" · "),
+        colorScheme: "orange",
+        onOk: doSave,
+      });
+    } else {
+      doSave();
+    }
   };
 
   const handleUpdateRow = useCallback((data: Tables<"transactions">) => {
@@ -132,72 +169,26 @@ export default function ExtractPage() {
     );
   }, []);
 
+  const totalRows = tableData.length;
+
+  const duplicateCount = useMemo(
+    () =>
+      tableData.filter((t) => duplicateKeys.has(getTransactionKey(t))).length,
+    [tableData, duplicateKeys],
+  );
+
+  const uncategorizedCount = useMemo(
+    () => tableData.filter((t) => t.category_id === null).length,
+    [tableData],
+  );
+
+  const noAccountCount = useMemo(
+    () => tableData.filter((t) => t.account_id === null).length,
+    [tableData],
+  );
+
   return (
-    <>
-      <Stack>
-        <HStack justify="space-between">
-          <Stack gap={1}>
-            <Heading size="lg">Extrae información de tu archivo</Heading>
-            <Text opacity={0.5}>
-              Carga tu estado de cuenta y obtén automáticamente los datos clave
-              listos para analizar.
-            </Text>
-          </Stack>
-          {transactionExtract.isSuccess && (
-            <HStack>
-              <Button
-                colorScheme="cyan"
-                variant="solid"
-                isLoading={createBulkTransactions.isPending}
-                onClick={handleSave}
-                spinner={<ButtonSpinner />}
-                loadingText="Guardando transacciones"
-              >
-                Save transactions
-              </Button>
-              <IconButton
-                aria-label="Cancel extract file"
-                icon={<IconX size={16} />}
-              />
-            </HStack>
-          )}
-        </HStack>
-        {!transactionExtract.isSuccess && (
-          <Container mt={20} maxWidth="container.md">
-            <LoadFilePC
-              onContinue={handleExtract}
-              isLoading={transactionExtract.isPending}
-            />
-          </Container>
-        )}
-
-        {transactionExtract.isSuccess && (
-          <>
-            {duplicateKeys.size > 0 && (
-              <Text color="orange.300" fontSize="sm">
-                {
-                  tableData.filter((t) =>
-                    duplicateKeys.has(getTransactionKey(t)),
-                  ).length
-                }{" "}
-                transacción(es) duplicada(s) detectada(s) y deshabilitada(s).
-              </Text>
-            )}
-            <TransactionsTable
-              data={tableData}
-              isLoading={transactionExtract.isPending}
-              duplicateKeys={duplicateKeys}
-              onRowChange={handleUpdateRow}
-              onRemoveRow={handleRemoveRow}
-              onSeeDetailsRow={handleSeeDetailsRow}
-              onDisabledRow={handleDisabledRow}
-              onAdminCategories={adminCategories.onToggle}
-              onAdminAccounts={adminAccounts.onToggle}
-            />
-          </>
-        )}
-      </Stack>
-
+    <HStack align="stretch" overflow="hidden" gap={1}>
       <DetailsDrawer
         isOpen={!!detailsRow}
         onClose={() => setDetailsRow(null)}
@@ -205,6 +196,138 @@ export default function ExtractPage() {
       />
       <CategoriesDrawer {...adminCategories} />
       <AccountsDrawer {...adminAccounts} />
-    </>
+
+      <AnimatePresence>
+        {isPanelReady && (
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: 300 }}
+            exit={{ width: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ overflow: "hidden", flexShrink: 0, display: "flex" }}
+          >
+            <Stack justify="space-between" w="300px" minW="300px">
+              <Stack gap={1} pl={1} pt={1}>
+                <Card variant="solid">
+                  <CardBody>
+                    <HStack gap={5}>
+                      <IconCube />
+                      <Stack gap={0}>
+                        <Text fontFamily="Geist Mono">
+                          {transactionExtract.data?.filename ?? "FILE.PDF"}
+                        </Text>
+                        <Text fontSize="sm" color="gray.500">
+                          {totalRows} rows
+                        </Text>
+                      </Stack>
+                    </HStack>
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardBody>
+                    <Stack>
+                      <Text fontFamily="Geist Mono" textTransform="uppercase">
+                        Filas repetidas:
+                      </Text>
+                      <HStack>
+                        <HatchBar value={duplicateCount} max={totalRows} />
+                        <Badge
+                          colorScheme={duplicateCount > 0 ? "orange" : "teal"}
+                        >
+                          {duplicateCount} rows
+                        </Badge>
+                      </HStack>
+                      <Text color="gray.500" fontSize="xs">
+                        Transacciones con la misma fecha y descripción que
+                        podrían ya estar registradas. Revísalas — puede ser un
+                        duplicado real o dos compras legítimas el mismo día.
+                      </Text>
+                    </Stack>
+                  </CardBody>
+                </Card>
+
+                <Card>
+                  <CardBody>
+                    <Stack>
+                      <Text fontFamily="Geist Mono" textTransform="uppercase">
+                        Filas sin categorizar:
+                      </Text>
+                      <HStack>
+                        <HatchBar value={uncategorizedCount} max={totalRows} />
+                        <Badge
+                          colorScheme={
+                            uncategorizedCount > 0 ? "orange" : "teal"
+                          }
+                        >
+                          {uncategorizedCount} rows
+                        </Badge>
+                      </HStack>
+                      <Text color="gray.500" fontSize="xs">
+                        Asignar una categoría ayuda a clasificar y analizar tus
+                        gastos.
+                      </Text>
+                    </Stack>
+                  </CardBody>
+                </Card>
+
+                <Card>
+                  <CardBody>
+                    <Stack>
+                      <Text fontFamily="Geist Mono" textTransform="uppercase">
+                        Filas sin cuenta:
+                      </Text>
+                      <HStack>
+                        <HatchBar value={noAccountCount} max={totalRows} />
+                        <Badge
+                          colorScheme={noAccountCount > 0 ? "orange" : "teal"}
+                        >
+                          {noAccountCount} rows
+                        </Badge>
+                      </HStack>
+                      <Text color="gray.500" fontSize="xs">
+                        La cuenta indica de dónde proviene el ingreso o gasto.
+                      </Text>
+                    </Stack>
+                  </CardBody>
+                </Card>
+                <Button
+                  variant="solid"
+                  colorScheme="teal"
+                  m={1}
+                  onClick={handleSave}
+                >
+                  Guardar transacciones
+                </Button>
+              </Stack>
+              <Stack p={5}>
+                <Text color="gray.500" fontSize="sm">
+                  Al guardar, las transacciones quedarán registradas y
+                  disponibles en el historial de transacciones.
+                </Text>
+              </Stack>
+            </Stack>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <Stack flex={1} minW={0}>
+        <TransactionsTable
+          data={tableData}
+          isLoading={transactionExtract.isPending}
+          onRowChange={handleUpdateRow}
+          onRemoveRow={handleRemoveRow}
+          onSeeDetailsRow={handleSeeDetailsRow}
+          onDisabledRow={handleDisabledRow}
+          onAdminCategories={adminCategories.onToggle}
+          onAdminAccounts={adminAccounts.onToggle}
+          height="calc(100vh - 45px)"
+          emptyState={
+            <LoadFilePC
+              onContinue={handleExtract}
+              isLoading={transactionExtract.isPending}
+            />
+          }
+        />
+      </Stack>
+    </HStack>
   );
 }

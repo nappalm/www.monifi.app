@@ -10,6 +10,7 @@ import {
   CategoriesDrawer,
   FilterButtonMenu,
   FilterDateMenu,
+  PageLoading,
   UndoRedoButtons,
   useAccounts,
   useCategories,
@@ -30,8 +31,10 @@ import {
 import {
   IconArrowBarToDownDashed,
   IconFileFilled,
+  IconLayoutListFilled,
   IconLayoutSidebarRightFilled,
   IconLineHeight,
+  IconPlus,
   IconReceiptDollarFilled,
   IconTagFilled,
 } from "@tabler/icons-react";
@@ -50,7 +53,11 @@ import { getNewTransaction } from "../utils/helpers";
 export default function TransactionsPage() {
   const { t } = useTranslation();
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
-  const { data: transactions, isLoading } = useTransactions(dateRange);
+  const {
+    data: transactions,
+    isLoading,
+    isPending,
+  } = useTransactions(dateRange);
 
   const createTransaction = useCreateTransaction();
   const updateTransaction = useUpdateTransaction();
@@ -287,12 +294,12 @@ export default function TransactionsPage() {
           </HStack>
         </HStack>
       </HStack>
-      <HStack align="stretch" overflow="hidden" gap={0} h="calc(100vh - 49px)">
+      <HStack align="stretch" overflow="hidden" gap={0} h="calc(100vh - 92px)">
         <Stack gap={0} flex={1} minW={0}>
           <Charts transactions={filteredTransactions} dateRange={dateRange} />
           <TransactionsTable
             data={filteredTransactions || []}
-            isLoading={isLoading}
+            isLoading={isPending}
             onRowChange={handleUpdateRow}
             onRemoveRow={handleRemoveRow}
             onSeeDetailsRow={handleSeeDetailsRow}
@@ -301,6 +308,24 @@ export default function TransactionsPage() {
             onAdminAccounts={adminAccounts.onToggle}
             height="calc(100vh - 235px)"
             focusRowIndex={focusRowIndex}
+            emptyState={
+              <Stack align="center" color="gray.500">
+                <IconLayoutListFilled />
+                <Text>{t("transactions.emptyState.noTransactions")}</Text>
+                <Button
+                  leftIcon={<IconPlus size={16} />}
+                  onClick={handleNewRow}
+                  variant="solid"
+                  rightIcon={
+                    <Text fontSize="xs" opacity={0.5}>
+                      Ctrl + I
+                    </Text>
+                  }
+                >
+                  {t("transactions.emptyState.addFirst")}
+                </Button>
+              </Stack>
+            }
           />
 
           <DetailsDrawer

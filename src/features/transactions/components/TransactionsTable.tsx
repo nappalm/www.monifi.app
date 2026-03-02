@@ -5,7 +5,14 @@ import {
   VirtualDataGrid,
   type GridColumn,
 } from "@/shared/components/virtual-data-grid";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import DatePickerSelect from "./DatePickerSelect";
 import TableRowMenu from "./TableRowMenu";
@@ -22,6 +29,7 @@ type Props = {
   onDisabledRow: (id: number, previous: boolean) => void;
   height?: string;
   focusRowIndex?: number | null;
+  emptyState?: ReactNode;
 };
 
 export default function TransactionsTable({
@@ -35,6 +43,7 @@ export default function TransactionsTable({
   onAdminAccounts,
   height,
   focusRowIndex,
+  emptyState,
 }: Props) {
   const { t } = useTranslation();
   const { alert: globalAlert } = useGlobalUI();
@@ -233,8 +242,9 @@ export default function TransactionsTable({
       height={height}
       rowHeight={30}
       overscan={5}
-      currency="MXN"
+      currency="MXN" // FIXME: multi currency
       focusRowIndex={focusRowIndex}
+      emptyState={emptyState}
     />
   );
 }

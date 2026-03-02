@@ -3,9 +3,11 @@ import { useCategories } from "@/shared";
 import { useTranslation } from "react-i18next";
 import { HatchBar } from "@/shared/components/hatch-bar";
 import {
+  Badge,
   Card,
   CardBody,
   Divider,
+  HStack,
   SimpleGrid,
   Stack,
   Text,
@@ -56,9 +58,13 @@ export default function RightPanel({ transactions = [] }: Props) {
 
     return Object.entries(totals)
       .map(([id, amount]) => {
-        if (id === "uncategorized") return { name: t("transactions.summary.uncategorized"), amount };
+        if (id === "uncategorized")
+          return { name: t("transactions.summary.uncategorized"), amount };
         const cat = categories?.find((c) => c.id === Number(id));
-        return { name: cat?.name ?? t("transactions.summary.uncategorized"), amount };
+        return {
+          name: cat?.name ?? t("transactions.summary.uncategorized"),
+          amount,
+        };
       })
       .sort((a, b) => b.amount - a.amount);
   }, [transactions, categories, t]);
@@ -84,7 +90,9 @@ export default function RightPanel({ transactions = [] }: Props) {
       {/* Top categorías — scroll interno */}
       <Stack gap={0} flex={1} overflow="hidden">
         <Stack px={4} pt={4} pb={2} flexShrink={0}>
-          <SectionLabel>{t("statistics.charts.spendingByCategory")}</SectionLabel>
+          <SectionLabel>
+            {t("statistics.charts.spendingByCategory")}
+          </SectionLabel>
         </Stack>
 
         <SimpleGrid columns={2} gap={2} px={4} pb={4} overflowY="auto">
@@ -123,6 +131,26 @@ export default function RightPanel({ transactions = [] }: Props) {
         <SectionLabel>{t("transactions.charts.distribution")}</SectionLabel>
         <ExpensesVsIncomes transactions={transactions} />
       </Stack>
+      <Card borderRadius={0} ml="-1px" cursor="pointer">
+        <CardBody>
+          <HStack justify="space-between">
+            <Stack gap={0}>
+              <Text fontSize="lg">UPLOAD TRANSACTIONS</Text>
+              <Text fontSize="sm" color="gray.500">
+                Click to upload file
+              </Text>
+            </Stack>
+
+            <Stack gap={0} align="end">
+              <HStack gap={1}>
+                <Badge>PDF</Badge>
+                <Text color="gray.500">/</Text>
+                <Badge>XLS</Badge>
+              </HStack>
+            </Stack>
+          </HStack>
+        </CardBody>
+      </Card>
     </Stack>
   );
 }
