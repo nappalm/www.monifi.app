@@ -4,7 +4,7 @@ import {
   TablesInsert,
   TablesUpdate,
 } from "@/lib/supabase/database.types";
-import { useAuthenticatedUser, useUpdateCategory } from "@/shared";
+import { PageLoading, useAuthenticatedUser, useUpdateCategory } from "@/shared";
 import { Button, Grid, HStack, Stack, useDisclosure } from "@chakra-ui/react";
 import { IconPlus } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,7 +16,6 @@ import BudgetSelector from "../components/BudgetSelector";
 import BudgetsTable from "../components/BudgetsTable";
 import EmptyBudgets from "../components/EmptyBudgets";
 import NewBudgetModal from "../components/NewBudgetModal";
-import PageLoading from "../components/PageLoading";
 import RightPanel from "../components/RightPanel";
 import {
   useBudgetCategories,
