@@ -5,9 +5,15 @@ type Props = {
   value: number;
   max: number;
   height?: string;
+  isReverse?: boolean;
 };
 
-export function HatchBar({ value, max, height = "14px" }: Props) {
+export function HatchBar({
+  value,
+  max,
+  height = "14px",
+  isReverse = false,
+}: Props) {
   const id = useId();
   const patternId = `hatch-pattern-${id.replace(/:/g, "")}`;
   const barFill = useColorModeValue(
@@ -25,7 +31,7 @@ export function HatchBar({ value, max, height = "14px" }: Props) {
   const percentage = max > 0 ? Math.min((value / max) * 100, 100) : 0;
 
   return (
-    <Box w="full" h={height} overflow="hidden" borderRadius="4px">
+    <Box w="full" h={height} overflow="hidden" borderRadius="sm">
       <svg width="100%" height={height} shapeRendering="crispEdges">
         <defs>
           <pattern
@@ -40,7 +46,12 @@ export function HatchBar({ value, max, height = "14px" }: Props) {
           </pattern>
         </defs>
         <rect width="100%" height={height} fill={`url(#${patternId})`} />
-        <rect width={`${percentage}%`} height={height} fill={barFill} />
+        <rect
+          x={isReverse ? `${100 - percentage}%` : 0}
+          width={`${percentage}%`}
+          height={height}
+          fill={barFill}
+        />
       </svg>
     </Box>
   );
