@@ -52,15 +52,19 @@ export function useGridNavigation({
 
       switch (event.key) {
         case "ArrowUp":
+          if (isEditing) break;
           move(-1, 0);
           break;
         case "ArrowDown":
+          if (isEditing) break;
           move(1, 0);
           break;
         case "ArrowLeft":
+          if (isEditing) break;
           move(0, -1);
           break;
         case "ArrowRight":
+          if (isEditing) break;
           move(0, 1);
           break;
         case "Tab": {
