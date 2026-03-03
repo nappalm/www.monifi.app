@@ -98,7 +98,10 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
 
     return {
       currentBalance: cumulativeBalance,
-      chartData: cumulativeData.length > 0 ? cumulativeData : [{ value: 0 }],
+      chartData:
+        cumulativeData.length > 0
+          ? cumulativeData
+          : [{ value: 0, date: new Date().toISOString().split("T")[0] }],
       percentageChange: change,
     };
   }, [transactions]);

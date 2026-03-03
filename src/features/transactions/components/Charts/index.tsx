@@ -1,5 +1,4 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import ExpensesChart from "./ExpensesChart";
 import CategoriesChart from "./CategoriesChart";
 import ExpensesVsIncomes from "./ExpensesVsIncomes";
 import MonthlyBarChart from "./MonthlyBarChart";

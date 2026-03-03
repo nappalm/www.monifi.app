@@ -10,7 +10,6 @@ import {
   CategoriesDrawer,
   FilterButtonMenu,
   FilterDateMenu,
-  PageLoading,
   UndoRedoButtons,
   useAccounts,
   useCategories,
@@ -37,10 +36,11 @@ import {
   IconPlus,
   IconReceiptDollarFilled,
   IconTagFilled,
+  IconUpload,
 } from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Charts from "../components/Charts";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import RightPanel from "../components/RightPanel";
@@ -52,12 +52,9 @@ import { getNewTransaction } from "../utils/helpers";
 
 export default function TransactionsPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
-  const {
-    data: transactions,
-    isLoading,
-    isPending,
-  } = useTransactions(dateRange);
+  const { data: transactions, isPending } = useTransactions(dateRange);
 
   const createTransaction = useCreateTransaction();
   const updateTransaction = useUpdateTransaction();
@@ -143,6 +140,10 @@ export default function TransactionsPage() {
   const handleNewRow = () => {
     createTransaction.mutate(getNewTransaction());
     setFocusPending(true);
+  };
+
+  const handleLoadFile = () => {
+    navigate(TRANSACTIONS_PATHS.extract);
   };
 
   // Once the optimistic row appears in filteredTransactions (it has no id yet), focus it
@@ -269,18 +270,17 @@ export default function TransactionsPage() {
               >
                 {t("transactions.newRow")}
               </Button>
-              <Link to={TRANSACTIONS_PATHS.extract}>
-                <Tooltip label="Upload transactions">
-                  <IconButton
-                    aria-label="Load file from PC"
-                    ml="-1px"
-                    colorScheme="cyan"
-                    size="sm"
-                    borderLeftRadius={0}
-                    icon={<IconFileFilled size={16} />}
-                  />
-                </Tooltip>
-              </Link>
+              <Tooltip label="Upload transactions">
+                <IconButton
+                  aria-label="Load file from PC"
+                  ml="-1px"
+                  colorScheme="cyan"
+                  size="sm"
+                  borderLeftRadius={0}
+                  icon={<IconFileFilled size={16} />}
+                  onClick={handleLoadFile}
+                />
+              </Tooltip>
             </HStack>
 
             <IconButton
@@ -312,18 +312,28 @@ export default function TransactionsPage() {
               <Stack align="center" color="gray.500">
                 <IconLayoutListFilled />
                 <Text>{t("transactions.emptyState.noTransactions")}</Text>
-                <Button
-                  leftIcon={<IconPlus size={16} />}
-                  onClick={handleNewRow}
-                  variant="solid"
-                  rightIcon={
-                    <Text fontSize="xs" opacity={0.5}>
-                      Ctrl + I
-                    </Text>
-                  }
-                >
-                  {t("transactions.emptyState.addFirst")}
-                </Button>
+                <HStack>
+                  <Button
+                    leftIcon={<IconPlus size={16} />}
+                    onClick={handleNewRow}
+                    variant="solid"
+                    rightIcon={
+                      <Text fontSize="xs" opacity={0.5}>
+                        Ctrl + I
+                      </Text>
+                    }
+                  >
+                    {t("transactions.emptyState.addRow")}
+                  </Button>
+                  <Text>{t("transactions.emptyState.or")}</Text>
+                  <Button
+                    leftIcon={<IconUpload size={16} />}
+                    variant="solid"
+                    onClick={handleLoadFile}
+                  >
+                    {t("transactions.emptyState.uploadFile")}
+                  </Button>
+                </HStack>
               </Stack>
             }
           />
