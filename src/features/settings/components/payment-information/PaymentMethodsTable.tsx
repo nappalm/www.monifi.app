@@ -13,7 +13,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { PaymentMethod } from "@stripe/stripe-js";
-import { IconCreditCardFilled } from "@tabler/icons-react";
+import { CreditCard } from "pixelarticons/react";
 import { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -53,7 +53,7 @@ export default function PaymentMethodsTable({
             <Tr key={item.id}>
               <Td>
                 <HStack>
-                  <IconCreditCardFilled size={18} />
+                  <CreditCard width={18} height={18} />
                   <Text>{item.card?.brand?.toUpperCase()}</Text>
                 </HStack>
               </Td>

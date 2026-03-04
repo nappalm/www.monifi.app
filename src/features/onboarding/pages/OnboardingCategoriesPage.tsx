@@ -7,11 +7,7 @@ import {
   useUpdateCategory,
 } from "@/shared/hooks/useCategories";
 import { Button, Container, HStack, Stack, useToast } from "@chakra-ui/react";
-import {
-  IconArrowNarrowRight,
-  IconRowInsertBottom,
-  IconStack2,
-} from "@tabler/icons-react";
+import { ArrowRight, Blocks, SectionPlus } from "pixelarticons/react";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -142,7 +138,7 @@ export default function OnboardingCategoriesPage() {
               <Button
                 size="sm"
                 variant="solid"
-                leftIcon={<IconStack2 size={16} />}
+                leftIcon={<Blocks width={16} height={16} />}
                 onClick={handlePreloadCategories}
               >
                 Preload categories
@@ -151,7 +147,7 @@ export default function OnboardingCategoriesPage() {
                 size="sm"
                 variant="outline"
                 colorScheme="teal"
-                leftIcon={<IconRowInsertBottom size={16} />}
+                leftIcon={<SectionPlus width={16} height={16} />}
                 onClick={handleAddNewRow}
               >
                 Add new row
@@ -169,7 +165,7 @@ export default function OnboardingCategoriesPage() {
                 colorScheme="cyan"
                 variant="solid"
                 onClick={handleNext}
-                rightIcon={<IconArrowNarrowRight size={16} />}
+                rightIcon={<ArrowRight width={16} height={16} />}
                 isLoading={bulkCreateMutation.isPending}
                 spinner={<ButtonSpinner />}
                 loadingText={t("common.continue") + "..."}

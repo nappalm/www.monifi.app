@@ -7,7 +7,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IconChevronDown } from "@tabler/icons-react";
+import { ChevronDown } from "pixelarticons/react";
 import { getDaysInMonth } from "date-fns";
 import { Controller, useFormContext } from "react-hook-form";
 import RHFError from "./RHFError";
@@ -75,7 +75,7 @@ export default function RHFDayMonth({ label, dayName, monthName }: Props) {
               <Select
                 height="48px"
                 placeholder="Día"
-                icon={<IconChevronDown size={18} />}
+                icon={<ChevronDown width={18} height={18} />}
                 variant="unstyled"
                 px={4}
                 flex={1}
@@ -97,7 +97,7 @@ export default function RHFDayMonth({ label, dayName, monthName }: Props) {
               <Select
                 height="48px"
                 placeholder="Mes"
-                icon={<IconChevronDown size={18} />}
+                icon={<ChevronDown width={18} height={18} />}
                 variant="unstyled"
                 px={4}
                 flex={1}

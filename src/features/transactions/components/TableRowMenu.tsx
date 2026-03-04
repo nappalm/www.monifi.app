@@ -7,13 +7,7 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import {
-  IconDots,
-  IconSwipe,
-  IconToggleLeftFilled,
-  IconToggleRightFilled,
-  IconTrash,
-} from "@tabler/icons-react";
+import { Delete, Hand, MoreVertical, Switch } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -40,19 +34,19 @@ export default function TableRowMenu({
         size="xs"
         variant="unstyled"
         pl="7px"
-        icon={<IconDots size={16} />}
+        icon={<MoreVertical width={16} height={16} />}
       />
       <Portal>
         <MenuList>
-          <MenuItem icon={<IconSwipe size={16} />} onClick={onSeeDetails}>
+          <MenuItem icon={<Hand width={16} height={16} />} onClick={onSeeDetails}>
             {t("transactions.menu.seeDetails")}
           </MenuItem>
           <MenuItem
             icon={
               isDisabled ? (
-                <IconToggleRightFilled size={16} />
+                <Switch width={16} height={16} />
               ) : (
-                <IconToggleLeftFilled size={16} />
+                <Switch width={16} height={16} />
               )
             }
             onClick={onDisabled}
@@ -63,7 +57,7 @@ export default function TableRowMenu({
           </MenuItem>
           <MenuDivider />
           <MenuItem
-            icon={<IconTrash size={16} />}
+            icon={<Delete width={16} height={16} />}
             color="red.500"
             onClick={onDelete}
           >

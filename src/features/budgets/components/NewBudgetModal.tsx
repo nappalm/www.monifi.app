@@ -14,7 +14,7 @@ import {
   UseDisclosureProps,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IconTrashFilled } from "@tabler/icons-react";
+import { Delete } from "pixelarticons/react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -95,7 +95,7 @@ export default function NewBudgetModal({
                 onClick={onDelete}
                 isLoading={isLoadingDelete}
                 isDisabled={isLoading}
-                leftIcon={<IconTrashFilled size={16} />}
+                leftIcon={<Delete width={16} height={16} />}
                 position="absolute"
                 top={2}
                 right={2}

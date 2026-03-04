@@ -1,5 +1,5 @@
 import { Box, HStack, IconButton } from "@chakra-ui/react";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { ChevronLeft, ChevronRight } from "pixelarticons/react";
 import { Children, ReactNode, useEffect, useRef, useState } from "react";
 
 interface CarouselProps {
@@ -130,7 +130,7 @@ export default function Carousel({
           {/* Previous Button */}
           <IconButton
             aria-label="Previous slide"
-            icon={<IconChevronLeft size={16} />}
+            icon={<ChevronLeft width={16} height={16} />}
             position="absolute"
             left={4}
             top="50%"
@@ -143,7 +143,7 @@ export default function Carousel({
           {/* Next Button */}
           <IconButton
             aria-label="Next slide"
-            icon={<IconChevronRight size={16} />}
+            icon={<ChevronRight width={16} height={16} />}
             position="absolute"
             right={4}
             top="50%"

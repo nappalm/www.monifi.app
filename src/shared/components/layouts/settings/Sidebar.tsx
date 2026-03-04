@@ -10,13 +10,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {
-  IconAsterisk,
-  IconChevronDown,
-  IconChevronUp,
-  IconFingerprint,
-  IconForbid,
-  IconUserSquareRounded,
-} from "@tabler/icons-react";
+  AvatarSquare,
+  Cancel,
+  ChevronDown,
+  ChevronUp,
+  Hash,
+  Lock,
+} from "pixelarticons/react";
 import { FC, ReactElement, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
@@ -28,7 +28,8 @@ type ButtonProps = {
 };
 
 type IconProps = {
-  size: number;
+  width: number;
+  height: number;
   color: string;
 };
 
@@ -54,14 +55,15 @@ const buttonProps: ButtonProps = {
 };
 
 const iconProps: IconProps = {
-  size: 17,
+  width: 17,
+  height: 17,
   color: "#52525B",
 };
 
 const sidebarItems = (_subscription: string, t: any): SidebarItem[] => [
   {
     title: t("components.settingsSidebar.profile"),
-    icon: <IconUserSquareRounded {...iconProps} />,
+    icon: <AvatarSquare {...iconProps} />,
     path: SETTINGS_PATHS.myProfile,
   },
   // {
@@ -91,17 +93,17 @@ const sidebarItems = (_subscription: string, t: any): SidebarItem[] => [
   {
     title: t("components.settingsSidebar.authentication"),
     path: SETTINGS_PATHS.authentication,
-    icon: <IconFingerprint {...iconProps} />,
+    icon: <Lock {...iconProps} />,
   },
   {
     title: t("components.settingsSidebar.changePassword"),
     path: SETTINGS_PATHS.changePassword,
-    icon: <IconAsterisk {...iconProps} />,
+    icon: <Hash {...iconProps} />,
   },
   {
     title: t("components.settingsSidebar.deleteAccount"),
     path: SETTINGS_PATHS.deleteAccount,
-    icon: <IconForbid {...iconProps} />,
+    icon: <Cancel {...iconProps} />,
   },
 ];
 
@@ -145,9 +147,9 @@ const Sidebar: FC = () => {
                 w="full"
                 rightIcon={
                   isOpen ? (
-                    <IconChevronUp size={16} />
+                    <ChevronUp width={16} height={16} />
                   ) : (
-                    <IconChevronDown size={16} />
+                    <ChevronDown width={16} height={16} />
                   )
                 }
                 onClick={() => handleToggleSubmenu(item.title)}

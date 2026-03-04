@@ -1,6 +1,6 @@
 import { Column, InlineEditorGrid } from "@/shared";
 import { IconButton, Stack } from "@chakra-ui/react";
-import { IconTrashFilled } from "@tabler/icons-react";
+import { Delete } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import { CategoriesLocalData } from "../utils/types";
 
@@ -47,7 +47,7 @@ export default function OnboardingCategoriesTable({
       },
       render: (_, row) => (
         <IconButton
-          icon={<IconTrashFilled size={16} />}
+          icon={<Delete width={16} height={16} />}
           variant="ghost"
           bg="transparent"
           _hover={{

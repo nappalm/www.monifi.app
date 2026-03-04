@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { IconDiamondFilled } from "@tabler/icons-react";
+import { DiamondGem } from "pixelarticons/react";
 import { keyframes } from "@emotion/react";
 import { useTranslation } from "react-i18next";
 
@@ -50,7 +50,7 @@ export default function UserInformation() {
               borderRadius="full"
             >
               <Box animation={`${popInAnimation} 0.4s ease-out forwards`}>
-                <IconDiamondFilled size={15} />
+                <DiamondGem width={15} height={15} />
               </Box>
             </AvatarBadge>
           )}

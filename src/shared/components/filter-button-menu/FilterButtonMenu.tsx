@@ -11,8 +11,13 @@ import {
   MenuOptionGroup,
   Portal,
 } from "@chakra-ui/react";
-import { IconChevronLeft, IconX } from "@tabler/icons-react";
-import { ChevronDown2, Search } from "pixelarticons/react";
+import {
+  Cancel,
+  CheckboxOn,
+  ChevronDown2,
+  ChevronLeft2,
+  Search,
+} from "pixelarticons/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -100,7 +105,7 @@ export default function FilterButtonMenu({
               <MenuItem
                 onClick={onClearFilters}
                 color="red.500"
-                icon={<IconX size={16} />}
+                icon={<Cancel width={16} height={16} />}
               >
                 {t("components.filterButtonMenu.clearAllFilters")}
               </MenuItem>
@@ -115,7 +120,7 @@ export default function FilterButtonMenu({
     return (
       <>
         <MenuItem
-          icon={<IconChevronLeft size={16} />}
+          icon={<ChevronLeft2 width={16} height={16} />}
           onClick={() => handleViewChange("main")}
         >
           {t("components.filterButtonMenu.allFilters")}
@@ -138,7 +143,17 @@ export default function FilterButtonMenu({
           }
         >
           {currentOptions.map((option) => (
-            <MenuItemOption key={option.value} value={option.value}>
+            <MenuItemOption
+              key={option.value}
+              value={option.value}
+              icon={
+                <CheckboxOn
+                  height={16}
+                  width={16}
+                  color="var(--chakra-colors-teal-500)"
+                />
+              }
+            >
               {option.label}
             </MenuItemOption>
           ))}
@@ -165,7 +180,7 @@ export default function FilterButtonMenu({
           color={areFiltersActive ? "red.500" : undefined}
           variant="solid"
         >
-          Filter data
+          {t("components.filterButtonMenu.filterData")}
         </MenuButton>
       </Box>
       <Portal>

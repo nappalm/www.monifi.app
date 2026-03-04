@@ -8,7 +8,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IconChartInfographic } from "@tabler/icons-react";
+import { ChartBarBig } from "pixelarticons/react";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -131,7 +131,7 @@ export default function TopAccountsChart({
               color="gray.500"
               gap={0}
             >
-              <IconChartInfographic size={30} />
+              <ChartBarBig width={30} height={30} />
               <Text fontSize="xs" w="50%" textAlign="center">
                 {t("statistics.noData")}
               </Text>

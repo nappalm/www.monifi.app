@@ -16,11 +16,7 @@ import {
   useBreakpointValue,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  IconCircleCheckFilled,
-  IconCircleDotFilled,
-  IconCircleFilled,
-} from "@tabler/icons-react";
+import { CheckboxOn, Circle } from "pixelarticons/react";
 import { PropsWithChildren } from "react";
 import OnboardingAnimatedPage from "../components/OnboardingAnimatedPage";
 
@@ -125,9 +121,9 @@ export default function StepLayout({ children, activeStep = 1 }: Props) {
                   }}
                 >
                   <StepStatus
-                    complete={<IconCircleCheckFilled size={18} />}
-                    incomplete={<IconCircleFilled size={13} />}
-                    active={<IconCircleDotFilled size={18} />}
+                    complete={<CheckboxOn width={18} height={18} />}
+                    incomplete={<Circle width={13} height={13} />}
+                    active={<Circle width={18} height={18} />}
                   />
                 </StepIndicator>
 

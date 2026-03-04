@@ -7,12 +7,7 @@ import {
   Tag,
   Text,
 } from "@chakra-ui/react";
-import {
-  IconCards,
-  IconCardsFilled,
-  IconCircleDotFilled,
-  IconEaseOutControlPoint,
-} from "@tabler/icons-react";
+import { Card as CardIcon, Circle, Tangent } from "pixelarticons/react";
 
 export default function EmptyWallets() {
   return (
@@ -23,7 +18,7 @@ export default function EmptyWallets() {
             <HStack justify="space-between">
               <Stack>
                 <HStack>
-                  <IconCards size={20} />
+                  <CardIcon width={20} height={20} />
                   <Text>My debit card</Text>
                 </HStack>
               </Stack>
@@ -44,11 +39,11 @@ export default function EmptyWallets() {
             <HStack justify="space-between">
               <Stack>
                 <HStack>
-                  <IconCardsFilled />
+                  <CardIcon />
                   <Text>My credi card</Text>
                 </HStack>
               </Stack>
-              <IconEaseOutControlPoint />
+              <Tangent />
             </HStack>
           </CardBody>
         </Card>
@@ -69,7 +64,7 @@ export default function EmptyWallets() {
 
       <Stack w="full" align="end" mb={5}>
         <HStack>
-          <IconCircleDotFilled style={{ opacity: 0.5 }} />
+          <Circle style={{ opacity: 0.5 }} />
           <Tag fontFamily="Geist Mono">expenses or income</Tag>
         </HStack>
       </Stack>

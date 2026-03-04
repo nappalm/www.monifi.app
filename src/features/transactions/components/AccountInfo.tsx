@@ -9,11 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconWallet,
-} from "@tabler/icons-react";
+import { ChevronLeft, ChevronRight, Wallet } from "pixelarticons/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
@@ -98,7 +94,7 @@ export default function AccountInfo({ transactions }: Props) {
         <HStack justify="space-between">
           <IconButton
             aria-label="Previous Account"
-            icon={<IconChevronLeft size={18} />}
+            icon={<ChevronLeft width={18} height={18} />}
             size="sm"
             ml={-2}
             variant="ghost"
@@ -122,7 +118,7 @@ export default function AccountInfo({ transactions }: Props) {
               >
                 {currentAccount && (
                   <HStack gap={3} w="full">
-                    <IconWallet style={{ color: _colors.gray[500] }} />
+                    <Wallet style={{ color: _colors.gray[500] }} />
                     <Stack gap={0}>
                       <Text>{currentAccount.name}</Text>
                       <Text fontSize="xs">
@@ -139,7 +135,7 @@ export default function AccountInfo({ transactions }: Props) {
           </Stack>
           <IconButton
             aria-label="Next Account"
-            icon={<IconChevronRight size={18} />}
+            icon={<ChevronRight width={18} height={18} />}
             size="sm"
             mr={-2}
             variant="ghost"

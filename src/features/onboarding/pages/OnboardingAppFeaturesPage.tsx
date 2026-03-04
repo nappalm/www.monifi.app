@@ -9,13 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {
-  IconArrowNarrowRight,
-  IconAutomaticGearbox,
-  IconChartPie,
-  IconDisc,
-  IconSatellite,
-} from "@tabler/icons-react";
+import { Album, ArrowRight, Chart, SettingsCog, Signal } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
@@ -60,7 +54,7 @@ export default function OnboardingAppFeaturesPage() {
               <CardBody>
                 <Stack gap={0}>
                   <HStack>
-                    <IconAutomaticGearbox />
+                    <SettingsCog />
                     <Text fontSize="sm">
                       {t("onboarding.appFeatures.features.transactions.title")}
                     </Text>
@@ -77,7 +71,7 @@ export default function OnboardingAppFeaturesPage() {
               <CardBody>
                 <Stack gap={0}>
                   <HStack>
-                    <IconChartPie />
+                    <Chart />
                     <Text fontSize="sm">
                       {t("onboarding.appFeatures.features.statistics.title")}
                     </Text>
@@ -94,7 +88,7 @@ export default function OnboardingAppFeaturesPage() {
               <CardBody>
                 <Stack gap={0}>
                   <HStack>
-                    <IconDisc />
+                    <Album />
                     <Text fontSize="sm">
                       {t("onboarding.appFeatures.features.budgets.title")}
                     </Text>
@@ -109,7 +103,7 @@ export default function OnboardingAppFeaturesPage() {
               <CardBody>
                 <Stack gap={0}>
                   <HStack>
-                    <IconSatellite />
+                    <Signal />
                     <Text fontSize="sm">
                       {t("onboarding.appFeatures.features.aiSupport.title")}
                     </Text>
@@ -130,7 +124,7 @@ export default function OnboardingAppFeaturesPage() {
               variant="solid"
               onClick={handleGetStarted}
               isLoading={updateProfile.isPending}
-              rightIcon={<IconArrowNarrowRight size={16} />}
+              rightIcon={<ArrowRight width={16} height={16} />}
               spinner={<ButtonSpinner />}
               loadingText={t("onboarding.appFeatures.getStarted") + "..."}
             >

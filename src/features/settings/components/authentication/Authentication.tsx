@@ -1,6 +1,6 @@
 import { useAuthenticatedUser } from "@/shared";
 import { Card, CardBody, HStack, Stack, Tag, Text } from "@chakra-ui/react";
-import { IconBrandGoogleFilled, IconMailFilled } from "@tabler/icons-react";
+import { Globe, Mail } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 export default function Authentication() {
@@ -17,7 +17,7 @@ export default function Authentication() {
           <CardBody>
             <HStack justify="space-between">
               <HStack gap={5}>
-                <IconMailFilled size={18} />
+                <Mail width={18} height={18} />
                 <Stack gap={0}>
                   <HStack>
                     <Text fontSize="lg">
@@ -43,7 +43,7 @@ export default function Authentication() {
           <CardBody>
             <HStack justify="space-between">
               <HStack gap={5}>
-                <IconBrandGoogleFilled size={18} />
+                <Globe width={18} height={18} />
                 <Stack gap={0}>
                   <HStack>
                     <Text fontSize="lg">

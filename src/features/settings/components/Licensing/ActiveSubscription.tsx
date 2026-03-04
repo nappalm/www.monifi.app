@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { IconDiamondFilled } from "@tabler/icons-react";
+import { DiamondGem } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -29,7 +29,7 @@ export default function ActiveSubscription({
       <CardHeader>
         <HStack justify="space-between">
           <HStack gap={3} alignItems="flex-start">
-            <IconDiamondFilled />
+            <DiamondGem />
             <Stack gap={0}>
               <Text fontWeight="bold">
                 {t("settings.licensing.proPlan.title")}

@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Text, useColorModeValue } from "@chakra-ui/react";
-import { IconBucket, IconPlus } from "@tabler/icons-react";
+import { BottleWine, Plus } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -58,7 +58,7 @@ export default function EmptyBudgets({ onNew }: Props) {
           <rect width="100%" height="100%" fill="url(#empty-hatch)" />
         </svg>
         <Box position="relative" color="gray.400">
-          <IconBucket size={40} />
+          <BottleWine width={40} height={40} />
         </Box>
       </Box>
 
@@ -73,7 +73,7 @@ export default function EmptyBudgets({ onNew }: Props) {
 
       <Button
         size="sm"
-        leftIcon={<IconPlus size={16} />}
+        leftIcon={<Plus width={16} height={16} />}
         colorScheme="teal"
         variant="solid"
         onClick={onNew}

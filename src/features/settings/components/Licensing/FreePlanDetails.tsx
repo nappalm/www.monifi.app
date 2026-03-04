@@ -10,7 +10,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { IconPentagon } from "@tabler/icons-react";
+import { Shield } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import LicensingFeatureIcon from "./LicensingFeatureIcon";
 
@@ -21,7 +21,7 @@ export default function FreePlanDetails() {
       <CardHeader>
         <HStack justify="space-between">
           <HStack gap={3} alignItems="flex-start">
-            <IconPentagon />
+            <Shield />
             <Stack gap={0}>
               <Text fontWeight="bold">
                 {t("settings.licensing.freePlan.title")}

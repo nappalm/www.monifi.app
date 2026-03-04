@@ -39,13 +39,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  IconCardsFilled,
-  IconChevronDown,
-  IconCreditCardFilled,
-  IconPencil,
-  IconTrashFilled,
-} from "@tabler/icons-react";
+import { Card as CardIcon, ChevronDown, CreditCard, Delete, PenSquare } from "pixelarticons/react";
 import { isEmpty } from "lodash";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -151,7 +145,7 @@ export default function OnboardingAccountsForm({ onContinue }: Props) {
         <CardBody>
           <HStack gap={0} justify="space-between">
             <Flex align="center" gap={2}>
-              <IconCardsFilled />
+              <CardIcon />
               <HStack gap={2}>
                 <Text size="md">{account.name}</Text>
               </HStack>
@@ -170,13 +164,13 @@ export default function OnboardingAccountsForm({ onContinue }: Props) {
                 as={Button}
                 size="sm"
                 variant="solid"
-                rightIcon={<IconChevronDown size={16} />}
+                rightIcon={<ChevronDown width={16} height={16} />}
               >
                 {t("onboarding.accountsForm.wallet")}
               </MenuButton>
               <MenuList>
                 <MenuItem
-                  icon={<IconPencil size={16} />}
+                  icon={<PenSquare width={16} height={16} />}
                   onClick={() => {
                     handleEdit(account);
                     drawer.onOpen();
@@ -185,7 +179,7 @@ export default function OnboardingAccountsForm({ onContinue }: Props) {
                   {t("onboarding.accountsForm.edit")}
                 </MenuItem>
                 <MenuItem
-                  icon={<IconTrashFilled size={16} />}
+                  icon={<Delete width={16} height={16} />}
                   color="red.500"
                   onClick={() => handleDelete(account.id)}
                 >
@@ -261,7 +255,7 @@ export default function OnboardingAccountsForm({ onContinue }: Props) {
           onClick={handleAddNew}
           variant="solid"
           colorScheme="cyan"
-          leftIcon={<IconCreditCardFilled size={16} />}
+          leftIcon={<CreditCard width={16} height={16} />}
         >
           {t("onboarding.accountsForm.addNewAccount")}
         </Button>

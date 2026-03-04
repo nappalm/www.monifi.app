@@ -38,9 +38,6 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.50.5
         version: 2.50.5
-      '@tabler/icons-react':
-        specifier: ^3.34.1
-        version: 3.34.1(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.51.15
         version: 5.82.0(react@18.3.1)
@@ -896,14 +893,6 @@ packages:
 
   '@supabase/supabase-js@2.50.5':
     resolution: {integrity: sha512-FgBFYJ/nsBBN1o4qmQpx1ouupht256FCxNM6r5YTgwGbOVopODzP2xhZPu2ecXdmU4CxTS5/KiGf5j2l3ACozQ==}
-
-  '@tabler/icons-react@3.34.1':
-    resolution: {integrity: sha512-Ld6g0NqOO05kyyHsfU8h787PdHBm7cFmOycQSIrGp45XcXYDuOK2Bs0VC4T2FWSKZ6bx5g04imfzazf/nqtk1A==}
-    peerDependencies:
-      react: '>= 16'
-
-  '@tabler/icons@3.34.1':
-    resolution: {integrity: sha512-9gTnUvd7Fd/DmQgr3MKY+oJLa1RfNsQo8c/ir3TJAWghOuZXodbtbVp0QBY2DxWuuvrSZFys0HEbv1CoiI5y6A==}
 
   '@tanstack/query-core@5.82.0':
     resolution: {integrity: sha512-JrjoVuaajBQtnoWSg8iaPHaT4mW73lK2t+exxHNOSMqy0+13eKLqJgTKXKImLejQIfdAHQ6Un0njEhOvUtOd5w==}
@@ -3928,13 +3917,6 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-
-  '@tabler/icons-react@3.34.1(react@18.3.1)':
-    dependencies:
-      '@tabler/icons': 3.34.1
-      react: 18.3.1
-
-  '@tabler/icons@3.34.1': {}
 
   '@tanstack/query-core@5.82.0': {}
 

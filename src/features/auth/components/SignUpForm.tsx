@@ -1,7 +1,7 @@
 import { FormProvider, Logo, RHFInput } from "@/shared";
 import { Button, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IconBrandGoogleFilled } from "@tabler/icons-react";
+import { Globe } from "pixelarticons/react";
 import { useForm } from "react-hook-form";
 import { Link as RouterLink } from "react-router-dom";
 import { AUTH_PATHS } from "../router/paths";
@@ -62,7 +62,7 @@ export default function SignUpForm({
         <Button
           onClick={() => onSubmitOAuth("google")}
           isLoading={isLoading}
-          leftIcon={<IconBrandGoogleFilled size={18} />}
+          leftIcon={<Globe width={18} height={18} />}
         >
           Google
         </Button>

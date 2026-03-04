@@ -1,5 +1,5 @@
 import { HStack, IconButton, Stack, Text } from "@chakra-ui/react";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { ChevronLeft, ChevronRight } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -24,7 +24,7 @@ export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
           aria-label={t("components.dateRange.previousMonth")}
           size="xs"
           variant="ghost"
-          icon={<IconChevronLeft size={15} />}
+          icon={<ChevronLeft width={15} height={15} />}
           onClick={onPrev}
         />
         <Text>{label}</Text>
@@ -32,7 +32,7 @@ export default function PeriodNavigation({ period, onPrev, onNext }: Props) {
           aria-label={t("components.dateRange.nextMonth")}
           size="xs"
           variant="ghost"
-          icon={<IconChevronRight size={15} />}
+          icon={<ChevronRight width={15} height={15} />}
           onClick={onNext}
         />
       </HStack>

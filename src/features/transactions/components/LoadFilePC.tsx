@@ -12,13 +12,7 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import {
-  IconFileFilled,
-  IconFileTypePdf,
-  IconFolderOpen,
-  IconPdf,
-  IconTrashFilled,
-} from "@tabler/icons-react";
+import { Delete, File as FileIcon, FileText, Folder } from "pixelarticons/react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useCallback, useRef, useState } from "react";
 
@@ -102,7 +96,7 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
       >
         <VStack gap={0}>
           <Stack position="relative">
-            <IconFileFilled size={40} />
+            <FileIcon width={40} height={40} />
             <Box
               position="absolute"
               bg="cyan.500"
@@ -113,7 +107,7 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
               border="2px solid"
               borderColor="gray.900"
             >
-              <IconPdf size={15} />
+              <FileText width={15} height={15} />
             </Box>
           </Stack>
           <br />
@@ -126,7 +120,7 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
               <Button
                 w="full"
                 variant="solid"
-                leftIcon={<IconFolderOpen size={16} />}
+                leftIcon={<Folder width={16} height={16} />}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleClick();
@@ -140,7 +134,7 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
                 <CardBody>
                   <HStack justify="space-between">
                     <HStack spacing={3}>
-                      <IconFileTypePdf size={24} />
+                      <FileText width={24} height={24} />
                       <VStack align="start" gap={0}>
                         <Text noOfLines={1}>{selectedFile?.name}</Text>
                         <Text fontSize="xs" color="gray.500">
@@ -152,7 +146,7 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
                     </HStack>
                     <IconButton
                       aria-label="Eliminar archivo"
-                      icon={<IconTrashFilled size={16} />}
+                      icon={<Delete width={16} height={16} />}
                       size="sm"
                       variant="ghost"
                       colorScheme="red"

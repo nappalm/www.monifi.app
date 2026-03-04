@@ -12,7 +12,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { IconDownload } from "@tabler/icons-react";
+import { Download } from "pixelarticons/react";
 import { PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -64,7 +64,7 @@ export default function PaymentHistoryTable({
                   variant="ghost"
                   aria-label={t("settings.paymentHistory.downloadInvoice")}
                   size="sm"
-                  icon={<IconDownload size={18} />}
+                  icon={<Download width={18} height={18} />}
                   onClick={() => onDownloadInvoce?.(item.stripe_invoice_id)}
                   isLoading={pendingInvoiceIds.includes(item.stripe_invoice_id)}
                 />

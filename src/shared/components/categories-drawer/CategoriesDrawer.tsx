@@ -34,11 +34,11 @@ import {
   UseDisclosureProps,
 } from "@chakra-ui/react";
 import {
-  IconCheck,
-  IconPencil,
-  IconTag,
-  IconTrashFilled,
-} from "@tabler/icons-react";
+  Check,
+  PenSquare,
+  Bookmark,
+  Delete,
+} from "pixelarticons/react";
 import { isEmpty } from "lodash";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -111,20 +111,20 @@ export default function CategoriesDrawer({
     return categories?.map((category) => (
       <Tr key={category.id}>
         <Td w="10px" opacity={0.5}>
-          <IconTag size={18} />
+          <Bookmark width={18} height={18} />
         </Td>
         <Td>{category.name}</Td>
         <Td isNumeric w="10px">
           <ButtonGroup size="xs" spacing={1}>
             <IconButton
               aria-label="Edit"
-              icon={<IconPencil size={15} />}
+              icon={<PenSquare width={15} height={15} />}
               variant="ghost"
               onClick={() => handleEdit(category)}
             />
             <IconButton
               aria-label="Delete"
-              icon={<IconTrashFilled size={15} />}
+              icon={<Delete width={15} height={15} />}
               variant="ghost"
               onClick={() => handleDelete(category.id)}
             />
@@ -163,7 +163,7 @@ export default function CategoriesDrawer({
                   aria-label="Add Category Button"
                   type="submit"
                   w="fit-content"
-                  icon={<IconCheck size={18} />}
+                  icon={<Check width={18} height={18} />}
                 />
               </HStack>
               {id && (

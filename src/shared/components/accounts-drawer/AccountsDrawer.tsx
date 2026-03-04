@@ -34,11 +34,11 @@ import {
   UseDisclosureProps,
 } from "@chakra-ui/react";
 import {
-  IconCheck,
-  IconPencil,
-  IconTrashFilled,
-  IconWallet,
-} from "@tabler/icons-react";
+  Check,
+  PenSquare,
+  Delete,
+  Wallet,
+} from "pixelarticons/react";
 import { isEmpty } from "lodash";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -112,20 +112,20 @@ export default function AccountsDrawer({
     return accounts?.map((account) => (
       <Tr key={account.id}>
         <Td w="10px" opacity={0.5}>
-          <IconWallet size={18} color={account.color || "gray"} />
+          <Wallet width={18} height={18} color={account.color || "gray"} />
         </Td>
         <Td>{account.name}</Td>
         <Td isNumeric w="10px">
           <ButtonGroup size="xs" spacing={1}>
             <IconButton
               aria-label="Edit"
-              icon={<IconPencil size={15} />}
+              icon={<PenSquare width={15} height={15} />}
               variant="ghost"
               onClick={() => handleEdit(account)}
             />
             <IconButton
               aria-label="Delete"
-              icon={<IconTrashFilled size={15} />}
+              icon={<Delete width={15} height={15} />}
               variant="ghost"
               onClick={() => handleDelete(account.id)}
             />
@@ -164,7 +164,7 @@ export default function AccountsDrawer({
                   aria-label="Add Account Button"
                   type="submit"
                   w="fit-content"
-                  icon={<IconCheck size={18} />}
+                  icon={<Check width={18} height={18} />}
                 />
               </HStack>
               {id && (

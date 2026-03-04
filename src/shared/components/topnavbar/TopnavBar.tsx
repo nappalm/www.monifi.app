@@ -9,7 +9,7 @@ import {
   useBreakpointValue,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IconMenu2 } from "@tabler/icons-react";
+import { Menu } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "../logo";
@@ -42,7 +42,7 @@ export default function Topnavbar({ onMenuClick }: Props) {
               display={["flex", "flex", "flex", "none"]}
               aria-label={t("components.topnavbar.sidebarMenu")}
               size="sm"
-              icon={<IconMenu2 size={18} />}
+              icon={<Menu width={18} height={18} />}
               onClick={() => onMenuClick?.()}
             />
             {!isSmallScreen && (

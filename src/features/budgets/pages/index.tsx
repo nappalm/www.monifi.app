@@ -6,7 +6,7 @@ import {
 } from "@/lib/supabase/database.types";
 import { PageLoading, useAuthenticatedUser, useUpdateCategory } from "@/shared";
 import { Button, Grid, HStack, Stack, useDisclosure } from "@chakra-ui/react";
-import { IconPlus } from "@tabler/icons-react";
+import { Plus } from "pixelarticons/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
@@ -285,7 +285,7 @@ export default function BudgetsPage() {
           )}
           <Button
             size="sm"
-            leftIcon={<IconPlus size={16} />}
+            leftIcon={<Plus width={16} height={16} />}
             variant="ghost"
             isDisabled={!activeBudgetId}
             isLoading={createBudgetCategory.isPending}

@@ -11,7 +11,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { InfoBox } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import PaymentInformationDrawer from "../components/payment-information/PaymentInformationDrawer";
 import PaymentMethodsTable from "../components/payment-information/PaymentMethodsTable";
@@ -61,7 +61,7 @@ export default function PaymentInformation() {
       <Card>
         <CardHeader>
           <HStack align="flex-start">
-            <IconInfoCircle style={{ flexShrink: 0 }} />
+            <InfoBox style={{ flexShrink: 0 }} />
             <Stack gap={0}>
               <Text fontWeight="bold">
                 {t("settings.paymentInformation.additionalInfo")}

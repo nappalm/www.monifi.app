@@ -9,7 +9,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { IconCreditCard } from "@tabler/icons-react";
+import { CreditCard } from "pixelarticons/react";
 import { StripeProduct } from "@/lib";
 import { formatCurrency } from "@/shared";
 
@@ -38,7 +38,7 @@ export default function PaymentMethods({
                 {paymentMethods.map((paymentMethod) => (
                   <Radio value={paymentMethod.id} key={paymentMethod.id}>
                     <HStack>
-                      <IconCreditCard size={18} />
+                      <CreditCard width={18} height={18} />
                       <Text fontSize="sm">
                         {paymentMethod.card?.brand.toUpperCase()} ****
                         {paymentMethod.card?.last4}

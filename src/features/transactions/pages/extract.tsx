@@ -17,7 +17,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { IconCube, IconX } from "@tabler/icons-react";
+import { Box as BoxIcon, Cancel } from "pixelarticons/react";
 import { useGlobalUI } from "@/lib/global-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -211,7 +211,7 @@ export default function ExtractPage() {
                 <Card variant="solid">
                   <CardBody>
                     <HStack gap={5}>
-                      <IconCube />
+                      <BoxIcon />
                       <Stack gap={0}>
                         <Text fontFamily="Geist Mono">
                           {transactionExtract.data?.filename ?? "FILE.PDF"}

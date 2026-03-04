@@ -3,7 +3,7 @@ import { Button, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { BaseQuestionsFormValues, CommmonFormProps } from "../utils/types";
-import { IconArrowNarrowRight } from "@tabler/icons-react";
+import { ArrowRight } from "pixelarticons/react";
 
 type Props = {
   onSubmit: (values: BaseQuestionsFormValues) => void;
@@ -62,7 +62,7 @@ export default function OnboardingBaseQuestionsForm({
             type="submit"
             variant="solid"
             isLoading={isLoading}
-            rightIcon={<IconArrowNarrowRight size={16} />}
+            rightIcon={<ArrowRight width={16} height={16} />}
             spinner={<ButtonSpinner />}
             loadingText={t("common.continue") + "..."}
           >

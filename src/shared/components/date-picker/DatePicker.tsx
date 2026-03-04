@@ -9,11 +9,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconChevronsLeft,
-  IconChevronsRight,
-} from "@tabler/icons-react";
+  ChevronLeft,
+  ChevronRight,
+  ChevronLeft2,
+  ChevronRight2,
+} from "pixelarticons/react";
 import {
   addMonths,
   addYears,
@@ -121,14 +121,14 @@ export function DatePicker({
           <HStack spacing={1}>
             <IconButton
               aria-label={t("components.datePicker.previousYear")}
-              icon={<IconChevronsLeft size={16} />}
+              icon={<ChevronLeft2 width={16} height={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(subYears(currentDate, 1))}
             />
             <IconButton
               aria-label={t("components.datePicker.previousMonth")}
-              icon={<IconChevronLeft size={16} />}
+              icon={<ChevronLeft width={16} height={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(subMonths(currentDate, 1))}
@@ -142,14 +142,14 @@ export function DatePicker({
           <HStack spacing={1}>
             <IconButton
               aria-label={t("components.datePicker.nextMonth")}
-              icon={<IconChevronRight size={16} />}
+              icon={<ChevronRight width={16} height={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(addMonths(currentDate, 1))}
             />
             <IconButton
               aria-label={t("components.datePicker.nextYear")}
-              icon={<IconChevronsRight size={16} />}
+              icon={<ChevronRight2 width={16} height={16} />}
               size="xs"
               variant="ghost"
               onClick={() => handleCurrentDateChange(addYears(currentDate, 1))}

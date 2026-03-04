@@ -1,5 +1,5 @@
 import { Box, HStack, IconButton, Link, Text } from "@chakra-ui/react";
-import { IconArrowLeft } from "@tabler/icons-react";
+import { ArrowLeft } from "pixelarticons/react";
 
 export default function BackButton() {
   return (
@@ -8,7 +8,7 @@ export default function BackButton() {
         <Link href="https://www.monifi.app/">
           <IconButton
             aria-label="Previous step"
-            icon={<IconArrowLeft size={16} />}
+            icon={<ArrowLeft width={16} height={16} />}
             size="sm"
           />
         </Link>

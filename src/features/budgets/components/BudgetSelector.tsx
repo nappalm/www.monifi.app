@@ -9,7 +9,6 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import { IconBucket, IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { BottleWine, ChevronDown2, Plus } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 

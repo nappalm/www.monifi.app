@@ -15,13 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { keyframes } from "@emotion/react";
 import {
-  IconBug,
-  IconChevronDown,
-  IconDiamondFilled,
-  IconLogout,
-  IconSettings,
-  IconUserFilled,
-} from "@tabler/icons-react";
+  Bug,
+  ChevronDown,
+  DiamondGem,
+  Logout,
+  SettingsCog,
+  User,
+} from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ReportProblemDrawer } from "../report-problem-drawer";
@@ -64,7 +64,7 @@ export default function UserMenu() {
           src={user?.user_metadata?.avatar_url}
           size="xs"
           name={userName}
-          icon={<IconUserFilled size={18} />}
+          icon={<User width={18} height={18} />}
           bg="transparent"
         >
           {!isFree && (
@@ -74,7 +74,7 @@ export default function UserMenu() {
               color="white"
             >
               <Box animation={`${popInAnimation} 0.4s ease-out forwards`}>
-                <IconDiamondFilled size={15} />
+                <DiamondGem width={15} height={15} />
               </Box>
             </AvatarBadge>
           )}
@@ -86,18 +86,18 @@ export default function UserMenu() {
           size="sm"
           variant="outline"
           isLoading={isLoadingSession || loadingLogout}
-          rightIcon={<IconChevronDown size={16} />}
+          rightIcon={<ChevronDown width={16} height={16} />}
         >
           {userName ?? user?.email}
         </MenuButton>
         <MenuList>
           <MenuItem
             onClick={() => handleNavigate(SETTINGS_PATHS.myProfile)}
-            icon={<IconSettings size={18} />}
+            icon={<SettingsCog width={18} height={18} />}
           >
             {t("components.userMenu.profileSettings")}
           </MenuItem>
-          <MenuItem icon={<IconBug size={18} />} onClick={reports.onToggle}>
+          <MenuItem icon={<Bug width={18} height={18} />} onClick={reports.onToggle}>
             {t("components.userMenu.reportProblem")}
           </MenuItem>
           {/* <MenuItem icon={<IconMessage size={18} />}> */}
@@ -106,7 +106,7 @@ export default function UserMenu() {
           <MenuDivider />
           <MenuItem
             onClick={() => signOut()}
-            icon={<IconLogout size={18} />}
+            icon={<Logout width={18} height={18} />}
             color="red.500"
           >
             {t("components.userMenu.logout")}

@@ -13,7 +13,7 @@ import {
 import { type FocusEvent, type ReactNode, type RefObject } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import RHFError from "./RHFError";
-import { IconChevronDown } from "@tabler/icons-react";
+import { ChevronDown } from "pixelarticons/react";
 
 type Props = {
   label?: string;
@@ -106,7 +106,7 @@ export default function RHFSelect({
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   ref={setRefs}
-                  icon={<IconChevronDown size={18} />}
+                  icon={<ChevronDown width={18} height={18} />}
                 >
                   <option value="" />
                   {children}

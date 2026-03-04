@@ -6,7 +6,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IconChevronLeft } from "@tabler/icons-react";
+import { ChevronLeft } from "pixelarticons/react";
 
 interface PageTitleProps {
   title: string;
@@ -35,7 +35,7 @@ export default function PageTitle({
             aria-label="Back button"
             onClick={onBack}
             size="sm"
-            icon={<IconChevronLeft />}
+            icon={<ChevronLeft />}
           />
         )}
         <Heading fontSize="3xl">{title}</Heading>

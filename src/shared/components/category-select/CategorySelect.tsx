@@ -12,8 +12,7 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import { IconTag } from "@tabler/icons-react";
-import { Box, IconCategory, Tree } from "pixelarticons/react";
+import { Bookmark, Box, IconCategory, Tree } from "pixelarticons/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 

@@ -15,11 +15,7 @@ import {
   Tag,
   Text,
 } from "@chakra-ui/react";
-import {
-  IconLineHeight,
-  IconReceiptDollarFilled,
-  IconTagFilled,
-} from "@tabler/icons-react";
+import { ArrowsVertical, Receipt, Bookmark } from "pixelarticons/react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useTransactions } from "../../transactions/hooks/useTransactions";
@@ -59,7 +55,7 @@ export default function Statistics() {
       {
         key: "categories",
         label: t("transactions.filters.category"),
-        icon: <IconTagFilled size={16} />,
+        icon: <Bookmark width={16} height={16} />,
         options:
           categories?.map((c) => ({
             label: c.name,
@@ -69,7 +65,7 @@ export default function Statistics() {
       {
         key: "accounts",
         label: t("transactions.filters.account"),
-        icon: <IconReceiptDollarFilled size={16} />,
+        icon: <Receipt width={16} height={16} />,
         options:
           accounts?.map((a) => ({ label: a.name, value: a.id.toString() })) ||
           [],
@@ -77,7 +73,7 @@ export default function Statistics() {
       {
         key: "types",
         label: t("transactions.filters.type"),
-        icon: <IconLineHeight size={16} />,
+        icon: <ArrowsVertical width={16} height={16} />,
         options: [
           { label: t("transactions.types.income"), value: "income" },
           { label: t("transactions.types.expense"), value: "expense" },

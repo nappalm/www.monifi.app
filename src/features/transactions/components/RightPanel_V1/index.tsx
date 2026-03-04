@@ -8,15 +8,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {
-  IconAlertCircleFilled,
-  IconChevronRight,
-  IconDatabase,
-  IconFlag3Filled,
-  IconInfoCircleFilled,
-  IconLayersSubtract,
-  IconSTurnDown,
-  IconTrendingUp,
-} from "@tabler/icons-react";
+  ArrowBigUp,
+  ChevronRight,
+  CornerRightDown,
+  Database,
+  Flag,
+  InfoBox,
+  SectionMinus,
+  SquareAlert,
+} from "pixelarticons/react";
 
 export default function RightPanel() {
   return (
@@ -37,19 +37,19 @@ export default function RightPanel() {
         <CardBody color="gray.400">
           <Stack>
             <HStack>
-              <IconInfoCircleFilled size={16} />
+              <InfoBox width={16} height={16} />
               <Text fontSize="sm" fontWeight={500}>
                 Cargo inusual de $2,500
               </Text>
             </HStack>
             <HStack>
-              <IconInfoCircleFilled size={16} />
+              <InfoBox width={16} height={16} />
               <Text fontSize="sm" fontWeight={500}>
                 30% en meta de ahorro, faltan $4,200
               </Text>
             </HStack>
             <HStack>
-              <IconInfoCircleFilled size={16} />
+              <InfoBox width={16} height={16} />
               <Text fontSize="sm" fontWeight={500}>
                 Superaste tu presupuesto en comida
               </Text>
@@ -74,19 +74,19 @@ export default function RightPanel() {
         <CardBody color="gray.400">
           <Stack>
             <HStack>
-              <IconSTurnDown size={16} />
+              <CornerRightDown width={16} height={16} />
               <Text fontSize="sm" fontWeight={500}>
                 Tus gastos bajaron 12% vs mes anterior
               </Text>
             </HStack>
             <HStack>
-              <IconTrendingUp size={16} />
+              <ArrowBigUp width={16} height={16} />
               <Text fontSize="sm" fontWeight={500}>
                 Mayor gasto: Transporte ($4,500)
               </Text>
             </HStack>
             <HStack>
-              <IconLayersSubtract size={16} />
+              <SectionMinus width={16} height={16} />
               <Text fontSize="sm" fontWeight={500}>
                 4 suscripciones activas ($1,800/mes)
               </Text>
@@ -100,34 +100,34 @@ export default function RightPanel() {
       <Stack gap={1}>
         <Button
           justifyContent="space-between"
-          rightIcon={<IconChevronRight size={16} />}
+          rightIcon={<ChevronRight width={16} height={16} />}
           bg="#000"
           size="sm"
         >
           <HStack>
-            <IconAlertCircleFilled size={16} />
+            <SquareAlert width={16} height={16} />
             <Text>8 Transacciones sin categoria</Text>
           </HStack>
         </Button>
         <Button
           justifyContent="space-between"
-          rightIcon={<IconChevronRight size={16} />}
+          rightIcon={<ChevronRight width={16} height={16} />}
           bg="#000"
           size="sm"
         >
           <HStack>
-            <IconDatabase size={16} />
+            <Database width={16} height={16} />
             <Text>Comparar con mes anterior</Text>
           </HStack>
         </Button>
         <Button
           justifyContent="space-between"
-          rightIcon={<IconChevronRight size={16} />}
+          rightIcon={<ChevronRight width={16} height={16} />}
           bg="#000"
           size="sm"
         >
           <HStack>
-            <IconFlag3Filled size={16} />
+            <Flag width={16} height={16} />
             <Text>Crear meta</Text>
           </HStack>
         </Button>

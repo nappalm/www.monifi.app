@@ -13,8 +13,7 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import { IconCircleFilled } from "@tabler/icons-react";
-import { Wallet, WalletSharp } from "pixelarticons/react";
+import { Circle, Wallet, WalletSharp } from "pixelarticons/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -119,9 +118,10 @@ export default function AccountSelect({
             {filteredAccounts.map((account) => (
               <MenuItem
                 icon={
-                  <IconCircleFilled
+                  <Circle
                     color={account?.color ?? _colors.gray[500]}
-                    size={10}
+                    width={10}
+                    height={10}
                   />
                 }
                 key={account.id}

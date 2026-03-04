@@ -65,6 +65,7 @@
     },
     "filterButtonMenu": {
       "filter": "Filter",
+      "filterData": "Filter data",
       "allFilters": "All Filters",
       "clearAllFilters": "Clear all filters",
       "search": "Search..."

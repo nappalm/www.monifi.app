@@ -1,10 +1,11 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { memo, useCallback } from "react";
 import {
-  IconCaretUpFilled,
-  IconCaretDownFilled,
-  IconSelector,
-} from "@tabler/icons-react";
+  TArrowUp,
+  TArrowDown,
+  ChevronsVertical,
+  ChevronsVertical2,
+} from "pixelarticons/react";
 import { useGridContext } from "../GridContext";
 import { RESIZE_HANDLE_WIDTH } from "../constants";
 
@@ -139,9 +140,9 @@ const HeaderCell = memo(function HeaderCell({
   }, [isSortable, accessor, onSort]);
 
   function getSortIcon() {
-    if (activeSortDirection === "asc") return IconCaretUpFilled;
-    if (activeSortDirection === "desc") return IconCaretDownFilled;
-    return IconSelector;
+    if (activeSortDirection === "asc") return TArrowUp;
+    if (activeSortDirection === "desc") return TArrowDown;
+    return ChevronsVertical2;
   }
   const SortIcon = getSortIcon();
 
@@ -178,11 +179,11 @@ const HeaderCell = memo(function HeaderCell({
     >
       {header}
       {isSortable && (
-        <Box
-          as={SortIcon}
-          size={12}
+        <SortIcon
+          width={12}
+          height={12}
           color={activeSortDirection ? sortIconActiveColor : sortIconColor}
-          flexShrink={0}
+          style={{ flexShrink: 0, marginLeft: "auto", opacity: activeSortDirection ? 1 : 0.35 }}
         />
       )}
       {isResizable && (

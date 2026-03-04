@@ -11,7 +11,6 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { IconUserFilled } from "@tabler/icons-react";
 import {
   Blocks,
   BottleWine,
@@ -19,6 +18,7 @@ import {
   ChevronRight,
   Goal,
   LightbulbOff,
+  User,
 } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -110,7 +110,7 @@ export default function BottomBar() {
             src={user?.user_metadata?.avatar_url}
             size="xs"
             name={userName}
-            icon={<IconUserFilled size={18} />}
+            icon={<User width={18} height={18} />}
             bg="transparent"
           />
         </HStack>

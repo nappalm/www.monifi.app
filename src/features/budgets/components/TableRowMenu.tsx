@@ -6,7 +6,7 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import { IconDots, IconTrashFilled } from "@tabler/icons-react";
+import { MoreVertical, Delete } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -25,12 +25,12 @@ export default function TableRowMenu({ onDelete }: Props) {
         size="xs"
         display="flex"
         variant="unstyled"
-        icon={<IconDots size={16} />}
+        icon={<MoreVertical width={16} height={16} />}
       />
       <Portal>
         <MenuList>
           <MenuItem
-            icon={<IconTrashFilled size={16} />}
+            icon={<Delete width={16} height={16} />}
             color="red.500"
             onClick={onDelete}
           >

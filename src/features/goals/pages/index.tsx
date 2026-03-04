@@ -14,16 +14,15 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
-  IconCalendarFilled,
-  IconChevronsDown,
-  IconChevronsUp,
+  ArrowBigDown,
+  ArrowBigUp,
+  Calendar,
+  Delete,
+  Hand,
   IconCategory,
-  IconDots,
-  IconSwipe,
-  IconToggleLeftFilled,
-  IconToggleRightFilled,
-  IconTrash,
-} from "@tabler/icons-react";
+  MoreVertical,
+  Switch,
+} from "pixelarticons/react";
 import { memo, useMemo, useState, useCallback, useEffect } from "react";
 import {
   VirtualDataGrid,
@@ -134,7 +133,7 @@ const MockDatePickerSelect = memo(function MockDatePickerSelect({
         cursor="default"
         borderRadius="inherit"
         fontWeight="semibold"
-        leftIcon={<IconCalendarFilled size={13} />}
+        leftIcon={<Calendar width={13} height={13} />}
         textAlign="left"
         pl={2}
         _focus={{ outline: "none", boxShadow: "none" }}
@@ -179,7 +178,7 @@ const MockCategorySelect = memo(function MockCategorySelect({
         cursor="default"
         borderRadius="inherit"
         fontWeight="semibold"
-        leftIcon={<IconCategory size={13} />}
+        leftIcon={<IconCategory width={13} height={13} />}
         textAlign="left"
         pl={2}
         _focus={{ outline: "none", boxShadow: "none" }}
@@ -285,12 +284,12 @@ const MockTypeSelect = memo(function MockTypeSelect({
     {
       value: "income" as const,
       label: "Ingreso",
-      icon: <IconChevronsUp size={13} color="#48BB78" />,
+      icon: <ArrowBigUp width={13} height={13} color="#48BB78" />,
     },
     {
       value: "expense" as const,
       label: "Gasto",
-      icon: <IconChevronsDown size={13} color="#FC8181" />,
+      icon: <ArrowBigDown width={13} height={13} color="#FC8181" />,
     },
   ];
 
@@ -347,7 +346,7 @@ function RowMenuTrigger({
   return (
     <IconButton
       aria-label="Row options"
-      icon={<IconDots size={16} />}
+      icon={<MoreVertical width={16} height={16} />}
       size="xs"
       variant="unstyled"
       w="full"
@@ -563,7 +562,7 @@ export default function Goals() {
                 }}
               >
                 <HStack spacing={2}>
-                  <IconSwipe size={16} />
+                  <Hand width={16} height={16} />
                   <Text>Ver detalles</Text>
                 </HStack>
               </GridMenuItem>
@@ -575,9 +574,9 @@ export default function Goals() {
               >
                 <HStack spacing={2}>
                   {row.enabled ? (
-                    <IconToggleLeftFilled size={16} />
+                    <Switch width={16} height={16} />
                   ) : (
-                    <IconToggleRightFilled size={16} />
+                    <Switch width={16} height={16} />
                   )}
                   <Text>{row.enabled ? "Deshabilitar" : "Habilitar"}</Text>
                 </HStack>
@@ -591,7 +590,7 @@ export default function Goals() {
                 }}
               >
                 <HStack spacing={2}>
-                  <IconTrash size={16} />
+                  <Delete width={16} height={16} />
                   <Text>Eliminar</Text>
                 </HStack>
               </GridMenuItem>

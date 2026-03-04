@@ -21,7 +21,7 @@ import {
   Text,
   UseDisclosureProps,
 } from "@chakra-ui/react";
-import { IconChevronsDown, IconChevronsUp } from "@tabler/icons-react";
+import { ArrowBigDown, ArrowBigUp } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type DetailsDrawerProps = UseDisclosureProps & {
@@ -70,9 +70,9 @@ export const DetailsDrawer = ({
                       }
                     >
                       {transaction.type === "income" ? (
-                        <IconChevronsUp size={16} />
+                        <ArrowBigUp width={16} height={16} />
                       ) : (
-                        <IconChevronsDown size={16} />
+                        <ArrowBigDown width={16} height={16} />
                       )}
                     </Stack>
                     <Stack gap={0} align="flex-end">

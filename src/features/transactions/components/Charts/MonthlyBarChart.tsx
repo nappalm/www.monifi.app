@@ -92,22 +92,26 @@ function CustomTooltip({
 
 // Rendered inside the recharts SVG context via <Customized component={TimelineSVG} />
 // so useOffset / usePlotArea hooks have access to the chart's Redux store.
+//
+// Renders a row of pixel-art mini-calendars — one per month.
+// Each day is a 2×2 px square arranged in a 7-column (Sun–Sat) grid.
+// Colors: active filter days → tlActive, today → tlCurrent, rest → tlInactive.
 function TimelineSVG({
   monthRange,
-  currentMonthKey,
-  filterStart,
-  filterEnd,
+  filterStartFull,
+  filterEndFull,
   tlActive,
   tlInactive,
   tlCurrent,
+  todayKey,
 }: {
   monthRange: string[];
-  currentMonthKey: string;
-  filterStart: string;
-  filterEnd: string;
+  filterStartFull: string;
+  filterEndFull: string;
   tlActive: string;
   tlInactive: string;
   tlCurrent: string;
+  todayKey: string;
 }) {
   const plotArea = usePlotArea();
   const offset = useOffset();
@@ -116,32 +120,53 @@ function TimelineSVG({
 
   const N = monthRange.length;
   const bw = plotArea.width / N;
-  // SVGHeight = plotArea.y + plotArea.height + offset.bottom
-  // Timeline center sits 5px above the SVG bottom edge (middle of the 10px margin)
-  const cy = plotArea.y + plotArea.height + offset.bottom - 5;
 
-  const blockH = 4;
+  const CELL = 2; // px — size of each day square
+  const GAP = 1;  // px — gap between squares
+  const SLOT = CELL + GAP;
+  const COLS = 7; // Sun–Sat
+  const ROWS = 6; // max weeks a month can span
+  const gridW = COLS * SLOT - GAP; // remove trailing gap
+  const gridH = ROWS * SLOT - GAP;
+
+  // Align grid to SVG bottom with a small margin
+  const svgBottom = plotArea.y + plotArea.height + offset.bottom;
+  const gridTop = svgBottom - gridH - 4;
 
   return (
     <g shapeRendering="crispEdges">
-      {monthRange.map((month, i) => {
-        const x = plotArea.x + i * bw;
-        const inRange = month >= filterStart && month <= filterEnd;
-        const isCurrent = month === currentMonthKey;
-        const color = inRange ? tlActive : isCurrent ? tlCurrent : tlInactive;
-        const patternFill = isCurrent
-          ? "url(#hatch-tl-current)"
-          : "url(#hatch-tl-inactive)";
+      {monthRange.map((monthKey, i) => {
+        const [y, m] = monthKey.split("-").map(Number);
+        const daysInMonth = new Date(y, m, 0).getDate();
+        const firstWeekday = new Date(y, m - 1, 1).getDay(); // 0 = Sun
+        const gridX = plotArea.x + i * bw + Math.floor((bw - gridW) / 2);
+
         return (
-          <rect
-            key={month}
-            x={x + 2}
-            y={cy - blockH / 2}
-            width={Math.max(0, bw - 4)}
-            height={blockH}
-            fill={inRange ? color : patternFill}
-            strokeWidth={0}
-          />
+          <g key={monthKey}>
+            {Array.from({ length: daysInMonth }, (_, idx) => {
+              const day = idx + 1;
+              const cell = idx + firstWeekday;
+              const col = cell % COLS;
+              const row = Math.floor(cell / COLS);
+              const x = gridX + col * SLOT;
+              const yt = gridTop + row * SLOT;
+              const dayStr = `${y}-${String(m).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+              const isToday = dayStr === todayKey;
+              const inRange =
+                dayStr >= filterStartFull && dayStr <= filterEndFull;
+              const fill = isToday ? tlCurrent : inRange ? tlActive : tlInactive;
+              return (
+                <rect
+                  key={day}
+                  x={x}
+                  y={yt}
+                  width={CELL}
+                  height={CELL}
+                  fill={fill}
+                />
+              );
+            })}
+          </g>
         );
       })}
     </g>
@@ -158,6 +183,7 @@ export default function MonthlyBarChart({
 
   const now = new Date();
   const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
   const monthRange = generateMonthRange(now, 5, 3);
   const currentMonthIndex = monthRange.indexOf(currentMonthKey);
 
@@ -253,13 +279,13 @@ export default function MonthlyBarChart({
       </HStack>
 
       <Box
-        h={dateRange ? "110px" : "100px"}
+        h={dateRange ? "130px" : "100px"}
         sx={{ "& *:focus": { outline: "none" } }}
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={chartData}
-            margin={{ top: 8, right: 6, left: -20, bottom: dateRange ? 10 : 0 }}
+            margin={{ top: 8, right: 6, left: -20, bottom: dateRange ? 28 : 0 }}
             barCategoryGap="20%"
             barGap={1}
             style={{ outline: "none", shapeRendering: "crispEdges" }}
@@ -308,28 +334,6 @@ export default function MonthlyBarChart({
                 <rect width="4" height="4" fill={incCurrHatchBg} />
                 <rect x="0" y="0" width="2" height="2" fill={incCurrHatchStroke} />
                 <rect x="2" y="2" width="2" height="2" fill={incCurrHatchStroke} />
-              </pattern>
-              {/* Timeline — inactivo */}
-              <pattern
-                id="hatch-tl-inactive"
-                patternUnits="userSpaceOnUse"
-                width="4"
-                height="4"
-              >
-                <rect width="4" height="4" fill="none" />
-                <rect x="0" y="0" width="2" height="2" fill={tlInactive} />
-                <rect x="2" y="2" width="2" height="2" fill={tlInactive} />
-              </pattern>
-              {/* Timeline — mes actual */}
-              <pattern
-                id="hatch-tl-current"
-                patternUnits="userSpaceOnUse"
-                width="4"
-                height="4"
-              >
-                <rect width="4" height="4" fill="none" />
-                <rect x="0" y="0" width="2" height="2" fill={tlCurrent} />
-                <rect x="2" y="2" width="2" height="2" fill={tlCurrent} />
               </pattern>
             </defs>
 
@@ -437,12 +441,12 @@ export default function MonthlyBarChart({
               <Customized
                 component={TimelineSVG}
                 monthRange={monthRange}
-                currentMonthKey={currentMonthKey}
-                filterStart={dateRange[0].substring(0, 7)}
-                filterEnd={dateRange[1].substring(0, 7)}
+                filterStartFull={dateRange[0]}
+                filterEndFull={dateRange[1]}
                 tlActive={tlActive}
                 tlInactive={tlInactive}
                 tlCurrent={tlCurrent}
+                todayKey={todayKey}
               />
             )}
           </BarChart>
