@@ -5,6 +5,7 @@ import { CategoryGrid } from "./CategoryGrid";
 import ExpensesChart from "./ExpensesChart";
 import { SectionLabel } from "./SectionLabel";
 import { UploadCard } from "./UploadCard";
+import { WalletsChart } from "./WalletsChart";
 
 type Props = {
   transactions: Tables<"transactions">[];
@@ -34,6 +35,13 @@ export default function RightPanel({ transactions = [] }: Props) {
           </SectionLabel>
         </Stack>
         <CategoryGrid transactions={transactions} />
+      </Stack>
+
+      <Stack gap={0} flexShrink={0}>
+        <Stack px={4} pt={4} pb={2}>
+          <SectionLabel>Wallets</SectionLabel>
+        </Stack>
+        <WalletsChart transactions={transactions} />
       </Stack>
 
       <UploadCard />

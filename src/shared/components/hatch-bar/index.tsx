@@ -6,6 +6,7 @@ type Props = {
   max: number;
   height?: string;
   isReverse?: boolean;
+  color?: string;
 };
 
 export function HatchBar({
@@ -13,13 +14,15 @@ export function HatchBar({
   max,
   height = "14px",
   isReverse = false,
+  color,
 }: Props) {
   const id = useId();
   const patternId = `hatch-pattern-${id.replace(/:/g, "")}`;
-  const barFill = useColorModeValue(
+  const defaultBarFill = useColorModeValue(
     "var(--chakra-colors-gray-400)",
     "var(--chakra-colors-gray-500)",
   );
+  const barFill = color ?? defaultBarFill;
   const trackFill = useColorModeValue(
     "var(--chakra-colors-gray-200)",
     "transparent",

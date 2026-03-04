@@ -1,7 +1,7 @@
 import { Tables } from "@/lib";
 import { formatCurrency, useCategories } from "@/shared";
 import { HatchBar } from "@/shared/components/hatch-bar";
-import { Grid, Text } from "@chakra-ui/react";
+import { Box, Grid, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -43,7 +43,7 @@ export function CategoryGrid({ transactions }: Props) {
 
   return (
     <Grid
-      templateColumns="1fr auto 1fr"
+      templateColumns="1fr auto 60px"
       gap={3}
       px={4}
       pb={4}
@@ -63,13 +63,14 @@ export function CategoryGrid({ transactions }: Props) {
           >
             {formatCurrency(cat.amount)}
           </Text>
-          <HatchBar
-            key={`${cat.name}-bar`}
-            value={cat.amount}
-            max={maxAmount}
-            height="12px"
-            isReverse
-          />
+          <Box key={`${cat.name}-bar`} w="60px">
+            <HatchBar
+              value={cat.amount}
+              max={maxAmount}
+              height="12px"
+              isReverse
+            />
+          </Box>
         </>
       ))}
     </Grid>

@@ -7,6 +7,7 @@ import {
 import { Tables } from "@/lib/supabase/database.types";
 import {
   AccountsDrawer,
+  ButtonSound,
   CategoriesDrawer,
   FilterButtonMenu,
   FilterDateMenu,
@@ -250,7 +251,7 @@ export default function TransactionsPage() {
               canUndo={canUndo}
               canRedo={canRedo}
             />
-            <Button
+            <ButtonSound
               colorScheme="cyan"
               w={["full", "full", "fit-content"]}
               size="sm"
@@ -265,7 +266,7 @@ export default function TransactionsPage() {
               }
             >
               {t("transactions.newRow")}
-            </Button>
+            </ButtonSound>
 
             <IconButton
               size="sm"
@@ -303,7 +304,7 @@ export default function TransactionsPage() {
                 <BracketsContent />
                 <Text>{t("transactions.emptyState.noTransactions")}</Text>
                 <Stack>
-                  <Button
+                  <ButtonSound
                     leftIcon={<Plus height={16} width={16} />}
                     onClick={handleNewRow}
                     variant="solid"
@@ -314,7 +315,7 @@ export default function TransactionsPage() {
                     }
                   >
                     {t("transactions.emptyState.addRow")}
-                  </Button>
+                  </ButtonSound>
                   <Button
                     leftIcon={<Upload height={16} width={16} />}
                     variant="solid"

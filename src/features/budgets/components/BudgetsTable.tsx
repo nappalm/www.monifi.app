@@ -4,22 +4,12 @@ import {
   VirtualDataGrid,
   type GridColumn,
 } from "@/shared/components/virtual-data-grid";
-import {
-  CellularSignal0,
-  CellularSignal1,
-  CellularSignal2,
-  CellularSignal3,
-} from "pixelarticons/react";
+import { SpeedFast, SpeedMedium, SpeedSlow } from "pixelarticons/react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import TableRowMenu from "./TableRowMenu";
 
-const ANTENNA_ICONS = [
-  CellularSignal0,
-  CellularSignal1,
-  CellularSignal2,
-  CellularSignal3,
-];
+const SPEED_ICONS = [SpeedSlow, SpeedMedium, SpeedFast];
 
 type BudgetCategoryRow = {
   id: number;
@@ -52,11 +42,11 @@ export default function BudgetsTable({
 }: Props) {
   const { t } = useTranslation();
 
-  const getAntennaIcon = (spent: number, limit: number) => {
+  const getSpeedIcon = (spent: number, limit: number) => {
     const exceeded = limit > 0 && spent > limit;
     const level =
-      limit === 0 ? 0 : Math.min(3, Math.round((spent / limit) * 4));
-    const IconComponent = ANTENNA_ICONS[level];
+      limit === 0 ? 0 : Math.min(2, Math.round((spent / limit) * 3));
+    const IconComponent = SPEED_ICONS[level];
     return (
       <IconComponent
         height={18}
@@ -100,7 +90,7 @@ export default function BudgetsTable({
           const spent = spentByCategory[row.category_id] ?? 0;
           return (
             <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              {getAntennaIcon(spent, row.amount)}
+              {getSpeedIcon(spent, row.amount)}
               {formatCurrency(spent)}
             </span>
           );
