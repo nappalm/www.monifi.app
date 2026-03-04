@@ -206,7 +206,7 @@ export default function MonthlyBarChart({
 
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");
-  const cursorStroke = useColorModeValue("gray", "white");
+  const cursorStroke = _colors.gray[500];
   const cursorFill = useColorModeValue(
     "rgba(0,0,0,0.04)",
     "rgba(255,255,255,0.06)",

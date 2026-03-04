@@ -304,6 +304,42 @@
       "currentMonth": "(current)",
       "expensesVsIncomesByMonth": "Expenses and income by month",
       "distribution": "Distribution"
+    },
+    "extract": {
+      "filename": "FILE.PDF",
+      "rows": "{{count}} rows",
+      "duplicateRows": {
+        "label": "Repeated rows:",
+        "description": "Transactions with the same date and description that might already be recorded. Review them — it could be a real duplicate or two legitimate purchases on the same day."
+      },
+      "uncategorizedRows": {
+        "label": "Uncategorized rows:",
+        "description": "Assigning a category helps classify and analyze your expenses."
+      },
+      "noAccountRows": {
+        "label": "Rows without account:",
+        "description": "The account indicates where the income or expense comes from."
+      },
+      "saveButton": "Save transactions",
+      "saveInfo": "When saved, the transactions will be recorded and available in the transaction history.",
+      "saveAlert": {
+        "title": "Are you sure you want to save?",
+        "duplicateWarning": "{{count}} row(s) might be duplicates",
+        "uncategorizedWarning": "{{count}} row(s) without category",
+        "noAccountWarning": "{{count}} row(s) without account"
+      }
+    },
+    "loadFile": {
+      "dragText": "Drag your PDF file here",
+      "clickText": "or click to select it",
+      "selectButton": "Select file",
+      "removeFile": "Remove file",
+      "processingText": "Processing document",
+      "extractButton": "Extract information",
+      "invalidFile": {
+        "title": "Invalid file",
+        "description": "Only PDF files are allowed"
+      }
     }
   },
   "statistics": {

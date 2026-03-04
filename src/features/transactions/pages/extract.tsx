@@ -1,26 +1,20 @@
+import { useGlobalUI } from "@/lib/global-ui";
 import { Tables } from "@/lib/supabase/database.types";
-import {
-  AccountsDrawer,
-  ButtonSpinner,
-  CategoriesDrawer,
-  HatchBar,
-} from "@/shared";
+import { AccountsDrawer, CategoriesDrawer, HatchBar } from "@/shared";
 import {
   Badge,
   Button,
   Card,
   CardBody,
-  Container,
   HStack,
-  IconButton,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { Box as BoxIcon, Cancel } from "pixelarticons/react";
-import { useGlobalUI } from "@/lib/global-ui";
 import { AnimatePresence, motion } from "framer-motion";
+import { Box as BoxIcon } from "pixelarticons/react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DetailsDrawer } from "../components/DetailsDrawer";
 import LoadFilePC from "../components/LoadFilePC";
 import TransactionsTable from "../components/TransactionsTable";
@@ -40,6 +34,7 @@ const getTransactionKey = (t: {
 }) => `${normalizeDescription(t.description)}|${t.amount}|${t.type}`;
 
 export default function ExtractPage() {
+  const { t } = useTranslation();
   const transactionExtract = useTransactionExtract();
   const createBulkTransactions = useCreateBulkTransactions();
 
@@ -127,15 +122,15 @@ export default function ExtractPage() {
   const handleSave = () => {
     const warnings: string[] = [];
     if (duplicateCount > 0)
-      warnings.push(`${duplicateCount} fila(s) podrían estar duplicadas`);
+      warnings.push(t("transactions.extract.saveAlert.duplicateWarning", { count: duplicateCount }));
     if (uncategorizedCount > 0)
-      warnings.push(`${uncategorizedCount} fila(s) sin categoría`);
+      warnings.push(t("transactions.extract.saveAlert.uncategorizedWarning", { count: uncategorizedCount }));
     if (noAccountCount > 0)
-      warnings.push(`${noAccountCount} fila(s) sin cuenta`);
+      warnings.push(t("transactions.extract.saveAlert.noAccountWarning", { count: noAccountCount }));
 
     if (warnings.length > 0) {
       alert.onOpen({
-        title: "¿Estás seguro de guardar?",
+        title: t("transactions.extract.saveAlert.title"),
         description: warnings.join(" · "),
         colorScheme: "orange",
         onOk: doSave,
@@ -214,10 +209,10 @@ export default function ExtractPage() {
                       <BoxIcon />
                       <Stack gap={0}>
                         <Text fontFamily="Geist Mono">
-                          {transactionExtract.data?.filename ?? "FILE.PDF"}
+                          {transactionExtract.data?.filename ?? t("transactions.extract.filename")}
                         </Text>
                         <Text fontSize="sm" color="gray.500">
-                          {totalRows} rows
+                          {t("transactions.extract.rows", { count: totalRows })}
                         </Text>
                       </Stack>
                     </HStack>
@@ -227,20 +222,18 @@ export default function ExtractPage() {
                   <CardBody>
                     <Stack>
                       <Text fontFamily="Geist Mono" textTransform="uppercase">
-                        Filas repetidas:
+                        {t("transactions.extract.duplicateRows.label")}
                       </Text>
                       <HStack>
                         <HatchBar value={duplicateCount} max={totalRows} />
                         <Badge
                           colorScheme={duplicateCount > 0 ? "orange" : "teal"}
                         >
-                          {duplicateCount} rows
+                          {t("transactions.extract.rows", { count: duplicateCount })}
                         </Badge>
                       </HStack>
                       <Text color="gray.500" fontSize="xs">
-                        Transacciones con la misma fecha y descripción que
-                        podrían ya estar registradas. Revísalas — puede ser un
-                        duplicado real o dos compras legítimas el mismo día.
+                        {t("transactions.extract.duplicateRows.description")}
                       </Text>
                     </Stack>
                   </CardBody>
@@ -250,7 +243,7 @@ export default function ExtractPage() {
                   <CardBody>
                     <Stack>
                       <Text fontFamily="Geist Mono" textTransform="uppercase">
-                        Filas sin categorizar:
+                        {t("transactions.extract.uncategorizedRows.label")}
                       </Text>
                       <HStack>
                         <HatchBar value={uncategorizedCount} max={totalRows} />
@@ -259,12 +252,11 @@ export default function ExtractPage() {
                             uncategorizedCount > 0 ? "orange" : "teal"
                           }
                         >
-                          {uncategorizedCount} rows
+                          {t("transactions.extract.rows", { count: uncategorizedCount })}
                         </Badge>
                       </HStack>
                       <Text color="gray.500" fontSize="xs">
-                        Asignar una categoría ayuda a clasificar y analizar tus
-                        gastos.
+                        {t("transactions.extract.uncategorizedRows.description")}
                       </Text>
                     </Stack>
                   </CardBody>
@@ -274,18 +266,18 @@ export default function ExtractPage() {
                   <CardBody>
                     <Stack>
                       <Text fontFamily="Geist Mono" textTransform="uppercase">
-                        Filas sin cuenta:
+                        {t("transactions.extract.noAccountRows.label")}
                       </Text>
                       <HStack>
                         <HatchBar value={noAccountCount} max={totalRows} />
                         <Badge
                           colorScheme={noAccountCount > 0 ? "orange" : "teal"}
                         >
-                          {noAccountCount} rows
+                          {t("transactions.extract.rows", { count: noAccountCount })}
                         </Badge>
                       </HStack>
                       <Text color="gray.500" fontSize="xs">
-                        La cuenta indica de dónde proviene el ingreso o gasto.
+                        {t("transactions.extract.noAccountRows.description")}
                       </Text>
                     </Stack>
                   </CardBody>
@@ -296,13 +288,12 @@ export default function ExtractPage() {
                   m={1}
                   onClick={handleSave}
                 >
-                  Guardar transacciones
+                  {t("transactions.extract.saveButton")}
                 </Button>
               </Stack>
               <Stack p={5}>
                 <Text color="gray.500" fontSize="sm">
-                  Al guardar, las transacciones quedarán registradas y
-                  disponibles en el historial de transacciones.
+                  {t("transactions.extract.saveInfo")}
                 </Text>
               </Stack>
             </Stack>

@@ -304,6 +304,42 @@
       "currentMonth": "(actual)",
       "expensesVsIncomesByMonth": "Gastos e ingresos por mes",
       "distribution": "Distribución"
+    },
+    "extract": {
+      "filename": "ARCHIVO.PDF",
+      "rows": "{{count}} filas",
+      "duplicateRows": {
+        "label": "Filas repetidas:",
+        "description": "Transacciones con la misma fecha y descripción que podrían ya estar registradas. Revísalas — puede ser un duplicado real o dos compras legítimas el mismo día."
+      },
+      "uncategorizedRows": {
+        "label": "Filas sin categorizar:",
+        "description": "Asignar una categoría ayuda a clasificar y analizar tus gastos."
+      },
+      "noAccountRows": {
+        "label": "Filas sin cuenta:",
+        "description": "La cuenta indica de dónde proviene el ingreso o gasto."
+      },
+      "saveButton": "Guardar transacciones",
+      "saveInfo": "Al guardar, las transacciones quedarán registradas y disponibles en el historial de transacciones.",
+      "saveAlert": {
+        "title": "¿Estás seguro de guardar?",
+        "duplicateWarning": "{{count}} fila(s) podrían estar duplicadas",
+        "uncategorizedWarning": "{{count}} fila(s) sin categoría",
+        "noAccountWarning": "{{count}} fila(s) sin cuenta"
+      }
+    },
+    "loadFile": {
+      "dragText": "Arrastra tu archivo PDF aquí",
+      "clickText": "o haz clic para seleccionarlo",
+      "selectButton": "Seleccionar archivo",
+      "removeFile": "Eliminar archivo",
+      "processingText": "Procesando documento",
+      "extractButton": "Extraer información",
+      "invalidFile": {
+        "title": "Archivo inválido",
+        "description": "Solo se permiten archivos PDF"
+      }
     }
   },
   "statistics": {

@@ -7,7 +7,13 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import { Delete, Hand, MoreVertical, Switch } from "pixelarticons/react";
+import {
+  Checkbox,
+  CheckboxOn,
+  ChevronDown2,
+  Delete,
+  Eye,
+} from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -34,19 +40,22 @@ export default function TableRowMenu({
         size="xs"
         variant="unstyled"
         pl="7px"
-        icon={<MoreVertical width={16} height={16} />}
+        icon={<ChevronDown2 width={16} height={16} />}
       />
       <Portal>
         <MenuList>
-          <MenuItem icon={<Hand width={16} height={16} />} onClick={onSeeDetails}>
+          <MenuItem
+            icon={<Eye width={16} height={16} />}
+            onClick={onSeeDetails}
+          >
             {t("transactions.menu.seeDetails")}
           </MenuItem>
           <MenuItem
             icon={
               isDisabled ? (
-                <Switch width={16} height={16} />
+                <CheckboxOn width={16} height={16} />
               ) : (
-                <Switch width={16} height={16} />
+                <Checkbox width={16} height={16} />
               )
             }
             onClick={onDisabled}

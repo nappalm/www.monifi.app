@@ -35,11 +35,10 @@ function CustomTooltip({ active, payload, tooltipBg, tooltipColor }: any) {
         bg={tooltipBg}
         color={tooltipColor}
         p={2}
-        borderRadius={0}
-        border="2px solid"
-        borderColor={tooltipColor}
-        fontSize="sm"
-        fontFamily="Geist Mono"
+        borderRadius="md"
+        boxShadow="lg"
+        fontSize="xs"
+        minW="130px"
       >
         <Text fontWeight="bold">{formattedDate}</Text>
         <Text>${value.toLocaleString()}</Text>
@@ -110,7 +109,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
 
   const tooltipBg = useColorModeValue("white", "gray.800");
   const tooltipColor = useColorModeValue("gray.800", "white");
-  const borderColor = useColorModeValue("gray.200", "gray.700");
+  const borderColor = useColorModeValue("gray.200", "gray.800");
   const hatchBg = useColorModeValue(
     "var(--chakra-colors-gray-100)",
     "var(--chakra-colors-gray-800)",
@@ -126,7 +125,7 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
   const cursorStroke = useColorModeValue("gray", "white");
 
   return (
-    <Card size="sm" variant="solid">
+    <Card size="sm" borderX="none">
       <CardBody p={1}>
         <Grid templateColumns="150px 1fr">
           <Stack justify="center" align="center">

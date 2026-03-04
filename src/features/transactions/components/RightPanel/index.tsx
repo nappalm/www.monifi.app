@@ -1,8 +1,8 @@
 import { Tables } from "@/lib";
-import { Divider, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import { useTranslation } from "react-i18next";
-import ExpensesChart from "./ExpensesChart";
 import { CategoryGrid } from "./CategoryGrid";
+import ExpensesChart from "./ExpensesChart";
 import { SectionLabel } from "./SectionLabel";
 import { UploadCard } from "./UploadCard";
 
@@ -21,13 +21,12 @@ export default function RightPanel({ transactions = [] }: Props) {
       overflow="hidden"
       gap={0}
     >
-      <Stack p={4} flexShrink={0}>
-        <SectionLabel>{t("transactions.summary.balance")}</SectionLabel>
+      <Stack flexShrink={0}>
+        <SectionLabel px={2} pt={2}>
+          {t("transactions.summary.balance")}
+        </SectionLabel>
         <ExpensesChart transactions={transactions} />
       </Stack>
-
-      <Divider borderColor="gray.800" />
-
       <Stack gap={0} flex={1} overflow="hidden">
         <Stack px={4} pt={4} pb={2} flexShrink={0}>
           <SectionLabel>

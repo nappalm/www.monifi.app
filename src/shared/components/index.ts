@@ -16,6 +16,7 @@ export * from "./accounts-drawer";
 export * from "./undo-redo-buttons";
 export * from "./carousel";
 export * from "./button-spinner";
+export * from "./button-sound";
 export * from "./hatch-bar";
 export * from "./virtual-data-grid";
 export * from "./page-loading";

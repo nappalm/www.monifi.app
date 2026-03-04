@@ -1,4 +1,4 @@
-import { ButtonSpinner } from "@/shared";
+import { ButtonSound, ButtonSpinner } from "@/shared";
 import {
   Box,
   Button,
@@ -9,12 +9,13 @@ import {
   IconButton,
   Stack,
   Text,
-  VStack,
   useToast,
+  VStack,
 } from "@chakra-ui/react";
-import { Delete, File as FileIcon, FileText, Folder } from "pixelarticons/react";
+import { Delete, Files, FileText, Folder, Upload } from "pixelarticons/react";
 import type { ChangeEvent, DragEvent } from "react";
 import { useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ACCEPTED_TYPES = ["application/pdf"];
 
@@ -24,6 +25,7 @@ interface LoadFilePCProps {
 }
 
 export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const toast = useToast();
 
@@ -32,8 +34,8 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
   const validateFile = useCallback((file: File): boolean => {
     if (!ACCEPTED_TYPES.includes(file.type)) {
       toast({
-        title: "Archivo inválido",
-        description: "Solo se permiten archivos PDF",
+        title: t("transactions.loadFile.invalidFile.title"),
+        description: t("transactions.loadFile.invalidFile.description"),
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -95,8 +97,8 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
         justifyContent="center"
       >
         <VStack gap={0}>
-          <Stack position="relative">
-            <FileIcon width={40} height={40} />
+          <Stack position="relative" mb={6}>
+            <Files width={40} height={40} />
             <Box
               position="absolute"
               bg="cyan.500"
@@ -107,17 +109,17 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
               border="2px solid"
               borderColor="gray.900"
             >
-              <FileText width={15} height={15} />
+              <Upload width={15} height={15} />
             </Box>
           </Stack>
           <br />
-          <Text>Arrastra tu archivo PDF aquí</Text>
+          <Text>{t("transactions.loadFile.dragText")}</Text>
           <Text fontSize="sm" color="gray.500">
-            o haz clic para seleccionarlo
+            {t("transactions.loadFile.clickText")}
           </Text>
           <Stack width="400px" mt={4}>
             <Collapse in={!selectedFile} style={{ width: "100%" }}>
-              <Button
+              <ButtonSound
                 w="full"
                 variant="solid"
                 leftIcon={<Folder width={16} height={16} />}
@@ -126,8 +128,8 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
                   handleClick();
                 }}
               >
-                Seleccionar archivo
-              </Button>
+                {t("transactions.loadFile.selectButton")}
+              </ButtonSound>
             </Collapse>
             <Collapse in={!!selectedFile} style={{ width: "100%" }}>
               <Card size="sm" my={3} variant="solid">
@@ -145,7 +147,7 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
                       </VStack>
                     </HStack>
                     <IconButton
-                      aria-label="Eliminar archivo"
+                      aria-label={t("transactions.loadFile.removeFile")}
                       icon={<Delete width={16} height={16} />}
                       size="sm"
                       variant="ghost"
@@ -170,9 +172,9 @@ export default function LoadFilePC({ onContinue, isLoading }: LoadFilePCProps) {
                 colorScheme="cyan"
                 isLoading={isLoading}
                 spinner={<ButtonSpinner />}
-                loadingText="Procesando documento"
+                loadingText={t("transactions.loadFile.processingText")}
               >
-                Extraer información
+                {t("transactions.loadFile.extractButton")}
               </Button>
             </Collapse>
           </Stack>

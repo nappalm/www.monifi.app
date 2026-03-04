@@ -1,6 +1,6 @@
-import { Text } from "@chakra-ui/react";
+import { Text, TextProps } from "@chakra-ui/react";
 
-export function SectionLabel({ children }: { children: string }) {
+export function SectionLabel({ children, ...rest }: TextProps) {
   return (
     <Text
       fontSize="10px"
@@ -8,6 +8,7 @@ export function SectionLabel({ children }: { children: string }) {
       letterSpacing="widest"
       textTransform="uppercase"
       color="gray.500"
+      {...rest}
     >
       {children}
     </Text>

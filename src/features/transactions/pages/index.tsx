@@ -15,6 +15,7 @@ import {
   useCategories,
   useFilters,
   useKeyPress,
+  useMoneyChangeSound,
 } from "@/shared";
 import {
   Button,
@@ -127,6 +128,8 @@ export default function TransactionsPage() {
     );
   }, [transactions, filters]);
 
+  const playMoneySound = useMoneyChangeSound();
+
   const [focusPending, setFocusPending] = useState(false);
   const [focusRowIndex, setFocusRowIndex] = useState<number | null>(null);
 
@@ -170,6 +173,7 @@ export default function TransactionsPage() {
       addToHistory(data, currentTransaction);
     }
 
+    playMoneySound();
     updateTransaction.mutate(data, {
       onError: () => {
         // React Query ya maneja el rollback automático en caso de error

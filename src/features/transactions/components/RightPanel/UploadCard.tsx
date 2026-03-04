@@ -8,10 +8,21 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ChevronRight2, Invoice } from "pixelarticons/react";
+import { useNavigate } from "react-router-dom";
+import { TRANSACTIONS_PATHS } from "../../router";
+import { useClickSound } from "@/shared";
 
 export function UploadCard() {
+  const navigate = useNavigate();
+  const playSound = useClickSound();
+
+  const handleClick = () => {
+    playSound();
+    navigate(TRANSACTIONS_PATHS.extract);
+  };
+
   return (
-    <Card borderRadius={0} ml="-1px" cursor="pointer">
+    <Card borderRadius={0} ml="-1px" cursor="pointer" onClick={handleClick}>
       <CardBody pr={2}>
         <HStack justify="space-between">
           <HStack color="gray.500" gap={3}>
@@ -23,8 +34,6 @@ export function UploadCard() {
           <Stack gap={0} align="end">
             <HStack gap={1}>
               <Badge>PDF</Badge>
-              <Text color="gray.500">/</Text>
-              <Badge>XLS</Badge>
               <Box color="gray.500">
                 <ChevronRight2 />
               </Box>
