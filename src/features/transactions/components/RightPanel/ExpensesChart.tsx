@@ -35,9 +35,11 @@ function CustomTooltip({ active, payload, tooltipBg, tooltipColor }: any) {
         bg={tooltipBg}
         color={tooltipColor}
         p={2}
-        borderRadius="md"
-        boxShadow="lg"
+        borderRadius={0}
+        border="2px solid"
+        borderColor={tooltipColor}
         fontSize="sm"
+        fontFamily="Geist Mono"
       >
         <Text fontWeight="bold">{formattedDate}</Text>
         <Text>${value.toLocaleString()}</Text>
@@ -154,9 +156,11 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
           <Box
             flex={1}
             h="100px"
-            border="2px solid"
-            borderColor={borderColor}
-            borderRadius="md"
+            borderRadius={0}
+            outline="2px solid"
+            outlineColor={borderColor}
+            outlineOffset="-2px"
+            sx={{ imageRendering: "pixelated" }}
           >
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
@@ -197,12 +201,15 @@ export default function ExpensesChart({ transactions }: ExpensesChartProps) {
                   }}
                 />
                 <Area
-                  type="linear"
+                  type="stepAfter"
                   dataKey="value"
                   stroke={areaStroke}
-                  strokeWidth={1.5}
-                  fill="url(#hatch-area)"
+                  strokeWidth={2}
+                  fill={areaStroke}
+                  fillOpacity={1}
                   baseValue="dataMin"
+                  dot={false}
+                  isAnimationActive={false}
                 />
               </AreaChart>
             </ResponsiveContainer>

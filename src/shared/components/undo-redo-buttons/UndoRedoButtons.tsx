@@ -1,5 +1,5 @@
 import { ButtonGroup, IconButton, Tooltip } from "@chakra-ui/react";
-import { IconRotate2, IconRotateClockwise2 } from "@tabler/icons-react";
+import { RedoSharp, UndoSharp } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 interface UndoRedoButtonsProps {
@@ -25,7 +25,7 @@ export default function UndoRedoButtons({
           aria-label="Undo"
           borderRightRadius={0}
           size="sm"
-          icon={<IconRotate2 size={18} />}
+          icon={<UndoSharp height={16} width={16} />}
           onClick={onUndo}
           isDisabled={!canUndo}
         />
@@ -36,7 +36,7 @@ export default function UndoRedoButtons({
           aria-label="Redo"
           borderLeftRadius={0}
           size="sm"
-          icon={<IconRotateClockwise2 size={18} />}
+          icon={<RedoSharp height={16} width={16} />}
           onClick={onRedo}
           isDisabled={!canRedo}
         />

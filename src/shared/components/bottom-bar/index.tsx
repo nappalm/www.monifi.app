@@ -11,15 +11,15 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { IconUserFilled } from "@tabler/icons-react";
 import {
-  IconBucket,
-  IconChevronRight,
-  IconMountain,
-  IconSunFilled,
-  IconTransactionDollar,
-  IconUserFilled,
-  IconVectorSpline,
-} from "@tabler/icons-react";
+  Blocks,
+  BottleWine,
+  ChartBarBig,
+  ChevronRight,
+  Goal,
+  LightbulbOff,
+} from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -55,24 +55,24 @@ export default function BottomBar() {
         <Text fontFamily="Geist Mono" pl={2} color="gray.500">
           {t("components.bottombar.pages")}
         </Text>
-        <IconChevronRight size={16} opacity={0.3} />
+        <ChevronRight height={16} width={16} opacity={0.3} />
         <ButtonGroup size="sm" variant="sidebar">
           <Button
             isActive={isPathActive("/transactions")}
-            leftIcon={<IconTransactionDollar size={16} />}
+            leftIcon={<Blocks height={16} width={16} />}
             onClick={() => handleNavigate("/transactions")}
           >
             {t("components.bottombar.transactions")}
           </Button>
           <Button
-            leftIcon={<IconBucket size={16} />}
+            leftIcon={<BottleWine height={16} width={16} />}
             isActive={isPathActive("/budgets")}
             onClick={() => handleNavigate("/budgets")}
           >
             {t("components.bottombar.budgets")}
           </Button>
           <Button
-            leftIcon={<IconMountain size={16} />}
+            leftIcon={<Goal height={16} width={16} />}
             isActive={isPathActive("/goals")}
             onClick={() => handleNavigate("/goals")}
           >
@@ -80,7 +80,7 @@ export default function BottomBar() {
           </Button>
           <Button
             onClick={() => handleNavigate("/statistics")}
-            leftIcon={<IconVectorSpline size={16} />}
+            leftIcon={<ChartBarBig height={16} width={16} />}
             isActive={isPathActive("/statistics")}
           >
             {t("components.bottombar.statistics")}
@@ -89,7 +89,7 @@ export default function BottomBar() {
             aria-label={t("components.bottombar.themeToggle")}
             size="sm"
             variant="ghost"
-            icon={<IconSunFilled size={16} />}
+            icon={<LightbulbOff height={17} width={17} />}
             onClick={colorMode.toggleColorMode}
           />
         </ButtonGroup>

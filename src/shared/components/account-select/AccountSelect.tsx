@@ -13,14 +13,8 @@ import {
   MenuList,
   Portal,
 } from "@chakra-ui/react";
-import {
-  IconCapsuleHorizontal,
-  IconCapsuleHorizontalFilled,
-  IconCashBanknote,
-  IconCashBanknoteFilled,
-  IconCircleFilled,
-  IconMoneybag,
-} from "@tabler/icons-react";
+import { IconCircleFilled } from "@tabler/icons-react";
+import { Wallet, WalletSharp } from "pixelarticons/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -87,9 +81,10 @@ export default function AccountSelect({
         as={Button}
         color={selectedAccount?.color ?? _colors.gray[500]}
         leftIcon={
-          <IconCashBanknoteFilled
+          <Wallet
             color={selectedAccount?.color ?? _colors.gray[500]}
-            size={15}
+            height={14}
+            width={14}
           />
         }
         w="full"

@@ -10,15 +10,15 @@ const styles = {
     body: {
       bg: mode("#ffffff", "gray.900")(props),
       color: mode("gray.800", "#DBE3F3")(props),
-      fontWeight: 400,
-      fontSize: "14px",
+      fontWeight: 500,
+      fontSize: "13px",
     },
   }),
 };
 
 const fonts = {
   heading: "Geist",
-  body: "Geist",
+  body: "Geist Mono",
 };
 
 const fontSizes = {

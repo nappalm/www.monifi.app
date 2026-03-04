@@ -1,26 +1,24 @@
+import _colors from "@/lib/chakra-ui/_colors";
 import { formatCurrency } from "@/shared";
 import {
   VirtualDataGrid,
   type GridColumn,
 } from "@/shared/components/virtual-data-grid";
 import {
-  IconAntennaBars1,
-  IconAntennaBars2,
-  IconAntennaBars3,
-  IconAntennaBars4,
-  IconAntennaBars5,
-} from "@tabler/icons-react";
+  CellularSignal0,
+  CellularSignal1,
+  CellularSignal2,
+  CellularSignal3,
+} from "pixelarticons/react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import TableRowMenu from "./TableRowMenu";
-import _colors from "@/lib/chakra-ui/_colors";
 
 const ANTENNA_ICONS = [
-  IconAntennaBars1,
-  IconAntennaBars2,
-  IconAntennaBars3,
-  IconAntennaBars4,
-  IconAntennaBars5,
+  CellularSignal0,
+  CellularSignal1,
+  CellularSignal2,
+  CellularSignal3,
 ];
 
 type BudgetCategoryRow = {
@@ -57,11 +55,12 @@ export default function BudgetsTable({
   const getAntennaIcon = (spent: number, limit: number) => {
     const exceeded = limit > 0 && spent > limit;
     const level =
-      limit === 0 ? 0 : Math.min(4, Math.round((spent / limit) * 4));
+      limit === 0 ? 0 : Math.min(3, Math.round((spent / limit) * 4));
     const IconComponent = ANTENNA_ICONS[level];
     return (
       <IconComponent
-        size={20}
+        height={18}
+        width={18}
         color={exceeded ? _colors.red[500] : undefined}
       />
     );

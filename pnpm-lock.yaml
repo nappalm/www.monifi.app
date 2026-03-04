@@ -68,6 +68,9 @@ importers:
       msw:
         specifier: ^2.3.4
         version: 2.12.10(@types/node@24.0.13)(typescript@5.8.3)
+      pixelarticons:
+        specifier: ^2.0.2
+        version: 2.0.2(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -2448,6 +2451,12 @@ packages:
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  pixelarticons@2.0.2:
+    resolution: {integrity: sha512-/BlUJp9oRv2hx0ELy2+X8R2khnAvzztUmYuu7KfHZSQNDc09PTK0BxDl9+AYE7qVNupE/12Z/89iz7joYDHYDw==}
+    hasBin: true
+    peerDependencies:
+      react: '>=16'
 
   plop@4.0.1:
     resolution: {integrity: sha512-5n8QU93kvL/ObOzBcPAB1siVFtAH1TZM6TntJ3JK5kXT0jIgnQV+j+uaOWWFJlg1cNkzLYm8klgASF65K36q9w==}
@@ -5535,6 +5544,10 @@ snapshots:
   picocolors@1.1.1: {}
 
   picomatch@2.3.1: {}
+
+  pixelarticons@2.0.2(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   plop@4.0.1:
     dependencies:

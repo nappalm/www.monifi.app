@@ -13,6 +13,7 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconTag } from "@tabler/icons-react";
+import { Box, IconCategory, Tree } from "pixelarticons/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -78,7 +79,7 @@ export default function CategorySelect({
         as={Button}
         leftIcon={
           !selectedCategory || !/^\p{Emoji}/u.test(selectedCategory.name) ? (
-            <IconTag size={13} />
+            <Box height={14} width={14} />
           ) : undefined
         }
         cursor="default"

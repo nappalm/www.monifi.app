@@ -27,7 +27,8 @@ function columnsEqual<T extends DataRow>(
       ca.align !== cb.align ||
       ca.isResizable !== cb.isResizable ||
       ca.fullWidth !== cb.fullWidth ||
-      ca.pin !== cb.pin
+      ca.pin !== cb.pin ||
+      ca.render !== cb.render
     ) {
       return false;
     }

@@ -22,22 +22,22 @@ import {
   IconButton,
   Stack,
   Text,
-  Tooltip,
   useBreakpointValue,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  IconArrowBarToDownDashed,
-  IconFileFilled,
-  IconLayoutListFilled,
-  IconLayoutSidebarRightFilled,
   IconLineHeight,
-  IconPlus,
   IconReceiptDollarFilled,
   IconTagFilled,
-  IconUpload,
 } from "@tabler/icons-react";
+import {
+  ArrowBarLeft,
+  ArrowBarRight,
+  BracketsContent,
+  Plus,
+  Upload,
+} from "pixelarticons/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -253,41 +253,34 @@ export default function TransactionsPage() {
               canUndo={canUndo}
               canRedo={canRedo}
             />
-            <HStack gap={0}>
-              <Button
-                colorScheme="cyan"
-                w={["full", "full", "fit-content"]}
-                size="sm"
-                leftIcon={<IconArrowBarToDownDashed size={16} />}
-                onClick={handleNewRow}
-                isLoading={createTransaction.isPending}
-                borderRightRadius={0}
-                rightIcon={
-                  <Text fontSize="xs" opacity={0.5}>
-                    Ctrl + I
-                  </Text>
-                }
-              >
-                {t("transactions.newRow")}
-              </Button>
-              <Tooltip label="Upload transactions">
-                <IconButton
-                  aria-label="Load file from PC"
-                  ml="-1px"
-                  colorScheme="cyan"
-                  size="sm"
-                  borderLeftRadius={0}
-                  icon={<IconFileFilled size={16} />}
-                  onClick={handleLoadFile}
-                />
-              </Tooltip>
-            </HStack>
+            <Button
+              colorScheme="cyan"
+              w={["full", "full", "fit-content"]}
+              size="sm"
+              leftIcon={<Plus height={16} width={16} />}
+              onClick={handleNewRow}
+              isLoading={createTransaction.isPending}
+              borderRightRadius={0}
+              rightIcon={
+                <Text fontSize="xs" opacity={0.5}>
+                  Ctrl + I
+                </Text>
+              }
+            >
+              {t("transactions.newRow")}
+            </Button>
 
             <IconButton
               size="sm"
               variant="ghost"
               aria-label="Toggle right panel"
-              icon={<IconLayoutSidebarRightFilled size={18} />}
+              icon={
+                isRightPanelOpen ? (
+                  <ArrowBarRight height={16} width={16} />
+                ) : (
+                  <ArrowBarLeft height={16} width={16} />
+                )
+              }
               onClick={() => setIsRightPanelOpen((prev) => !prev)}
               color={isRightPanelOpen ? "cyan.300" : undefined}
             />
@@ -310,11 +303,11 @@ export default function TransactionsPage() {
             focusRowIndex={focusRowIndex}
             emptyState={
               <Stack align="center" color="gray.500">
-                <IconLayoutListFilled />
+                <BracketsContent />
                 <Text>{t("transactions.emptyState.noTransactions")}</Text>
-                <HStack>
+                <Stack>
                   <Button
-                    leftIcon={<IconPlus size={16} />}
+                    leftIcon={<Plus height={16} width={16} />}
                     onClick={handleNewRow}
                     variant="solid"
                     rightIcon={
@@ -325,15 +318,14 @@ export default function TransactionsPage() {
                   >
                     {t("transactions.emptyState.addRow")}
                   </Button>
-                  <Text>{t("transactions.emptyState.or")}</Text>
                   <Button
-                    leftIcon={<IconUpload size={16} />}
+                    leftIcon={<Upload height={16} width={16} />}
                     variant="solid"
                     onClick={handleLoadFile}
                   >
                     {t("transactions.emptyState.uploadFile")}
                   </Button>
-                </HStack>
+                </Stack>
               </Stack>
             }
           />

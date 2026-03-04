@@ -8,11 +8,6 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import {
-  IconCalendarEventFilled,
-  IconChevronLeft,
-  IconChevronRight,
-} from "@tabler/icons-react";
-import {
   addDays,
   addMonths,
   differenceInDays,
@@ -20,6 +15,7 @@ import {
   format,
   startOfMonth,
 } from "date-fns";
+import { Calendar, ChevronLeft2, ChevronRight2 } from "pixelarticons/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -88,7 +84,7 @@ export default function FilterDateMenu({ onChange }: Props) {
     : t("components.filterDateMenu.selectRange");
 
   return (
-    <ButtonGroup isAttached size="sm">
+    <ButtonGroup isAttached size="sm" gap="2px">
       <Button
         onClick={() => shiftRange(-1)}
         isDisabled={!hasRange}
@@ -97,12 +93,12 @@ export default function FilterDateMenu({ onChange }: Props) {
         color="gray.500"
         px={2}
       >
-        <IconChevronLeft size={16} />
+        <ChevronLeft2 height={16} width={16} />
       </Button>
       <Menu>
         <MenuButton
           as={Button}
-          leftIcon={<IconCalendarEventFilled size={18} />}
+          leftIcon={<Calendar height={16} width={16} />}
           size="sm"
           borderRadius={0}
           variant="solid"
@@ -122,7 +118,7 @@ export default function FilterDateMenu({ onChange }: Props) {
         color="gray.500"
         px={2}
       >
-        <IconChevronRight size={16} />
+        <ChevronRight2 height={16} width={16} />
       </Button>
     </ButtonGroup>
   );

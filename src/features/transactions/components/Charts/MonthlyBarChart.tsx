@@ -120,25 +120,27 @@ function TimelineSVG({
   // Timeline center sits 5px above the SVG bottom edge (middle of the 10px margin)
   const cy = plotArea.y + plotArea.height + offset.bottom - 5;
 
+  const blockH = 4;
+
   return (
-    <g>
+    <g shapeRendering="crispEdges">
       {monthRange.map((month, i) => {
         const x = plotArea.x + i * bw;
         const inRange = month >= filterStart && month <= filterEnd;
         const isCurrent = month === currentMonthKey;
         const color = inRange ? tlActive : isCurrent ? tlCurrent : tlInactive;
-        const x1 = x + 2;
-        const x2 = x + Math.max(0, bw - 2);
+        const patternFill = isCurrent
+          ? "url(#hatch-tl-current)"
+          : "url(#hatch-tl-inactive)";
         return (
-          <line
+          <rect
             key={month}
-            x1={x1}
-            y1={cy}
-            x2={x2}
-            y2={cy}
-            stroke={color}
-            strokeWidth={inRange ? 2.5 : 1.5}
-            strokeDasharray={inRange ? undefined : "2 3"}
+            x={x + 2}
+            y={cy - blockH / 2}
+            width={Math.max(0, bw - 4)}
+            height={blockH}
+            fill={inRange ? color : patternFill}
+            strokeWidth={0}
           />
         );
       })}
@@ -157,6 +159,7 @@ export default function MonthlyBarChart({
   const now = new Date();
   const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   const monthRange = generateMonthRange(now, 5, 3);
+  const currentMonthIndex = monthRange.indexOf(currentMonthKey);
 
   const chartData = useMemo(() => {
     const summaryMap = (summaries ?? []).reduce(
@@ -185,23 +188,23 @@ export default function MonthlyBarChart({
   const refLineColor = useColorModeValue(_colors.gray[400], _colors.gray[600]);
 
   // Hatch — expenses  (commons[100] = #3A418A)
-  const expHatchBg = `${EXP}20`; // ~12% opacidad
-  const expHatchStroke = `${EXP}70`; // ~44% opacidad
+  const expHatchBg = `${EXP}08`; // ~3% opacidad
+  const expHatchStroke = `${EXP}30`; // ~19% opacidad
   const expBarStroke = `${EXP}AA`; // ~67% opacidad
 
   // Expenses — mes actual (más intenso)
-  const expCurrHatchBg = `${EXP}45`;
-  const expCurrHatchStroke = `${EXP}CC`;
+  const expCurrHatchBg = `${EXP}18`;
+  const expCurrHatchStroke = `${EXP}60`;
   const expCurrBarStroke = EXP;
 
   // Hatch — incomes  (commons[200] = #2C6C94)
-  const incHatchBg = `${INC}20`;
-  const incHatchStroke = `${INC}70`;
+  const incHatchBg = `${INC}08`;
+  const incHatchStroke = `${INC}30`;
   const incBarStroke = `${INC}AA`;
 
   // Incomes — mes actual (más intenso)
-  const incCurrHatchBg = `${INC}45`;
-  const incCurrHatchStroke = `${INC}CC`;
+  const incCurrHatchBg = `${INC}18`;
+  const incCurrHatchStroke = `${INC}60`;
   const incCurrBarStroke = INC;
 
   // Timeline de filtro
@@ -259,7 +262,7 @@ export default function MonthlyBarChart({
             margin={{ top: 8, right: 6, left: -20, bottom: dateRange ? 10 : 0 }}
             barCategoryGap="20%"
             barGap={1}
-            style={{ outline: "none" }}
+            style={{ outline: "none", shapeRendering: "crispEdges" }}
           >
             <defs>
               {/* Expenses — meses normales */}
@@ -268,17 +271,10 @@ export default function MonthlyBarChart({
                 patternUnits="userSpaceOnUse"
                 width="4"
                 height="4"
-                patternTransform="rotate(45)"
               >
                 <rect width="4" height="4" fill={expHatchBg} />
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="4"
-                  stroke={expHatchStroke}
-                  strokeWidth="2"
-                />
+                <rect x="0" y="0" width="2" height="2" fill={expHatchStroke} />
+                <rect x="2" y="2" width="2" height="2" fill={expHatchStroke} />
               </pattern>
               {/* Expenses — mes actual */}
               <pattern
@@ -286,17 +282,10 @@ export default function MonthlyBarChart({
                 patternUnits="userSpaceOnUse"
                 width="4"
                 height="4"
-                patternTransform="rotate(45)"
               >
                 <rect width="4" height="4" fill={expCurrHatchBg} />
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="4"
-                  stroke={expCurrHatchStroke}
-                  strokeWidth="2"
-                />
+                <rect x="0" y="0" width="2" height="2" fill={expCurrHatchStroke} />
+                <rect x="2" y="2" width="2" height="2" fill={expCurrHatchStroke} />
               </pattern>
               {/* Incomes — meses normales */}
               <pattern
@@ -304,17 +293,10 @@ export default function MonthlyBarChart({
                 patternUnits="userSpaceOnUse"
                 width="4"
                 height="4"
-                patternTransform="rotate(45)"
               >
                 <rect width="4" height="4" fill={incHatchBg} />
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="4"
-                  stroke={incHatchStroke}
-                  strokeWidth="2"
-                />
+                <rect x="0" y="0" width="2" height="2" fill={incHatchStroke} />
+                <rect x="2" y="2" width="2" height="2" fill={incHatchStroke} />
               </pattern>
               {/* Incomes — mes actual */}
               <pattern
@@ -322,17 +304,32 @@ export default function MonthlyBarChart({
                 patternUnits="userSpaceOnUse"
                 width="4"
                 height="4"
-                patternTransform="rotate(45)"
               >
                 <rect width="4" height="4" fill={incCurrHatchBg} />
-                <line
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="4"
-                  stroke={incCurrHatchStroke}
-                  strokeWidth="2"
-                />
+                <rect x="0" y="0" width="2" height="2" fill={incCurrHatchStroke} />
+                <rect x="2" y="2" width="2" height="2" fill={incCurrHatchStroke} />
+              </pattern>
+              {/* Timeline — inactivo */}
+              <pattern
+                id="hatch-tl-inactive"
+                patternUnits="userSpaceOnUse"
+                width="4"
+                height="4"
+              >
+                <rect width="4" height="4" fill="none" />
+                <rect x="0" y="0" width="2" height="2" fill={tlInactive} />
+                <rect x="2" y="2" width="2" height="2" fill={tlInactive} />
+              </pattern>
+              {/* Timeline — mes actual */}
+              <pattern
+                id="hatch-tl-current"
+                patternUnits="userSpaceOnUse"
+                width="4"
+                height="4"
+              >
+                <rect width="4" height="4" fill="none" />
+                <rect x="0" y="0" width="2" height="2" fill={tlCurrent} />
+                <rect x="2" y="2" width="2" height="2" fill={tlCurrent} />
               </pattern>
             </defs>
 
@@ -372,24 +369,32 @@ export default function MonthlyBarChart({
             <Bar
               dataKey="expenses"
               name="expenses"
-              radius={[2, 2, 0, 0]}
+              radius={0}
               maxBarSize={16}
               minPointSize={2}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              background={(props: any) => (
+                <rect
+                  x={props.x}
+                  y={props.y}
+                  width={props.width}
+                  height={props.height}
+                  fill={`url(#${props.index === currentMonthIndex ? "hatch-monthly-exp-curr" : "hatch-monthly-exp"})`}
+                />
+              )}
             >
               {chartData.map((entry) =>
                 entry.month === currentMonthKey ? (
                   <Cell
                     key={entry.month}
-                    fill="url(#hatch-monthly-exp-curr)"
-                    stroke={expCurrBarStroke}
-                    strokeWidth={1}
+                    fill={expCurrBarStroke}
+                    strokeWidth={0}
                   />
                 ) : (
                   <Cell
                     key={entry.month}
-                    fill="url(#hatch-monthly-exp)"
-                    stroke={expBarStroke}
-                    strokeWidth={1}
+                    fill={EXP}
+                    strokeWidth={0}
                   />
                 ),
               )}
@@ -398,24 +403,32 @@ export default function MonthlyBarChart({
             <Bar
               dataKey="incomes"
               name="incomes"
-              radius={[2, 2, 0, 0]}
+              radius={0}
               maxBarSize={16}
               minPointSize={2}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              background={(props: any) => (
+                <rect
+                  x={props.x}
+                  y={props.y}
+                  width={props.width}
+                  height={props.height}
+                  fill={`url(#${props.index === currentMonthIndex ? "hatch-monthly-inc-curr" : "hatch-monthly-inc"})`}
+                />
+              )}
             >
               {chartData.map((entry) =>
                 entry.month === currentMonthKey ? (
                   <Cell
                     key={entry.month}
-                    fill="url(#hatch-monthly-inc-curr)"
-                    stroke={incCurrBarStroke}
-                    strokeWidth={1}
+                    fill={incCurrBarStroke}
+                    strokeWidth={0}
                   />
                 ) : (
                   <Cell
                     key={entry.month}
-                    fill="url(#hatch-monthly-inc)"
-                    stroke={incBarStroke}
-                    strokeWidth={1}
+                    fill={INC}
+                    strokeWidth={0}
                   />
                 ),
               )}

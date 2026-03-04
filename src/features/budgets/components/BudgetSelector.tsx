@@ -10,6 +10,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { IconBucket, IconChevronDown, IconPlus } from "@tabler/icons-react";
+import { BottleWine, ChevronDown2, Plus } from "pixelarticons/react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -29,13 +30,13 @@ export default function BudgetSelector({
 }: Props) {
   const { t } = useTranslation();
   return (
-    <HStack gap={0}>
+    <HStack gap="2px">
       <Button
         size="sm"
         variant="solid"
         borderRightRadius={0}
         onClick={() => selected && onEdit(selected)}
-        leftIcon={<IconBucket size={16} />}
+        leftIcon={<BottleWine width={16} height={16} />}
       >
         {selected?.name ?? t("budgets.selector.selectBudget")}
       </Button>
@@ -46,13 +47,13 @@ export default function BudgetSelector({
           ml="-1px"
           as={IconButton}
           borderLeftRadius={0}
-          icon={<IconChevronDown size={16} />}
+          icon={<ChevronDown2 width={16} height={16} />}
         />
         <MenuList>
           {data.map((budget) => (
             <MenuItem
               key={budget.id}
-              icon={<IconBucket size={16} />}
+              icon={<BottleWine height={16} width={16} />}
               onClick={() => onSelect(budget)}
             >
               {budget.name}
@@ -61,7 +62,7 @@ export default function BudgetSelector({
           <MenuDivider />
           <MenuItem
             color="green.500"
-            icon={<IconPlus size={16} />}
+            icon={<Plus width={16} height={16} />}
             onClick={onNew}
           >
             {t("budgets.selector.addNew")}
